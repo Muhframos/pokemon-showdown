@@ -6420,4 +6420,8 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		isNonstandard: "Custom",
 		tier: "Illegal",
 	},
+	palossandmega: {
+		isNonstandard: "Past",
+		tier: "Illegal",
+	},
 };

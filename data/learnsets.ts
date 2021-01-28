@@ -69881,6 +69881,7 @@ export const Learnsets: {[speciesid: string]: LearnsetData} = {
 			terrainpulse: ["8T"],
 			toxic: ["7M"],
 			trick: ["8M", "7T"],
+			foulplay: ["8M", "7T"],
 		},
 	},
 	pyukumuku: {
