@@ -2326,6 +2326,10 @@ export const ItemsText: {[k: string]: ItemText} = {
 		name: "PSN Cure Berry",
 		desc: "(Gen 2) Holder is cured if it is poisoned. Single use.",
 	},
+	palossandite: {
+		name: "Palossandite",
+		desc: "If held by a Palossand, this item allows it to Mega Evolve in battle.",
+	},
 
 	// CAP items
 

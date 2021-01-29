@@ -7128,6 +7128,20 @@ export const Items: {[itemid: string]: ItemData} = {
 		gen: 2,
 		isNonstandard: "Past",
 	},
+	palossandite: {
+		name: "Palossandite",
+		spritenum: 626,
+		megaStone: "Palossand-Mega",
+		megaEvolves: "Palossand",
+		itemUser: ["Palossand"],
+		onTakeItem(item, source) {
+			if (item.megaEvolves === source.baseSpecies.baseSpecies) return false;
+			return true;
+		},
+		num: 770,
+		gen: 7,
+		isNonstandard: "Past",
+	},
 
 	// CAP items
 
