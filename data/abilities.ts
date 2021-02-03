@@ -4402,6 +4402,19 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		rating: 3,
 		num: -3,
 	},
+	powercompaction: {
+		onDamagingHit(damage, target, source, move) {
+			if (!move.damage && !move.damageCallback && target.getMoveHitData(move).typeMod > 0)
+		},
+		boosts: {
+			atk: 1,
+			spa: 1,
+		},
+		num: -5
+		name: "Power Compaction",
+		rating: 3,
+		num: 195,
+	},
 	persistent: {
 		isNonstandard: "CAP",
 		name: "Persistent",

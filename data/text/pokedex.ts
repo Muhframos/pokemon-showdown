@@ -3677,4 +3677,7 @@ export const PokedexText: {[k: string]: PokedexText} = {
 	pokestarufopropu2: {
 		name: "Pokestar UFO-PropU2",
 	},
+	palossandmega: {
+		name: "Palossand-Mega",
+	},
 };
