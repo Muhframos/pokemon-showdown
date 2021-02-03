@@ -1,0 +1,676 @@
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: write EPIPE
+    at ChildProcess.target._send (internal/child_process.js:832:20)
+    at ChildProcess.target.send (internal/child_process.js:703:19)
+    at Worker.send (internal/cluster/worker.js:46:10)
+    at RawSubprocessStream._write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:92:24)
+    at RawSubprocessStream.write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at Object.roomBroadcast (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\sockets.js:109:23)
+    at BasicRoom.send (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:324:31)
+    at BasicRoom.update (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:417:8)
+    at C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1:613
+    at C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1634:175
+
+Error: write EPIPE
+    at ChildProcess.target._send (internal/child_process.js:832:20)
+    at ChildProcess.target.send (internal/child_process.js:703:19)
+    at Worker.send (internal/cluster/worker.js:46:10)
+    at RawSubprocessStream._write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:92:24)
+    at RawSubprocessStream.write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at Object.roomBroadcast (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\sockets.js:109:23)
+    at BasicRoom.send (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:324:31)
+    at BasicRoom.update (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:417:8)
+    at GlobalRoomState.startLockdown (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1531:14)
+    at _class.crashlog (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\monitor.js:93:17)
+
+Error: write EPIPE
+    at ChildProcess.target._send (internal/child_process.js:832:20)
+    at ChildProcess.target.send (internal/child_process.js:703:19)
+    at Worker.send (internal/cluster/worker.js:46:10)
+    at RawSubprocessStream._write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:92:24)
+    at RawSubprocessStream.write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at Object.channelBroadcast (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\sockets.js:123:23)
+    at GameRoom.update (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1738:12)
+    at GlobalRoomState.startLockdown (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1533:184)
+    at _class.crashlog (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\monitor.js:93:17)
+    at process.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\index.js:142:20)
+
+Error: write EPIPE
+    at ChildProcess.target._send (internal/child_process.js:832:20)
+    at ChildProcess.target.send (internal/child_process.js:703:19)
+    at Worker.send (internal/cluster/worker.js:46:10)
+    at RawSubprocessStream._write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:92:24)
+    at RawSubprocessStream.write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at Object.channelBroadcast (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\sockets.js:123:23)
+    at GameRoom.update (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1738:12)
+    at GlobalRoomState.startLockdown (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1533:184)
+    at _class.crashlog (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\monitor.js:93:17)
+    at process.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\index.js:142:20)
+
+Error: write EPIPE
+    at ChildProcess.target._send (internal/child_process.js:832:20)
+    at ChildProcess.target.send (internal/child_process.js:703:19)
+    at Worker.send (internal/cluster/worker.js:46:10)
+    at RawSubprocessStream._write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:92:24)
+    at RawSubprocessStream.write (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at Object.socketSend (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\sockets.js:100:22)
+    at Connection.send (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\users.js:269:11)
+    at User.send (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\users.js:492:15)
+    at GlobalRoomState.startLockdown (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1550:9)
+    at _class.crashlog (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\monitor.js:93:17)
+
+RangeError: Maximum call stack size exceeded
+    at String.replace (<anonymous>)
+    at toID (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex-data.js:33:35)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:466:25)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+
+Additional information:
+  user = Muhframos
+  room = battle-gen8adventuresdexag-23
+  pmTarget = undefined
+  message = !data palossand mega
+
+
+TypeError: Cannot read property 'id' of undefined
+    at Pokemon.setAbility (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\pokemon.js:1679:26)
+    at Pokemon.formeChange (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\pokemon.js:1279:9)
+    at Battle.runMegaEvo (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\scripts.js:1264:11)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2575:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p2 move 2
+  inputLog = 
+>version 6b4507aba927c38d240112c41a1c87f5241d19d0
+>start {"formatid":"gen8adventuresdexag","seed":[3844,15698,42419,11573]}
+>player p1 {"name":"Muhframos","avatar":"benga","team":"Boletaria|palossand|palossandite|watercompaction|earthquake,stoneedge,poltergeist,shoreup|Impish|252,,4,,252,|||S||","rating":0}
+>player p2 {"name":"Wafflesinfalafels","avatar":"blaine","team":"synth.wave|keldeoresolute|choicespecs|justified|flipturn,icywind,hydropump,secretsword|Hasty|,4,,252,,252|N||||]jellyboi|nihilego|choicescarf|beastboost|grassknot,powergem,sludgewave,dazzlinggleam|Modest|,,,252,4,252|N|,0,,,,|||]pimpchimp'n|dracozolt|choiceband|voltabsorb|boltbeak,dragonclaw,earthquake,firefang|Jolly|4,252,,,,252|N||S||]buz|pinsir|pinsirite|moxie|closecombat,earthquake,frustration,quickattack|Jolly|,252,,,4,252|||S||0]honeydew|latias|heavydutyboots|levitate|defog,healingwish,mysticalfire,psyshock|Bold|252,,120,,136,|F|,0,,,,|S||]gainz|buzzwole|assaultvest|beastboost|drainpunch,icepunch,earthquake,leechlife|Careful|252,48,92,,116,|N||||","rating":0}
+>chat ☆Wafflesinfalafels|ebic
+>chat ☆Muhframos|pray with me
+>chat ☆Muhframos|!data megassand
+>p1 team 1
+>p2 team 3, 2, 1, 4, 5, 6
+>chat ☆Muhframos|fuck
+>chat ☆Muhframos|!data palossand mega
+>chat ☆Muhframos|uh oh
+>chat ☆Muhframos|wow
+>chat ☆Wafflesinfalafels|um
+>p1 move earthquake mega
+>p2 move dragonclaw
+  log = 
+|t:|1611980281
+|player|p1|Muhframos|benga|
+|player|p2|Wafflesinfalafels|blaine|
+|teamsize|p1|1
+|teamsize|p2|6
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures Dex AG
+|clearpoke
+|poke|p1|Palossand, M|
+|poke|p2|Keldeo-Resolute|
+|poke|p2|Nihilego|
+|poke|p2|Dracozolt|
+|poke|p2|Pinsir, F|
+|poke|p2|Latias, F|
+|poke|p2|Buzzwole|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1611980294
+|start
+|switch|p1a: Boletaria|Palossand, M, shiny|374/374
+|switch|p2a: pimpchimp'n|Dracozolt, shiny|322/322
+|turn|1
+|
+|t:|1611980308
+|detailschange|p1a: Boletaria|palossandmega, M, shiny
+|-mega|p1a: Boletaria|Palossand|Palossandite
+
+
+TypeError: Cannot read property 'id' of undefined
+    at Pokemon.setAbility (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\pokemon.js:1679:26)
+    at Pokemon.formeChange (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\pokemon.js:1279:9)
+    at Battle.runMegaEvo (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\scripts.js:1264:11)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2575:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p1 move 1 mega
+  inputLog = 
+>version 6b4507aba927c38d240112c41a1c87f5241d19d0
+>start {"formatid":"gen8adventuresdexag","seed":[11300,45147,18046,5922]}
+>player p1 {"name":"Muhframos","avatar":"benga","team":"Boletaria|palossand|palossandite|watercompaction|earthquake,stoneedge,poltergeist,shoreup|Impish|252,,4,,252,|||S||","rating":0}
+>player p2 {"name":"Wafflesinfalafels","avatar":"blaine","team":"synth.wave|keldeoresolute|choicespecs|justified|flipturn,icywind,hydropump,secretsword|Hasty|,4,,252,,252|N||||]jellyboi|nihilego|choicescarf|beastboost|grassknot,powergem,sludgewave,dazzlinggleam|Modest|,,,252,4,252|N|,0,,,,|||]pimpchimp'n|dracozolt|choiceband|voltabsorb|boltbeak,dragonclaw,earthquake,firefang|Jolly|4,252,,,,252|N||S||]buz|pinsir|pinsirite|moxie|closecombat,earthquake,frustration,quickattack|Jolly|,252,,,4,252|||S||0]honeydew|latias|heavydutyboots|levitate|defog,healingwish,mysticalfire,psyshock|Bold|252,,120,,136,|F|,0,,,,|S||]gainz|buzzwole|assaultvest|beastboost|drainpunch,icepunch,earthquake,leechlife|Careful|252,48,92,,116,|N||||","rating":0}
+>p1 team 1
+>p2 team 2, 1, 3, 4, 5, 6
+>chat ☆Muhframos|i wonder what caused it
+>chat ☆Muhframos|lets see
+>chat ☆Muhframos|will it crash
+>p1 move earthquake mega
+>p2 move grassknot
+  log = 
+|t:|1611980730
+|player|p1|Muhframos|benga|
+|player|p2|Wafflesinfalafels|blaine|
+|teamsize|p1|1
+|teamsize|p2|6
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures Dex AG
+|clearpoke
+|poke|p1|Palossand, F|
+|poke|p2|Keldeo-Resolute|
+|poke|p2|Nihilego|
+|poke|p2|Dracozolt|
+|poke|p2|Pinsir, M|
+|poke|p2|Latias, F|
+|poke|p2|Buzzwole|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1611980737
+|start
+|switch|p1a: Boletaria|Palossand, F, shiny|374/374
+|switch|p2a: jellyboi|Nihilego|359/359
+|turn|1
+|
+|t:|1611980745
+|detailschange|p1a: Boletaria|palossandmega, F, shiny
+|-mega|p1a: Boletaria|Palossand|Palossandite
+
+
+RangeError: Maximum call stack size exceeded
+    at String.replace (<anonymous>)
+    at toID (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex-data.js:33:35)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:466:25)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+    at ModdedDex.getMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:470:16)
+
+Additional information:
+  user = Muhframos
+  room = battle-gen8adventuresdexag-25
+  pmTarget = undefined
+  message = /data palossand mega
+
+
+TypeError: Cannot read property 'id' of undefined
+    at Pokemon.setAbility (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\pokemon.js:1679:26)
+    at Pokemon.formeChange (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\pokemon.js:1279:9)
+    at Battle.runMegaEvo (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\scripts.js:1264:11)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2575:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p1 move 1 mega
+  inputLog = 
+>version 6b4507aba927c38d240112c41a1c87f5241d19d0
+>start {"formatid":"gen8adventuresdexag","seed":[42455,2528,33327,24614]}
+>player p1 {"name":"Muhframos","avatar":"benga","team":"Boletaria|palossand|palossandite|watercompaction|earthquake,stoneedge,poltergeist,shoreup|Impish|252,,4,,252,|||||","rating":0}
+>player p2 {"name":"Wafflesinfalafels","avatar":"blaine","team":"synth.wave|keldeoresolute|choicespecs|justified|flipturn,icywind,hydropump,secretsword|Hasty|,4,,252,,252|N||||]jellyboi|nihilego|choicescarf|beastboost|grassknot,powergem,sludgewave,dazzlinggleam|Modest|,,,252,4,252|N|,0,,,,|||]pimpchimp'n|dracozolt|choiceband|voltabsorb|boltbeak,dragonclaw,earthquake,firefang|Jolly|4,252,,,,252|N||S||]buz|pinsir|pinsirite|moxie|closecombat,earthquake,frustration,quickattack|Jolly|,252,,,4,252|||S||0]honeydew|latias|heavydutyboots|levitate|defog,healingwish,mysticalfire,psyshock|Bold|252,,120,,136,|F|,0,,,,|S||]gainz|buzzwole|assaultvest|beastboost|drainpunch,icepunch,earthquake,leechlife|Careful|252,48,92,,116,|N||||","rating":0}
+>p1 team 1
+>p2 team 2, 1, 3, 4, 5, 6
+>chat ☆Muhframos|wow
+>chat ☆Wafflesinfalafels|AHHHHHHHHHHHHHHHHHHHHHHHHHH
+>chat ☆Muhframos|maximum call stack size
+>chat ☆Muhframos|what
+>p1 move earthquake mega
+>p2 move grassknot
+  log = 
+|t:|1611981710
+|player|p1|Muhframos|benga|
+|player|p2|Wafflesinfalafels|blaine|
+|teamsize|p1|1
+|teamsize|p2|6
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures Dex AG
+|clearpoke
+|poke|p1|Palossand, M|
+|poke|p2|Keldeo-Resolute|
+|poke|p2|Nihilego|
+|poke|p2|Dracozolt|
+|poke|p2|Pinsir, M|
+|poke|p2|Latias, F|
+|poke|p2|Buzzwole|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1611981716
+|start
+|switch|p1a: Boletaria|Palossand, M|374/374
+|switch|p2a: jellyboi|Nihilego|359/359
+|turn|1
+|
+|t:|1611981759
+|detailschange|p1a: Boletaria|palossandmega, M
+|-mega|p1a: Boletaria|Palossand|Palossandite
+
+
+TypeError: Cannot read property 'id' of undefined
+    at Pokemon.setAbility (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\pokemon.js:1679:26)
+    at Pokemon.formeChange (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\pokemon.js:1279:9)
+    at Battle.runMegaEvo (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\scripts.js:1264:11)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2575:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p1 move 2
+  inputLog = 
+>version 6b4507aba927c38d240112c41a1c87f5241d19d0
+>start {"formatid":"gen8adventuresdexag","seed":[35156,26434,215,18005]}
+>player p1 {"name":"Ooway","avatar":"2","team":"Buzzwole||assaultvest|beastboost|brickbreak,counter,earthquake,focuspunch|Adamant|252,252,,,4,|N||||","rating":0}
+>player p2 {"name":"Muhframos","avatar":"benga","team":"Boletaria|palossand|palossandite|watercompaction|earthquake,stoneedge,poltergeist,shoreup|Impish|252,,4,,252,|||||","rating":0}
+>p1 team 1
+>p2 team 1
+>p1 move earthquake
+>p2 move earthquake
+>p1 move counter
+>p2 move shoreup mega
+  log = 
+|t:|1611983016
+|player|p1|Ooway|2|
+|player|p2|Muhframos|benga|
+|teamsize|p1|1
+|teamsize|p2|1
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures Dex AG
+|clearpoke
+|poke|p1|Buzzwole|
+|poke|p2|Palossand, M|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1611983031
+|start
+|switch|p1a: Buzzwole|Buzzwole|418/418
+|switch|p2a: Boletaria|Palossand, M|374/374
+|turn|1
+|
+|t:|1611983044
+|move|p1a: Buzzwole|Earthquake|p2a: Boletaria
+|-damage|p2a: Boletaria|257/374
+|move|p2a: Boletaria|Earthquake|p1a: Buzzwole
+|-resisted|p1a: Buzzwole
+|-damage|p1a: Buzzwole|384/418
+|
+|upkeep
+|turn|2
+|
+|t:|1611983059
+|detailschange|p2a: Boletaria|palossandmega, M
+|-mega|p2a: Boletaria|Palossand|Palossandite
+
+
+RangeError: Maximum call stack size exceeded
+    at String.replace (<anonymous>)
+    at toID (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex-data.js:33:35)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:294:25)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+
+Additional information:
+  formatid = gen8adventuresdexag
+  team = Boletaria|palossand|palossandite|watercompaction|earthquake,stoneedge,poltergeist,shoreup|Impish|252,,4,,252,|||||
+
+
+RangeError: Maximum call stack size exceeded
+    at String.replace (<anonymous>)
+    at toID (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex-data.js:33:35)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:294:25)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+    at ModdedDex.getSpecies (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:312:20)
+
+Additional information:
+  formatid = gen8adventuresdexag
+  team = Boletaria|palossand|palossandite|watercompaction|earthquake,stoneedge,poltergeist,shoreup|Impish|252,,4,,252,|||||
+
+
+ReferenceError: target is not defined
+    at Battle.onStart (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\abilities.js:49:4)
+    at Battle.singleEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:484:25)
+    at Battle.runSwitch (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:1342:9)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2630:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p1 team 1
+  inputLog = 
+>version 6b4507aba927c38d240112c41a1c87f5241d19d0
+>start {"formatid":"gen8adventuresdexag","seed":[55138,1983,42684,3556]}
+>player p1 {"name":"Ooway","avatar":"170","team":"Centiskorch||choiceband|arenatrap|firstimpression,leechlife,firelash,powerwhip|Adamant|252,252,,,4,|||||","rating":0}
+>player p2 {"name":"Muhframos","avatar":"benga","team":"Boletaria|palossand|palossandite|sandstream|earthquake,stoneedge,poltergeist,shoreup|Impish|252,,252,,,|||S||]Bane|buzzwole|lifeorb|beastboost|drainpunch,earthquake,stoneedge,leechlife|Adamant|252,252,,,4,|N||S||]Malus|regigigas|leftovers|slowstart|drainpunch,protect,knockoff,psychup|Adamant|252,252,,,4,|N||||]Blazing Bull|tapubulu|grassyseed|grassysurge|hornleech,zenheadbutt,swordsdance,woodhammer|Adamant|248,252,,,8,|N||S||]Azathoth|guzzlord|leftovers|beastboost|outrage,suckerpunch,gunkshot,swordsdance|Adamant|252,252,,,4,|N||||]Great Hollow|trevenant|sitrusberry|naturalcure|foulplay,reflect,leechseed,strengthsap|Impish|252,,252,,4,||,0,,,,|||","rating":0}
+>p1 team 1
+>p2 team 5, 2, 3, 4, 1, 6
+  log = 
+|t:|1612149497
+|player|p1|Ooway|170|
+|player|p2|Muhframos|benga|
+|teamsize|p1|1
+|teamsize|p2|6
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures Dex AG
+|clearpoke
+|poke|p1|Centiskorch, F|
+|poke|p2|Palossand, F|
+|poke|p2|Buzzwole|
+|poke|p2|Regigigas|
+|poke|p2|Tapu Bulu|
+|poke|p2|Guzzlord|
+|poke|p2|Trevenant, M|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|teampreview
+|
+|t:|1612149505
+|start
+|switch|p1a: Centiskorch|Centiskorch, F|454/454
+|switch|p2a: Azathoth|Guzzlord|650/650
+
+
+ReferenceError: source is not defined
+    at Battle.onStart (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\abilities.js:49:4)
+    at Battle.singleEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:484:25)
+    at Battle.runSwitch (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:1342:9)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2630:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p1 switch 4
+  inputLog = 
+>version 6b4507aba927c38d240112c41a1c87f5241d19d0
+>start {"formatid":"adventuresdexag","seed":[53580,31380,26334,51042]}
+>player p1 {"name":"Muhframos","avatar":"benga","team":"Malus|regigigas|normaliumz|slumber|knockoff,drainpunch,conversion,meteormash|Adamant|248,252,,,8,|N||||]Gohin|pangoro|lifeorb|prankster|machpunch,knockoff,partingshot,substitute|Impish|252,252,,,,|||||]Armstrong|articuno|heavydutyboots|snowwarning|freezedry,roost,healbell,uturn|Calm|248,,,8,252,|N||S||]Godzilla|tyranitar|tyranitarite|sandstream|stoneedge,earthquake,toxic,poweruppunch|Careful|252,4,,,252,|||||","rating":0}
+>player p2 {"name":"Torcho123","avatar":"266","team":"Rawr XD|skarmory|rockyhelmet|sturdy|roost,spikes,stealthrock,roar|Relaxed|252,,252,,4,||,0,,,,|||]I explode ngl|ferrothorn|leftovers|ironbarbs|leechseed,toxic,protect,explosion|Sassy|4,,252,,252,|||S||]Ponytas dad|heatran|leftovers|flashfire|protect,magmastorm,earthpower,toxic|Sassy|252,,4,,252,||,0,,,,|||]3rd eye|magnezone|leftovers|analytic|voltswitch,flashcannon,toxic,protect|Sassy|252,,,252,4,|N|,0,,,,0|||]Peeved mole|excadrill|leftovers|moldbreaker|earthquake,rapidspin,toxic,ironhead|Adamant|252,252,,,4,|||||]King Olly|kartana|choiceband|beastboost|knockoff,leafblade,smartstrike,sacredsword|Jolly|4,252,,,,252|N||||","rating":0}
+>p1 team 4, 2, 3, 1
+>p2 team 5, 2, 3, 4, 1, 6
+>chat ☆Muhframos|oh it does show up
+>chat ☆Muhframos|ok
+>p1 move poweruppunch mega
+>p2 move ironhead
+>chat ☆Torcho123|What shows up
+>chat ☆Muhframos|modified stats
+>chat ☆Torcho123|right
+>chat ☆Muhframos|from sandstorm specifically
+>p1 move earthquake
+>p2 move ironhead
+>p1 switch 4
+  log = 
+|t:|1612227394
+|player|p1|Muhframos|benga|
+|player|p2|Torcho123|266|
+|teamsize|p1|4
+|teamsize|p2|6
+|gametype|singles
+|gen|8
+|tier|Adventures Dex AG
+|clearpoke
+|poke|p1|Regigigas|
+|poke|p1|Pangoro, M|
+|poke|p1|Articuno|
+|poke|p1|Tyranitar, M|
+|poke|p2|Skarmory, M|
+|poke|p2|Ferrothorn, M|
+|poke|p2|Heatran, F|
+|poke|p2|Magnezone|
+|poke|p2|Excadrill, F|
+|poke|p2|Kartana|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|teampreview
+|
+|t:|1612227404
+|start
+|switch|p1a: Godzilla|Tyranitar, M|404/404
+|switch|p2a: Peeved mole|Excadrill, F|424/424
+|-ability|p2a: Peeved mole|Mold Breaker
+|-weather|Sandstorm|[from] ability: Sand Stream|[of] p1a: Godzilla
+|turn|1
+|
+|t:|1612227422
+|detailschange|p1a: Godzilla|Tyranitar-Mega, M
+|-mega|p1a: Godzilla|Tyranitar|Tyranitarite
+|move|p2a: Peeved mole|Iron Head|p1a: Godzilla
+|-supereffective|p1a: Godzilla
+|-crit|p1a: Godzilla
+|-damage|p1a: Godzilla|60/404
+|move|p1a: Godzilla|Power-Up Punch|p2a: Peeved mole
+|-supereffective|p2a: Peeved mole
+|-damage|p2a: Peeved mole|280/424
+|-boost|p1a: Godzilla|atk|1
+|
+|-weather|Sandstorm|[upkeep]
+|-heal|p2a: Peeved mole|306/424|[from] item: Leftovers
+|upkeep
+|turn|2
+|
+|t:|1612227443
+|move|p2a: Peeved mole|Iron Head|p1a: Godzilla
+|-supereffective|p1a: Godzilla
+|-damage|p1a: Godzilla|0 fnt
+|faint|p1a: Godzilla
+|
+|-weather|Sandstorm|[upkeep]
+|-heal|p2a: Peeved mole|332/424|[from] item: Leftovers
+|upkeep
+|
+|t:|1612227495
+|switch|p1a: Malus|Regigigas|423/423
+
+
+ReferenceError: def is not defined
+    at Battle.onModifyDef (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\conditions.js:15:24)
+    at Battle.runEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:738:34)
+    at Battle.getDamage (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2177:18)
+    at Battle.getSpreadDamage (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:857:27)
+    at Battle.spreadMoveHit (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:789:17)
+    at Battle.hitStepMoveHitLoop (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:668:37)
+    at Battle.trySpreadMoveHit (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:353:28)
+    at Battle.useMoveInner (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:274:22)
+    at Battle.useMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:141:27)
+    at Battle.runMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:96:33)
+
+Additional information:
+  chunk = >p2 move 2
+  inputLog = 
+>version 6b4507aba927c38d240112c41a1c87f5241d19d0
+>start {"formatid":"gen8adventuresdexag","seed":[45452,21292,33257,1621]}
+>player p1 {"name":"Muh2","avatar":"169","team":"Exeggutor|exeggutoralola|heavydutyboots|harvest|dracometeor,energyball,curse,dragontail|Quiet|252,4,,252,,|||||","rating":0}
+>player p2 {"name":"Muhframos","avatar":"benga","team":"Malus|regigigas|normaliumz|slumber|knockoff,drainpunch,conversion,meteormash|Adamant|248,252,,,8,|N||||]Gohin|pangoro|lifeorb|prankster|machpunch,knockoff,partingshot,substitute|Impish|252,252,,,,|||||]Armstrong|articuno|heavydutyboots|snowwarning|freezedry,roost,healbell,uturn|Calm|248,,,8,252,|N||S||]Godzilla|tyranitar|tyranitarite|sandstream|stoneedge,earthquake,toxic,poweruppunch|Careful|252,4,,,252,|||||","rating":0}
+>p1 team 1
+>p2 team 3, 2, 1, 4
+>p1 move dragontail
+>p2 move roost
+  log = 
+|t:|1612228363
+|player|p1|Muh2|169|
+|player|p2|Muhframos|benga|
+|teamsize|p1|1
+|teamsize|p2|4
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures Dex AG
+|clearpoke
+|poke|p1|Exeggutor-Alola, M|
+|poke|p2|Regigigas|
+|poke|p2|Pangoro, M|
+|poke|p2|Articuno|
+|poke|p2|Tyranitar, M|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|teampreview
+|
+|t:|1612228371
+|start
+|switch|p1a: Exeggutor|Exeggutor-Alola, M|394/394
+|switch|p2a: Armstrong|Articuno, shiny|383/383
+|-weather|Hail|[from] ability: Snow Warning|[of] p2a: Armstrong
+|turn|1
+|
+|t:|1612228477
+|move|p2a: Armstrong|Roost||[still]
+|-fail|p2a: Armstrong|heal
+|move|p1a: Exeggutor|Dragon Tail|p2a: Armstrong
+
+
+ReferenceError: move is not defined
+    at Battle.onStart (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\abilities.js:56:43)
+    at Battle.singleEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:484:25)
+    at Battle.runSwitch (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:1342:9)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2630:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p1 move 3
+  inputLog = 
+>version 6b4507aba927c38d240112c41a1c87f5241d19d0
+>start {"formatid":"gen8adventuresou","seed":[53209,61090,29993,7141]}
+>player p1 {"name":"Ooway","avatar":"1","team":"Exeggutor|exeggutoralola|heavydutyboots|harvest|dracometeor,energyball,curse,dragontail|Quiet|252,4,,252,,|||||","rating":0}
+>player p2 {"name":"Muhframos","avatar":"benga","team":"Malus|regigigas|normaliumz|slumber|knockoff,drainpunch,conversion,meteormash|Adamant|248,252,,,8,|N||||]Gohin|pangoro|lifeorb|prankster|machpunch,knockoff,partingshot,substitute|Impish|252,252,,,,|||||]Armstrong|articuno|heavydutyboots|snowwarning|freezedry,roost,healbell,uturn|Calm|248,,,8,252,|N||S||]Godzilla|tyranitar|tyranitarite|sandstream|stoneedge,earthquake,toxic,poweruppunch|Careful|252,4,,,252,|||||","rating":0}
+>p1 team 1
+>p2 team 3, 2, 1, 4
+>p1 move dragontail
+>p2 move roost
+>p1 move curse
+>p2 switch 3
+  log = 
+|t:|1612229431
+|player|p1|Ooway|1|
+|player|p2|Muhframos|benga|
+|teamsize|p1|1
+|teamsize|p2|4
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures OU
+|clearpoke
+|poke|p1|Exeggutor-Alola, M|
+|poke|p2|Regigigas|
+|poke|p2|Pangoro, F|
+|poke|p2|Articuno|
+|poke|p2|Tyranitar, M|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1612229437
+|start
+|switch|p1a: Exeggutor|Exeggutor-Alola, M|394/394
+|switch|p2a: Armstrong|Articuno, shiny|383/383
+|-weather|Hail|[from] ability: Snow Warning|[of] p2a: Armstrong
+|turn|1
+|
+|t:|1612229448
+|move|p2a: Armstrong|Roost||[still]
+|-fail|p2a: Armstrong|heal
+|move|p1a: Exeggutor|Dragon Tail|p2a: Armstrong
+|-damage|p2a: Armstrong|337/383
+|drag|p2a: Godzilla|Tyranitar, M|404/404
+|-weather|Sandstorm|[from] ability: Sand Stream|[of] p2a: Godzilla
+|
+|-weather|Sandstorm|[upkeep]
+|-damage|p1a: Exeggutor|370/394|[from] Sandstorm
+|upkeep
+|turn|2
+|
+|t:|1612229491
+|switch|p2a: Malus|Regigigas|423/423
+
