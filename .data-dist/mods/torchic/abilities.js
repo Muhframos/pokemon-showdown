@@ -64,8 +64,8 @@ Ratings and how they work:
 		num: -7,
 	},
 	sidhessacrifice: {
-		onPrepareHit(pokemon) {
-			pokemon.heal(pokemon.baseMaxhp / 3);
+		onPrepareHit(source, move) {
+			source.heal(source.baseMaxhp / 3);
 		},
 		name: "Sidhe's Sacrifice",
 		rating: 4.5,

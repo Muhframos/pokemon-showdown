@@ -13221,7 +13221,9 @@
 		color: "Brown",
 		prevo: "Sandygast",
 		evoLevel: 42,
-		eggGroups: ["Amorphous"],
+		eggGroups: ["Amorphous"],	
+		otherFormes: ["Palossand-Mega"],
+		formeOrder: ["Palossand", "Palossand-Mega"],
 	},
 	pyukumuku: {
 		num: 771,

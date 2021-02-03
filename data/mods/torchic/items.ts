@@ -52,15 +52,15 @@ export const Items: {[k: string]: ModdedItemData} = {
 			return true;
 		},
 		num: -104,
-		gen: 7,
+		gen: 5,
 		isNonstandard: "Past",
 	},
 	mamoswinite: {
 		name: "Mamoswinite",
 		spritenum: 626,
-		megaStone: "Mamoswinite-Mega",
-		megaEvolves: "Mamoswinite",
-		itemUser: ["Mamoswinite"],
+		megaStone: "Mamoswine-Mega",
+		megaEvolves: "Mamoswine",
+		itemUser: ["Mamoswine"],
 		onTakeItem(item, source) {
 			if (item.megaEvolves === source.baseSpecies.baseSpecies) return false;
 			return true;
@@ -84,7 +84,7 @@ export const Items: {[k: string]: ModdedItemData} = {
 		isNonstandard: "Past",
 	},
 	electivirite: {
-		name: "Electivire",
+		name: "Electivirite",
 		spritenum: 626,
 		megaStone: "Electivire-Mega",
 		megaEvolves: "Electivire",
@@ -136,7 +136,21 @@ export const Items: {[k: string]: ModdedItemData} = {
 			return true;
 		},
 		num: -110,
-		gen: 7,
+		gen: 8,
+		isNonstandard: "Past",
+	},
+	victinite: {
+		name: "Victinite",
+		spritenum: 626,
+		megaStone: "Victini-Mega",
+		megaEvolves: "Victini",
+		itemUser: ["Victini"],
+		onTakeItem(item, source) {
+			if (item.megaEvolves === source.baseSpecies.baseSpecies) return false;
+			return true;
+		},
+		num: -111,
+		gen: 5,
 		isNonstandard: "Past",
 	},
 };

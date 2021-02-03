@@ -1706,6 +1706,10 @@
 
 		activate: "  [POKEMON] extends [MOVE] by 2 turns!",
 	},
+	powercompaction: {
+		name: "Power Compaction",
+		shortDesc: "This Pokemon's Attack and SpA are raised 1 stage after it is damaged by a super-effective move.",
+	},
 }; exports.AbilitiesText = AbilitiesText;
 
  //# sourceMappingURL=sourceMaps/abilities.js.map
