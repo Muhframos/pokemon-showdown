@@ -1706,9 +1706,43 @@
 
 		activate: "  [POKEMON] extends [MOVE] by 2 turns!",
 	},
+	// Torchic
 	powercompaction: {
 		name: "Power Compaction",
-		shortDesc: "This Pokemon's Attack and SpA are raised 1 stage after it is damaged by a super-effective move.",
+		shortDesc: "This Pokemon's Atk and SpA are raised 1 stage after it is damaged by a super-effective move.",
+	},
+	dracobolt: {
+		name: "Draco Bolt",
+		shortDesc: "On switch-in, this Pokemon's Speed is raised by 1 stage.",
+	},
+	sidhessacrifice: {
+		name: "Sidhe's Sacrifice",
+		shortDesc: "The user restores 1/3 of its HP after using a move.",
+	},
+	energyoverflow: {
+		name: "Energy Overflow",
+		desc: "This Pokemon's Special Attack is raised by 1 stage at the end of each full turn it has been on the field.",
+		shortDesc: "This Pokemon's SpA is raised 1 stage at the end of each full turn on the field.",
+	},
+	icearmor: {
+		name: "Ice Armor",
+		shortDesc: "If this Pokemon is at full HP, damage taken from attacks is halved.",
+	},
+	// Adventures
+	slumber: {
+		name: "Slumber",
+		shortDesc: "On switch-in, this Pokemon sleeps for 2 turns and restores HP and status.",
+	},
+	slowstart: {
+		name: "Slow Start",
+		shortDesc: "On switch-in, this Pokemon's Attack and Speed are halved for 3 turns.",
+
+		start: "  [POKEMON] can't get it going!",
+		end: "  [POKEMON] finally got its act together!",
+	},
+	permafrost: {
+		name: "Permafrost",
+		shortDesc: "This Pokemon is immune to Fire-type moves.",
 	},
 }; exports.AbilitiesText = AbilitiesText;
 

@@ -1,5 +1,5 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); const AbilitiesText = {
-	//Adventures abilities
+	//Torchic abilities
 	powercompaction: {
 		name: "Power Compaction",
 		desc: "This Pokemon's Attack and Special Attack are raised by 1 stage when damaged by a super-effective move.",
