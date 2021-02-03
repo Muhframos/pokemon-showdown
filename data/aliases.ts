@@ -1806,5 +1806,5 @@ export const Aliases: {[alias: string]: string} = {
 	tsundetsunde: "Stakataka",
 	zugadoon: "Blacephalon",
 	merutan: "Meltan",
-	merumetaru: "Melmetal",
+	merumetaru: "Melmetal"
 };

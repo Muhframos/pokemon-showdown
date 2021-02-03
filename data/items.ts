@@ -7128,7 +7128,6 @@ export const Items: {[itemid: string]: ItemData} = {
 		gen: 2,
 		isNonstandard: "Past",
 	},
-
 	// CAP items
 
 	crucibellite: {
@@ -7144,5 +7143,5 @@ export const Items: {[itemid: string]: ItemData} = {
 		num: -1,
 		gen: 6,
 		isNonstandard: "CAP",
-	},
+	}
 };

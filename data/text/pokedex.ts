@@ -2879,6 +2879,9 @@ export const PokedexText: {[k: string]: PokedexText} = {
 	palossand: {
 		name: "Palossand",
 	},
+	palossandmega: {
+		name: "Palossand-Mega",
+	},
 	pyukumuku: {
 		name: "Pyukumuku",
 	},

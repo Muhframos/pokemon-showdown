@@ -643,7 +643,7 @@ export const AbilitiesText: {[k: string]: AbilityText} = {
 	ironfist: {
 		name: "Iron Fist",
 		desc: "This Pokemon's punch-based attacks have their power multiplied by 1.2.",
-		shortDesc: "This Pokemon's punch-based attacks have 1.2x power. Sucker Punch is not boosted.",
+		shortDesc: "This Pokemon's punch-based attacks have 1.2x power. Sucker Punch is boosted.",
 	},
 	justified: {
 		name: "Justified",
@@ -771,8 +771,8 @@ export const AbilitiesText: {[k: string]: AbilityText} = {
 	},
 	megalauncher: {
 		name: "Mega Launcher",
-		desc: "This Pokemon's pulse moves have their power multiplied by 1.5. Heal Pulse restores 3/4 of a target's maximum HP, rounded half down.",
-		shortDesc: "This Pokemon's pulse moves have 1.5x power. Heal Pulse heals 3/4 target's max HP.",
+		desc: "This Pokemon's pulse and cannon moves have their power multiplied by 1.5. Heal Pulse restores 3/4 of a target's maximum HP, rounded half down.",
+		shortDesc: "This Pokemon's pulse and cannon moves have 1.5x power. Heal Pulse heals 3/4 target's max HP.",
 	},
 	merciless: {
 		name: "Merciless",

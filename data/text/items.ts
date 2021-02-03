@@ -2241,7 +2241,7 @@ export const ItemsText: {[k: string]: ItemText} = {
 	},
 	widelens: {
 		name: "Wide Lens",
-		desc: "The accuracy of attacks by the holder is 1.1x.",
+		desc: "The accuracy of attacks by the holder is 1.5x.",
 	},
 	wikiberry: {
 		name: "Wiki Berry",
@@ -2267,7 +2267,7 @@ export const ItemsText: {[k: string]: ItemText} = {
 	},
 	zoomlens: {
 		name: "Zoom Lens",
-		desc: "The accuracy of attacks by the holder is 1.2x if it moves after its target.",
+		desc: "The accuracy of attacks by the holder is 2.0x if it moves after its target.",
 	},
 
 	// Gen 2 items
@@ -2326,7 +2326,6 @@ export const ItemsText: {[k: string]: ItemText} = {
 		name: "PSN Cure Berry",
 		desc: "(Gen 2) Holder is cured if it is poisoned. Single use.",
 	},
-
 	// CAP items
 
 	crucibellite: {

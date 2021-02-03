@@ -6419,5 +6419,9 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	pokestarufopropu2: {
 		isNonstandard: "Custom",
 		tier: "Illegal",
-	}
+	},
+	palossandmega: {
+		isNonstandard: "Past",
+		tier: "illegal",
+	},
 };

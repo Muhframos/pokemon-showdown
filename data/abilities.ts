@@ -32,6 +32,7 @@ Ratings and how they work:
 
 */
 
+
 export const Abilities: {[abilityid: string]: AbilityData} = {
 	noability: {
 		isNonstandard: "Past",
@@ -4407,5 +4408,5 @@ export const Abilities: {[abilityid: string]: AbilityData} = {
 		// implemented in the corresponding move
 		rating: 3,
 		num: -4,
-	},
+	}
 };
