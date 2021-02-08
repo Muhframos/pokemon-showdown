@@ -674,3 +674,554 @@ Additional information:
 |t:|1612229491
 |switch|p2a: Malus|Regigigas|423/423
 
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+ReferenceError: pokemon is not defined
+    at Battle.onPrepareHit (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\torchic\abilities.js:68:4)
+    at Battle.runEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:738:34)
+    at Battle.trySpreadMoveHit (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:342:9)
+    at Battle.useMoveInner (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:274:22)
+    at Battle.useMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:141:27)
+    at Battle.runMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:96:33)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2571:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+
+Additional information:
+  chunk = >p2 move 3
+  inputLog = 
+>version 72c304ed810b2bad7a4bac1988e2a8b51c0a50ef
+>version-origin 36fc2fe8ac8d55ce65c902ddad2cbcef2d4266de
+>start {"formatid":"gen8axisleague","seed":[55658,17150,46130,29623]}
+>player p1 {"name":"Muhframos","avatar":"benga","team":"Exploud||choicescarf|soundproof|boomburst,blizzard,extrasensory,flamethrower|Timid|,,,252,4,252||,0,,,,|||]Audino||audiniteg|regenerator|dazzlinggleam,shadowball,echoedvoice,fireblast|Modest|252,,,252,4,||,0,,,,|||","rating":0}
+>player p2 {"name":"Ooway","avatar":"266","team":"Cinderace||choiceband|libero|acrobatics,courtchange,firepunch,fireblast|Hasty|,252,,4,,252|||||","rating":0}
+>p1 team 2, 1
+>p2 team 1
+>p1 move echoedvoice mega
+>p2 move firepunch
+  log = 
+|t:|1612416445
+|player|p1|Muhframos|benga|
+|player|p2|Ooway|266|
+|teamsize|p1|2
+|teamsize|p2|1
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Axis League
+|clearpoke
+|poke|p1|Exploud, F|
+|poke|p1|Audino, M|
+|poke|p2|Cinderace, F|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|teampreview
+|
+|t:|1612416449
+|start
+|switch|p1a: Audino|Audino, M|410/410
+|switch|p2a: Cinderace|Cinderace, F|301/301
+|turn|1
+|
+|t:|1612416458
+|detailschange|p1a: Audino|Audino-Mega G, M
+|-mega|p1a: Audino|Audino|Audinite G
+|move|p2a: Cinderace|Fire Punch|p1a: Audino
+|-damage|p1a: Audino|227/410
+|move|p1a: Audino|Echoed Voice|p2a: Cinderace
+
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: Format #40 has a duplicate ID: 'gen8adventuresou'
+    at ModdedDex.includeFormats (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:1517:37)
+    at ModdedDex.get formats [as formats] (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:172:8)
+    at GlobalRoomState.get formatListText [as formatListText] (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1263:23)
+    at GlobalRoomState.handleConnect (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\rooms.js:1515:80)
+    at Object.socketConnect (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\users.js:1606:15)
+    at Object.onSpawn (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\sockets.js:36:11)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+ReferenceError: heal is not defined
+    at Battle.onModifyMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\torchic\abilities.js:72:5)
+    at Battle.runEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:738:34)
+    at Battle.useMoveInner (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:198:15)
+    at Battle.useMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:141:27)
+    at Battle.runMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:96:33)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2571:9)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+
+Additional information:
+  chunk = >p2 move 3 mega
+  inputLog = 
+>version 72c304ed810b2bad7a4bac1988e2a8b51c0a50ef
+>version-origin 36fc2fe8ac8d55ce65c902ddad2cbcef2d4266de
+>start {"formatid":"gen8axisleaguegyms","seed":[17907,4128,20428,56459]}
+>player p1 {"name":"ooway","avatar":"266","team":"Cinderace||choiceband|libero|acrobatics,courtchange,firepunch,fireblast|Hasty|,252,,4,,252|||||","rating":0}
+>player p2 {"name":"Muhframos","avatar":"benga","team":"Exploud||choicescarf|soundproof|boomburst,blizzard,extrasensory,flamethrower|Timid|,,,252,4,252||,0,,,,|||]Audino||audiniteg|regenerator|dazzlinggleam,shadowball,echoedvoice,fireblast|Modest|252,,,252,4,||,0,,,,|||","rating":0}
+>p1 team 1
+>p2 team 2, 1
+>p1 move firepunch
+>p2 move echoedvoice mega
+  log = 
+|t:|1612420094
+|player|p1|ooway|266|
+|player|p2|Muhframos|benga|
+|teamsize|p1|1
+|teamsize|p2|2
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Axis League Gyms
+|clearpoke
+|poke|p1|Cinderace, F|
+|poke|p2|Exploud, M|
+|poke|p2|Audino, M|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1612420098
+|start
+|switch|p1a: Cinderace|Cinderace, F|301/301
+|switch|p2a: Audino|Audino, M|410/410
+|turn|1
+|
+|t:|1612420104
+|detailschange|p2a: Audino|Audino-Mega G, M
+|-mega|p2a: Audino|Audino|Audinite G
+|move|p1a: Cinderace|Fire Punch|p2a: Audino
+|-damage|p2a: Audino|233/410
+
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: Nothing matches ""
+    at ModdedDex.validateBanRule (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:1016:10)
+    at C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:933:41
+    at Array.map (<anonymous>)
+    at ModdedDex.validateRule (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:933:27)
+    at ModdedDex.getRuleTable (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:821:26)
+    at new TeamValidator (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:199:29)
+    at Function.get (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+
+Additional information:
+  formatid = gen8adventuresou
+  team = Exploud||choicescarf|soundproof|boomburst,blizzard,extrasensory,flamethrower|Timid|,,,252,4,252||,0,,,,|||]Audino||audiniteg|regenerator|dazzlinggleam,shadowball,echoedvoice,fireblast|Modest|252,,,252,4,||,0,,,,|||]Floette-Eternal|||flowerveil||||F||||
+
+
+Error: Rule "+Unobtainable" was added by "[Gen 8] Adventures OU" but already exists in "Standard NatDex"
+    at ModdedDex.getRuleTable (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:848:12)
+    at new TeamValidator (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:199:29)
+    at Function.get (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  formatid = gen8adventuresou
+  team = Exploud||choicescarf|soundproof|boomburst,blizzard,extrasensory,flamethrower|Timid|,,,252,4,252||,0,,,,|||]Audino||audiniteg|regenerator|dazzlinggleam,shadowball,echoedvoice,fireblast|Modest|252,,,252,4,||,0,,,,|||]Floette-Eternal|||flowerveil||||F||||
+
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+TypeError: Cannot read property 'seismictoss' of undefined
+    at ModdedDex.init (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\scripts.js:120:53)
+    at ModdedDex.loadData (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:1473:34)
+    at ModdedDex.includeData (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:1390:8)
+    at ModdedDex.forFormat (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:194:33)
+    at new TeamValidator (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:197:18)
+    at Function.get (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  formatid = gen8adventuresou
+  team = Malus|regigigas|normaliumz|slumber|knockoff,drainpunch,conversion,meteormash|Adamant|248,252,,,8,|||||]Gohin|pangoro|lifeorb|prankster|machpunch,knockoff,partingshot,substitute|Impish|252,252,,,,|||||]Armstrong|articuno|heavydutyboots|snowwarning|freezedry,roost,healbell,uturn|Calm|248,,,8,252,|||S||]Godzilla|tyranitar|tyranitarite|sandstream|stoneedge,earthquake,toxic,poweruppunch|Careful|252,4,,,252,|||||]Bastiodon|||dauntlessshield|gyroball,metalburst,spikes,dragontail|Relaxed|252,,4,,252,||,,,,,0|||]Blissey|||naturalcure|seismictoss|||F||||
+
+
+TypeError: Cannot set property 'meteorassault' of undefined
+    at ModdedDex.init (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\scripts.js:282:66)
+    at ModdedDex.loadData (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:1473:34)
+    at ModdedDex.includeData (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:1390:8)
+    at ModdedDex.forFormat (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:194:33)
+    at new TeamValidator (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:197:18)
+    at Function.get (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  formatid = gen8adventuresou
+  team = Mamoswine|||oblivious||||||||]Regice|||clearbody|||||,0,,,,|||]Tapu Bulu|||grassysurge|||||,0,,,,|||]Sandshrew|||sandveil||||||||]Honchkrow|||insomnia|knockoff|||||||
+
+
+TypeError: Cannot set property 'meteormash' of undefined
+    at ModdedDex.init (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\scripts.js:282:63)
+    at ModdedDex.loadData (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:1473:34)
+    at ModdedDex.includeData (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:1390:8)
+    at ModdedDex.forFormat (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js:194:33)
+    at new TeamValidator (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:197:18)
+    at Function.get (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  formatid = gen8adventuresou
+  team = Mamoswine|||oblivious||||||||]Regice|||clearbody|||||,0,,,,|||]Tapu Bulu|||grassysurge|||||,0,,,,|||]Sandshrew|||sandveil||||||||]Honchkrow|||insomnia|knockoff|||||||
+
+
+TypeError: Cannot read property 'secondaries' of undefined
+    at Battle.onBoost (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\abilities.js:231:30)
+    at Battle.runEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:738:34)
+    at Battle.boost (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:1686:16)
+    at Battle.runMoveEffects (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:899:23)
+    at Battle.spreadMoveHit (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:803:17)
+    at Battle.hitStepMoveHitLoop (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:668:37)
+    at Battle.trySpreadMoveHit (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:353:28)
+    at Battle.useMoveInner (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:274:22)
+    at Battle.useMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:141:27)
+    at Battle.runMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:96:33)
+
+Additional information:
+  chunk = >p2 move 1
+  inputLog = 
+>version 72c304ed810b2bad7a4bac1988e2a8b51c0a50ef
+>version-origin 36fc2fe8ac8d55ce65c902ddad2cbcef2d4266de
+>start {"formatid":"gen8adventuresou","seed":[29082,62837,63660,10180]}
+>player p1 {"name":"ooway","avatar":"102","team":"Torkoal|||whitesmoke|shellsmash,eruption,earthpower,stoneedge|Rash|,4,,252,,252|||||","rating":0}
+>player p2 {"name":"Muhframos","avatar":"benga","team":"Porygon2||eviolite|analytic|snore,rest,shadowball,toxic|Calm|252,,,4,252,|N|,0,,,,|||]Marowak|marowakalola|thickclub|rockhead|flamecharge,flareblitz,wildcharge,bonemerang|Jolly|,252,,,4,252|||||]Turtonator||lifeorb|whitesmoke|shellsmash,flamethrower,dragonpulse,scorchingsands|Modest|,,,252,4,252||,0,,,,|||]Pinsir||pinsirite|sniper|nightslash,closecombat,xscissor,quickattack|Jolly|,252,,,4,252|||||]Metagross||focussash|clearbody|selfdestruct,stealthrock,bulletpunch,zenheadbutt|Adamant|252,252,,,4,|N||||]Cacturne||lifeorb|drought|fakeout,solarblade,suckerpunch,spikyshield|Adamant|248,252,,,8,|||||","rating":0}
+>p1 team 1
+>p2 team 3, 2, 1, 4, 5, 6
+>p1 move shellsmash
+>p2 move shellsmash
+  log = 
+|t:|1612624624
+|player|p1|ooway|102|
+|player|p2|Muhframos|benga|
+|teamsize|p1|1
+|teamsize|p2|6
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures OU
+|clearpoke
+|poke|p1|Torkoal, F|
+|poke|p2|Porygon2|
+|poke|p2|Marowak-Alola, F|
+|poke|p2|Turtonator, M|
+|poke|p2|Pinsir, M|
+|poke|p2|Metagross|
+|poke|p2|Cacturne, M|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1612624629
+|start
+|switch|p1a: Torkoal|Torkoal, F|321/321
+|switch|p2a: Turtonator|Turtonator, M|301/301
+|turn|1
+|
+|t:|1612624636
+|move|p2a: Turtonator|Shell Smash|p2a: Turtonator
+
+
+ReferenceError: showMsg is not defined
+    at Battle.onBoost (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\abilities.js:226:14)
+    at Battle.runEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:738:34)
+    at Battle.boost (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:1686:16)
+    at Battle.runMoveEffects (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:899:23)
+    at Battle.spreadMoveHit (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:803:17)
+    at Battle.hitStepMoveHitLoop (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:668:37)
+    at Battle.trySpreadMoveHit (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:353:28)
+    at Battle.useMoveInner (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:274:22)
+    at Battle.useMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:141:27)
+    at Battle.runMove (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\scripts.js:96:33)
+
+Additional information:
+  chunk = >p2 move 1
+  inputLog = 
+>version 72c304ed810b2bad7a4bac1988e2a8b51c0a50ef
+>version-origin 36fc2fe8ac8d55ce65c902ddad2cbcef2d4266de
+>start {"formatid":"gen8adventuresou","seed":[40407,33627,39795,60646]}
+>player p1 {"name":"Oofway","avatar":"265","team":"Torkoal|||whitesmoke|shellsmash,eruption,smokescreen,stoneedge|Rash|,4,,252,,252|||||","rating":0}
+>player p2 {"name":"Muhframos","avatar":"benga","team":"Porygon2||eviolite|analytic|snore,rest,shadowball,toxic|Calm|252,,,4,252,|N|,0,,,,|||]Marowak|marowakalola|thickclub|rockhead|flamecharge,flareblitz,wildcharge,bonemerang|Jolly|,252,,,4,252|||||]Turtonator||lifeorb|whitesmoke|shellsmash,flamethrower,dragonpulse,scorchingsands|Modest|,,,252,4,252||,0,,,,|||]Pinsir||pinsirite|sniper|nightslash,closecombat,xscissor,quickattack|Jolly|,252,,,4,252|||||]Metagross||focussash|clearbody|selfdestruct,stealthrock,bulletpunch,zenheadbutt|Adamant|252,252,,,4,|N||||]Cacturne||lifeorb|drought|fakeout,solarblade,suckerpunch,spikyshield|Adamant|248,252,,,8,|||||","rating":0}
+>p1 team 1
+>p2 team 3, 2, 1, 4, 5, 6
+>p1 move shellsmash
+>p2 move shellsmash
+  log = 
+|t:|1612625744
+|player|p1|Oofway|265|
+|player|p2|Muhframos|benga|
+|teamsize|p1|1
+|teamsize|p2|6
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures OU
+|clearpoke
+|poke|p1|Torkoal, M|
+|poke|p2|Porygon2|
+|poke|p2|Marowak-Alola, F|
+|poke|p2|Turtonator, M|
+|poke|p2|Pinsir, M|
+|poke|p2|Metagross|
+|poke|p2|Cacturne, M|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1612625748
+|start
+|switch|p1a: Torkoal|Torkoal, M|321/321
+|switch|p2a: Turtonator|Turtonator, M|301/301
+|turn|1
+|
+|t:|1612625753
+|move|p2a: Turtonator|Shell Smash|p2a: Turtonator
+
+
+ReferenceError: pokemon is not defined
+    at Battle.onSourceAfterFaint (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\abilities.js:241:5)
+    at Battle.runEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:738:34)
+    at Battle.faintMessages (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2489:9)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2671:8)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p1 move 3
+  inputLog = 
+>version 72c304ed810b2bad7a4bac1988e2a8b51c0a50ef
+>version-origin 36fc2fe8ac8d55ce65c902ddad2cbcef2d4266de
+>start {"formatid":"gen8adventuresou","seed":[39852,43504,6976,9100]}
+>player p1 {"name":"Muhframos","avatar":"benga","team":"Turtonator||lifeorb|whitesmoke|shellsmash,overheat,dracometeor,earthpower|Modest|,,,252,4,252||,0,,,,|||]Salamence||choicespecs|moxie|dragonpulse,fireblast,dracometeor,hurricane|Modest|,,,,252,||,0,,,,|||","rating":0}
+>player p2 {"name":"chooway","avatar":"169","team":"Buzzwole||assaultvest|beastboost|closecombat,darkestlariat,dualwingbeat,earthquake|Adamant|252,252,,,4,|N||||]Barraskewda||choiceband|swiftswim|flipturn,aquajet,liquidation,poisonjab|Adamant|,252,,,4,252|||||","rating":0}
+>p1 team 2, 1
+>p2 team 2, 1
+>p1 move dracometeor
+>p2 move aquajet
+  log = 
+|t:|1612755019
+|player|p1|Muhframos|benga|
+|player|p2|chooway|169|
+|teamsize|p1|2
+|teamsize|p2|2
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures OU
+|clearpoke
+|poke|p1|Turtonator, M|
+|poke|p1|Salamence, F|
+|poke|p2|Buzzwole|
+|poke|p2|Barraskewda, F|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1612755024
+|start
+|switch|p1a: Salamence|Salamence, F|331/331
+|switch|p2a: Barraskewda|Barraskewda, F|263/263
+|turn|1
+|
+|t:|1612755030
+|move|p2a: Barraskewda|Aqua Jet|p1a: Salamence
+|-resisted|p1a: Salamence
+|-damage|p1a: Salamence|266/331
+|move|p1a: Salamence|Draco Meteor|p2a: Barraskewda
+|-damage|p2a: Barraskewda|0 fnt
+|-unboost|p1a: Salamence|spa|2
+|faint|p2a: Barraskewda
+
+
+ReferenceError: pokemon is not defined
+    at Battle.onSourceAfterFaint (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\abilities.js:244:33)
+    at Battle.runEvent (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:738:34)
+    at Battle.faintMessages (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2489:9)
+    at Battle.runAction (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2671:8)
+    at Battle.go (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2772:9)
+    at Battle.commitDecisions (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2838:8)
+    at Battle.choose (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js:2794:35)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:119:17)
+    at RoomBattleStream._writeLine (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js:1255:18)
+    at RoomBattleStream._writeLines (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+
+Additional information:
+  chunk = >p2 move 1
+  inputLog = 
+>version 72c304ed810b2bad7a4bac1988e2a8b51c0a50ef
+>version-origin 36fc2fe8ac8d55ce65c902ddad2cbcef2d4266de
+>start {"formatid":"gen8adventuresou","seed":[15613,33838,19326,905]}
+>player p1 {"name":"wooway","avatar":"266","team":"Buzzwole||assaultvest|beastboost|closecombat,darkestlariat,dualwingbeat,earthquake|Adamant|252,252,,,4,|N||||]Barraskewda||choiceband|swiftswim|flipturn,aquajet,liquidation,poisonjab|Adamant|,252,,,4,252|||||","rating":0}
+>player p2 {"name":"Muhframos","avatar":"benga","team":"Turtonator||lifeorb|whitesmoke|shellsmash,overheat,dracometeor,earthpower|Modest|,,,252,4,252||,0,,,,|||]Salamence||choicespecs|moxie|dragonpulse,fireblast,dracometeor,hurricane|Modest|,,,,252,||,0,,,,|||","rating":0}
+>p1 team 2, 1
+>p2 team 2, 1
+>p1 move aquajet
+>p2 move dragonpulse
+  log = 
+|t:|1612756406
+|player|p1|wooway|266|
+|player|p2|Muhframos|benga|
+|teamsize|p1|2
+|teamsize|p2|2
+|gametype|singles
+|gen|8
+|tier|[Gen 8] Adventures OU
+|clearpoke
+|poke|p1|Buzzwole|
+|poke|p1|Barraskewda, M|
+|poke|p2|Turtonator, F|
+|poke|p2|Salamence, M|
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|OHKO Clause: OHKO moves are banned
+|rule|Evasion Moves Clause: Evasion moves are banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+|
+|t:|1612756409
+|start
+|switch|p1a: Barraskewda|Barraskewda, M|263/263
+|switch|p2a: Salamence|Salamence, M|331/331
+|turn|1
+|
+|t:|1612756413
+|move|p1a: Barraskewda|Aqua Jet|p2a: Salamence
+|-resisted|p2a: Salamence
+|-damage|p2a: Salamence|262/331
+|move|p2a: Salamence|Dragon Pulse|p1a: Barraskewda
+|-damage|p1a: Barraskewda|0 fnt
+|faint|p1a: Barraskewda
+

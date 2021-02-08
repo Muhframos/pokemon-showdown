@@ -373,9 +373,9 @@
 		tier: "NFE",
 	},
 	crobat: {
-		randomBattleMoves: ["bravebird", "defog", "roost", "superfang", "taunt", "toxic", "uturn"],
+		randomBattleMoves: [ "defog", "roost", "superfang", "taunt", "toxic", "uturn"],
 		randomBattleLevel: 84,
-		randomDoubleBattleMoves: ["bravebird", "defog", "roost", "superfang", "tailwind", "taunt"],
+		randomDoubleBattleMoves: [ "defog", "roost", "superfang", "tailwind", "taunt"],
 		randomDoubleBattleLevel: 86,
 		tier: "RU",
 		doublesTier: "(DUU)",

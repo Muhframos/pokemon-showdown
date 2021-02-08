@@ -35,6 +35,9 @@ Ratings and how they work:
 
  const Abilities = {
 	powercompaction: {
+		name: "Power Compaction",
+		desc: "Boosts Attack and Special Attack by one stage when hit by a super-effective move.",
+		shortDesc: "Boosts Atk and SpA when hit super-effectively.",
 		onDamagingHit(damage, target, source, move) {
 			if (!move.damage && !move.damageCallback && target.getMoveHitData(move).typeMod > 0) {
 				this.boost({atk: 1, spa: 1});
@@ -45,6 +48,9 @@ Ratings and how they work:
 		num: -5,
 	},
 	slumber: {
+		name: "Slumber",
+		desc: "On switch-in, restore HP to full and cure status, then sleep for 2 turns.",
+		shortDesc: "Uses Rest on switch-in.",
 		onStart(pokemon) {
 			if (pokemon.status === 'slp' || pokemon.hasAbility('comatose')) return false;
 			if (pokemon.hasAbility(['insomnia', 'vitalspirit'])) {
@@ -63,6 +69,8 @@ Ratings and how they work:
 		num: -6,
 	},
 	slowstart: {
+		name: "Slow Start",
+		shortDesc: "Halves Attack and Speed for 3 turns on switch-in.",
 		onStart(pokemon) {
 			pokemon.addVolatile('slowstart');
 		},
@@ -91,6 +99,8 @@ Ratings and how they work:
 		num: 112,
 	},
 	permafrost: {
+		name: "Permafrost",
+		shortDesc: "Grants immunity to Fire-type moves.",
 		onTryHit(target, source, move) {
 			if (target !== source && move.type === 'Fire') {
 				{
@@ -103,7 +113,24 @@ Ratings and how they work:
 		rating: 2,
 		num: -7,
 	},
+	pastelveil: {
+		name: "Pastel Veil",
+		shortDesc: "Grants immunity to Poison-type moves.",
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Poison') {
+				{
+					this.add('-immune', target, '[from] ability: Pastel Veil');
+				}
+				return null;
+			}
+		},
+		name: "Pastel Veil",
+		rating: 2,
+		num: 257,
+	},
 	compoundeyes: {
+		name: "Compound Eyes",
+		shortDesc: "Boosts accuracy of moves by 1.5x.",
 		onSourceModifyAccuracyPriority: -1,
 		onSourceModifyAccuracy(accuracy) {
 			if (typeof accuracy !== 'number') return;
@@ -113,6 +140,210 @@ Ratings and how they work:
 		name: "Compound Eyes",
 		rating: 3,
 		num: 14,
+	},
+	magician: {
+		name: "Magician",
+		desc: "Summons Magic Room on switch-in. Lasts for 5 turns.",
+		shortDesc: "Magic Room on switch-in.",
+		onStart(source) {
+			this.field.getPseudoWeather('magicroom');
+			this.add('-activate', source, 'ability: Magician');
+		},
+		name: "Magician",
+		rating: 4,
+		num: 170,
+	},
+	superluck: {
+		onModifyCritRatio(critRatio) {
+			return critRatio + 2;
+		},
+		name: "Super Luck",
+		rating: 1.5,
+		num: 105,
+	},
+	oracle: {
+		name: "Oracle",
+		desc: "Upon switchin, the user uses Future Sight on the opposing side.",
+		shortDesc: "Doom Desire for opposing side on switchin.",
+		onStart(pokemon) {
+			this.add('-activate', pokemon, 'ability: Oracle');
+			let success = false;
+			for (const target of pokemon.side.foe.active) {
+				if (target.side.addSlotCondition(target, 'futuremove')) {
+					Object.assign(target.side.slotConditions[target.position]['futuremove'], {
+						duration: 3,
+						move: 'futuresight',
+						source: pokemon,
+						moveData: {
+							id: 'futuresight',
+							name: "Future Sight",
+							accuracy: 100,
+							basePower: 120,
+							category: "Special",
+							priority: 0,
+							flags: {},
+							effectType: 'Move',
+							isFutureMove: true,
+							type: 'Psychic',
+						},
+					});
+					success = true;
+				}
+			}
+
+			if (success) {
+				this.add('-anim', pokemon, 'Future Sight');
+				this.add('-start', pokemon, 'Future Sight');
+			}
+		},
+	},
+	rating: 2,
+	num: -8,
+	sandforce: {
+		name: "Sand Force",
+		desc: "Ground, Steel and Rock moves have 1.3x Power. Grants Immunity to Sandstorm damage.",
+		shortDesc: "Powers up Ground, Steel, Rock moves. Sandstorm immunity.",
+		onBasePowerPriority: 21,
+		onBasePower(basePower, attacker, defender, move) {
+				if (move.type === 'Rock' || move.type === 'Ground' || move.type === 'Steel') {
+					this.debug('Sand Force boost');
+					return this.chainModify([0x14CD, 0x1000]);
+				}
+		},
+		onImmunity(type, pokemon) {
+			if (type === 'sandstorm') return false;
+		},
+		name: "Sand Force",
+		rating: 4,
+		num: 159,
+	},
+	whitesmoke: {
+		name: "White Smoke",
+		desc: "This pokemon's stat stages cannot be dropped.",
+		onBoost(boost, target, source, effect) {
+			let showMsg = false;
+			let i;
+			for (i in boost) {
+				if (boost[i] < 0) {
+					delete boost[i];
+					showMsg = true;
+				}
+			}
+			if (showMsg && !(effect ).secondaries && effect.id !== 'octolock') {
+				this.add("-fail", target, "unboost", "[from] ability: White Smoke", "[of] " + target);
+			}
+		},
+		name: "White Smoke",
+		rating: 2,
+		num: 73,
+	},
+	blaze: {
+		name: "Blaze",
+		desc: "This pokemon's Fire-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
+		shortdesc: "User gets boosted Fire-type moves on low HP.",
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Blaze boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Blaze boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 4) {
+				this.debug('Blaze boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 4) {
+				this.debug('Blaze boost');
+				return this.chainModify(1.5);
+			}
+		},
+		name: "Blaze",
+		rating: 2,
+		num: 66,
+	},
+	torrent: {
+		name: "Torrent",
+		desc: "This pokemon's Water-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
+		shortdesc: "User gets boosted Water-type moves on low HP.",
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Torrent boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Torrent boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
+				this.debug('Torrent boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
+				this.debug('Torrent boost');
+				return this.chainModify(1.5);
+			}
+		},
+		name: "Torrent",
+		rating: 2,
+		num: 66,
+	},
+	overgrow: {
+		name: "Overgrow",
+		desc: "This pokemon's Grass-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
+		shortdesc: "User gets boosted Grass-type moves on low HP.",
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Overgrow boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Overgrow boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
+				this.debug('Overgrow boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
+				this.debug('Overgrow boost');
+				return this.chainModify(1.5);
+			}
+		},
+		name: "Overgrow",
+		rating: 2,
+		num: 66,
 	},
 }; exports.Abilities = Abilities;
 

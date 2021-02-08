@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});/*
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }/*
 
 List of flags and their descriptions:
 
@@ -60,32 +60,32 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 
 //Move changes
 	snore: {
-	inherit: true,
-	basePower: 120,
+		inherit: true,
+		basePower: 120,
 	},
 	suckerpunch: {
-	inherit: true,
-    flags: {contact: 1, protect: 1, mirror: 1},
+		inherit: true,
+		flags: {contact: 1, protect: 1, mirror: 1},
 	},
-	iciclecrash: {
-	inherit: true,
-    accuracy: 100,
+		iciclecrash: {
+		inherit: true,
+		accuracy: 100,
 	},
 	honeclaws: {
-     inherit: true,
-	 boosts: {
+      inherit: true,
+	  boosts: {
 	  atk: 1,
       accuracy: 2,	 
 	  },
 	},
 	lifedew: {
-	 inherit: true,
-     heal: [1, 2],	 
+		inherit: true,
+		heal: [1, 2],	 
 	},
 	spikecannon: {
-	 inherit: true,
-	 basePower: 25,
-	 type: "Ground",
+		inherit: true,
+		basePower: 25,
+		type: "Ground",
 	},
 	dragonrage: {
 		num: 82,
@@ -100,9 +100,389 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		secondary: null,
 		target: "normal",
 		type: "Dragon",
-		maxMove: {basePower: 75},
+		maxMove: {basePower: 100},
 		contestType: "Tough",
 	},
-}; exports.Moves = Moves;
+	armthrust: {
+		inherit: true,
+		basePower: 25,
+	},
+	furyswipes: {
+		inherit: true,
+		basePower: 20,
+		critRatio: 3,
+	},
+	diamondstorm: {
+		inherit: true,
+		accuracy: 100,
+	},
+	drillrun: {
+		inherit: true,
+		accuracy: 100,
+		critRatio: 3,
+	},
+	razorshell: {
+		inherit: true,
+		accuracy: 100,
+		secondary: {
+			chance: 100,
+			boosts: {
+				def: -1,
+			},
+		},
+	},
+	highhorsepower: {
+		inherit: true,
+		basePower: 90,
+		accuracy: 90,
+		secondary: {
+			chance: 20,
+			self: {
+				boosts: {
+					spe: 1,
+				},
+			},
+		}
+	},
+	explosion: {
+		inherit: true,
+		category: "Special",
+		critRatio: 5,
+	},
+	selfdestruct: {
+		inherit: true,
+		basePower: 250,
+		critRatio: 5,
+	},
+	mistyexplosion: {
+		inherit: true,
+		basePower: 125,
+		critRatio: 5,
+		onBasePower(basePower, source) {
+			if (this.field.isTerrain('mistyterrain') && source.isGrounded()) {
+				this.debug('misty terrain boost');
+				return this.chainModify(2);
+			}
+		}
+	},
+	triplekick: {
+		num: 167,
+		accuracy: 90,
+		basePower: 20,
+		basePowerCallback(pokemon, target, move) {
+			return 20 * move.hit;
+		},
+		category: "Physical",
+		name: "Triple Kick",
+		pp: 10,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1},
+		multihit: 3,
+		multiaccuracy: true,
+		secondary: null,
+		target: "normal",
+		type: "Fighting",
+		zMove: {basePower: 120},
+		maxMove: {basePower: 140},
+		contestType: "Cool",
+	},
+	tyrantchomp: {
+		num: -1,
+		accuracy: 100,
+		basePower: 90,
+		category: "Physical",
+		name: "Tyrant Chomp",
+		pp: 15,
+		priority: 0,
+		flags: {bite: 1, contact: 1, protect: 1, mirror: 1},
+		secondary: {
+				chance: 10,
+				volatileStatus: 'flinch',
+			},
+		target: "normal",
+		type: "Ice",
+		contestType: "Cool",
+	},
+	dizzypunch: {
+		inherit: true,
+		accuracy: 85,
+		basePower: 45,
+		category: "Physical",
+		name: "Dizzy Punch",
+		pp: 5,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1, punch: 1},
+		multihit: 2,
+		secondaries: [
+			{
+				chance: 20,
+				volatileStatus: 'confusion',
+			}, 
+			{
+				chance: 20,
+				volatileStatus: 'flinch',
+			},
+		],
+		target: "normal",
+		type: "Fighting",
+		zMove: {basePower: 180},
+		maxMove: {basePower: 140},
+		contestType: "Clever",
+	},
+	beakblast: {
+		inherit: true,
+		basePower: 120,
+	},
+	aurorabeam : {
+		inherit: true,
+		basePower: 75,
+		secondary: {
+			chance: 100,
+			boosts: {
+				atk: -1,
+			}
+		}
+	},
+	technoblast : {
+		inherit: true,
+		basePower: 150,
+	},
+	present: {
+		inherit: true,
+		type: "Flying",
+		onModifyMove(move, pokemon, target) {
+			const rand = this.random(10);
+			if (rand < 2) {
+				move.heal = [1, 4];
+				move.infiltrates = true;
+			} else if (rand < 6) {
+				move.basePower = 80;
+			} else if (rand < 9) {
+				move.basePower = 160;
+			} else {
+				move.basePower = 240;
+			}
+		}
+	},
+	jawlock: {
+		inherit: true,
+		type: "Rock",
+	},
+	xcissor: {
+		inherit: true,
+		critRatio: 3,
+	},
+	bonemerang: {
+		inherit: true,
+		basePower: 65,
+	},
+	shadowbone: {
+		inherit: true,
+		secondary: {
+			chance: 100,
+			boosts: {
+				def: -1,
+			}
+		}
+	},
+	snipeshot: {
+		inherit: true,
+		basePower: 100
+	},
+	focusenergy: {
+		inherit: true,
+		volatileStatus: 'focusenergy',
+		condition: {
+			onStart(target, source, effect) {
+				if (_optionalChain([effect, 'optionalAccess', _ => _.id]) === 'zpower') {
+					this.add('-start', target, 'move: Focus Energy', '[zeffect]');
+				} else if (effect && (['imposter', 'psychup', 'transform'].includes(effect.id))) {
+					this.add('-start', target, 'move: Focus Energy', '[silent]');
+				} else {
+					this.add('-start', target, 'move: Focus Energy');
+				}
+			},
+			onModifyCritRatio(critRatio) {
+				return critRatio + 4;
+			},
+		},
+	},
+	psychocut: {
+		inherit: true,
+		critRatio: 3,
+	},
+	razorleaf: {
+		inherit: true,
+		critRatio: 3,
+	},
+	razorwind: {
+		inherit: true,
+		critRatio: 3,
+	},
+	shadowclaw: {
+		inherit: true,
+		critRatio: 3,
+	},
+	skyattack: {
+		inherit: true,
+		critRatio: 3,
+	},
+	slash: {
+		inherit: true,
+		critRatio: 3,
+	},
+	snipeshot: {
+		inherit: true,
+		critRatio: 3,
+	},
+	spacialrend: {
+		inherit: true,
+		critRatio: 3,
+	},
+	stoneedge: {
+		inherit: true,
+		critRatio: 3,
+	},
+	"10000000voltthunderbolt": {
+		inherit: true,
+		critRatio: 5,
+	},
+	aeroblast: {
+		inherit: true,
+		critRatio: 3
+	},
+	aircutter: {
+		inherit: true,
+		critRatio: 3,
+	},
+	attackorder: {
+		inherit: true,
+		critRatio: 3,
+	},
+	blazekick: {
+		inherit: true,
+		critRatio: 3,
+	},
+	crabhammer: {
+		inherit: true,
+		critRatio: 3,
+	},
+	crosschop: {
+		inherit: true,
+		critRatio: 3,
+	},
+	crosspoison: {
+		inherit: true,
+		critRatio: 3,
+	},
+	karatechop: {
+		inherit: true,
+		critRatio: 3,
+	},
+	leafblade: {
+		inherit: true,
+		critRatio: 3,
+	},
+	nightslash: {
+		inherit: true,
+		critRatio: 3,
+	},
+	poisontail: {
+		inherit: true,
+		critRatio: 3,
+	},
+	decorate: {
+		inherit: true,
+		heal: [1, 4],
+		boosts: {
+			spd: 1,
+			spa: 1,
+		},
+		target: "adjacentAllyOrSelf",
+	},	
+	aircutter: {
+		inherit: true,
+		accuracy: 100,
+		basePower: 80,
+	},
+	airslash: {
+		inherit: true,
+		accuracy: 100,
+	},
+	shelltrap: {
+		num: 704,
+		accuracy: 100,
+		basePower: 70,
+		category: "Special",
+		name: "Shell Trap",
+		pp: 5,
+		priority: 1,
+		flags: {contact: 1, protect: 1, mirror: 1},
+		onTry(source, target) {
+			const action = this.queue.willMove(target);
+			const move = _optionalChain([action, 'optionalAccess', _2 => _2.choice]) === 'move' ? action.move : null;
+			if (!move || (move.category === 'Status' && move.id !== 'mefirst') || target.volatiles['mustrecharge']) {
+				return false;
+			}
+		},
+		secondary: null,
+		target: "normal",
+		type: "Fire",
+		contestType: "Clever",
+	},
+	icehammer: {
+		inherit: true,
+		secondary: {
+			boosts: {
+				spe: -1,
+			}
+		}
+	},
+	bulletpunch: {
+		inherit: true,
+		flags: {contact: 1, protect: 1, mirror: 1, bullet: 1, punch: 1},
+	},
+	defog: {
+		num: 432,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Defog",
+		pp: 15,
+		priority: 0,
+		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
+		onHit(target, source, move) {
+			let success = false;
+			this.field.clearTerrain();
+			if (!target.volatiles['substitute'] || move.infiltrates) success = !!this.boost({evasion: -1});
+			const removeTarget = [
+				'reflect', 'lightscreen', 'auroraveil', 'safeguard', 'mist', 'spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge',
+			];
+			const removeAll = [
+				'spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge',
+			];
+			for (const targetCondition of removeTarget) {
+				if (target.side.removeSideCondition(targetCondition)) {
+					if (!removeAll.includes(targetCondition)) continue;
+					this.add('-sideend', target.side, this.dex.getEffect(targetCondition).name, '[from] move: Defog', '[of] ' + source);
+					success = true;
+				}
+			}
+			for (const sideCondition of removeAll) {
+				if (source.side.removeSideCondition(sideCondition)) {
+					this.add('-sideend', source.side, this.dex.getEffect(sideCondition).name, '[from] move: Defog', '[of] ' + source);
+					success = true;
+				}
+			}
+			this.field.clearTerrain();
+			return success;
+		},
+		secondary: null,
+		target: "normal",
+		type: "Flying",
+		zMove: {boost: {accuracy: 1}},
+		contestType: "Cool",
+	},
+}; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map

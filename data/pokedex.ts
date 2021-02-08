@@ -2692,7 +2692,7 @@ export const Pokedex: {[speciesid: string]: SpeciesData} = {
 		baseSpecies: "Pinsir",
 		forme: "Mega",
 		types: ["Bug", "Flying"],
-		baseStats: {hp: 65, atk: 155, def: 120, spa: 65, spd: 90, spe: 105},
+		baseStats: {hp: 65, atk: 155, def: 120, spa: 85, spd: 90, spe: 105},
 		abilities: {0: "Aerilate"},
 		heightm: 1.7,
 		weightkg: 59,

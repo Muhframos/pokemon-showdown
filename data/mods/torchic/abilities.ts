@@ -64,11 +64,13 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: -7,
 	},
 	sidhessacrifice: {
-		onPrepareHit(source, target, move) {
-			pokemon.heal(pokemon.baseMaxhp / 3);
-			this.add('-start', source, 'typechange', '[from] ability: Sidhes Sacrifice');
-			}
+		onAfterMoveSecondarySelf(source, target, move) {
+				this.heal(source.baseMaxhp / 3, source, source);
 		},
+		name: "Sidhe's Sacrifice",
+		rating: 4,
+		num: -8,
+	},
 	energyoverflow: {
 		onResidualOrder: 26,
 		onResidualSubOrder: 1,

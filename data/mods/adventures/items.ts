@@ -44,4 +44,75 @@ export const Items: {[k: string]: ModdedItemData} = {
 		num: 265,
 		gen: 4,
 	},
+	leek: {
+		name: "Leek",
+		fling: {
+			basePower: 60,
+		},
+		spritenum: 475,
+		onModifyCritRatio(critRatio, user) {
+			if (["farfetchd", "sirfetchd"].includes(this.toID(user.baseSpecies.baseSpecies))) {
+				return critRatio + 4;
+			}
+		},
+		itemUser: ["Farfetch\u2019d", "Sirfetch\u2019d"],
+		num: 259,
+		gen: 8,
+	},
+	scopelens: {
+		name: "Scope Lens",
+		spritenum: 429,
+		fling: {
+			basePower: 30,
+		},
+		onModifyCritRatio(critRatio) {
+			return critRatio + 2;
+		},
+		num: 232,
+		gen: 2,
+	},
+	stick: {
+		name: "Stick",
+		fling: {
+			basePower: 60,
+		},
+		spritenum: 475,
+		onModifyCritRatio(critRatio, user) {
+			if (this.toID(user.baseSpecies.baseSpecies) === 'farfetchd') {
+				return critRatio + 4;
+			}
+		},
+		itemUser: ["Farfetch\u2019d"],
+		num: 259,
+		gen: 2,
+		isNonstandard: "Past",
+	},
+	luckypunch: {
+		name: "Lucky Punch",
+		spritenum: 261,
+		fling: {
+			basePower: 40,
+		},
+		onModifyCritRatio(critRatio, user) {
+			if (user.baseSpecies.name === 'Chansey') {
+				return critRatio + 4;
+			}
+		},
+		itemUser: ["Chansey"],
+		num: 256,
+		gen: 2,
+		isNonstandard: "Past",
+	},
+	razorclaw: {
+		name: "Razor Claw",
+		spritenum: 382,
+		fling: {
+			basePower: 80,
+		},
+		onModifyCritRatio(critRatio) {
+			return critRatio + 2;
+		},
+		num: 326,
+		gen: 4,
+	},
 };
