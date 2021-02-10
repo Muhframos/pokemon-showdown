@@ -345,6 +345,42 @@ Ratings and how they work:
 		rating: 2,
 		num: 66,
 	},
+	swarm: {
+		name: "Swarm",
+		desc: "This pokemon's Bug-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
+		shortdesc: "User gets boosted Bug-type moves on low HP.",
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Swarm boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 3) {
+				this.debug('Swarm boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, attacker, defender, move) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
+				this.debug('Swarm boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpAPriority: 5,
+		onModifySpA(atk, attacker, defender, move) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
+				this.debug('Swarm boost');
+				return this.chainModify(1.5);
+			}
+		},
+		name: "Swarm",
+		rating: 2,
+		num: 66,
+	},
 	sniper: {
 		name: "Sniper",
 		desc: "If this Pokemon strikes with a critical hit, the damage is multiplied by 1.25.",

@@ -527,4 +527,25 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		basePower: 45
 	},
+	chargebeam: {
+		num: 451,
+		accuracy: 90,
+		basePower: 60,
+		category: "Special",
+		name: "Charge Beam",
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		secondary: {
+			chance: 100,
+			self: {
+				boosts: {
+					spa: 1,
+				},
+			},
+		},
+		target: "normal",
+		type: "Electric",
+		contestType: "Beautiful",
+	},
 }

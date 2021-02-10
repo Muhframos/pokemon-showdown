@@ -260,8 +260,17 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	tauros: {
 		inherit: true,
-		baseStats: {hp: 75, atk: 140, def: 95, spa: 40, spd: 70, spe: 110},
-		abilities: {0: "Intimidate", 1: "Reckless", H: "Super Luck"},
+		baseStats: {hp: 85, atk: 130, def: 95, spa: 40, spd: 70, spe: 110},
+		abilities: {0: "Sheer Force", 1: "Reckless", H: "Super Luck"},
+	},
+	eldegoss: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 50, def: 90, spa: 80, spd: 150, spe: 90},
+	},
+	haxorus: {
+		inherit: true,
+		types: ["Dragon", "Steel"],
+		baseStats: {hp: 86, atk: 147, def: 90, spa: 60, spd: 70, spe: 97},
 	},
 	aromatisse: {
 		inherit: true,
