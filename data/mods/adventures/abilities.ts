@@ -371,4 +371,23 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 3,
 		num: -9,
 	},
+	stench: {
+		onModifyMovePriority: -1,
+		onModifyMove(move) {
+			if (move.category !== "Status") {
+				this.debug('Adding Stench flinch');
+				if (!move.secondaries) move.secondaries = [];
+				for (const secondary of move.secondaries) {
+					if (secondary.volatileStatus === 'flinch') return;
+				}
+				move.secondaries.push({
+					chance: 30,
+					volatileStatus: 'flinch',
+				});
+			}
+		},
+		name: "Stench",
+		rating: 0.5,
+		num: 1,
+	},
 };

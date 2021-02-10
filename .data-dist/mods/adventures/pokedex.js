@@ -263,6 +263,20 @@
 		baseStats: {hp: 75, atk: 140, def: 95, spa: 40, spd: 70, spe: 110},
 		abilities: {0: "Intimidate", 1: "Reckless", H: "Super Luck"},
 	},
+	aromatisse: {
+		inherit: true,
+		types: ["Fairy", "Poison"],
+		baseStats: {hp: 111, atk: 72, def: 72, spa: 129, spd: 109, spe: 29},
+		abilities: {0: "Stench", 1: "Misty Surge", H: "Aroma Veil"},
+	},
+	eevee: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 85, def: 70, spa: 85, spd: 85, spe: 75},
+	},
+	pikachu: {
+		inherit: true,
+		baseStats: {hp: 45, atk: 90, def: 50, spa: 90, spd: 60, spe: 120},
+	},	
 	eeveestarter: {
 		inherit: true,
 		baseStats: {hp: 65, atk: 85, def: 70, spa: 85, spd: 85, spe: 75},
@@ -393,7 +407,7 @@
 	leafeon: {
 		inherit: true,
 		baseStats: {hp: 65, atk: 110, def: 130, spa: 60, spd: 95, spe: 65},
-		abilities: {0: "Leaf Guard", 1: "Natural Cure", H: "Chlorophyll"},
+		abilities: {0: "Rattled", 1: "Immunity", H: "Chlorophyll"},
 	},
 	glaceon: {
 		inherit: true,

@@ -241,8 +241,17 @@ this.modData('Learnsets', 'electivire').learnset.swordsdance = ['8L1'];
 
 this.modData('Learnsets', 'empoleon').learnset.nastyplot = ['8L1'];
 
+this.modData('Learnsets', 'aromatisse').learnset.clearsmog = ['8L1'];
+this.modData('Learnsets', 'aromatisse').learnset.sludgebomb = ['8L1'];
+this.modData('Learnsets', 'aromatisse').learnset.sludgewave = ['8L1'];
+this.modData('Learnsets', 'aromatisse').learnset.acidarmor = ['8L1'];
+this.modData('Learnsets', 'aromatisse').learnset.acidspray = ['8L1'];
+this.modData('Learnsets', 'aromatisse').learnset.toxicspikes = ['8L1'];
+
 this.modData('Learnsets', 'espeon').learnset.mysticalfire = ['8L1'];
 this.modData('Learnsets', 'espeon').learnset.aurasphere = ['8L1'];
+this.modData('Learnsets', 'espeon').learnset.teleport = ['8L1'];
+this.modData('Learnsets', 'espeon').learnset.nastyplot = ['8L1'];
 
 this.modData('Learnsets', 'flareon').learnset.earthquake = ['8L1'];
 this.modData('Learnsets', 'flareon').learnset.closecombat = ['8L1'];
@@ -256,6 +265,7 @@ this.modData('Learnsets', 'jolteon').learnset.doublekick = ['8L1'];
 this.modData('Learnsets', 'leafeon').learnset.mysticalfire = ['8L1'];
 this.modData('Learnsets', 'leafeon').learnset.cottonguard = ['8L1'];
 this.modData('Learnsets', 'leafeon').learnset.bodypress = ['8L1'];
+this.modData('Learnsets', 'leafeon').learnset.bulkup = ['8L1'];
 
 this.modData('Learnsets', 'glaceon').learnset.mysticalfire = ['8L1'];
 this.modData('Learnsets', 'glaceon').learnset.aurorabeam = ['8L1'];
