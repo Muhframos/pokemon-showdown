@@ -244,7 +244,7 @@ this.modData('Learnsets', 'empoleon').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'eldegoss').learnset.spore = ['8L1'];
 this.modData('Learnsets', 'eldegoss').learnset.teleport = ['8L1'];
 this.modData('Learnsets', 'eldegoss').learnset.magiccoat = ['8L1'];
-this.modData('Learnsets', 'eldegoss').learnset.calm mind = ['8L1'];
+this.modData('Learnsets', 'eldegoss').learnset.calmmind = ['8L1'];
 this.modData('Learnsets', 'eldegoss').learnset.psychic = ['8L1'];
 this.modData('Learnsets', 'eldegoss').learnset.psyshock = ['8L1'];
 
