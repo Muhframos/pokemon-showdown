@@ -22,12 +22,6 @@ export const Formats: FormatList = [
 		section: "Adventures Dex",
 	},
 	{
-		name: "[Gen 8] Adventures AG",
-		mod: 'adventures',
-		ruleset: ['Standard NatDex', 'Dynamax Clause'],
-		banlist: [ 'AG', 'Baton Pass'],
-	},
-	{
 		name: "[Gen 8] Adventures OU",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
@@ -85,14 +79,5 @@ export const Formats: FormatList = [
 			'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base', 'Zygarde-Complete',
 			 'Moody', 'Power Construct', 'Shadow Tag', 'Baton Pass',
 		],
-	},
-	{
-		section: "Adventures + Axis League",
-	},
-	{
-		name: "[Gen 8] Adventures + Axis AG",
-		mods: ['torchic', 'adventures']
-		ruleset: ['Standard NatDex', 'Dynamax Clause'],
-		banlist: [ 'AG', 'Baton Pass'],
 	},
 ];
