@@ -345,4 +345,30 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 2,
 		num: 66,
 	},
+	sniper: {
+		name: "Sniper",
+		desc: "If this Pokemon strikes with a critical hit, the damage is multiplied by 1.25.",
+		onModifyDamage(damage, source, target, move) {
+			if (target.getMoveHitData(move).crit) {
+				this.debug('Sniper boost');
+				return this.chainModify(1.25);
+			}
+		},
+		name: "Sniper",
+		rating: 2,
+		num: 97,
+	},
+	catalyst: {
+		name: "Catalyst",
+		desc: "This Pokemon's Special Attack is raised by 1 stage if it attacks and KOes another Pokemon.",
+		shortDesc: "This Pokemon's SpA is raised if it attacks and KOes another Pokemon.",
+		onSourceAfterFaint(length, target, source, effect) {
+			if (effect && effect.effectType === 'Move') {
+				this.boost({spa: length}, source);
+			}
+		},
+		name: "Catalyst",
+		rating: 3,
+		num: -9,
+	},
 };

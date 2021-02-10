@@ -48,6 +48,7 @@
 	},
 	articuno: {
 		inherit: true,
+		baseStats: {hp: 90, atk: 85, def: 100, spa: 125, spd: 95, spe: 85},
 		abilities: {0: "Pressure", H: "Snow Warning", 1: "Multiscale"},	
 	},
 	ursaring: {
@@ -287,7 +288,7 @@
 	pyroar: {
 		inherit: true,
 		baseStats: {hp: 86, atk: 68, def: 72, spa: 129, spd: 66, spe: 106},
-		abilities: {0: "Rivalry", 1: "Unnerve", H: "Competitive"},
+		abilities: {0: "Rivalry", 1: "Catalyst", H: "Competitive"},
 	},
 	dragalge: {
 		inherit: true,
@@ -459,7 +460,7 @@
 	},
 	golisopod: {
 		inherit: true,
-		abilities: {0: "Emergency Exit", H: "Water Veil"},
+		abilities: {0: "Emergency Exit", 1: "Shell Armor", H: "Water Veil"},
 	},
 	grimmsnarl: {
 		inherit: true,
@@ -517,7 +518,7 @@
 	glaliemega: {
 		inherit: true,
 		types: ["Ice", "Dark"],
-		baseStats: {hp: 120, atk: 120, def: 120, spa: 120, spd: 120, spe: 120},
+		baseStats: {hp: 100, atk: 120, def: 120, spa: 120, spd: 120, spe: 120},
 	},
 	solrock: {
 		inherit: true,
@@ -586,6 +587,7 @@
 	cryogonal: {
 		inherit: true,
 		baseStats: {hp: 80, atk: 50, def: 50, spa: 115, spd: 135, spe: 105},
+		abilities: {0: "Levitate", H: "Catalyst"},
 	},
 	avalugg: {
 		inherit: true,
@@ -600,7 +602,7 @@
 	magmortar: {
 		inherit: true,
 		types: ["Fire", "Dark"],
-		abilities: {0: "Flame Body", 1: "Analytic", H: "Vital Spirit"},
+		abilities: {0: "Flame Body", 1: "Analytic", H: "Catalyst"},
 	},
 	steelix: {
 		inherit: true,
@@ -678,13 +680,27 @@
 	sirfetchd: {
 		inherit: true,
 		baseStats: {hp: 72, atk: 135, def: 95, spa: 68, spd: 102, spe: 65},
-		abilities: {0: "Intrepid Sword", 1: "Dauntless Shield", H: "Scrappy"},
+		abilities: {0: "Dauntless Shield", 1: "Steadfast", H: "Scrappy"},
 	},
 	banettemega: {
 		inherit: true,
 		types: ["Ghost", "Dark"],
 	},
-	
+	metagross: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 135, def: 130, spa: 80, spd: 90, spe: 70},
+		abilities: {0: "Clear Body", 1: "Iron Fist", H: "Light Metal"},
+	},
+	wailord: {
+		inherit: true,
+		baseStats: {hp: 170, atk: 75, def: 65, spa: 90, spd: 65, spe: 60},
+		abilities: {0: "Magic Guard", 1: "Thick Fat", H: "Dry Skin"},
+	},
+	drapion: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 90, def: 75, spa: 60, spd: 130, spe: 95},
+		abilities: {0: "Battle Armor", 1: "Sniper", H: "Intimidate"},
+	},
 }; exports.Pokedex = Pokedex;
 
  //# sourceMappingURL=sourceMaps/pokedex.js.map

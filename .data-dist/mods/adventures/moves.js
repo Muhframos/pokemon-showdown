@@ -54,6 +54,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	},
 	spikecannon: {
 	inherit: true,
+	basePower: 25,
+	type: "Ground",
     flags: {recharge: 1, protect: 1, mirror: 1, pulse: 1},	
 	},
 // Mega Launcher Implementation End
@@ -81,11 +83,6 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	lifedew: {
 		inherit: true,
 		heal: [1, 2],	 
-	},
-	spikecannon: {
-		inherit: true,
-		basePower: 25,
-		type: "Ground",
 	},
 	dragonrage: {
 		num: 82,
@@ -432,7 +429,9 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	},
 	icehammer: {
 		inherit: true,
+		self: null,
 		secondary: {
+			chance: 100,
 			boosts: {
 				spe: -1,
 			}
@@ -482,6 +481,51 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		type: "Flying",
 		zMove: {boost: {accuracy: 1}},
 		contestType: "Cool",
+	},
+	barrage: {
+		num: 140,
+		accuracy: 85,
+		basePower: 30,
+		category: "Physical",
+		isNonstandard: "Past",
+		name: "Barrage",
+		pp: 20,
+		priority: 0,
+		flags: {bullet: 1, protect: 1, mirror: 1},
+		multihit: [3],
+		secondary: null,
+		target: "normal",
+		type: "Steel",
+		contestType: "Cute",
+	},
+	vcreate: {
+		num: 557,
+		accuracy: 95,
+		basePower: 180,
+		category: "Physical",
+		name: "V-create",
+		pp: 5,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1},
+		self: {
+			boosts: {
+				spe: -1,
+				def: -1,
+				spd: -1,
+			},
+		onModifyMove(move, pokemon) {
+			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
+			},
+		},
+		secondary: null,
+		target: "normal",
+		type: "Fire",
+		zMove: {basePower: 220},
+		contestType: "Cool",
+	},
+	doublekick: {
+		inherit: true,
+		basePower: 45
 	},
 }; exports.Moves = Moves
 
