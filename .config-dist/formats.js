@@ -22,6 +22,12 @@ The column value will be ignored for repeat sections.
 		section: "Adventures Dex",
 	},
 	{
+		name: "[Gen 8] Adventures AG",
+		mod: 'adventures',
+		ruleset: ['Standard NatDex', 'Dynamax Clause'],
+		banlist: [ 'AG', 'Baton Pass'],
+	},
+	{
 		name: "[Gen 8] Adventures OU",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],

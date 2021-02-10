@@ -267,6 +267,11 @@
 		inherit: true,
 		baseStats: {hp: 60, atk: 50, def: 90, spa: 80, spd: 150, spe: 90},
 	},
+	haxorus: {
+		inherit: true,
+		types: ["Dragon", "Steel"],
+		baseStats: {hp: 86, atk: 147, def: 90, spa: 60, spd: 70, spe: 97},
+	},
 	aromatisse: {
 		inherit: true,
 		types: ["Fairy", "Poison"],

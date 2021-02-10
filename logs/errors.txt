@@ -1300,3 +1300,165 @@ Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
     at ChildProcess.EventEmitter.emit (domain.js:467:12)
     at finish (internal/child_process.js:888:14)
     at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: Cannot find module '../....................................................................................................................sim-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist/dex'
+Require stack:
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:880:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:725:27)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js:3:12)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+
+Additional information:
+  chunk = >player p1 {"name":"OOOOway","avatar":"265","team":"","rating":0}
+  inputLog = 
+>version 9e1a9f111084943f4585281ab87145d37cf09598
+>start {"formatid":"gen8adventuresrandombattles","seed":[42752,61160,63762,38126]}
+  log = 
+|t:|1612981425
+
+
+Error: Cannot find module '../....................................................................................................................sim-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist/dex'
+Require stack:
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:880:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:725:27)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js:3:12)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+
+Additional information:
+  chunk = >player p2 {"name":"Muhframos","avatar":"benga","team":"","rating":0}
+  inputLog = 
+>version 9e1a9f111084943f4585281ab87145d37cf09598
+>start {"formatid":"gen8adventuresrandombattles","seed":[42752,61160,63762,38126]}
+  log = 
+|t:|1612981425
+
+
+Error: Cannot find module '../....................................................................................................................sim-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist/dex'
+Require stack:
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:880:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:725:27)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js:3:12)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+
+Additional information:
+  chunk = >player p1 {"name":"OOOOWAY","avatar":"265","team":"","rating":0}
+  inputLog = 
+>version 9e1a9f111084943f4585281ab87145d37cf09598
+>start {"formatid":"gen8adventuresrandombattles","seed":[60618,92,8426,10567]}
+  log = 
+|t:|1612981528
+
+
+Error: Cannot find module '../....................................................................................................................sim-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist/dex'
+Require stack:
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:880:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:725:27)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js:3:12)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+
+Additional information:
+  chunk = >player p2 {"name":"Muhframos","avatar":"benga","team":"","rating":0}
+  inputLog = 
+>version 9e1a9f111084943f4585281ab87145d37cf09598
+>start {"formatid":"gen8adventuresrandombattles","seed":[60618,92,8426,10567]}
+  log = 
+|t:|1612981528
+
+
+Error: Cannot find module '../....................................................................................................................sim-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist/dex'
+Require stack:
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:880:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:725:27)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js:3:12)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+
+Additional information:
+  chunk = >player p1 {"name":"Ooway","avatar":"170","team":"","rating":0}
+  inputLog = 
+>version 9e1a9f111084943f4585281ab87145d37cf09598
+>start {"formatid":"gen8adventuresrandombattles","seed":[20541,34070,6470,20271]}
+  log = 
+|t:|1612981859
+
+
+Error: Cannot find module '../....................................................................................................................sim-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist-dist/dex'
+Require stack:
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\dex.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.sim-dist\battle-stream.js
+- C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.server-dist\room-battle.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:880:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:725:27)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.<anonymous> (C:\Users\Cristian\Documents\GitHub\pokemon-showdown-client\data\pokemon-showdown\.data-dist\mods\adventures\random-teams.js:3:12)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+
+Additional information:
+  chunk = >player p2 {"name":"Muhframos","avatar":"benga","team":"","rating":0}
+  inputLog = 
+>version 9e1a9f111084943f4585281ab87145d37cf09598
+>start {"formatid":"gen8adventuresrandombattles","seed":[20541,34070,6470,20271]}
+  log = 
+|t:|1612981859
+
