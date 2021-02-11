@@ -65,6 +65,14 @@
 		baseStats: {hp: 75, atk: 110, def: 115, spa: 45, spd: 95, spe: 85},
 		abilities: {0: "Skill Link", 1: "Permafrost", H: "Slush Rush"},		
 	},
+	raticate: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 121, def: 70, spa: 90, spd: 80, spe: 97},	
+	},
+	raticatealola: {
+		inherit: true,
+		baseStats: {hp: 85, atk: 111, def: 80, spa: 80, spd: 90, spe: 77},
+	},
 	tapubulu: {
 		inherit: true,
 		baseStats: {hp: 100, atk: 130, def: 115, spa: 55, spd: 95, spe: 75},
@@ -641,7 +649,24 @@
 	},
 	zarude: {
 		inherit: true,
-		abilities: {0: "Leaf Guard", H: "Guts"},
+		abilities: {0: "Intimidate", 1: "Synchronize", H: "Guts"},
+	},
+	nihilego: {
+		inherit: true,
+		abilities: {0: "Beast Boost", 1: "Levitate"},
+	},
+	galvantula: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 77, def: 60, spa: 117, spd: 90, spe: 108},
+	},
+	frosmoth: {
+		inherit: true,
+		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Scales"},
+		baseStats: {hp: 85, atk: 60, def: 65, spa: 135, spd: 105, spe: 100},
+	},
+	volcarona: {
+		inherit: true,
+		abilities: {0: "Flame Body", 1: "Compound Eyes", H: "Swarm"},
 	},
 	dusknoir: {
 		inherit: true,

@@ -232,6 +232,20 @@ this.modData('Learnsets', 'durant').learnset.bulletseed = ['8L1'];
 this.modData('Learnsets', 'durant').learnset.nuzzle = ['8L1'];
 this.modData('Learnsets', 'durant').learnset.wildcharge = ['8L1'];
 
+this.modData('Learnsets', 'bewear').learnset.meteormash = ['8L1'];
+this.modData('Learnsets', 'bewear').learnset.fakeout = ['8L1'];
+this.modData('Learnsets', 'bewear').learnset.suckerpunch = ['8L1'];
+this.modData('Learnsets', 'bewear').learnset.block = ['8L1'];
+this.modData('Learnsets', 'bewear').learnset.counter = ['8L1'];
+
+this.modData('Learnsets', 'galvantula').learnset.zapcannon = ['8L1'];
+this.modData('Learnsets', 'galvantula').learnset.nuzzle = ['8L1'];
+this.modData('Learnsets', 'galvantula').learnset.electricterrain = ['8L1'];
+
+this.modData('Learnsets', 'raticate').learnset.electricterrain = ['8L1'];
+
+this.modData('Learnsets', 'raticatealola').learnset.electricterrain = ['8L1'];
+
 this.modData('Learnsets', 'dusknoir').learnset.drainpunch = ['8L1'];
 this.modData('Learnsets', 'dusknoir').learnset.closecombat = ['8L1'];
 

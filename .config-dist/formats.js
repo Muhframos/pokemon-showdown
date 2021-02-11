@@ -56,12 +56,6 @@ The column value will be ignored for repeat sections.
 			 'Moody', 'Power Construct', 'Shadow Tag', 'Baton Pass',
 		],
 	},
-	{
-		name: "[Gen 8] Adventures Random Battles",
-		mod: 'adventures',
-		team: 'random',
-		ruleset: ['PotD', 'Obtainable', 'Species Clause', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod'],
-	},
 	//Axis League
 	{
 		section: "Axis League Dex",
