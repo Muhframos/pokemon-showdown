@@ -242,9 +242,12 @@ this.modData('Learnsets', 'galvantula').learnset.zapcannon = ['8L1'];
 this.modData('Learnsets', 'galvantula').learnset.nuzzle = ['8L1'];
 this.modData('Learnsets', 'galvantula').learnset.electricterrain = ['8L1'];
 
-this.modData('Learnsets', 'raticate').learnset.electricterrain = ['8L1'];
+this.modData('Learnsets', 'frosmoth').learnset.roost = ['8L1'];
+this.modData('Learnsets', 'frosmoth').learnset.aurasphere = ['8L1'];
 
-this.modData('Learnsets', 'raticatealola').learnset.electricterrain = ['8L1'];
+this.modData('Learnsets', 'raticate').learnset.honeclaws = ['8L1'];
+
+this.modData('Learnsets', 'raticatealola').learnset.honeclaws = ['8L1'];
 
 this.modData('Learnsets', 'dusknoir').learnset.drainpunch = ['8L1'];
 this.modData('Learnsets', 'dusknoir').learnset.closecombat = ['8L1'];
@@ -412,12 +415,20 @@ this.modData('Learnsets', 'nihilego').learnset.acidarmor = ['8L1'];
 this.modData('Learnsets', 'nihilego').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'nihilego').learnset.trick = ['8L1'];
 
-this.modData('Learnsets', 'obstagoon').learnset.nightslash = ['8L1'];
-this.modData('Learnsets', 'obstagoon').learnset.knockoff = ['8L1'];
+this.modData('Learnsets', 'obstagoon').learnset.bellydrum = ['8L1'];
 this.modData('Learnsets', 'obstagoon').learnset.reversal = ['8L1'];
 this.modData('Learnsets', 'obstagoon').learnset.iciclecrash = ['8L1'];
 this.modData('Learnsets', 'obstagoon').learnset.wildcharge = ['8L1'];
 this.modData('Learnsets', 'obstagoon').learnset.waterfall = ['8L1'];
+
+this.modData('Learnsets', 'linoonegalar').learnset.bellydrum = ['8L1'];
+this.modData('Learnsets', 'linoonegalar').learnset.reversal = ['8L1'];
+this.modData('Learnsets', 'linoonegalar').learnset.iciclecrash = ['8L1'];
+this.modData('Learnsets', 'linoonegalar').learnset.wildcharge = ['8L1'];
+this.modData('Learnsets', 'linoonegalar').learnset.waterfall = ['8L1'];
+this.modData('Learnsets', 'linoonegalar').learnset.return = ['8L1'];
+this.modData('Learnsets', 'linoonegalar').learnset.frustration = ['8L1'];
+this.modData('Learnsets', 'linoonegalar').learnset.toxic = ['8L1'];
 
 this.modData('Learnsets', 'pinsir').learnset.drillrun = ['8L1'];
 this.modData('Learnsets', 'pinsir').learnset.nightslash = ['8L1'];

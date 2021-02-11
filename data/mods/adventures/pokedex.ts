@@ -316,6 +316,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		abilities: {0: "Guts", 1: "Gluttony", H: "Quick Feet"},
 	},
+	linoonegalar: {
+		inherit: true,
+		abilities: {0: "Guts", 1: "Gluttony", H: "Quick Feet"},
+	},
 	pyroar: {
 		inherit: true,
 		baseStats: {hp: 86, atk: 68, def: 72, spa: 129, spd: 66, spe: 106},
@@ -365,7 +369,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	suicune: {
 		inherit: true,
 		types: ["Water", "Ice"],
-		abilities: {0: "Pressure", 1: "Water Absrob", H: "Snow Warning"},
+		abilities: {0: "Pressure", 1: "Water Absorb", H: "Snow Warning"},
 	},
 	infernape: {
 		inherit: true,
@@ -673,10 +677,6 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		types: ["Ghost", "Fighting"],
 		abilities: {0: "Iron Fist", 1: "Pressure", H: "Frisk"},
 		baseStats: {hp: 55, atk: 100, def: 135, spa: 65, spd: 135, spe: 45},
-	},
-	flygon: {
-		inherit: true,
-		abilities: {0: "Levitate", H: "Sand Force"},
 	},
 	alcremie: {
 		inherit: true,
