@@ -242,9 +242,9 @@ this.modData('Learnsets', 'galvantula').learnset.zapcannon = ['8L1'];
 this.modData('Learnsets', 'galvantula').learnset.nuzzle = ['8L1'];
 this.modData('Learnsets', 'galvantula').learnset.electricterrain = ['8L1'];
 
-this.modData('Learnsets', 'raticate').learnset.electricterrain = ['8L1'];
+this.modData('Learnsets', 'raticate').learnset.honeclaws = ['8L1'];
 
-this.modData('Learnsets', 'raticatealola').learnset.electricterrain = ['8L1'];
+this.modData('Learnsets', 'raticatealola').learnset.honeclaws = ['8L1'];
 
 this.modData('Learnsets', 'dusknoir').learnset.drainpunch = ['8L1'];
 this.modData('Learnsets', 'dusknoir').learnset.closecombat = ['8L1'];
