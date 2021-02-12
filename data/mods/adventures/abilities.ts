@@ -164,7 +164,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	oracle: {
 		name: "Oracle",
 		desc: "Upon switchin, the user uses Future Sight on the opposing side.",
-		shortDesc: "Doom Desire for opposing side on switchin.",
+		shortDesc: "Future Sight for opposing side on switchin.",
 		onStart(pokemon) {
 			this.add('-activate', pokemon, 'ability: Oracle');
 			let success = false;
