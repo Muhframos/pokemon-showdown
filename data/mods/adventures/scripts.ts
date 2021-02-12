@@ -257,6 +257,8 @@ this.modData('Learnsets', 'electivire').learnset.flareblitz = ['8L1'];
 this.modData('Learnsets', 'electivire').learnset.swordsdance = ['8L1'];
 
 this.modData('Learnsets', 'empoleon').learnset.nastyplot = ['8L1'];
+this.modData('Learnsets', 'empoleon').learnset.roost = ['8L1'];
+this.modData('Learnsets', 'empoleon').learnset.mirrorcoat = ['8L1'];
 
 this.modData('Learnsets', 'eldegoss').learnset.spore = ['8L1'];
 this.modData('Learnsets', 'eldegoss').learnset.teleport = ['8L1'];

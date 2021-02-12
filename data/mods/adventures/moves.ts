@@ -271,7 +271,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	bonemerang: {
 		inherit: true,
-		basePower: 65,
+		basePower: 60,
 	},
 	shadowbone: {
 		inherit: true,

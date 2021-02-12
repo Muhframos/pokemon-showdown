@@ -612,7 +612,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	empoleon : {
 		inherit: true,
-		baseStats: {hp: 84, atk: 86, def: 88, spa: 111, spd: 101, spe: 60},
+		baseStats: {hp: 104, atk: 66, def: 88, spa: 111, spd: 101, spe: 60},
 		abilities: {0: "Torrent", 1: "Berserk", H: "Competitive"},
 	},
 	melmetal: {
