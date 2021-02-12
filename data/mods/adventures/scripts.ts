@@ -284,7 +284,6 @@ this.modData('Learnsets', 'flareon').learnset.closecombat = ['8L1'];
 this.modData('Learnsets', 'flareon').learnset.wildcharge = ['8L1'];
 
 this.modData('Learnsets', 'jolteon').learnset.mysticalfire = ['8L1'];
-this.modData('Learnsets', 'jolteon').learnset.tailglow = ['8L1'];
 this.modData('Learnsets', 'jolteon').learnset.bugbuzz = ['8L1'];
 this.modData('Learnsets', 'jolteon').learnset.doublekick = ['8L1'];
 
