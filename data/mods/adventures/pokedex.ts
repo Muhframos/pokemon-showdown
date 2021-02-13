@@ -32,7 +32,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	golduck: {
 		inherit: true,
 		types: ["Water", "Psychic"],
-		baseStats: {hp: 80, atk: 95, def: 80, spa: 95, spd: 80, spe: 105},
+		baseStats: {hp: 100, atk: 122, def: 78, spa: 125, spd: 80, spe: 95},
 		abilities: {0: "Simple", H: "Psychic Surge", 1: "Cloud Nine"},
 	},
 	pangoro: {

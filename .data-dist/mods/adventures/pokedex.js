@@ -32,7 +32,7 @@
 	golduck: {
 		inherit: true,
 		types: ["Water", "Psychic"],
-		baseStats: {hp: 80, atk: 95, def: 80, spa: 95, spd: 80, spe: 105},
+		baseStats: {hp: 100, atk: 122, def: 78, spa: 125, spd: 80, spe: 95},
 		abilities: {0: "Simple", H: "Psychic Surge", 1: "Cloud Nine"},
 	},
 	pangoro: {
@@ -612,7 +612,7 @@
 	},
 	empoleon : {
 		inherit: true,
-		baseStats: {hp: 84, atk: 86, def: 88, spa: 111, spd: 101, spe: 60},
+		baseStats: {hp: 104, atk: 66, def: 88, spa: 111, spd: 101, spe: 60},
 		abilities: {0: "Torrent", 1: "Berserk", H: "Competitive"},
 	},
 	melmetal: {
@@ -627,7 +627,7 @@
 	avalugg: {
 		inherit: true,
 		baseStats: {hp: 95, atk: 137, def: 184, spa: 44, spd: 46, spe: 28},
-		abilities: {0: "Own Tempo", 1: "Unaware", H: "Slush Rush"},
+		abilities: {0: "Sturdy", 1: "Unaware", H: "Slush Rush"},
 	},
 	electivire: {
 		inherit: true,
@@ -729,6 +729,15 @@
 		inherit: true,
 		baseStats: {hp: 72, atk: 135, def: 95, spa: 68, spd: 102, spe: 65},
 		abilities: {0: "Dauntless Shield", 1: "Steadfast", H: "Scrappy"},
+	},
+	ninjask: {
+		inherit: true,
+		baseStats: {hp: 61, atk: 110, def: 60, spa: 65, spd: 65, spe: 160},
+		abilities: {0: "Moxie", 1: "Aerilate", H: "Speed Boost"},
+	},
+	lanturn: {
+		inherit: true,
+		baseStats: {hp: 125, atk: 58, def: 58, spa: 106, spd: 106, spe: 67},
 	},
 	banettemega: {
 		inherit: true,

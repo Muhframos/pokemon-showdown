@@ -271,7 +271,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	},
 	bonemerang: {
 		inherit: true,
-		basePower: 65,
+		basePower: 60,
 	},
 	shadowbone: {
 		inherit: true,
@@ -436,6 +436,23 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 				spe: -1,
 			}
 		}
+	},
+	hammerarm: {
+		inherit: true,
+		self: null,
+		secondary: {
+			chance: 100,
+			boosts: {
+				spe: -1,
+			}
+		}
+	},
+	dragonhammer: {
+		inherit: true,
+		accuracy: 90,
+		basePower: 100,
+		pp: 10,
+		critRatio: 3,
 	},
 	bulletpunch: {
 		inherit: true,

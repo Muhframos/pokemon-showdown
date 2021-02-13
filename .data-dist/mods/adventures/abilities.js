@@ -164,7 +164,7 @@ Ratings and how they work:
 	oracle: {
 		name: "Oracle",
 		desc: "Upon switchin, the user uses Future Sight on the opposing side.",
-		shortDesc: "Doom Desire for opposing side on switchin.",
+		shortDesc: "Future Sight for opposing side on switchin.",
 		onStart(pokemon) {
 			this.add('-activate', pokemon, 'ability: Oracle');
 			let success = false;
@@ -275,34 +275,34 @@ Ratings and how they work:
 	},
 	torrent: {
 		name: "Torrent",
-		desc: "This pokemon's Water-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
+		desc: "This pokemon's Water-type moves are boosted by 1.5 under 100% HP and by 2.0 under 50%.",
 		shortdesc: "User gets boosted Water-type moves on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 3) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Torrent boost');
 				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 3) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Torrent boost');
 				return this.chainModify(1.5);
 			}
 		},
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 2) {
 				this.debug('Torrent boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2.0);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 2) {
 				this.debug('Torrent boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2.0);
 			}
 		},
 		name: "Torrent",
@@ -311,34 +311,34 @@ Ratings and how they work:
 	},
 	overgrow: {
 		name: "Overgrow",
-		desc: "This pokemon's Grass-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
+		desc: "This pokemon's Grass-type moves are boosted by 1.5 under 100% HP and by 2.0 under 50%.",
 		shortdesc: "User gets boosted Grass-type moves on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 3) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Overgrow boost');
 				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 3) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Overgrow boost');
 				return this.chainModify(1.5);
 			}
 		},
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 2) {
 				this.debug('Overgrow boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2.0);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 2) {
 				this.debug('Overgrow boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2.0);
 			}
 		},
 		name: "Overgrow",
@@ -347,34 +347,34 @@ Ratings and how they work:
 	},
 	swarm: {
 		name: "Swarm",
-		desc: "This pokemon's Bug-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
+		desc: "This pokemon's Bug-type moves are boosted by 1.5 under 100% HP and by 2.0 under 50%.",
 		shortdesc: "User gets boosted Bug-type moves on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 3) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Swarm boost');
 				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 3) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Swarm boost');
 				return this.chainModify(1.5);
 			}
 		},
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 2) {
 				this.debug('Swarm boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2.0);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 2) {
 				this.debug('Swarm boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2.0);
 			}
 		},
 		name: "Swarm",

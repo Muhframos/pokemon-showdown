@@ -27,7 +27,7 @@ this.modData('Learnsets', 'golduck').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.nightslash = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.darkpulse = ['8L1'];
-this.modData('Learnsets', 'golduck').learnset.shadowclaw = ['8L1'];
+this.modData('Learnsets', 'golduck').learnset.freezedry = ['8L1'];
 
 this.modData('Learnsets', 'blastoise').learnset.zapcannon = ['8L1'];
 
@@ -257,6 +257,8 @@ this.modData('Learnsets', 'electivire').learnset.flareblitz = ['8L1'];
 this.modData('Learnsets', 'electivire').learnset.swordsdance = ['8L1'];
 
 this.modData('Learnsets', 'empoleon').learnset.nastyplot = ['8L1'];
+this.modData('Learnsets', 'empoleon').learnset.roost = ['8L1'];
+this.modData('Learnsets', 'empoleon').learnset.mirrorcoat = ['8L1'];
 
 this.modData('Learnsets', 'eldegoss').learnset.spore = ['8L1'];
 this.modData('Learnsets', 'eldegoss').learnset.teleport = ['8L1'];
@@ -282,7 +284,6 @@ this.modData('Learnsets', 'flareon').learnset.closecombat = ['8L1'];
 this.modData('Learnsets', 'flareon').learnset.wildcharge = ['8L1'];
 
 this.modData('Learnsets', 'jolteon').learnset.mysticalfire = ['8L1'];
-this.modData('Learnsets', 'jolteon').learnset.tailglow = ['8L1'];
 this.modData('Learnsets', 'jolteon').learnset.bugbuzz = ['8L1'];
 this.modData('Learnsets', 'jolteon').learnset.doublekick = ['8L1'];
 
@@ -302,6 +303,19 @@ this.modData('Learnsets', 'flygon').learnset.fellstinger = ['8L1'];
 this.modData('Learnsets', 'flygon').learnset.leechlife = ['8L1'];
 
 this.modData('Learnsets', 'gardevoir').learnset.quiverdance = ['8L1'];
+
+this.modData('Learnsets', 'kyuremblack').learnset.tailglow = ['8L1'];
+
+this.modData('Learnsets', 'kyuremwhite').learnset.tailglow = ['8L1'];
+
+this.modData('Learnsets', 'reshiram').learnset.tailglow = ['8L1'];
+
+this.modData('Learnsets', 'zekrom').learnset.tailglow = ['8L1'];
+
+this.modData('Learnsets', 'haxorus').learnset.ironhead = ['8L1'];
+this.modData('Learnsets', 'haxorus').learnset.irondefense = ['8L1'];
+this.modData('Learnsets', 'haxorus').learnset.steelroller = ['8L1'];
+this.modData('Learnsets', 'haxorus').learnset.dragonhammer = ['8L1'];
 
 this.modData('Learnsets', 'gengar').learnset.mistyexplosion = ['8L1'];
 this.modData('Learnsets', 'gengar').learnset.mistyterrain = ['8L1'];
@@ -439,6 +453,9 @@ this.modData('Learnsets', 'pinsir').learnset.taunt = ['8L1'];
 
 this.modData('Learnsets', 'raichu').learnset.workup = ['8L1'];
 
+this.modData('Learnsets', 'lanturn').learnset.tailglow = ['8L1'];
+this.modData('Learnsets', 'lanturn').learnset.flipturn = ['8L1'];
+
 this.modData('Learnsets', 'rapidash').learnset.jumpkick = ['8L1'];
 
 this.modData('Learnsets', 'rapidashgalar').learnset.aurorabeam = ['8L1'];
@@ -454,6 +471,7 @@ this.modData('Learnsets', 'sableye').learnset.courtchange = ['8L1'];
 this.modData('Learnsets', 'sceptile').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'sceptile').learnset.junglehealing = ['8L1'];
 this.modData('Learnsets', 'sceptile').learnset.ingrain = ['8L1'];
+this.modData('Learnsets', 'sceptile').learnset.tailglow = ['8L1'];
 
 this.modData('Learnsets', 'sirfetchd').learnset.kingsshield = ['8L1'];
 this.modData('Learnsets', 'sirfetchd').learnset.sacredsword = ['8L1'];
