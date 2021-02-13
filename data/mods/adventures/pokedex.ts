@@ -627,7 +627,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	avalugg: {
 		inherit: true,
 		baseStats: {hp: 95, atk: 137, def: 184, spa: 44, spd: 46, spe: 28},
-		abilities: {0: "Own Tempo", 1: "Unaware", H: "Slush Rush"},
+		abilities: {0: "Sturdy", 1: "Unaware", H: "Slush Rush"},
 	},
 	electivire: {
 		inherit: true,
@@ -729,6 +729,15 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 72, atk: 135, def: 95, spa: 68, spd: 102, spe: 65},
 		abilities: {0: "Dauntless Shield", 1: "Steadfast", H: "Scrappy"},
+	},
+	ninjask: {
+		inherit: true,
+		baseStats: {hp: 61, atk: 110, def: 60, spa: 65, spd: 65, spe: 160},
+		abilities: {0: "Moxie", 1: "Aerilate", H: "Speed Boost"},
+	},
+	lanturn: {
+		inherit: true,
+		baseStats: {hp: 125, atk: 58, def: 58, spa: 106, spd: 106, spe: 67},
 	},
 	banettemega: {
 		inherit: true,

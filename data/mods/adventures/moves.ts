@@ -437,6 +437,23 @@ export const Moves: {[moveid: string]: MoveData} = {
 			}
 		}
 	},
+	hammerarm: {
+		inherit: true,
+		self: null,
+		secondary: {
+			chance: 100,
+			boosts: {
+				spe: -1,
+			}
+		}
+	},
+	dragonhammer: {
+		inherit: true,
+		accuracy: 90,
+		basePower: 100,
+		pp: 10,
+		critRatio: 3,
+	},
 	bulletpunch: {
 		inherit: true,
 		flags: {contact: 1, protect: 1, mirror: 1, bullet: 1, punch: 1},
