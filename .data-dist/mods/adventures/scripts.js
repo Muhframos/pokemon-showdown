@@ -359,6 +359,13 @@ this.modData('Learnsets', 'honchkrow').learnset.eeriespell = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.workup = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.knockoff = ['8L1'];
 
+this.modData('Learnsets', 'bellossom').learnset.powergem = ['8L1'];
+this.modData('Learnsets', 'bellossom').learnset.weatherball = ['8L1'];
+this.modData('Learnsets', 'bellossom').learnset.fierydance = ['8L1'];
+this.modData('Learnsets', 'bellossom').learnset.flamethrower = ['8L1'];
+this.modData('Learnsets', 'bellossom').learnset.fireblast = ['8L1'];
+this.modData('Learnsets', 'bellossom').learnset.overheat = ['8L1'];
+
 this.modData('Learnsets', 'hoopa').learnset.meteorbeam = ['8L1'];
 this.modData('Learnsets', 'hoopa').learnset.meteorassault = ['8L1'];
 this.modData('Learnsets', 'hoopa').learnset.meteormash = ['8L1'];

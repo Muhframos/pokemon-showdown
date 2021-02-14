@@ -200,6 +200,27 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Dragon",
 		contestType: "Cool",
 	},
+	toxicthread: {
+		num: 672,
+		accuracy: 100,
+		basePower: 0,
+		category: "Status",
+		isNonstandard: "Past",
+		name: "Toxic Thread",
+		pp: 5,
+		priority: 0,
+		flags: {protect: 1, reflectable: 1, mirror: 1},
+		status: 'tox',
+		onHit(target, source, move) {
+			return target.addVolatile('trapped', source, move, 'trapper');
+		},
+		boosts: null,
+		secondary: null,
+		target: "normal",
+		type: "Poison",
+		zMove: {boost: {spe: 1}},
+		contestType: "Tough",
+	},
 	dizzypunch: {
 		inherit: true,
 		accuracy: 85,
@@ -265,7 +286,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		type: "Rock",
 	},
-	xcissor: {
+	xscissor: {
 		inherit: true,
 		critRatio: 3,
 	},

@@ -124,9 +124,25 @@
 		baseStats: {hp: 85, atk: 90, def: 60, spa: 85, spd: 85, spe: 115},
 		abilities: {0: "Super Luck", 1: "Technician", H: "Tough Claws"},
 	},
+	ludicolo: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 70, def: 70, spa: 100, spd: 120, spe: 90},
+		abilities: {0: "Swift Swim", 1: "Rain Dish", H: "Dancer"},
+	},
+	ariados: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 100, def: 115, spa: 65, spd: 75, spe: 90},
+		abilities: {0: "Insomnia", 1: "Compound Eyes", H: "Sniper"},
+	},
+	bellossom: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 5, def: 30, spa: 100, spd: 100, spe: 110},
+		abilities: {0: "Chlorophyll", 1: "Natural Cure", H: "Dancer"},
+	},
 	hitmontop: {
 		inherit: true,
 		baseStats: {hp: 65, atk: 115, def: 105, spa: 55, spd: 110, spe: 70},
+		abilities: {0: "Intimidate", 1: "Technician", H: "Dancer"},
 	},
 	hitmonlee: {
 		inherit: true,
@@ -690,6 +706,10 @@
 		inherit: true,
 		abilities: {0: "Neutralizing Gas", 1: "Tinted Lens", H: "Pressure"},
 		baseStats: {hp: 55, atk: 112, def: 128, spa: 112, spd: 128, spe: 5},
+	},
+	archeops: {
+		inherit: true,
+		abilities: {0: "Reckless"},
 	},
 	rotom: {
 		inherit: true,
