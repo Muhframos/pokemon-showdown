@@ -134,6 +134,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 75, atk: 100, def: 115, spa: 65, spd: 75, spe: 90},
 		abilities: {0: "Insomnia", 1: "Compound Eyes", H: "Sniper"},
 	},
+	bellossom: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 5, def: 30, spa: 100, spd: 100, spe: 110},
+		abilities: {0: "Chlorophyll", 1: "Natural Cure", H: "Dancer"},
+	},
 	hitmontop: {
 		inherit: true,
 		baseStats: {hp: 65, atk: 115, def: 105, spa: 55, spd: 110, spe: 70},
