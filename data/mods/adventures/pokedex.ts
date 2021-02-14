@@ -138,6 +138,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 75, atk: 5, def: 30, spa: 100, spd: 100, spe: 110},
 		abilities: {0: "Chlorophyll", 1: "Natural Cure", H: "Dancer"},
+		types: ["Grass", "Fire"],
 	},
 	hitmontop: {
 		inherit: true,

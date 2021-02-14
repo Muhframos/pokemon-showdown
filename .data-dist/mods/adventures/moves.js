@@ -286,7 +286,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		inherit: true,
 		type: "Rock",
 	},
-	xcissor: {
+	xscissor: {
 		inherit: true,
 		critRatio: 3,
 	},

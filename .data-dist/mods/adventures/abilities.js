@@ -243,16 +243,16 @@ Ratings and how they work:
 		shortdesc: "User gets boosted Fire-type moves on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 3) {
+			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Blaze boost');
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 3) {
+			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Blaze boost');
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		onModifyAtkPriority: 5,
@@ -281,28 +281,28 @@ Ratings and how they work:
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Torrent boost');
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Torrent boost');
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 2) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Torrent boost');
-				return this.chainModify(2.0);
+				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 2) {
+			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Torrent boost');
-				return this.chainModify(2.0);
+				return this.chainModify(1.5);
 			}
 		},
 		name: "Torrent",
@@ -317,28 +317,28 @@ Ratings and how they work:
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Overgrow boost');
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Overgrow boost');
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 2) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Overgrow boost');
-				return this.chainModify(2.0);
+				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 2) {
+			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Overgrow boost');
-				return this.chainModify(2.0);
+				return this.chainModify(1.5);
 			}
 		},
 		name: "Overgrow",
@@ -353,28 +353,28 @@ Ratings and how they work:
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Swarm boost');
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 1) {
 				this.debug('Swarm boost');
-				return this.chainModify(1.5);
+				return this.chainModify(1.25);
 			}
 		},
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
-			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 2) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Swarm boost');
-				return this.chainModify(2.0);
+				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
-			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 2) {
+			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Swarm boost');
-				return this.chainModify(2.0);
+				return this.chainModify(1.5);
 			}
 		},
 		name: "Swarm",

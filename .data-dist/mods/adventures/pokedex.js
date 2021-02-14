@@ -633,7 +633,7 @@
 	},
 	melmetal: {
 		inherit: true,
-		abilities: {0: "Motor Drive"},
+		abilities: {0: "Motor Drive", 1: "Iron Fist"},
 	},
 	cryogonal: {
 		inherit: true,

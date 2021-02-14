@@ -152,8 +152,6 @@ this.modData('Learnsets', 'banette').learnset.poltergeist = ['8L1'];
 
 this.modData('Learnsets', 'aggron').learnset.shiftgear = ['8L1'];
 
-this.modData('Learnsets', 'melmetal').learnset.shiftgear = ['8L1'];
-
 this.modData('Learnsets', 'audino').learnset.milkdrink = ['8L1'];
 this.modData('Learnsets', 'audino').learnset.charm = ['8L1'];
 this.modData('Learnsets', 'audino').learnset.lovelykiss = ['8L1'];
