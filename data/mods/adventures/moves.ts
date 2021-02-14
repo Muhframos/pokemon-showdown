@@ -197,7 +197,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 				volatileStatus: 'flinch',
 			},
 		target: "normal",
-		type: "Ice",
+		type: "Dragon",
 		contestType: "Cool",
 	},
 	dizzypunch: {

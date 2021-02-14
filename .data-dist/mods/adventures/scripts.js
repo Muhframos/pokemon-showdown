@@ -362,7 +362,7 @@ this.modData('Learnsets', 'honchkrow').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'hoopa').learnset.meteorbeam = ['8L1'];
 this.modData('Learnsets', 'hoopa').learnset.meteorassault = ['8L1'];
 this.modData('Learnsets', 'hoopa').learnset.meteormash = ['8L1'];
-this.modData('Learnsets', 'hoopa').learnset.meteorbeam = ['8L1'];
+this.modData('Learnsets', 'hoopa').learnset.pursuit = ['8L1'];
 this.modData('Learnsets', 'hoopa').learnset.swordsdance = ['8L1'];
 this.modData('Learnsets', 'hoopa').learnset.armthrust = ['8L1'];
 
