@@ -166,6 +166,11 @@ this.modData('Learnsets', 'aurorus').learnset.mistyterrain = ['8L1'];
 this.modData('Learnsets', 'avalugg').learnset.iciclecrash = ['8L1'];
 this.modData('Learnsets', 'avalugg').learnset.liquidation = ['8L1'];
 
+this.modData('Learnsets', 'entei').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'entei').learnset.solarblade = ['8L1'];
+this.modData('Learnsets', 'entei').learnset.wildcharge = ['8L1'];
+this.modData('Learnsets', 'entei').learnset.swordsdance = ['8L1'];
+
 this.modData('Learnsets', 'blaziken').learnset.thunderouskick = ['8L1'];
 this.modData('Learnsets', 'blaziken').learnset.wildcharge = ['8L1'];
 

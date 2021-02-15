@@ -138,6 +138,7 @@
 		inherit: true,
 		baseStats: {hp: 75, atk: 5, def: 30, spa: 100, spd: 100, spe: 110},
 		abilities: {0: "Chlorophyll", 1: "Natural Cure", H: "Dancer"},
+		types: ["Grass", "Fire"],
 	},
 	hitmontop: {
 		inherit: true,
@@ -681,7 +682,7 @@
 	},
 	frosmoth: {
 		inherit: true,
-		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Scales"},
+		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Body"},
 		baseStats: {hp: 85, atk: 60, def: 65, spa: 135, spd: 105, spe: 100},
 	},
 	volcarona: {

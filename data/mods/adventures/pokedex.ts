@@ -682,7 +682,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	frosmoth: {
 		inherit: true,
-		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Scales"},
+		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Body"},
 		baseStats: {hp: 85, atk: 60, def: 65, spa: 135, spd: 105, spe: 100},
 	},
 	volcarona: {
