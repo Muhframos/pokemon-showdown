@@ -1462,3 +1462,20 @@ Additional information:
   log = 
 |t:|1612981859
 
+
+ReferenceError: pokemon is not defined
+    at ModdedDex.init (C:\Users\Ben\Desktop\pokemon-showdown\.data-dist\mods\adventures\scripts.js:592:3)
+    at ModdedDex.loadData (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:1473:34)
+    at ModdedDex.includeData (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:1390:8)
+    at ModdedDex.forFormat (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:194:33)
+    at new TeamValidator (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:197:18)
+    at Function.get (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  formatid = gen8adventuresag
+  team = Bruxish||lifeorb|wonderskin|psychicfangs,waterfall,crunch,icefang|Adamant|,252,,,4,252|||||]Bruxish||choiceband|wonderskin|psychicfangs,waterfall,crunch,icefang|Adamant|,252,,,4,252|||||]Bruxish||laggingtail|wonderskin|psychicfangs,waterfall,crunch,icefang|Adamant|,252,,,4,252|||||]Bruxish||assaultvest|wonderskin|psychicfangs,waterfall,crunch,icefang|Adamant|,252,,,4,252|||||]Bruxish||weaknesspolicy|wonderskin|psychicfangs,waterfall,crunch,icefang|Adamant|,252,,,4,252|||||]Bruxish||choicescarf|wonderskin|psychicfangs,waterfall,crunch,icefang|Adamant|,252,,,4,252|||||
+

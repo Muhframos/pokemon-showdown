@@ -172,6 +172,11 @@ this.modData('Learnsets', 'kabutops').learnset.accelerock = ['8L1'];
 this.modData('Learnsets', 'qwilfish').learnset.spikecannon = ['8L1'];
 this.modData('Learnsets', 'qwilfish').learnset.gunkshot = ['8L1'];
 
+this.modData('Learnsets', 'malamar').learnset.octolock = ['8L1'];
+this.modData('Learnsets', 'malamar').learnset.beatup = ['8L1'];
+this.modData('Learnsets', 'malamar').learnset.trick = ['8L1'];
+this.modData('Learnsets', 'malamar').learnset.guardsplit = ['8L1'];
+
 this.modData('Learnsets', 'weezing').learnset.gunkshot = ['8L1'];
 this.modData('Learnsets', 'weezing').learnset.gastroacid = ['8L1'];
 this.modData('Learnsets', 'weezing').learnset.acidarmor = ['8L1'];
@@ -179,6 +184,13 @@ this.modData('Learnsets', 'weezing').learnset.acidarmor = ['8L1'];
 this.modData('Learnsets', 'weezinggalar').learnset.gunkshot = ['8L1'];
 this.modData('Learnsets', 'weezinggalar').learnset.gastroacid = ['8L1'];
 this.modData('Learnsets', 'weezinggalar').learnset.acidarmor = ['8L1'];
+
+this.modData('Learnsets', 'oricorio').learnset.dualchop = ['8L1'];
+this.modData('Learnsets', 'oricorio').learnset.dragondance = ['8L1'];
+this.modData('Learnsets', 'oricorio').learnset.quiverdance = ['8L1'];
+this.modData('Learnsets', 'oricorio').learnset.fierydance = ['8L1'];
+this.modData('Learnsets', 'oricorio').learnset.lunardance = ['8L1'];
+this.modData('Learnsets', 'oricorio').learnset.petaldance = ['8L1'];
 
 this.modData('Learnsets', 'entei').learnset.closecombat = ['8L1'];
 this.modData('Learnsets', 'entei').learnset.solarblade = ['8L1'];
@@ -576,7 +588,6 @@ this.modData('Learnsets', 'zarude').learnset.woodhammer = ['8L1'];
 //havent figured it out yet--
 
 //REMOVE MOVES END-
-
 
 
 		// Give Frustration, Return and Toxic to all gen 8 - Credit goes to Heat Enteis

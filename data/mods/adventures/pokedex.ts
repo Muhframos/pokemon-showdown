@@ -29,6 +29,30 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 223, atk: 127, def: 71, spa: 47, spd: 61, spe: 41},
 	},
+	oricorio: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
+	},
+	bruxish: {
+		inherit: true,
+		baseStats: {hp: 88, atk: 135, def: 70, spa: 70, spd: 70, spe: 92},
+	},
+	malamar: {
+		inherit: true,
+		baseStats: {hp: 96, atk: 102, def: 98, spa: 68, spd: 85, spe: 83},
+	},
+	seaking: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 122, def: 65, spa: 105, spd: 80, spe: 78},
+	},
+	basculin: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 152, def: 65, spa: 80, spd: 55, spe: 98},
+	},
+	barraskewda: {
+		inherit: true,
+		baseStats: {hp: 61, atk: 123, def: 60, spa: 90, spd: 50, spe: 136},
+	},
 	kabutops: {
 		inherit: true,
 		baseStats: {hp: 75, atk: 115, def: 115, spa: 65, spd: 70, spe: 80},

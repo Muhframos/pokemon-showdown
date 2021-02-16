@@ -307,6 +307,16 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		basePower: 100
 	},
+	revelationdance: {
+		inherit: true,
+		basePower: 120,
+		category: "Physical",
+		self: {
+		onModifyMove(move, pokemon) {
+			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
+			},
+		},
+	},
 	focusenergy: {
 		inherit: true,
 		volatileStatus: 'focusenergy',

@@ -250,8 +250,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	blaze: {
 		name: "Blaze",
-		desc: "This pokemon's Fire-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
-		shortdesc: "User gets boosted Fire-type moves on low HP.",
+		desc: "This pokemon's Fire-type moves are boosted by 25%, but 50% under 25% HP.",
+		shortdesc: "User gets boosted Fire-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 1) {
@@ -286,8 +286,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	torrent: {
 		name: "Torrent",
-		desc: "This pokemon's Water-type moves are boosted by 1.5 under 100% HP and by 2.0 under 50%.",
-		shortdesc: "User gets boosted Water-type moves on low HP.",
+		desc: "This pokemon's Water-type moves are boosted by 25%, but 50% under 25% HP.",
+		shortdesc: "User gets boosted Water-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 1) {
@@ -322,8 +322,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	overgrow: {
 		name: "Overgrow",
-		desc: "This pokemon's Grass-type moves are boosted by 1.5 under 100% HP and by 2.0 under 50%.",
-		shortdesc: "User gets boosted Grass-type moves on low HP.",
+		desc: "This pokemon's Grass-type moves are boosted by 25%, but 50% under 25% HP.",
+		shortdesc: "User gets boosted Grass-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 1) {
@@ -358,8 +358,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	swarm: {
 		name: "Swarm",
-		desc: "This pokemon's Bug-type moves are boosted by 1.5 under 100% HP and by 2.0 under 50%.",
-		shortdesc: "User gets boosted Bug-type moves on low HP.",
+		desc: "This pokemon's Bug-type moves are boosted by 25%, but 50% under 25% HP.",
+		shortdesc: "User gets boosted Bug-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 1) {
@@ -391,6 +391,49 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Swarm",
 		rating: 2,
 		num: 66,
+	},
+	wonderskin: {
+		onModifyAtkPriority: 5,
+		onModifyAtk(atk, pokemon) {
+			if (pokemon.status === 'brn') {
+				return this.chainModify(1.5);
+			}
+		},
+		onModifySpe(spe, pokemon) {
+			if (pokemon.status === 'par') {
+				return this.chainModify(1.5);
+			}
+		},
+		onDamagePriority: 1,
+		onDamage(damage, target, source, effect) {
+			if (effect.id === 'psn' || effect.id === 'tox') {
+				this.heal(target.baseMaxhp / 8);
+				return false;
+			}
+		},
+		onFlinch(pokemon) {
+			this.boost({spe: 1});
+		},
+		onUpdate(pokemon) {
+			if (pokemon.status === 'frz') {
+				this.add('-activate', pokemon, 'ability: Wonder Skin');
+				pokemon.cureStatus();
+			}
+		},
+		onImmunity(type, pokemon) {
+			if (type === 'frz') return false;
+		},
+		onModifyAccuracyPriority: -1,
+		onModifyAccuracy(accuracy, target) {
+			if (typeof accuracy !== 'number') return;
+			if (target?.volatiles['confusion']) {
+				this.debug('Wonder Skin - decreasing accuracy');
+				return this.chainModify(0.5);
+			}
+		},
+		name: "Wonder Skin",
+		rating: 2,
+		num: 147,
 	},
 	sniper: {
 		name: "Sniper",
