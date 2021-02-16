@@ -435,6 +435,33 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 2,
 		num: 147,
 	},
+	lightningrod: {
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Electric') {
+				if (!this.boost({spa: 1})) {
+					this.add('-immune', target, '[from] ability: Lightning Rod');
+				}
+				if (!this.boost({atk: 1})) {
+					this.add('-immune', target, '[from] ability: Lightning Rod');
+				}
+				return null;
+			}
+		},
+		onAnyRedirectTarget(target, source, source2, move) {
+			if (move.type !== 'Electric' || ['firepledge', 'grasspledge', 'waterpledge'].includes(move.id)) return;
+			const redirectTarget = ['randomNormal', 'adjacentFoe'].includes(move.target) ? 'normal' : move.target;
+			if (this.validTarget(this.effectData.target, source, redirectTarget)) {
+				if (move.smartTarget) move.smartTarget = false;
+				if (this.effectData.target !== target) {
+					this.add('-activate', this.effectData.target, 'ability: Lightning Rod');
+				}
+				return this.effectData.target;
+			}
+		},
+		name: "Lightning Rod",
+		rating: 3,
+		num: 31,
+	},
 	sniper: {
 		name: "Sniper",
 		desc: "If this Pokemon strikes with a critical hit, the damage is multiplied by 1.25.",
