@@ -61,13 +61,18 @@ export const Formats: FormatList = [
 		section: "Axis League Dex",
 	},
 	{
-		name: "[Gen 8] Axis League Elite 4",
+		name: "[Gen 8] Axis League Anything Goes",
+		mod: 'torchic',
+		ruleset: ['Standard NatDex', 'Dynamax Clause'],
+	},
+	{
+		name: "[Gen 8] Axis League Elite 4 (Ubers)",
 		mod: 'torchic',
 		ruleset: ['Standard NatDex', 'Dynamax Clause'],
 		banlist: [ 'AG', 'Baton Pass'],
 	},
 	{
-		name: "[Gen 8] Axis League Gyms",
+		name: "[Gen 8] Axis League Gyms (OU)",
 		mod: 'torchic',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
