@@ -29,6 +29,25 @@
 		inherit: true,
 		baseStats: {hp: 223, atk: 127, def: 71, spa: 47, spd: 61, spe: 41},
 	},
+	kabutops: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 115, def: 115, spa: 65, spd: 70, spe: 80},
+		abilities: {0: "Swift Swim", H: "Adaptability", 1: "Weak Armor"},
+	},
+	weezing: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 90, def: 120, spa: 115, spd: 70, spe: 60},
+		abilities: {0: "Aftermath", H: "Levitate", 1: "Neutralizing Gas"},
+	},
+	weezinggalar: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 90, def: 120, spa: 115, spd: 70, spe: 60},
+	},
+	qwilfish: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 115, def: 100, spa: 55, spd: 75, spe: 85},
+		abilities: {0: "Aftermath", H: "Intimidate", 1: "Technician"},
+	},
 	golduck: {
 		inherit: true,
 		types: ["Water", "Psychic"],

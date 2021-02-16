@@ -166,6 +166,20 @@ this.modData('Learnsets', 'aurorus').learnset.mistyterrain = ['8L1'];
 this.modData('Learnsets', 'avalugg').learnset.iciclecrash = ['8L1'];
 this.modData('Learnsets', 'avalugg').learnset.liquidation = ['8L1'];
 
+this.modData('Learnsets', 'kabutops').learnset.earthquake = ['8L1'];
+this.modData('Learnsets', 'kabutops').learnset.accelerock = ['8L1'];
+
+this.modData('Learnsets', 'qwilfish').learnset.spikecannon = ['8L1'];
+this.modData('Learnsets', 'qwilfish').learnset.gunkshot = ['8L1'];
+
+this.modData('Learnsets', 'weezing').learnset.gunkshot = ['8L1'];
+this.modData('Learnsets', 'weezing').learnset.gastroacid = ['8L1'];
+this.modData('Learnsets', 'weezing').learnset.acidarmor = ['8L1'];
+
+this.modData('Learnsets', 'weezinggalar').learnset.gunkshot = ['8L1'];
+this.modData('Learnsets', 'weezinggalar').learnset.gastroacid = ['8L1'];
+this.modData('Learnsets', 'weezinggalar').learnset.acidarmor = ['8L1'];
+
 this.modData('Learnsets', 'entei').learnset.closecombat = ['8L1'];
 this.modData('Learnsets', 'entei').learnset.solarblade = ['8L1'];
 this.modData('Learnsets', 'entei').learnset.wildcharge = ['8L1'];

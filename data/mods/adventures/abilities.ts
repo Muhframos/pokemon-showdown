@@ -237,6 +237,17 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 2,
 		num: 73,
 	},
+	aftermath: {
+		name: "Aftermath",
+		onDamagingHitOrder: 1,
+		onDamagingHit(damage, target, source, move) {
+			if (!target.hp) {
+				this.damage(target.getUndynamaxedHP(damage), source, target);
+			}
+		},
+		rating: 2.5,
+		num: 106,
+	},
 	blaze: {
 		name: "Blaze",
 		desc: "This pokemon's Fire-type moves are boosted by 1.5 under 50% HP and by 2.0 under 25%.",
