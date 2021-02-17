@@ -237,6 +237,24 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 2,
 		num: 73,
 	},
+	clearbody: {
+		onBoost(boost, target, source, effect) {
+			let showMsg = false;
+			let i: BoostName;
+			for (i in boost) {
+				if (boost[i]! < 0) {
+					delete boost[i];
+					showMsg = true;
+				}
+			}
+			if (showMsg && !(effect as ActiveMove).secondaries && effect.id !== 'octolock') {
+				this.add("-fail", target, "unboost", "[from] ability: Clear Body", "[of] " + target);
+			}
+		},
+		name: "Clear Body",
+		rating: 2,
+		num: 29,
+	},
 	aftermath: {
 		name: "Aftermath",
 		onDamagingHitOrder: 1,
@@ -250,7 +268,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	blaze: {
 		name: "Blaze",
-		desc: "This pokemon's Fire-type moves are boosted by 25%, but 50% under 25% HP.",
+		desc: "This pokemon's Fire-type moves are boosted by 25%, but 100% under 25% HP.",
 		shortdesc: "User gets boosted Fire-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
@@ -270,14 +288,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Blaze boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Blaze boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2);
 			}
 		},
 		name: "Blaze",
@@ -286,7 +304,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	torrent: {
 		name: "Torrent",
-		desc: "This pokemon's Water-type moves are boosted by 25%, but 50% under 25% HP.",
+		desc: "This pokemon's Water-type moves are boosted by 25%, but 100% under 25% HP.",
 		shortdesc: "User gets boosted Water-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
@@ -306,14 +324,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Torrent boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Torrent boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2);
 			}
 		},
 		name: "Torrent",
@@ -322,7 +340,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	overgrow: {
 		name: "Overgrow",
-		desc: "This pokemon's Grass-type moves are boosted by 25%, but 50% under 25% HP.",
+		desc: "This pokemon's Grass-type moves are boosted by 25%, but 100% under 25% HP.",
 		shortdesc: "User gets boosted Grass-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
@@ -342,14 +360,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Overgrow boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Overgrow boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2);
 			}
 		},
 		name: "Overgrow",
@@ -358,7 +376,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	swarm: {
 		name: "Swarm",
-		desc: "This pokemon's Bug-type moves are boosted by 25%, but 50% under 25% HP.",
+		desc: "This pokemon's Bug-type moves are boosted by 25%, but 100% under 25% HP.",
 		shortdesc: "User gets boosted Bug-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
@@ -378,14 +396,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Swarm boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Swarm boost');
-				return this.chainModify(1.5);
+				return this.chainModify(2);
 			}
 		},
 		name: "Swarm",

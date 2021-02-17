@@ -394,6 +394,10 @@
 		inherit: true,
 		baseStats: {hp: 255, atk: 10, def: 10, spa: 75, spd: 135, spe: 55},
 	},
+	scrafty: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 100, def: 115, spa: 45, spd: 115, spe: 58},
+	},
 	marowak: {
 		inherit: true,
 		baseStats: {hp: 75, atk: 110, def: 110, spa: 80, spd: 80, spe: 70},
@@ -415,8 +419,7 @@
 	},
 	sceptilemega: {
 		inherit: true,
-		baseStats: {hp: 70, atk: 110, def: 75, spa: 145, spd: 85, spe: 120},
-		abilities: {0: "No Guard"},
+		baseStats: {hp: 70, atk: 110, def: 75, spa: 145, spd: 85, spe: 145},
 	},
 	raikou: {
 		inherit: true,
@@ -513,6 +516,25 @@
 		types: ["Fairy", "Psychic"],
 		baseStats: {hp: 120, atk: 70, def: 120, spa: 100, spd: 120, spe: 70},
 	},
+	barbaracle: {
+		inherit: true,
+		baseStats: {hp: 72, atk: 105, def: 120, spa: 54, spd: 116, spe: 68},
+		abilities: {0: "Tough Claws", 1: "Sniper", H: "Sap Sipper"},
+	},
+	crawdaunt: {
+		inherit: true,
+		baseStats: {hp: 68, atk: 120, def: 90, spa: 75, spd: 75, spe: 75},
+	},
+	exeggutor: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 95, def: 85, spa: 125, spd: 75, spe: 55},
+		abilities: {0: "Chlorophyll", 1: "Psychic Surge", H: "Harvest"},
+	},
+	exeggutoralola: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 125, def: 85, spa: 105, spd: 75, spe: 45},
+		abilities: {0: "Limber", 1: "Long Reach", H: "Harvest"},
+	},
 	crustle: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 125, def: 125, spa: 65, spd: 75, spe: 65},
@@ -528,11 +550,11 @@
 	},
 	drednaw: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 155, def: 90, spa: 48, spd: 68, spe: 74},
+		baseStats: {hp: 90, atk: 145, def: 110, spa: 48, spd: 68, spe: 74},
 	},
 	carracosta: {
 		inherit: true,
-		baseStats: {hp: 84, atk: 108, def: 133, spa: 73, spd: 65, spe: 32},
+		baseStats: {hp: 84, atk: 73, def: 65, spa: 138, spd: 133, spe: 32},
 		abilities: {0: "Solid Rock", 1: "Sturdy", H: "Drizzle"},
 	},
 	turtonator: {

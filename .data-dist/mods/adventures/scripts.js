@@ -37,7 +37,21 @@ this.modData('Learnsets', 'pangoro').learnset.heavyslam = ['8L1'];
 this.modData('Learnsets', 'pangoro').learnset.meteormash = ['8L1'];
 this.modData('Learnsets', 'pangoro').learnset.dynamicpunch = ['8L1'];
 
-this.modData('Learnsets', 'regigigas').learnset.lastresort = ['8L1'];
+this.modData('Learnsets', 'scrafty').learnset.suckerpunch = ['8L1'];
+
+this.modData('Learnsets', 'drednaw').learnset.shellsmash = ['8L1'];
+
+this.modData('Learnsets', 'exeggutor').learnset.shellsmash = ['8L1'];
+
+this.modData('Learnsets', 'barbaracle').learnset.flipturn = ['8L1'];
+
+this.modData('Learnsets', 'exeggutoralola').learnset.shellsmash = ['8L1'];
+this.modData('Learnsets', 'exeggutoralola').learnset.headsmash = ['8L1'];
+this.modData('Learnsets', 'exeggutoralola').learnset.headcharge = ['8L1'];
+
+this.modData('Learnsets', 'carracosta').learnset.powergem = ['8L1'];
+this.modData('Learnsets', 'carracosta').learnset.flipturn = ['8L1'];
+
 this.modData('Learnsets', 'regigigas').learnset.conversion = ['8L1'];
 this.modData('Learnsets', 'regigigas').learnset.meteormash = ['8L1'];
 this.modData('Learnsets', 'regigigas').learnset.doubleedge = ['8L1'];
