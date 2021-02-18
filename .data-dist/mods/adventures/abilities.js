@@ -242,7 +242,7 @@ Ratings and how they work:
 						this.dex.getImmunity(moveType, pokemon) && this.dex.getEffectiveness(moveType, pokemon) > 0 ||
 						move.ohko
 					) {
-						this.add('-ability', pokemon, 'Wonder Guard');
+						this.add('-ability', pokemon, 'Anticipation');
 						return;
 					}
 				}
