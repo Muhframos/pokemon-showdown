@@ -527,6 +527,7 @@ this.modData('Learnsets', 'jynx').learnset.freezedry = ['8L1'];
 this.modData('Learnsets', 'jynx').learnset.memento = ['8L1'];
 
 this.modData('Learnsets', 'gigalith').learnset.rollout = ['8L1'];
+this.modData('Learnsets', 'gigalith').learnset.defensecurl = ['8L1'];
 
 this.modData('Learnsets', 'eelektross').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'eelektross').learnset.scald = ['8L1'];
