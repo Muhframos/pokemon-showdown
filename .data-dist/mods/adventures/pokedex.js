@@ -471,7 +471,7 @@
 	charizard: {
 		inherit: true,
 		types: ["Fire", "Dragon"],
-		abilities: {0: "Levitate"},
+		abilities: {0: "Blaze", 1: "Levitate"},
 	},
 	charizardmegay: {
 		inherit: true,
