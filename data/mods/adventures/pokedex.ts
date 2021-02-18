@@ -205,10 +205,40 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 70, atk: 140, def: 200, spa: 60, spd: 80, spe: 80},
 	},
+	eelektross: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 120, def: 95, spa: 120, spd: 95, spe: 50},
+	},
+	swoobat: {
+		inherit: true,
+		baseStats: {hp: 67, atk: 97, def: 55, spa: 97, spd: 95, spe: 114},
+	},
+	jynx: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 50, def: 35, spa: 165, spd: 35, spe: 115},
+	},
+	walrein: {
+		inherit: true,
+		baseStats: {hp: 110, atk: 130, def: 100, spa: 55, spd: 110, spe: 30},
+	},
 	krookodile: {
 		inherit: true,
 		baseStats: {hp: 105, atk: 117, def: 80, spa: 65, spd: 70, spe: 92},
 		abilities: {0: "Intimidate", 1: "Moxie", H: "Sniper"},
+	},
+	gigalith: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 135, def: 135, spa: 15, spd: 135, spe: 15},
+		abilities: {0: "Sturdy", 1: "Lightning Rod", H: "Sand Force"},
+	},
+	armaldo: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 125, def: 100, spa: 70, spd: 80, spe: 75},
+		abilities: {0: "Battle Armor", 1: "Technician", H: "Swift Swim"},
+	},
+	shedinja: {
+		inherit: true,
+		baseStats: {hp: 1, atk: 100, def: 100, spa: 145, spd: 145, spe: 45},
 	},
 	sableye: {
 		inherit: true,

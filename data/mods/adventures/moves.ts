@@ -307,6 +307,10 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		basePower: 100
 	},
+	paraboliccharge: {
+		inherit: true,
+		basePower: 75
+	},
 	revelationdance: {
 		inherit: true,
 		basePower: 120,
@@ -434,6 +438,10 @@ export const Moves: {[moveid: string]: MoveData} = {
 		basePower: 80,
 	},
 	airslash: {
+		inherit: true,
+		accuracy: 100,
+	},
+	sacredfire: {
 		inherit: true,
 		accuracy: 100,
 	},

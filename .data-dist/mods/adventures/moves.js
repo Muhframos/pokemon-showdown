@@ -307,6 +307,10 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		inherit: true,
 		basePower: 100
 	},
+	paraboliccharge: {
+		inherit: true,
+		basePower: 75
+	},
 	revelationdance: {
 		inherit: true,
 		basePower: 120,
@@ -434,6 +438,10 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePower: 80,
 	},
 	airslash: {
+		inherit: true,
+		accuracy: 100,
+	},
+	sacredfire: {
 		inherit: true,
 		accuracy: 100,
 	},
