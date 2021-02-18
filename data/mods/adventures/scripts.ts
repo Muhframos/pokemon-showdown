@@ -526,6 +526,8 @@ this.modData('Learnsets', 'jynx').learnset.mirrorcoat = ['8L1'];
 this.modData('Learnsets', 'jynx').learnset.freezedry = ['8L1'];
 this.modData('Learnsets', 'jynx').learnset.memento = ['8L1'];
 
+this.modData('Learnsets', 'charizard').learnset.solarblade = ['8L1'];
+
 this.modData('Learnsets', 'gigalith').learnset.rollout = ['8L1'];
 this.modData('Learnsets', 'gigalith').learnset.defensecurl = ['8L1'];
 
@@ -590,6 +592,7 @@ this.modData('Learnsets', 'torterra').learnset.shoreup = ['8L1'];
 this.modData('Learnsets', 'torterra').learnset.hornleech = ['8L1'];
 this.modData('Learnsets', 'torterra').learnset.gravity = ['8L1'];
 this.modData('Learnsets', 'torterra').learnset.gravapple = ['8L1'];
+this.modData('Learnsets', 'torterra').learnset.solarblade = ['8L1'];
 
 this.modData('Learnsets', 'turtonator').learnset.earthpower = ['8L1'];
 
