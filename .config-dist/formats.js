@@ -22,6 +22,22 @@ The column value will be ignored for repeat sections.
 		section: "Adventures Dex",
 	},
 	{
+		name: "[Gen 8] Adventures Custom Game",
+
+		mod: 'adventures',
+		searchShow: false,
+		debug: true,
+		maxLevel: 9999,
+		battle: {trunc: Math.trunc},
+		defaultLevel: 100,
+		teamLength: {
+			validate: [1, 24],
+			battle: 24,
+		},
+		// no restrictions, for serious (other than team preview)
+		ruleset: ['Team Preview', 'Cancel Mod'],
+	},
+	{
 		name: "[Gen 8] Adventures AG",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'Dynamax Clause'],
@@ -59,6 +75,22 @@ The column value will be ignored for repeat sections.
 	//Axis League
 	{
 		section: "Axis League Dex",
+	},
+	{
+		name: "[Gen 8] Axis League Custom Game",
+
+		mod: 'torchic',
+		searchShow: false,
+		debug: true,
+		maxLevel: 9999,
+		battle: {trunc: Math.trunc},
+		defaultLevel: 100,
+		teamLength: {
+			validate: [1, 24],
+			battle: 24,
+		},
+		// no restrictions, for serious (other than team preview)
+		ruleset: ['Team Preview', 'Cancel Mod'],
 	},
 	{
 		name: "[Gen 8] Axis League Anything Goes",
