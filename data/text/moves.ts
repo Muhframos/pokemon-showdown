@@ -260,6 +260,9 @@ export const MovesText: {[k: string]: MoveText} = {
 			desc: "Has a 33% chance to lower the target's Attack by 1 stage.",
 			shortDesc: "33% chance to lower the target's Attack by 1.",
 		},
+		adventures: {
+		desc: "Lowers target's Attack by 1.",
+		},
 	},
 	auroraveil: {
 		name: "Aurora Veil",
@@ -314,6 +317,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		},
 		gen1: {
 			desc: "Hits two to five times. Has a 3/8 chance to hit two or three times, and a 1/8 chance to hit four or five times. Damage is calculated once for the first hit and used for every hit. If one of the hits breaks the target's substitute, the move ends.",
+		},
+		adventures: {
+		desc: "Hits three times.",
 		},
 	},
 	barrier: {
@@ -749,6 +755,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Charge Beam",
 		desc: "Has a 70% chance to raise the user's Special Attack by 1 stage.",
 		shortDesc: "70% chance to raise the user's Sp. Atk by 1.",
+		adventures: {
+		desc: "Raises user's Special Attack by 1.",
+		},
 	},
 	charm: {
 		name: "Charm",
@@ -1104,6 +1113,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Decorate",
 		desc: "Raises the target's Attack and Special Attack by 2 stages.",
 		shortDesc: "Raises the target's Attack and Sp. Atk by 2.",
+		adventures: {
+		desc: "Raises the user's or an ally's SpA and SpD by 1. Also heals them by 1/4 of their max HP.",
+		},
 	},
 	defendorder: {
 		name: "Defend Order",
@@ -1135,6 +1147,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		gen5: {
 			desc: "Lowers the target's evasiveness by 1 stage. If this move is successful and whether or not the target's evasiveness was affected, the effects of Reflect, Light Screen, Safeguard, Mist, Spikes, Toxic Spikes, and Stealth Rock end for the target's side. Ignores a target's substitute, although a substitute will still block the lowering of evasiveness.",
 			shortDesc: "-1 evasion; clears target side's hazards/screens.",
+		},
+		adventures: {
+		desc: "-1 evasion; clears weather, terrain and hazards on both sides.",
 		},
 	},
 	destinybond: {
@@ -1267,6 +1282,9 @@ export const MovesText: {[k: string]: MoveText} = {
 			desc: "No additional effect.",
 			shortDesc: "No additional effect.",
 		},
+		adventures: {
+		desc: "20% chance to Confuse target. 20% chance to flinch. Hits twice.",
+		},
 	},
 	doomdesire: {
 		name: "Doom Desire",
@@ -1380,6 +1398,9 @@ export const MovesText: {[k: string]: MoveText} = {
 	dragonhammer: {
 		name: "Dragon Hammer",
 		shortDesc: "No additional effect.",
+		adventures: {
+		desc: "High critical hit ratio.",
+		},
 	},
 	dragonpulse: {
 		name: "Dragon Pulse",
@@ -1388,6 +1409,9 @@ export const MovesText: {[k: string]: MoveText} = {
 	dragonrage: {
 		name: "Dragon Rage",
 		shortDesc: "Deals 40 HP of damage to the target.",
+	adventures: {
+		shortDesc: "Deals damage equal to the user's level.",
+		},
 	},
 	dragonrush: {
 		name: "Dragon Rush",
@@ -1651,6 +1675,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		},
 		gen1: {
 			desc: "The user faints after using this move, unless this move broke the target's substitute. The target's Defense is halved during damage calculation.",
+		},
+		adventures: {
+		desc: "Hits adjacent Pokemon. User faints. Always crits.",
 		},
 	},
 	extrasensory: {
@@ -1988,7 +2015,10 @@ export const MovesText: {[k: string]: MoveText} = {
 			desc: "While the user remains active, its chance for a critical hit is quartered. Fails if the user already has the effect. If any Pokemon uses Haze, this effect ends.",
 			shortDesc: "Quarters the user's chance for a critical hit.",
 		},
-
+		adventures: {
+		desc: "Causes all of the user's moves to be a critical hit. Fails if the user already has the effect.",
+		},
+		
 		start: "  [POKEMON] is getting pumped!",
 		startFromItem: "  [POKEMON] used the [ITEM] to get pumped!",
 		startFromZEffect: "  [POKEMON] boosted its critical-hit ratio using its Z-Power!",
@@ -2120,6 +2150,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		},
 		gen1: {
 			desc: "Hits two to five times. Has a 3/8 chance to hit two or three times, and a 1/8 chance to hit four or five times. Damage is calculated once for the first hit and used for every hit. If one of the hits breaks the target's substitute, the move ends.",
+		},
+		adventures: {
+			desc: "Hits 2-5 times. High critical hit ratio.",
 		},
 	},
 	fusionbolt: {
@@ -2574,6 +2607,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Hammer Arm",
 		desc: "Lowers the user's Speed by 1 stage.",
 		shortDesc: "Lowers the user's Speed by 1.",
+		adventures: {
+		desc: "Lowers target's Speed by 1.",
+		},
 	},
 	happyhour: {
 		name: "Happy Hour",
@@ -2784,6 +2820,9 @@ export const MovesText: {[k: string]: MoveText} = {
 	highhorsepower: {
 		name: "High Horsepower",
 		shortDesc: "No additional effect.",
+		adventures: {
+		shortDesc: "20% chance to raise user's Speed by 1.",
+		},
 	},
 	highjumpkick: {
 		name: "High Jump Kick",
@@ -2822,6 +2861,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Hone Claws",
 		desc: "Raises the user's Attack and accuracy by 1 stage.",
 		shortDesc: "Raises the user's Attack and accuracy by 1.",
+		adventures: {
+		desc: "Raises the user's Attack by 1 and accuracy by 2.",
+		},
 	},
 	hornattack: {
 		name: "Horn Attack",
@@ -2950,6 +2992,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Ice Hammer",
 		desc: "Lowers the user's Speed by 1 stage.",
 		shortDesc: "Lowers the user's Speed by 1.",
+		adventures: {
+		desc: "Lowers target's Speed by 1.",
+		},
 	},
 	icepunch: {
 		name: "Ice Punch",
@@ -3263,6 +3308,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Life Dew",
 		desc: "Each Pokemon on the user's side restores 1/4 of its maximum HP, rounded half up.",
 		shortDesc: "Heals the user and its allies by 1/4 their max HP.",
+	adventures: {
+		desc: "Heals the user and its allies by 1/2 their max HP.",
+		},
 	},
 	lightofruin: {
 		name: "Light of Ruin",
@@ -3858,6 +3906,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Misty Explosion",
 		desc: "If the current terrain is Misty Terrain and the user is grounded, this move's power is multiplied by 1.5. The user faints after using this move, even if this move fails for having no target. This move is prevented from executing if any active Pokemon has the Damp Ability.",
 		shortDesc: "User faints. User on Misty Terrain: 1.5x power.",
+		adventures: {
+		desc: "User faints. User on Misty Terrain: 2x power. Always crits.",
+		},
 	},
 	mistyterrain: {
 		name: "Misty Terrain",
@@ -4392,6 +4443,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		gen2: {
 			desc: "If this move is successful, it deals damage or heals the target. 102/256 chance for 40 power, 76/256 chance for 80 power, 26/256 chance for 120 power, or 52/256 chance to heal the target by 1/4 of its maximum HP, rounded down. If this move deals damage, it uses an abnormal version of the damage formula by substituting certain values. The user's Attack stat is replaced with 10 times the effectiveness of this move against the target, the target's Defense stat is replaced with the index number of the user's secondary type, and the user's level is replaced with the index number of the target's secondary type. If a Pokemon does not have a secondary type, its primary type is used. The index numbers for each type are Normal: 0, Fighting: 1, Flying: 2, Poison: 3, Ground: 4, Rock: 5, Bug: 7, Ghost: 8, Steel: 9, Fire: 20, Water: 21, Grass: 22, Electric: 23, Psychic: 24, Ice: 25, Dragon: 26, Dark: 27. If at any point a division by 0 would happen in the damage formula, it divides by 1 instead.",
 		},
+		adventures: {
+		desc: "80, 160, 240 power, or heals target 1/4 max HP.",
+		},
 	},
 	prismaticlaser: {
 		name: "Prismatic Laser",
@@ -4638,6 +4692,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Razor Shell",
 		desc: "Has a 50% chance to lower the target's Defense by 1 stage.",
 		shortDesc: "50% chance to lower the target's Defense by 1.",
+		adventures: {
+		desc: "Lowers target's defense by 1.",
+		},
 	},
 	razorwind: {
 		name: "Razor Wind",
@@ -4753,6 +4810,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Revelation Dance",
 		desc: "This move's type depends on the user's primary type. If the user's primary type is typeless, this move's type is the user's secondary type if it has one, otherwise the added type from Forest's Curse or Trick-or-Treat. This move is typeless if the user's type is typeless alone.",
 		shortDesc: "Type varies based on the user's primary type.",
+		adventures: {
+		desc: "ype varies based on the user's primary type. Physical if user's Atk > Sp. Atk.",
+		},
 	},
 	revenge: {
 		name: "Revenge",
@@ -5084,6 +5144,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		gen1: {
 			desc: "The user faints after using this move, unless the target's substitute was broken by the damage. The target's Defense is halved during damage calculation.",
 		},
+		adventures: {
+		desc: "Hits adjacent Pokemon. User faints. Always crits.",
+		},
 	},
 	shadowball: {
 		name: "Shadow Ball",
@@ -5094,6 +5157,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Shadow Bone",
 		desc: "Has a 20% chance to lower the target's Defense by 1 stage.",
 		shortDesc: "20% chance to lower the target's Defense by 1.",
+		adventures: {
+		desc: "Lowers target's defense by 1.",
+		},
 	},
 	shadowclaw: {
 		name: "Shadow Claw",
@@ -6341,6 +6407,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "Toxic Thread",
 		desc: "Lowers the target's Speed by 1 stage and poisons it.",
 		shortDesc: "Lowers the target's Speed by 1 and poisons it.",
+		adventures: {
+		desc: "Badly poisons the target and prevents them target from switching out.",
+		},
 	},
 	transform: {
 		name: "Transform",
@@ -6511,6 +6580,9 @@ export const MovesText: {[k: string]: MoveText} = {
 		name: "V-create",
 		desc: "Lowers the user's Speed, Defense, and Special Defense by 1 stage.",
 		shortDesc: "Lowers the user's Defense, Sp. Def, Speed by 1.",
+		adventures: {
+		desc: "Lowers user's Def, SpD and Spe by 1. Physical if user's Atk > Sp. Atk.",
+		},
 	},
 	veeveevolley: {
 		name: "Veevee Volley",
@@ -6798,6 +6870,9 @@ export const MovesText: {[k: string]: MoveText} = {
 	xscissor: {
 		name: "X-Scissor",
 		shortDesc: "No additional effect.",
+		adventures: {
+		desc: "High critical hit ratio.",
+		},
 	},
 	yawn: {
 		name: "Yawn",
@@ -6843,5 +6918,14 @@ export const MovesText: {[k: string]: MoveText} = {
 	macaronnom: {
 		name: "Macaron Nom",
 		shortDesc: "Restores 20% of user's maximum HP.",
+	},
+	//Adventures moves
+	tyrantchomp: {
+		name: "Tyrant Chomp",
+		desc: "10% chance to flinch.",
+	},
+	shelltrap: {
+		name: "Shell Trap",
+		desc: "Usually goes first. Fails if target is not attacking.",
 	},
 };
