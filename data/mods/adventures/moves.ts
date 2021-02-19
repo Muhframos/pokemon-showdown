@@ -74,7 +74,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 		accuracy: 100,
 	},
 	honeclaws: {
-      inherit: true,
+	  inherit: true,
+	  name: "Hone Claws",
+	  desc: "Raises the user's Attack by 1 and accuracy by 2.",
 	  boosts: {
 	  atk: 1,
       accuracy: 2,	 
@@ -82,9 +84,13 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	lifedew: {
 		inherit: true,
+		name: "Life Dew",
+		desc: "Heals the user and its allies by 1/2 their max HP.",
 		heal: [1, 2],	 
 	},
 	dragonrage: {
+		name: "Dragon Rage",
+		desc: "Deals damage equal to the user's level.",
 		num: 82,
 		accuracy: 100,
 		basePower: 0,
@@ -106,6 +112,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	furyswipes: {
 		inherit: true,
+		name: "Fury Swipes",
+		desc: "Hits 2-5 times. High critical hit ratio.",
 		basePower: 20,
 		critRatio: 3,
 	},
@@ -120,6 +128,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	razorshell: {
 		inherit: true,
+		name: "Razor Shell",
+		desc: "Lowers target's Defense by 1.",
 		accuracy: 100,
 		secondary: {
 			chance: 100,
@@ -130,6 +140,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	highhorsepower: {
 		inherit: true,
+		name: "High Horsepower",
+		desc: "20% chance to raise user's Speed by 1.",
 		basePower: 90,
 		accuracy: 90,
 		secondary: {
@@ -143,16 +155,22 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	explosion: {
 		inherit: true,
+		name: "Explosion",
+		desc: "Hits adjacent Pokemon. The user faints. Always crits.",
 		category: "Special",
 		critRatio: 5,
 	},
 	selfdestruct: {
 		inherit: true,
+		name: "Self-Destruct",
+		desc: "Hits adjacent Pokemon. The user faints. Always crits.",
 		basePower: 250,
 		critRatio: 5,
 	},
 	mistyexplosion: {
 		inherit: true,
+		name: "Misty Explosion",
+		desc: "User faints. User on Misty Terrain: 2x power. Always crits.",
 		basePower: 125,
 		critRatio: 5,
 		onBasePower(basePower, source) {
@@ -184,6 +202,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Cool",
 	},
 	tyrantchomp: {
+		name: "Tyrant Chomp",
+		desc: "10% chance to flinch.",
 		num: -1,
 		accuracy: 100,
 		basePower: 90,
@@ -201,6 +221,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Cool",
 	},
 	toxicthread: {
+		name: "Toxic Thread",
+		desc: "Badly poisons the target and prevents them target from switching out.",
 		num: 672,
 		accuracy: 100,
 		basePower: 0,
@@ -223,6 +245,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	dizzypunch: {
 		inherit: true,
+		name: "Dizzy Punch",
+		desc: "20% chance to Confuse target. 20% chance to flinch. Hits twice.",
 		accuracy: 85,
 		basePower: 45,
 		category: "Physical",
@@ -253,6 +277,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	aurorabeam : {
 		inherit: true,
+		name: "Dizzy Punch",
+		desc: "Lowers target's Attack by 1.",
 		basePower: 75,
 		secondary: {
 			chance: 100,
@@ -267,6 +293,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	present: {
 		inherit: true,
+		name: "Present",
+		desc: "80, 160, 240 power, or heals target 1/4 max HP.",
 		type: "Flying",
 		onModifyMove(move, pokemon, target) {
 			const rand = this.random(10);
@@ -287,6 +315,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Rock",
 	},
 	xscissor: {
+		name: "X-Scissor",
+		desc: "High critical hit ratio.",
 		inherit: true,
 		critRatio: 3,
 	},
@@ -296,6 +326,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	shadowbone: {
 		inherit: true,
+		name: "Shadow Bone",
+		desc: "Lowers target's defense by 1.",
 		secondary: {
 			chance: 100,
 			boosts: {
@@ -313,8 +345,10 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	revelationdance: {
 		inherit: true,
+		name: "Revelation Dance",
+		desc: "Physical if user's Atk > Sp. Atk.",
 		basePower: 120,
-		category: "Physical",
+		category: "Special",
 		self: {
 		onModifyMove(move, pokemon) {
 			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
@@ -323,6 +357,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	focusenergy: {
 		inherit: true,
+		name: "Focus Energy",
+		desc: "Causes all of the user's moves to be a critical hit.",
 		volatileStatus: 'focusenergy',
 		condition: {
 			onStart(target, source, effect) {
@@ -425,6 +461,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	decorate: {
 		inherit: true,
+		name: "Decorate",
+		desc: "Raises an ally's SpA and SpD by 1 and heals them by 1/4 of their HP.",
 		heal: [1, 4],
 		boosts: {
 			spd: 1,
@@ -451,6 +489,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		basePower: 70,
 		category: "Special",
 		name: "Shell Trap",
+		desc: "Usually goes first. Fails if target is not attacking.",
 		pp: 5,
 		priority: 1,
 		flags: {contact: 1, protect: 1, mirror: 1},
@@ -468,6 +507,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	icehammer: {
 		inherit: true,
+		name: "Ice Hammer",
+		desc: "Lowers target's Speed by 1.",
 		self: null,
 		secondary: {
 			chance: 100,
@@ -478,6 +519,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	hammerarm: {
 		inherit: true,
+		name: "Hammer Arm",
+		desc: "Lowers target's Speed by 1.",
 		self: null,
 		secondary: {
 			chance: 100,
@@ -488,6 +531,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	dragonhammer: {
 		inherit: true,
+		name: "Dragon Hammer",
+		desc: "High critical hit ratio.",
 		accuracy: 90,
 		basePower: 100,
 		pp: 10,
@@ -503,6 +548,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		basePower: 0,
 		category: "Status",
 		name: "Defog",
+		desc: "-1 evasion; clears weather, terrain and hazards on both sides.",
 		pp: 15,
 		priority: 0,
 		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
@@ -543,6 +589,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		accuracy: 85,
 		basePower: 30,
 		category: "Physical",
+		name: "Barrage",
+		desc: "Hits three times.",
 		isNonstandard: "Past",
 		name: "Barrage",
 		pp: 20,
@@ -558,8 +606,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 		num: 557,
 		accuracy: 95,
 		basePower: 180,
-		category: "Physical",
-		name: "V-create",
+		category: "Special",
+		name: "V-Create",
+		desc: "Physical if user's Atk > Sp. Atk.",
 		pp: 5,
 		priority: 0,
 		flags: {contact: 1, protect: 1, mirror: 1},
@@ -589,6 +638,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		basePower: 60,
 		category: "Special",
 		name: "Charge Beam",
+		desc: "Raises user's Special Attack by 1.",
 		pp: 10,
 		priority: 0,
 		flags: {protect: 1, mirror: 1},
