@@ -74,7 +74,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		accuracy: 100,
 	},
 	honeclaws: {
-      inherit: true,
+	  inherit: true,
 	  boosts: {
 	  atk: 1,
       accuracy: 2,	 
@@ -314,7 +314,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	revelationdance: {
 		inherit: true,
 		basePower: 120,
-		category: "Physical",
+		category: "Special",
 		self: {
 		onModifyMove(move, pokemon) {
 			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
@@ -441,6 +441,10 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		inherit: true,
 		accuracy: 100,
 	},
+	fly: {
+		inherit: true,
+		accuracy: 100,
+	},
 	sacredfire: {
 		inherit: true,
 		accuracy: 100,
@@ -543,6 +547,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		accuracy: 85,
 		basePower: 30,
 		category: "Physical",
+		name: "Barrage",
 		isNonstandard: "Past",
 		name: "Barrage",
 		pp: 20,
@@ -558,8 +563,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		num: 557,
 		accuracy: 95,
 		basePower: 180,
-		category: "Physical",
-		name: "V-create",
+		category: "Special",
+		name: "V-Create",
 		pp: 5,
 		priority: 0,
 		flags: {contact: 1, protect: 1, mirror: 1},
@@ -587,8 +592,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		num: 451,
 		accuracy: 90,
 		basePower: 60,
-		category: "Special",
 		name: "Charge Beam",
+		category: "Special",
 		pp: 10,
 		priority: 0,
 		flags: {protect: 1, mirror: 1},

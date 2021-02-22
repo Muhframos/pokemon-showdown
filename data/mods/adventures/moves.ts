@@ -441,6 +441,10 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		accuracy: 100,
 	},
+	fly: {
+		inherit: true,
+		accuracy: 100,
+	},
 	sacredfire: {
 		inherit: true,
 		accuracy: 100,
