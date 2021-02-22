@@ -341,6 +341,10 @@
 		inherit: true,
 		abilities: {0: "Regenerator"},
 	},
+	ferrothorn: {
+		inherit: true,
+		abilities: {0: "Shell Armor"},
+	},
 	yanmega: {
 		inherit: true,
 		baseStats: {hp: 86, atk: 76, def: 86, spa: 116, spd: 66, spe: 95},
