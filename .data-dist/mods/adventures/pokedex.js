@@ -29,6 +29,10 @@
 		inherit: true,
 		baseStats: {hp: 223, atk: 127, def: 71, spa: 47, spd: 61, spe: 41},
 	},
+	drifblim: {
+		inherit: true,
+		baseStats: {hp: 150, atk: 60, def: 54, spa: 120, spd: 64, spe: 80},
+	},
 	oricorio: {
 		inherit: true,
 		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
@@ -228,7 +232,7 @@
 	},
 	gigalith: {
 		inherit: true,
-		baseStats: {hp: 95, atk: 135, def: 135, spa: 15, spd: 135, spe: 15},
+		baseStats: {hp: 95, atk: 135, def: 135, spa: 60, spd: 85, spe: 25},
 		abilities: {0: "Sturdy", 1: "Lightning Rod", H: "Sand Force"},
 	},
 	armaldo: {
@@ -343,7 +347,12 @@
 	},
 	vileplume: {
 		inherit: true,
-		baseStats: {hp: 75, atk: 80, def: 85, spa: 110, spd: 90, spe: 50},
+		baseStats: {hp: 105, atk: 80, def: 85, spa: 110, spd: 90, spe: 50},
+		abilities: {0: "Chlorophyll", 1: "Corrosion" , H: "Effect Spore"},
+	},
+	gloom: {
+		inherit: true,
+		baseStats: {hp: 85, atk: 70, def: 80, spa: 95, spd: 80, spe: 50},
 		abilities: {0: "Chlorophyll", 1: "Corrosion" , H: "Effect Spore"},
 	},
 	rhydon: {
@@ -442,6 +451,21 @@
 		inherit: true,
 		types: ["Water", "Fairy"],
 	},
+	tropius: {
+		inherit: true,
+		baseStats: {hp: 119, atk: 98, def: 103, spa: 72, spd: 87, spe: 51},
+		abilities: {0: "Chlorophyll", 1: "Harvest", H: "Thick Fat"},
+	},
+	jumpluff: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 90, def: 70, spa: 90, spd: 95, spe: 110},
+		abilities: {0: "Chlorophyll", 1: "Aerilate", H: "Infiltrator"},
+	},
+	vespiquen: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 80, def: 122, spa: 80, spd: 122, spe: 40},
+		abilities: {0: "Queenly Majesty", 1: "Immunity", H: "Pressure"},
+	},
 	sceptile: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 110, def: 65, spa: 80, spd: 85, spe: 120},
@@ -450,6 +474,33 @@
 	sceptilemega: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 110, def: 75, spa: 145, spd: 85, spe: 145},
+	},
+	appletun: {
+		inherit: true,
+		baseStats: {hp: 120, atk: 85, def: 100, spa: 100, spd: 100, spe: 30},
+	},
+	vivillon: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 52, def: 70, spa: 100, spd: 70, spe: 89},
+	},
+	flapple: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 120, def: 80, spa: 100, spd: 80, spe: 85},
+	},
+	breloom: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 130, def: 80, spa: 60, spd: 80, spe: 70},
+		abilities: {0: "Long Reach", 1: "Poison Heal", H: "Technician"},
+	},
+	roserade: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 70, def: 65, spa: 125, spd: 105, spe: 90},
+		abilities: {0: "Natural Cure", 1: "Solar Power", H: "Stench"},
+	},
+	maractus: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 80, def: 125, spa: 80, spd: 125, spe: 55},
+		abilities: {0: "Iron Barbs", 1: "Dancer", H: "Storm Drain"},
 	},
 	raikou: {
 		inherit: true,
@@ -603,7 +654,13 @@
 	flygon: {
 		inherit: true,
 		types: ["Bug", "Dragon"],
+		baseStats: {hp: 80, atk: 100, def: 80, spa: 100, spd: 80, spe: 100},
 		abilities: {0: "Levitate", H: "Sand Force"},
+	},
+	trapinch: {
+		inherit: true,
+		types: ["Bug", "Ground"],
+		baseStats: {hp: 70, atk: 100, def: 100, spa: 80, spd: 80, spe: 10},
 	},
 	golisopod: {
 		inherit: true,
@@ -843,7 +900,7 @@
 	},
 	sirfetchd: {
 		inherit: true,
-		baseStats: {hp: 72, atk: 135, def: 95, spa: 68, spd: 102, spe: 65},
+		baseStats: {hp: 62, atk: 135, def: 115, spa: 68, spd: 82, spe: 65},
 		abilities: {0: "Dauntless Shield", 1: "Steadfast", H: "Scrappy"},
 	},
 	ninjask: {

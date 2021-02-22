@@ -154,6 +154,8 @@ Ratings and how they work:
 		num: 170,
 	},
 	superluck: {
+		name: "Super Luck",
+		shortDesc: "Boosts the user's Critical Ratio by 2 stages.",
 		onModifyCritRatio(critRatio) {
 			return critRatio + 2;
 		},
@@ -218,6 +220,9 @@ Ratings and how they work:
 		num: 159,
 	},
 	wonderguard: {
+		name: "Wonder Guard",
+		desc: "This Pokemon can only be damaged by supereffective moves and indirect damage. Alert if opponent has super-effective moves",
+		shortDesc: "Can only be damaged by supereffective and indirect damage, alerts if opponent has super-effective move.",
 		onTryHit(target, source, move) {
 			if (target === source || move.category === 'Status' || move.type === '???' || move.id === 'struggle') return;
 			if (move.id === 'skydrop' && !source.volatiles['skydrop']) return;
@@ -242,7 +247,7 @@ Ratings and how they work:
 						this.dex.getImmunity(moveType, pokemon) && this.dex.getEffectiveness(moveType, pokemon) > 0 ||
 						move.ohko
 					) {
-						this.add('-ability', pokemon, 'Anticipation');
+						this.add('-ability', pokemon, 'Wonder Guard');
 						return;
 					}
 				}
@@ -273,6 +278,8 @@ Ratings and how they work:
 		num: 73,
 	},
 	clearbody: {
+		name: "Clear Body",
+		desc: "This pokemon's stat stages cannot be dropped.",
 		onBoost(boost, target, source, effect) {
 			let showMsg = false;
 			let i;
@@ -292,6 +299,8 @@ Ratings and how they work:
 	},
 	aftermath: {
 		name: "Aftermath",
+		desc: "If this Pokemon is knocked out with a move, that move's user loses HP equal to the amount of damage inflicted on this Pokemon.",
+		shortDesc: "If this is knocked out with a move, deals damage equal to HP lost to attacker.",
 		onDamagingHitOrder: 1,
 		onDamagingHit(damage, target, source, move) {
 			if (!target.hp) {
@@ -446,6 +455,9 @@ Ratings and how they work:
 		num: 66,
 	},
 	wonderskin: {
+		name: "Wonder Skin",
+		desc: "This ability has a different effect for depending status condition the user has (Check Docs).",
+		shortdesc: "Different effect depending on status condition.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, pokemon) {
 			if (pokemon.status === 'brn') {
@@ -489,6 +501,9 @@ Ratings and how they work:
 		num: 147,
 	},
 	lightningrod: {
+		name: "Lightning Rod",
+		desc: "This Pokemon is immune to Electric-type moves and raises its SpA and Atk by 1 stage when hit by an Electric-type move.",
+		shortdesc: "Raises SpA and Atk by 1 when hit by an Electric move. Immune to Electric.",
 		onTryHit(target, source, move) {
 			if (target !== source && move.type === 'Electric') {
 				if (!this.boost({spa: 1})) {
@@ -542,6 +557,8 @@ Ratings and how they work:
 		num: -9,
 	},
 	stench: {
+		name: "Stencch",
+		desc: "This Pokemon's attacks without a chance to flinch have a 30% chance to flinch.",
 		onModifyMovePriority: -1,
 		onModifyMove(move) {
 			if (move.category !== "Status") {
