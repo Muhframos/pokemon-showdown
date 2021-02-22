@@ -100,7 +100,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	permafrost: {
 		name: "Permafrost",
-		shortDesc: "Grants immunity to Fire-type moves.",
+		desc: "Grants immunity to Fire-type moves.",
 		onTryHit(target, source, move) {
 			if (target !== source && move.type === 'Fire') {
 				{
@@ -115,7 +115,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	pastelveil: {
 		name: "Pastel Veil",
-		shortDesc: "Grants immunity to Poison-type moves.",
+		desc: "Grants immunity to Poison-type moves.",
 		onTryHit(target, source, move) {
 			if (target !== source && move.type === 'Poison') {
 				{
@@ -130,7 +130,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	compoundeyes: {
 		name: "Compound Eyes",
-		shortDesc: "Boosts accuracy of moves by 1.5x.",
+		desc: "Boosts accuracy of moves by 1.5x.",
 		onSourceModifyAccuracyPriority: -1,
 		onSourceModifyAccuracy(accuracy) {
 			if (typeof accuracy !== 'number') return;
@@ -155,7 +155,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	superluck: {
 		name: "Super Luck",
-		shortDesc: "Boosts the user's Critical Ratio by 2 stages.",
+		desc: "Boosts the user's critical hit ratio by 2 stages.",
 		onModifyCritRatio(critRatio) {
 			return critRatio + 2;
 		},
@@ -458,7 +458,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Wonder Skin",
 		desc: "This ability has a different effect for depending status condition the user has (Check Docs).",
 		shortdesc: "Different effect depending on status condition.",
-		onModifyAtkPriority: 5,
+		onModifyAtkPriority: 7,
 		onModifyAtk(atk, pokemon) {
 			if (pokemon.status === 'brn') {
 				return this.chainModify(1.5);
