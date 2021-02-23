@@ -461,7 +461,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtkPriority: 7,
 		onModifyAtk(atk, pokemon) {
 			if (pokemon.status === 'brn') {
-				return this.chainModify(1.5);
+				return this.chainModify(3);
 			}
 		},
 		onModifySpe(spe, pokemon) {
@@ -576,5 +576,11 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Stench",
 		rating: 0.5,
 		num: 1,
+	},
+	levitate: {
+		inherit: true,
+		onStart(pokemon) {
+			this.add('-ability', pokemon, 'Pressure');
+		},
 	},
 };
