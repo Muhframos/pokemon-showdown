@@ -580,7 +580,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	levitate: {
 		inherit: true,
 		onStart(pokemon) {
-			this.add('-ability', pokemon, 'Pressure');
+			this.add('-ability', pokemon, 'Levitate');
 		},
 	},
 };
