@@ -100,7 +100,7 @@ Ratings and how they work:
 	},
 	permafrost: {
 		name: "Permafrost",
-		shortDesc: "Grants immunity to Fire-type moves.",
+		desc: "Grants immunity to Fire-type moves.",
 		onTryHit(target, source, move) {
 			if (target !== source && move.type === 'Fire') {
 				{
@@ -115,7 +115,7 @@ Ratings and how they work:
 	},
 	pastelveil: {
 		name: "Pastel Veil",
-		shortDesc: "Grants immunity to Poison-type moves.",
+		desc: "Grants immunity to Poison-type moves.",
 		onTryHit(target, source, move) {
 			if (target !== source && move.type === 'Poison') {
 				{
@@ -130,7 +130,7 @@ Ratings and how they work:
 	},
 	compoundeyes: {
 		name: "Compound Eyes",
-		shortDesc: "Boosts accuracy of moves by 1.5x.",
+		desc: "Boosts accuracy of moves by 1.5x.",
 		onSourceModifyAccuracyPriority: -1,
 		onSourceModifyAccuracy(accuracy) {
 			if (typeof accuracy !== 'number') return;
@@ -155,7 +155,7 @@ Ratings and how they work:
 	},
 	superluck: {
 		name: "Super Luck",
-		shortDesc: "Boosts the user's Critical Ratio by 2 stages.",
+		desc: "Boosts the user's critical hit ratio by 2 stages.",
 		onModifyCritRatio(critRatio) {
 			return critRatio + 2;
 		},
@@ -458,10 +458,10 @@ Ratings and how they work:
 		name: "Wonder Skin",
 		desc: "This ability has a different effect for depending status condition the user has (Check Docs).",
 		shortdesc: "Different effect depending on status condition.",
-		onModifyAtkPriority: 5,
+		onModifyAtkPriority: 7,
 		onModifyAtk(atk, pokemon) {
 			if (pokemon.status === 'brn') {
-				return this.chainModify(1.5);
+				return this.chainModify(3);
 			}
 		},
 		onModifySpe(spe, pokemon) {
@@ -576,6 +576,12 @@ Ratings and how they work:
 		name: "Stench",
 		rating: 0.5,
 		num: 1,
+	},
+	levitate: {
+		inherit: true,
+		onStart(pokemon) {
+			this.add('-ability', pokemon, 'Levitate');
+		},
 	},
 }; exports.Abilities = Abilities;
 
