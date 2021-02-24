@@ -609,4 +609,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Electric",
 		contestType: "Beautiful",
 	},
+	belch: {
+		inherit: true,
+		basePower: 140,
+	},
 }
