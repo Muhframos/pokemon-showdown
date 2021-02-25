@@ -946,4 +946,14 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 70, atk: 50, def: 150, spa: 120, spd: 110, spe: 30},
 		abilities: {0: "Flame Body", 1: "Solid Rock", H: "Unaware"},
 	},
+	pyukumuku: {
+		inherit: true,
+		baseStats: {hp: 50, atk: 60, def: 150, spa: 30, spd: 150, spe: 5},
+		abilities: {0: "Innards Out", H: "Unaware"},
+	},
+	politoed: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 75, def: 80, spa: 95, spd: 100, spe: 70},
+		abilities: {0: "Drizzle", 1: "Water Absorb", H: "Damp"},
+	},
 };
