@@ -630,6 +630,20 @@ this.modData('Learnsets', 'escavalier').learnset.glaciallance = ['8L1'];
 this.modData('Learnsets', 'escavalier').learnset.leechlife = ['8L1'];
 this.modData('Learnsets', 'escavalier').learnset.gyroball = ['8L1'];
 this.modData('Learnsets', 'escavalier').learnset.uturn = ['8L1'];
+this.modData('Learnsets', 'escavalier').learnset.doubleironbash = ['8L1'];
+
+this.modData('Learnsets', 'minior').learnset.wish = ['8L1'];
+this.modData('Learnsets', 'minior').learnset.bodypress = ['8L1'];
+this.modData('Learnsets', 'minior').learnset.meteormash = ['8L1'];
+this.modData('Learnsets', 'minior').learnset.dracometeor = ['8L1'];
+this.modData('Learnsets', 'minior').learnset.meteorbeam = ['8L1'];
+
+this.modData('Learnsets', 'zoroark').learnset.transform = ['8L1'];
+this.modData('Learnsets', 'zoroark').learnset.shadowsneak = ['8L1'];
+this.modData('Learnsets', 'zoroark').learnset.fireblast = ['8L1'];
+
+this.modData('Learnsets', 'calyrex').learnset.flamethrower = ['8L1'];
+this.modData('Learnsets', 'calyrex').learnset.fireblast = ['8L1'];
 
 this.modData('Learnsets', 'jumpluff').learnset.airslash = ['8L1'];
 this.modData('Learnsets', 'jumpluff').learnset.fly = ['8L1'];
