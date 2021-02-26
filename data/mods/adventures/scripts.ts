@@ -38,6 +38,8 @@ this.modData('Learnsets', 'magcargo').learnset.sludgebomb = ['8L1'];
 
 this.modData('Learnsets', 'pyukumuku').learnset.metronome = ['8L1'];
 
+this.modData('Learnsets', 'cramorant').learnset.sludgebomb = ['8L1'];
+
 this.modData('Learnsets', 'politoed').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'politoed').learnset.wish = ['8L1'];
 this.modData('Learnsets', 'politoed').learnset.teleport = ['8L1'];

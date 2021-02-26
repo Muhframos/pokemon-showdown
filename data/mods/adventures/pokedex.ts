@@ -1090,5 +1090,9 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 105, atk: 105, def: 105, spa: 105, spd: 105, spe: 64},
 	},
+	cramorant: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 85, def: 55, spa: 85, spd: 125, spe: 85},
+	},
 
 };
