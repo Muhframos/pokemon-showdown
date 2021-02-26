@@ -557,7 +557,7 @@ Ratings and how they work:
 		num: -9,
 	},
 	stench: {
-		name: "Stencch",
+		name: "Stench",
 		desc: "This Pokemon's attacks without a chance to flinch have a 30% chance to flinch.",
 		onModifyMovePriority: -1,
 		onModifyMove(move) {
@@ -582,6 +582,59 @@ Ratings and how they work:
 		onStart(pokemon) {
 			this.add('-ability', pokemon, 'Levitate');
 		},
+	},
+	iceface: {
+		desc: "If Eiscue, the first physical hit it takes deals 0 damage. This effect is restored in Hail.",
+		onStart(pokemon) {
+			if (this.field.isWeather('hail') && pokemon.species.id === 'eiscuenoice' && !pokemon.transformed) {
+				this.add('-activate', pokemon, 'ability: Ice Face');
+				this.effectData.busted = false;
+				pokemon.formeChange('Eiscue', this.effect, true);
+			}
+		},
+		onDamagePriority: 1,
+		onDamage(damage, target, source, effect) {
+			if (
+				effect && effect.effectType === 'Move' &&
+				target.species.id === 'eiscue' && !target.transformed
+			) {
+				this.add('-activate', target, 'ability: Ice Face');
+				this.effectData.busted = true;
+				return 0;
+			}
+		},
+		onCriticalHit(target, type, move) {
+			if (!target) return;
+			if (move.category !== 'Physical' || target.species.id !== 'eiscue' || target.transformed) return;
+			if (target.volatiles['substitute'] && !(move.flags['authentic'] || move.infiltrates)) return;
+			if (!target.runImmunity(move.type)) return;
+			return false;
+		},
+		onEffectiveness(typeMod, target, type, move) {
+			if (!target) return;
+			if (move.category !== 'Physical' || target.species.id !== 'eiscue' || target.transformed) return;
+			if (target.volatiles['substitute'] && !(move.flags['authentic'] || move.infiltrates)) return;
+			if (!target.runImmunity(move.type)) return;
+			return 0;
+		},
+		onUpdate(pokemon) {
+			if (pokemon.species.id === 'eiscue' && this.effectData.busted) {
+				pokemon.formeChange('Eiscue-Noice', this.effect, true);
+			}
+		},
+		onAnyWeatherStart() {
+			const pokemon = this.effectData.target;
+			if (!pokemon.hp) return;
+			if (this.field.isWeather('hail') && pokemon.species.id === 'eiscuenoice' && !pokemon.transformed) {
+				this.add('-activate', pokemon, 'ability: Ice Face');
+				this.effectData.busted = false;
+				pokemon.formeChange('Eiscue', this.effect, true);
+			}
+		},
+		isPermanent: true,
+		name: "Ice Face",
+		rating: 3,
+		num: 248,
 	},
 }; exports.Abilities = Abilities;
 

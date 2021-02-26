@@ -29,6 +29,23 @@ this.modData('Learnsets', 'golduck').learnset.nightslash = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.darkpulse = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.freezedry = ['8L1'];
 
+this.modData('Learnsets', 'magcargo').learnset.scald = ['8L1'];
+this.modData('Learnsets', 'magcargo').learnset.scorchingsands = ['8L1'];
+this.modData('Learnsets', 'magcargo').learnset.haze = ['8L1'];
+this.modData('Learnsets', 'magcargo').learnset.powergem = ['8L1'];
+this.modData('Learnsets', 'magcargo').learnset.scald = ['8L1'];
+this.modData('Learnsets', 'magcargo').learnset.sludgebomb = ['8L1'];
+
+this.modData('Learnsets', 'pyukumuku').learnset.metronome = ['8L1'];
+
+this.modData('Learnsets', 'politoed').learnset.flipturn = ['8L1'];
+this.modData('Learnsets', 'politoed').learnset.wish = ['8L1'];
+this.modData('Learnsets', 'politoed').learnset.teleport = ['8L1'];
+this.modData('Learnsets', 'politoed').learnset.healingwish = ['8L1'];
+
+this.modData('Learnsets', 'poliwrath').learnset.flipturn = ['8L1'];
+this.modData('Learnsets', 'poliwrath').learnset.aquajet = ['8L1'];
+
 this.modData('Learnsets', 'blastoise').learnset.zapcannon = ['8L1'];
 
 this.modData('Learnsets', 'pangoro').learnset.suckerpunch = ['8L1'];
@@ -74,6 +91,7 @@ this.modData('Learnsets', 'sandslash').learnset.spikecannon = ['8L1'];
 
 this.modData('Learnsets', 'sandslashalola').learnset.spikecannon = ['8L1'];
 this.modData('Learnsets', 'sandslashalola').learnset.rockblast = ['8L1'];
+this.modData('Learnsets', 'oricorio').learnset.aquatail = ['8L1'];
 
 this.modData('Learnsets', 'tapubulu').learnset.playrough = ['8L1'];
 
@@ -599,6 +617,18 @@ this.modData('Learnsets', 'vespiquen').learnset.teleport = ['8L1'];
 this.modData('Learnsets', 'vespiquen').learnset.nuzzle = ['8L1'];
 this.modData('Learnsets', 'vespiquen').learnset.spikes = ['8L1'];
 
+this.modData('Learnsets', 'accelgor').learnset.darkpulse = ['8L1'];
+this.modData('Learnsets', 'accelgor').learnset.silverwind = ['8L1'];
+this.modData('Learnsets', 'accelgor').learnset.stealthrock = ['8L1'];
+this.modData('Learnsets', 'accelgor').learnset.gunkshot = ['8L1'];
+this.modData('Learnsets', 'accelgor').learnset.liquidation = ['8L1'];
+this.modData('Learnsets', 'accelgor').learnset.thief = ['8L1'];
+
+this.modData('Learnsets', 'escavalier').learnset.glaciallance = ['8L1'];
+this.modData('Learnsets', 'escavalier').learnset.leechlife = ['8L1'];
+this.modData('Learnsets', 'escavalier').learnset.gyroball = ['8L1'];
+this.modData('Learnsets', 'escavalier').learnset.uturn = ['8L1'];
+
 this.modData('Learnsets', 'jumpluff').learnset.airslash = ['8L1'];
 this.modData('Learnsets', 'jumpluff').learnset.fly = ['8L1'];
 
@@ -624,6 +654,13 @@ this.modData('Learnsets', 'gloom').learnset.pollenpuff = ['8L1'];
 
 this.modData('Learnsets', 'vileplume').learnset.aromaticmist = ['8L1'];
 this.modData('Learnsets', 'vileplume').learnset.pollenpuff = ['8L1'];
+
+this.modData('Learnsets', 'swalot').learnset.knockoff = ['8L1'];
+this.modData('Learnsets', 'swalot').learnset.darkpulse = ['8L1'];
+this.modData('Learnsets', 'swalot').learnset.toxicspikes = ['8L1'];
+this.modData('Learnsets', 'swalot').learnset.recycle = ['8L1'];
+this.modData('Learnsets', 'swalot').learnset.bellydrum = ['8L1'];
+this.modData('Learnsets', 'swalot').learnset.nastyplot = ['8L1'];
 
 this.modData('Learnsets', 'maractus').learnset.spikecannon = ['8L1'];
 this.modData('Learnsets', 'maractus').learnset.toxicspikes = ['8L1'];

@@ -609,6 +609,14 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		type: "Electric",
 		contestType: "Beautiful",
 	},
+	belch: {
+		inherit: true,
+		basePower: 140,
+	},
+	geargrind: {
+		inherit: true,
+		basePower: 75,
+	},
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map
