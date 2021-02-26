@@ -935,6 +935,17 @@
 		baseStats: {hp: 80, atk: 90, def: 75, spa: 60, spd: 130, spe: 95},
 		abilities: {0: "Battle Armor", 1: "Sniper", H: "Intimidate"},
 	},
+	swalot: {
+		inherit: true,
+		baseStats: {hp: 130, atk: 83, def: 93, spa: 83, spd: 93, spe: 55},
+		abilities: {0: "Simple", 1: "Corrosion", H: "Gluttony"},
+	},
+	magcargo: {
+		inherit: true,
+		types: ["Fire", "Ground"],
+		baseStats: {hp: 70, atk: 50, def: 150, spa: 120, spd: 110, spe: 30},
+		abilities: {0: "Flame Body", 1: "Solid Rock", H: "Unaware"},
+	},
 }; exports.Pokedex = Pokedex;
 
  //# sourceMappingURL=sourceMaps/pokedex.js.map
