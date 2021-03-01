@@ -636,4 +636,17 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 3,
 		num: 248,
 	},
+	corrosion: {
+		onModifyMovePriority: -5,
+		onModifyMove(move) {
+			if (!move.ignoreImmunity) move.ignoreImmunity = {};
+			if (move.ignoreImmunity !== true) {
+				move.ignoreImmunity['Poison'] = true;
+			}
+		},
+		name: "Corrosion",
+		desc: "This Pokemon's moves ignore Poison immunity.",
+		rating: 3,
+		num: 212,
+	},
 };
