@@ -617,6 +617,10 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		inherit: true,
 		basePower: 75,
 	},
+	shadowpunch: {
+		inherit: true,
+		basePower: 75,
+	},
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map

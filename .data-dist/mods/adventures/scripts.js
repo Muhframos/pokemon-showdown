@@ -645,6 +645,20 @@ this.modData('Learnsets', 'zoroark').learnset.fireblast = ['8L1'];
 this.modData('Learnsets', 'calyrex').learnset.flamethrower = ['8L1'];
 this.modData('Learnsets', 'calyrex').learnset.fireblast = ['8L1'];
 
+this.modData('Learnsets', 'duraludon').learnset.flamethrower = ['8L1'];
+this.modData('Learnsets', 'duraludon').learnset.fireblast = ['8L1'];
+
+this.modData('Learnsets', 'golurk').learnset.flareblitz = ['8L1'];
+this.modData('Learnsets', 'golurk').learnset.knockoff = ['8L1'];
+this.modData('Learnsets', 'golurk').learnset.headsmash = ['8L1'];
+
+this.modData('Learnsets', 'decidueye').learnset.thousandarrows = ['8L1'];
+this.modData('Learnsets', 'decidueye').learnset.focusenergy = ['8L1'];
+this.modData('Learnsets', 'decidueye').learnset.barrage = ['8L1'];
+this.modData('Learnsets', 'decidueye').learnset.powerwhip = ['8L1'];
+
+this.modData('Learnsets', 'dubwool').learnset.headsmash = ['8L1'];
+
 this.modData('Learnsets', 'jumpluff').learnset.airslash = ['8L1'];
 this.modData('Learnsets', 'jumpluff').learnset.fly = ['8L1'];
 
