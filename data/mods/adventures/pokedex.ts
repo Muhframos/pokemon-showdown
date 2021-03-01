@@ -343,7 +343,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	ferrothorn: {
 		inherit: true,
-		abilities: {0: "Shell Armor"},
+		abilities: {0: "Iron Barbs", 1: "Anticipation", H: "Shell Armor"},
 	},
 	yanmega: {
 		inherit: true,
