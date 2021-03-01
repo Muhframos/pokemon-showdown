@@ -654,6 +654,8 @@ this.modData('Learnsets', 'golurk').learnset.headsmash = ['8L1'];
 
 this.modData('Learnsets', 'decidueye').learnset.thousandarrows = ['8L1'];
 this.modData('Learnsets', 'decidueye').learnset.focusenergy = ['8L1'];
+this.modData('Learnsets', 'decidueye').learnset.barrage = ['8L1'];
+this.modData('Learnsets', 'decidueye').learnset.powerwhip = ['8L1'];
 
 this.modData('Learnsets', 'dubwool').learnset.headsmash = ['8L1'];
 
