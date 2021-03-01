@@ -343,7 +343,7 @@
 	},
 	ferrothorn: {
 		inherit: true,
-		abilities: {0: "Shell Armor"},
+		abilities: {0: "Iron Barbs", 1: "Anticipation", H: "Shell Armor"},
 	},
 	yanmega: {
 		inherit: true,
@@ -1112,6 +1112,30 @@
 		inherit: true,
 		baseStats: {hp: 65, atk: 110, def: 65, spa: 120, spd: 65, spe: 105},
 		abilities: {0: "Illusion", H: "Imposter"},
+	},
+	duraludon: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 95, def: 115, spa: 120, spd: 65, spe: 85},
+		abilities: {0: "Clear Body", H: "Steelworker"},
+	},
+	golurk: {
+		inherit: true,
+		baseStats: {hp: 89, atk: 124, def: 110, spa: 55, spd: 90, spe: 60},
+		abilities: {0: "Iron Fist", 1: "Solid Rock", H: "No Guard"},
+	},
+	chandelure: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 55, def: 90, spa: 145, spd: 90, spe: 80},
+		abilities: {0: "Flash Fire", 1: "Infiltrator", H: "Shadow Tag"},
+	},
+	decidueye: {
+		inherit: true,
+		baseStats: {hp: 78, atk: 107, def: 75, spa: 85, spd: 75, spe: 110},
+		abilities: {0: "Overgrow", 1: "Sniper", H: "Long Reach"},
+	},
+	dubwool: {
+		inherit: true,
+		abilities: {0: "Fluffy", 1: "Defiant", H: "Bulletproof"},
 	},
 
 }; exports.Pokedex = Pokedex;
