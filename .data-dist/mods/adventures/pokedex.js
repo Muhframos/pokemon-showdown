@@ -689,6 +689,7 @@
 	},
 	dunsparce: {
 		inherit: true,
+		types: ["Normal", "Ground"],
 		baseStats: {hp: 100, atk: 100, def: 80, spa: 85, spd: 75, spe: 75},
 	},
 	pinsir: {
@@ -1089,6 +1090,28 @@
 	typenull: {
 		inherit: true,
 		baseStats: {hp: 105, atk: 105, def: 105, spa: 105, spd: 105, spe: 64},
+	},
+	cramorant: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 85, def: 55, spa: 85, spd: 125, spe: 85},
+	},
+	calyrex: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100},
+		abilities: {0: "Unnerve", 1: "Neuroforce", H: "Cursed Body"},
+	},
+	miniormeteor: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 60, def: 130, spa: 60, spd: 130, spe: 60},
+	},
+	minior: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 130, def: 60, spa: 130, spd: 60, spe: 130},
+	},
+	zoroark: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 65, spa: 120, spd: 65, spe: 105},
+		abilities: {0: "Illusion", H: "Imposter"},
 	},
 
 }; exports.Pokedex = Pokedex;
