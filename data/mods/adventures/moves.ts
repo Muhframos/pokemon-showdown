@@ -617,4 +617,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		basePower: 75,
 	},
+	shadowpunch: {
+		inherit: true,
+		basePower: 75,
+	},
 }
