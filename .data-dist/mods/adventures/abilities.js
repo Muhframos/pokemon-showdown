@@ -649,50 +649,6 @@ Ratings and how they work:
 		rating: 3,
 		num: 212,
 	},
-	mobboss: {
-		name: "Mob Boss",
-		desc: "Upon switchin, the user uses Beat Up on opposing foes.",
-		shortDesc: "Beat Up on opposing Pokemon on switchin.",
-		onStart(pokemon) {
-			this.add('-activate', pokemon, 'ability: Mob Boss');
-			let success = false;
-			for (const target of pokemon.side.foe.active) {
-				if (target.side.addSlotCondition(target, 'mobbossmove')) {
-					Object.assign(target.side.slotConditions[target.position]['mobbossmove'], {
-						move: 'beatup',
-						source: pokemon,
-						moveData: {
-							id: 'beatup',
-							name: "Beat Up",
-							accuracy: 100,
-							basePower: 500,
-							basePowerCallback(pokemon, target, move) {
-								return 5 + Math.floor(move.allies.shift().species.baseStats.atk / 10);
-							},
-							category: "Physical",
-							priority: 0,
-							flags: {protect: 1, mirror: 1, mystery: 1},
-							effectType: 'Move',
-							onModifyMove(move, pokemon) {
-								move.allies = pokemon.side.pokemon.filter(ally => ally === pokemon || !ally.fainted && !ally.status);
-								move.multihit = move.allies.length;
-								},
-								secondary: null,
-								target: "allAdjacentFoes",
-								type: "Dark",
-								}
-							});
-					success = true;
-					}
-					if (success) {
-				this.add('-anim', pokemon, 'Beat Up');
-				this.add('-start', pokemon, 'Beat Up');
-				}
-			}
-		},
-	rating: 2,
-	num: -8,
-	},
 }; exports.Abilities = Abilities;
 
  //# sourceMappingURL=sourceMaps/abilities.js.map
