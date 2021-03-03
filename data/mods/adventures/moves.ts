@@ -625,4 +625,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		category: "Physical",
 	},
+	clangoroussoulblaze: {
+		inherit: true,
+		category: "Physical",
+	},
 }
