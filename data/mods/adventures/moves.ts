@@ -621,4 +621,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		basePower: 75,
 	},
+	clangingscales: {
+		inherit: true,
+		category: "Physical",
+	},
 }
