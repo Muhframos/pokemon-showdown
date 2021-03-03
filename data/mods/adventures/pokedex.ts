@@ -330,7 +330,8 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	honchkrow: {
 		inherit: true,
-		baseStats: {hp: 120, atk: 125, def: 52, spa: 105, spd: 52, spe: 71},
+		baseStats: {hp: 120, atk: 125, def: 52, spa: 105, spd: 52, spe: 81},
+		abilities: {0: "Mob Boss", 1: "Super Luck", H: "Moxie"},
 	},
 	celebi: {
 		inherit: true,
@@ -1136,6 +1137,26 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	dubwool: {
 		inherit: true,
 		abilities: {0: "Fluffy", 1: "Defiant", H: "Bulletproof"},
+	},
+	parasect: {
+		inherit: true,
+		baseStats: {hp: 30, atk: 95, def: 160, spa: 95, spd: 160, spe: 35},
+		abilities: {0: "Effect Spore", 1: "Dry Skin", H: "Poison Heal"},
+	},
+	perrserker: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 120, def: 110, spa: 50, spd: 70, spe: 60},
+		abilities: {0: "Technician", 1: "Tough Claws", H: "Steely Spirit"},
+	},
+	thievul: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 88, def: 68, spa: 107, spd: 92, spe: 90},
+		abilities: {0: "Pickpocket", 1: "Unburden", H: "Stakeout"},
+	},
+	gogoat: {
+		inherit: true,
+		baseStats: {hp: 123, atk: 100, def: 72, spa: 97, spd: 81, spe: 88},
+		abilities: {0: "Sap Sipper", 1: "Grass Pet", H: "Reckless"},
 	},
 
 };

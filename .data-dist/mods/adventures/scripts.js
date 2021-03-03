@@ -438,6 +438,8 @@ this.modData('Learnsets', 'murkrow').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.eeriespell = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.workup = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.knockoff = ['8L1'];
+this.modData('Learnsets', 'honchkrow').learnset.barrage = ['8L1'];
+this.modData('Learnsets', 'honchkrow').learnset.beatup = ['8L1'];
 
 this.modData('Learnsets', 'bellossom').learnset.powergem = ['8L1'];
 this.modData('Learnsets', 'bellossom').learnset.weatherball = ['8L1'];

@@ -426,6 +426,12 @@ this.modData('Learnsets', 'grumpig').learnset.darkpulse = ['8L1'];
 this.modData('Learnsets', 'grumpig').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'grumpig').learnset.teleport = ['8L1'];
 
+this.modData('Learnsets', 'parasect').learnset.gunkshot = ['8L1'];
+this.modData('Learnsets', 'parasect').learnset.sludgewave = ['8L1'];
+this.modData('Learnsets', 'parasect').learnset.bugbuzz = ['8L1'];
+this.modData('Learnsets', 'parasect').learnset.hornleech = ['8L1'];
+
+
 this.modData('Learnsets', 'heliolisk').learnset.energyball = ['8L1'];
 this.modData('Learnsets', 'heliolisk').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'heliolisk').learnset.scorchingsands = ['8L1'];
@@ -438,6 +444,22 @@ this.modData('Learnsets', 'murkrow').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.eeriespell = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.workup = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.knockoff = ['8L1'];
+this.modData('Learnsets', 'honchkrow').learnset.barrage = ['8L1'];
+this.modData('Learnsets', 'honchkrow').learnset.beatup = ['8L1'];
+this.modData('Learnsets', 'honchkrow').learnset.pursuit = ['8L1'];
+
+this.modData('Learnsets', 'perrserker').learnset.leafblade = ['8L1'];
+this.modData('Learnsets', 'perrserker').learnset.bulletseed = ['8L1'];
+this.modData('Learnsets', 'perrserker').learnset.meteormash = ['8L1'];
+this.modData('Learnsets', 'perrserker').learnset.suckerpunch = ['8L1'];
+
+this.modData('Learnsets', 'gogoat').learnset.woodhammer = ['8L1'];
+this.modData('Learnsets', 'gogoat').learnset.quickattack = ['8L1'];
+this.modData('Learnsets', 'gogoat').learnset.earthpower = ['8L1'];
+this.modData('Learnsets', 'gogoat').learnset.shadowball = ['8L1'];
+
+this.modData('Learnsets', 'thievul').learnset.trick = ['8L1'];
+this.modData('Learnsets', 'thievul').learnset.spectralthief = ['8L1'];
 
 this.modData('Learnsets', 'bellossom').learnset.powergem = ['8L1'];
 this.modData('Learnsets', 'bellossom').learnset.weatherball = ['8L1'];
