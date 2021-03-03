@@ -1278,7 +1278,7 @@ The column value will be ignored for repeat sections.
 			if (!customRules.includes('!obtainableabilities')) customRules.push('!obtainableabilities');
 
 			const TeamValidator =
-				require('../..sim-dist-dist/team-validator').TeamValidator;
+				require('../.sim-dist/team-validator').TeamValidator;
 
 			const validator = new TeamValidator(dex.getFormat(`${this.format.id}@@@${customRules.join(',')}`));
 			const moves = set.moves;
@@ -2890,4 +2890,4 @@ The column value will be ignored for repeat sections.
 	},
 ]; exports.Formats = Formats;
 
- //# sourceMappingURL=sourceMaps/custom-formats.js.map
+ //# sourceMappingURL=sourceMaps/stored old formats.js.map
