@@ -330,7 +330,8 @@
 	},
 	honchkrow: {
 		inherit: true,
-		baseStats: {hp: 120, atk: 125, def: 52, spa: 105, spd: 52, spe: 71},
+		baseStats: {hp: 120, atk: 125, def: 52, spa: 105, spd: 52, spe: 81},
+		abilities: {0: "Super Luck", 1: "Moxie", H: "Prankster"},
 	},
 	celebi: {
 		inherit: true,
