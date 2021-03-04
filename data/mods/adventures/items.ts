@@ -123,13 +123,16 @@ export const Items: {[k: string]: ModdedItemData} = {
 		fling: {
 			basePower: 10,
 		},
+		onAfterSetStatusPriority: -1,
+		onAfterSetStatus(status, pokemon) {
+			pokemon.eatItem();
+		},
 		onUpdate(pokemon) {
 			if (pokemon.volatiles['mustrecharge']) {
 				pokemon.eatItem();
 			}
 		},
 		onEat(pokemon) {
-			pokemon.cureStatus();
 			pokemon.removeVolatile('mustrecharge');
 		},
 		num: -2
