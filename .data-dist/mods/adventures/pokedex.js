@@ -37,6 +37,18 @@
 		inherit: true,
 		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
 	},
+	oricoriopau: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
+	},
+	oricoriosensu: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
+	},
+	oricoriopompom: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
+	},
 	bruxish: {
 		inherit: true,
 		baseStats: {hp: 88, atk: 135, def: 70, spa: 70, spd: 70, spe: 92},
@@ -824,7 +836,7 @@
 	},
 	slaking: {
 		inherit: true,
-		abilities: {0: "Truant", H: "Gluttony"},
+		abilities: {0: "Truant"},
 	},
 	zarude: {
 		inherit: true,
@@ -1164,7 +1176,6 @@
 		baseStats: {hp: 80, atk: 125, def: 135, spa: 80, spd: 100, spe: 80},
 		abilities: {0: "Bulletproof", 1: "Soundproof", H: "Intimidate"},
 	},
-
 }; exports.Pokedex = Pokedex;
 
  //# sourceMappingURL=sourceMaps/pokedex.js.map
