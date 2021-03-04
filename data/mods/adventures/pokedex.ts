@@ -824,7 +824,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	slaking: {
 		inherit: true,
-		abilities: {0: "Truant", H: "Gluttony"},
+		abilities: {0: "Truant"},
 	},
 	zarude: {
 		inherit: true,
