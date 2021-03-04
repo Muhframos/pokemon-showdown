@@ -124,7 +124,7 @@
 			basePower: 10,
 		},
 		onUpdate(pokemon) {
-			if (pokemon.status || pokemon.volatiles['mustrecharge']) {
+			if (pokemon.volatiles['mustrecharge']) {
 				pokemon.eatItem();
 			}
 		},
