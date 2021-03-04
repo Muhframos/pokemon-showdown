@@ -675,7 +675,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		},
 		onCriticalHit: false,
 		name: "Shell Armor",
-		rating: 1,
+		rating: 2,
 		num: 75,
 	},
 	battlearmor: {
@@ -685,7 +685,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		},
 		onCriticalHit: false,
 		name: "Battle Armor",
-		rating: 1,
+		rating: 2,
 		num: 75,
 	},
 	truant: {
@@ -743,5 +743,6 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onTrapPokemon(pokemon) {
 			pokemon.trapped = pokemon.maybeTrapped = false;
 		},
+	rating: 1,
 	},
 };

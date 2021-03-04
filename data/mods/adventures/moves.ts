@@ -452,10 +452,10 @@ export const Moves: {[moveid: string]: MoveData} = {
 	shelltrap: {
 		num: 704,
 		accuracy: 100,
-		basePower: 70,
+		basePower: 50,
 		category: "Special",
 		name: "Shell Trap",
-		pp: 5,
+		pp: 8,
 		priority: 1,
 		flags: {contact: 1, protect: 1, mirror: 1},
 		onTry(source, target) {
@@ -628,5 +628,97 @@ export const Moves: {[moveid: string]: MoveData} = {
 	clangoroussoulblaze: {
 		inherit: true,
 		category: "Physical",
+	},
+	flash: {
+		inherit: true,
+		desc: "100% chance to lower the target's speed by 1 stage. Hits all foes.",
+		shortDesc: "100% chance to lower target's Spe by 1.",
+		accuracy: 100,
+		basePower: 60,
+		category: "Special",
+		name: "Flash",
+		pp: 15,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		secondary: {
+			chance: 100,
+			boosts: {
+				spe: -1,
+			},
+		},
+		target: "allAdjacentFoes",
+		type: "Electric",
+		contestType: "Clever",
+	},
+	rockclimb: {
+		inherit: true,
+		type: "Rock",
+		accuracy: 90,
+		basePower: 85,
+	},
+	fly: {
+		inherit: true,
+		basePower: 100,
+		accuracy: 100,
+	},
+	dive: {
+		inherit: true,
+		basePower: 100,
+		accuracy: 100,
+	},
+	dig: {
+		inherit: true,
+		basePower: 100,
+		accuracy: 100,
+	},
+	cut: {
+		inherit: true,
+		desc: "100% chance to lower the target's defense and special defense by 1 stage.",
+		shortDesc: "100% chance to lower target's Def and SpD by 1.",
+		accuracy: 100,
+		basePower: 50,
+		category: "Physical",
+		name: "Cut",
+		pp: 15,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		secondary: {
+			chance: 100,
+			boosts: {
+				def: -1,
+				spd: -1,
+			},
+		},
+		target: "normal",
+		type: "Normal",
+		contestType: "Tough",
+	},
+	rocksmash: {
+		inherit: true,
+		desc: "100% chance to lower the target's defense by 1 stage.",
+		shortDesct: "100% chance to lower target's Def by 1.",
+		basePower: 65,
+		secondary: {
+			chance: 100,
+			boosts: {
+				def: -1,
+			},
+		},
+	},
+	strength: {
+		inherit: true,
+		pp: 10,
+		priority: -6,
+		forceSwitch: true,
+		basePower: 80,
+		accuracy: 90,
+	},
+	circlethrow: {
+		inherit: true,
+		basePower: 80,
+	},
+	dragontail: {
+		inherit: true,
+		basePower: 80,
 	},
 }
