@@ -115,6 +115,29 @@
 		num: 326,
 		gen: 4,
 	},
+	quickherb: {
+		name: "Quick Herb",
+		desc: "Removes the recharging time from a move once.",
+		shortDesc: "Removes recharge time.",
+		spritenum: 358,
+		fling: {
+			basePower: 10,
+		},
+		onAfterSetStatusPriority: -1,
+		onAfterSetStatus(status, pokemon) {
+			pokemon.eatItem();
+		},
+		onUpdate(pokemon) {
+			if (pokemon.status || pokemon.volatiles['mustrecharge']) {
+				pokemon.eatItem();
+			}
+		},
+		onEat(pokemon) {
+			pokemon.cureStatus();
+			pokemon.removeVolatile('mustrecharge');
+		},
+		num: -2
+	},
 }; exports.Items = Items;
 
  //# sourceMappingURL=sourceMaps/items.js.map
