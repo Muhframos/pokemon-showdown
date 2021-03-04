@@ -123,10 +123,6 @@
 		fling: {
 			basePower: 10,
 		},
-		onAfterSetStatusPriority: -1,
-		onAfterSetStatus(status, pokemon) {
-			pokemon.eatItem();
-		},
 		onUpdate(pokemon) {
 			if (pokemon.status || pokemon.volatiles['mustrecharge']) {
 				pokemon.eatItem();
