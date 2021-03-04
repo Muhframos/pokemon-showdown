@@ -965,6 +965,7 @@
 	},
 	accelgor: {
 		inherit: true,
+		types: ["Bug", "Dark"],
 		baseStats: {hp: 80, atk: 100, def: 40, spa: 120, spd: 40, spe: 145},
 		abilities: {0: "Unburden", 1: "Technician", H: "Catalyst"},
 	},
@@ -1157,6 +1158,11 @@
 		inherit: true,
 		baseStats: {hp: 123, atk: 100, def: 72, spa: 97, spd: 81, spe: 88},
 		abilities: {0: "Sap Sipper", 1: "Grass Pet", H: "Reckless"},
+	},
+	kommoo: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 125, def: 135, spa: 80, spd: 100, spe: 80},
+		abilities: {0: "Bulletproof", 1: "Soundproof", H: "Intimidate"},
 	},
 
 }; exports.Pokedex = Pokedex;

@@ -621,6 +621,14 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		inherit: true,
 		basePower: 75,
 	},
+	clangingscales: {
+		inherit: true,
+		category: "Physical",
+	},
+	clangoroussoulblaze: {
+		inherit: true,
+		category: "Physical",
+	},
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map

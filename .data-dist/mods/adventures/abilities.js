@@ -651,7 +651,7 @@ Ratings and how they work:
 	},
 	mobboss: {
 		onModifyPriority(priority, pokemon, target, move) {
-			if (_optionalChain([move, 'optionalAccess', _3 => _3.type, 'access', _4 => _4['dark']])) return priority + 1;
+			if ( move.type !== 'Dark') return priority + 1;
 		},
 		name: "Mob Boss",
 		desc: "This Pokemon's Dark type moves have their priority incread by 1.",
