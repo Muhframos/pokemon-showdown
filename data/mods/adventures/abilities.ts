@@ -737,4 +737,11 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: -1,
 		num: 54,
 	},
+	runaway: {
+		inherit: true,
+		onTrapPokemonPriority: -10,
+		onTrapPokemon(pokemon) {
+			pokemon.trapped = pokemon.maybeTrapped = false;
+		},
+	},
 };
