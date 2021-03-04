@@ -37,6 +37,18 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
 	},
+	oricoriopau: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
+	},
+	oricoriosensu: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
+	},
+	oricoriopompom: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
+	},
 	bruxish: {
 		inherit: true,
 		baseStats: {hp: 88, atk: 135, def: 70, spa: 70, spd: 70, spe: 92},
@@ -1164,5 +1176,4 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 80, atk: 125, def: 135, spa: 80, spd: 100, spe: 80},
 		abilities: {0: "Bulletproof", 1: "Soundproof", H: "Intimidate"},
 	},
-
 };
