@@ -713,6 +713,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		priority: -6,
 		forceSwitch: true,
 		basePower: 80,
+		accuracy: 90,
 	},
 	circlethrow: {
 		inherit: true,
