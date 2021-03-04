@@ -129,7 +129,6 @@
 			}
 		},
 		onEat(pokemon) {
-			pokemon.cureStatus();
 			pokemon.removeVolatile('mustrecharge');
 		},
 		num: -2
