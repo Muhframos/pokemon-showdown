@@ -129,7 +129,6 @@ export const Items: {[k: string]: ModdedItemData} = {
 			}
 		},
 		onEat(pokemon) {
-			pokemon.cureStatus();
 			pokemon.removeVolatile('mustrecharge');
 		},
 		num: -2
