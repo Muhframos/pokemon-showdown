@@ -36,6 +36,8 @@ this.modData('Learnsets', 'magcargo').learnset.powergem = ['8L1'];
 this.modData('Learnsets', 'magcargo').learnset.scald = ['8L1'];
 this.modData('Learnsets', 'magcargo').learnset.sludgebomb = ['8L1'];
 
+this.modData('Learnsets', 'crawdaunt').learnset.flipturn = ['8L1'];
+
 this.modData('Learnsets', 'kommoo').learnset.earthquake = ['8L1'];
 
 this.modData('Learnsets', 'pyukumuku').learnset.metronome = ['8L1'];
