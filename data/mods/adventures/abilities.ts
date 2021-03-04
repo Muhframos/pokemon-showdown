@@ -689,8 +689,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 75,
 	},
 	truant: {
-		desc: "Every other turn, this Pokemon loafs around and cannot use attacking moves on that turn."
-		shortDesc: "Every other turn, can only use status."
+		desc: "Every other turn, this Pokemon loafs around and cannot use attacking moves on that turn.",
+		shortDesc: "Every other turn, can only use status.",
 		onStart(pokemon) {
 			pokemon.removeVolatile('truant');
 			if (pokemon.activeTurns && (pokemon.moveThisTurnResult !== undefined || !this.queue.willMove(pokemon))) {
