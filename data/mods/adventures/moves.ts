@@ -707,4 +707,19 @@ export const Moves: {[moveid: string]: MoveData} = {
 			},
 		},
 	},
+	strength: {
+		inherit: true,
+		pp: 10,
+		priority: -6,
+		forceSwitch: true,
+		basePower: 80,
+	},
+	circlethrow: {
+		inherit: true,
+		basePower: 80,
+	},
+	dragontail: {
+		inherit: true,
+		basePower: 80,
+	},
 }
