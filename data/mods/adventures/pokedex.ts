@@ -816,6 +816,24 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 95, atk: 137, def: 184, spa: 44, spd: 46, spe: 28},
 		abilities: {0: "Sturdy", 1: "Unaware", H: "Slush Rush"},
 	},
+	slowbro: {
+		inherit: true,
+		abilities: {0: "Oblivious", 1: "Unaware", H: "Regenerator"},
+	},
+	slowbrogalar: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 120, def: 95, spa: 120, spd: 70, spe: 30},
+		abilities: {0: "Quick Draw", 1: "Unaware", H: "Regenerator"},
+	},
+	slowking: {
+		inherit: true,
+		abilities: {0: "Oblivious", 1: "Unaware", H: "Regenerator"},
+	},
+	slowkinggalar: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 70, def: 80, spa: 120, spd: 120, spe: 30},
+		abilities: {0: "Curious Medicine", 1: "Unaware", H: "Regenerator"},
+	},
 	electivire: {
 		inherit: true,
 		types: ["Electric", "Fighting"],

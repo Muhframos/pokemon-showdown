@@ -610,10 +610,12 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	belch: {
 		inherit: true,
 		basePower: 140,
+		accuracy: 100,
 	},
 	geargrind: {
 		inherit: true,
 		basePower: 75,
+		accuracy: 100,
 	},
 	shadowpunch: {
 		inherit: true,
