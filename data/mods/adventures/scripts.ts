@@ -27,7 +27,7 @@ this.modData('Learnsets', 'golduck').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.nightslash = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.darkpulse = ['8L1'];
-this.modData('Learnsets', 'golduck').learnset.freezedry = ['8L1'];
+this.modData('Learnsets', 'golduck').learnset.closecombat = ['8L1'];
 
 this.modData('Learnsets', 'magcargo').learnset.scald = ['8L1'];
 this.modData('Learnsets', 'magcargo').learnset.scorchingsands = ['8L1'];
