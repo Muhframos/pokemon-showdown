@@ -721,4 +721,27 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		basePower: 80,
 	},
+	mobboss: {
+		num: -15,
+		accuracy: 100,
+		basePower: 0,
+		basePowerCallback(pokemon, target, move) {
+			return 5 + Math.floor(move.allies!.shift()!.species.baseStats.atk / 10);
+		},
+		category: "Physical",
+		name: "Mob Boss",
+		desc: "Usually goes first. Hits all foes one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/10), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
+		shortDesct: "Beat Up with +1 priority. Hits all adjacent foes.",
+		pp: 10,
+		priority: 1,
+		flags: {protect: 1, mirror: 1, mystery: 1},
+		onModifyMove(move, pokemon) {
+			move.allies = pokemon.side.pokemon.filter(ally => ally === pokemon || !ally.fainted && !ally.status);
+			move.multihit = move.allies.length;
+		},
+		secondary: null,
+		target: "allAdjacentFoes",
+		type: "Dark",
+		contestType: "Clever",
+	},
 }

@@ -2246,13 +2246,7 @@ export class Battle {
 
 		if (isCrit && !suppressMessages) this.add('-crit', target);
 
-		if (pokemon.status === 'brn' && move.category === 'Physical' && !pokemon.hasAbility('guts')) {
-			if (this.gen < 6 || move.id !== 'facade') {
-				baseDamage = this.modify(baseDamage, 0.5);
-			}
-		}
-		
-		if (pokemon.status === 'brn' && move.category === 'Physical' && !pokemon.hasAbility('wonderskin')) {
+		if (pokemon.status === 'brn' && move.category === 'Physical' && !pokemon.hasAbility('guts') || pokemon.status === 'brn' && move.category === 'Physical' && !pokemon.hasAbility('wonderskin')) {
 			if (this.gen < 6 || move.id !== 'facade') {
 				baseDamage = this.modify(baseDamage, 0.5);
 			}
