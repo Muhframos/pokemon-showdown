@@ -650,14 +650,12 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 212,
 	},
 	mobboss: {
-		if (source.activeMoveActions > 1) {
 		onModifyPriority(priority, pokemon, target, move) {
 			if (move?.type === 'Dark') return priority + 1;
-		  }
 		},
 		name: "Mob Boss",
-		desc: "This Pokemon's Dark type moves have their priority increased by 1 on the user's first turn out.",
-		shortDesc: "Dark type moves have +1 priority on the first turn.",
+		desc: "This Pokemon's Dark type moves have their priority incread by 1.",
+		shortDesc: "Dark type moves have +1 priority.",
 		rating: 3.5,
 		num: -10,
 	},

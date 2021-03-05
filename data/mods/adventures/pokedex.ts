@@ -342,7 +342,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	honchkrow: {
 		inherit: true,
-		baseStats: {hp: 120, atk: 125, def: 62, spa: 75, spd: 62, spe: 71},
+		baseStats: {hp: 120, atk: 125, def: 52, spa: 105, spd: 52, spe: 81},
 		abilities: {0: "Mob Boss", 1: "Super Luck", H: "Moxie"},
 	},
 	celebi: {
