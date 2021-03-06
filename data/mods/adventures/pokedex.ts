@@ -1001,7 +1001,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	escavalier: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 135, def: 115, spa: 60, spd: 115, spe: 20},
-		abilities: {0: "Swarm", 1: "Shell Armor", H: "Heatproof"},
+		abilities: {0: "Swarm", 1: "Shell Armor", H: "Overcoat"},
 	},
 	eiscue: {
 		inherit: true,
