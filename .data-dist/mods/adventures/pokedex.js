@@ -342,8 +342,8 @@
 	},
 	honchkrow: {
 		inherit: true,
-		baseStats: {hp: 120, atk: 125, def: 52, spa: 105, spd: 52, spe: 81},
-		abilities: {0: "Mob Boss", 1: "Super Luck", H: "Moxie"},
+		baseStats: {hp: 120, atk: 125, def: 62, spa: 105, spd: 62, spe: 71},
+		abilities: {0: "Insomnia", 1: "Super Luck", H: "Moxie"},
 	},
 	celebi: {
 		inherit: true,
@@ -815,6 +815,24 @@
 		inherit: true,
 		baseStats: {hp: 95, atk: 137, def: 184, spa: 44, spd: 46, spe: 28},
 		abilities: {0: "Sturdy", 1: "Unaware", H: "Slush Rush"},
+	},
+	slowbro: {
+		inherit: true,
+		abilities: {0: "Oblivious", 1: "Unaware", H: "Regenerator"},
+	},
+	slowbrogalar: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 120, def: 95, spa: 120, spd: 70, spe: 30},
+		abilities: {0: "Quick Draw", 1: "Unaware", H: "Regenerator"},
+	},
+	slowking: {
+		inherit: true,
+		abilities: {0: "Oblivious", 1: "Unaware", H: "Regenerator"},
+	},
+	slowkinggalar: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 70, def: 80, spa: 120, spd: 120, spe: 30},
+		abilities: {0: "Curious Medicine", 1: "Unaware", H: "Regenerator"},
 	},
 	electivire: {
 		inherit: true,
