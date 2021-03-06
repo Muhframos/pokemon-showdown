@@ -974,8 +974,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	magcargo: {
 		inherit: true,
-		types: ["Fire", "Ground"],
-		baseStats: {hp: 70, atk: 50, def: 150, spa: 120, spd: 100, spe: 30},
+		baseStats: {hp: 70, atk: 50, def: 230, spa: 120, spd: 100, spe: 30},
 		abilities: {0: "Flame Body", 1: "Solid Rock", H: "Unaware"},
 	},
 	pyukumuku: {
