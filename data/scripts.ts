@@ -476,6 +476,18 @@ export const Scripts: BattleScriptsData = {
 			} else {
 				accuracy = this.runEvent('Accuracy', target, pokemon, move, accuracy);
 			}
+			if (move.alwaysHit || (move.id === 'willowisp' && this.gen >= 8 && pokemon.hasType('Fire')) ||
+					(move.target === 'self' && move.category === 'Status' && !target.isSemiInvulnerable())) {
+				accuracy = true; // bypasses ohko accuracy modifiers
+			} else {
+				accuracy = this.runEvent('Accuracy', target, pokemon, move, accuracy);
+			}
+			if (move.alwaysHit || (move.id === 'thunderwave' && this.gen >= 8 && pokemon.hasType('Electric')) ||
+					(move.target === 'self' && move.category === 'Status' && !target.isSemiInvulnerable())) {
+				accuracy = true; // bypasses ohko accuracy modifiers
+			} else {
+				accuracy = this.runEvent('Accuracy', target, pokemon, move, accuracy);
+			}
 			if (accuracy !== true && !this.randomChance(accuracy, 100)) {
 				if (move.smartTarget) {
 					move.smartTarget = false;
