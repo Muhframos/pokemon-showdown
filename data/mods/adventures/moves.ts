@@ -744,4 +744,24 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Dark",
 		contestType: "Clever",
 	},
+	shatteringsteel: {
+		num: -16,
+		accuracy: 100,
+		basePower: 150,
+		name: "Shattering Steel",
+		category: "Physical",
+		pp: 1,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		secondary: {
+			chance: 100,
+				boosts: {
+					def: -2,
+				},
+		},
+		target: "normal",
+		type: "Steel",
+		contestType: "Tough",
+		zMove: {boost: {atk: 2}},
+	},
 }

@@ -656,11 +656,10 @@ this.modData('Learnsets', 'accelgor').learnset.gunkshot = ['8L1'];
 this.modData('Learnsets', 'accelgor').learnset.liquidation = ['8L1'];
 this.modData('Learnsets', 'accelgor').learnset.thief = ['8L1'];
 
-this.modData('Learnsets', 'escavalier').learnset.glaciallance = ['8L1'];
+this.modData('Learnsets', 'escavalier').learnset.shatteringsteel = ['8L1'];
 this.modData('Learnsets', 'escavalier').learnset.leechlife = ['8L1'];
 this.modData('Learnsets', 'escavalier').learnset.gyroball = ['8L1'];
 this.modData('Learnsets', 'escavalier').learnset.uturn = ['8L1'];
-this.modData('Learnsets', 'escavalier').learnset.doubleironbash = ['8L1'];
 
 this.modData('Learnsets', 'minior').learnset.wish = ['8L1'];
 this.modData('Learnsets', 'minior').learnset.bodypress = ['8L1'];
