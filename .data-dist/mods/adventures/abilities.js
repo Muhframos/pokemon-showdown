@@ -649,16 +649,6 @@ Ratings and how they work:
 		rating: 3,
 		num: 212,
 	},
-	mobboss: {
-		onModifyPriority(priority, pokemon, target, move) {
-			if (_optionalChain([move, 'optionalAccess', _3 => _3.type]) === 'Dark') return priority + 1;
-		},
-		name: "Mob Boss",
-		desc: "This Pokemon's Dark type moves have their priority incread by 1.",
-		shortDesc: "Dark type moves have +1 priority.",
-		rating: 3.5,
-		num: -10,
-	},
 	shellarmor: {
 				onUpdate(pokemon) {
 			if (pokemon.status === 'brn') {
@@ -668,7 +658,7 @@ Ratings and how they work:
 		},
 		onSetStatus(status, target, source, effect) {
 			if (status.id !== 'brn') return;
-			if (_optionalChain([(effect ), 'optionalAccess', _4 => _4.status])) {
+			if (_optionalChain([(effect ), 'optionalAccess', _3 => _3.status])) {
 				this.add('-immune', target, '[from] ability: Water Veil');
 			}
 			return false;
