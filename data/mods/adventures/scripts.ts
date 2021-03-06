@@ -33,8 +33,9 @@ this.modData('Learnsets', 'magcargo').learnset.scald = ['8L1'];
 this.modData('Learnsets', 'magcargo').learnset.scorchingsands = ['8L1'];
 this.modData('Learnsets', 'magcargo').learnset.haze = ['8L1'];
 this.modData('Learnsets', 'magcargo').learnset.powergem = ['8L1'];
-this.modData('Learnsets', 'magcargo').learnset.scald = ['8L1'];
+this.modData('Learnsets', 'magcargo').learnset.meteorbeam = ['8L1'];
 this.modData('Learnsets', 'magcargo').learnset.sludgebomb = ['8L1'];
+
 
 this.modData('Learnsets', 'crawdaunt').learnset.flipturn = ['8L1'];
 
