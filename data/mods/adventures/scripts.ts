@@ -450,8 +450,8 @@ this.modData('Learnsets', 'honchkrow').learnset.eeriespell = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.workup = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.barrage = ['8L1'];
-this.modData('Learnsets', 'honchkrow').learnset.beatup = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.pursuit = ['8L1'];
+this.modData('Learnsets', 'honchkrow').learnset.mobboss = ['8L1'];
 
 this.modData('Learnsets', 'perrserker').learnset.leafblade = ['8L1'];
 this.modData('Learnsets', 'perrserker').learnset.bulletseed = ['8L1'];
