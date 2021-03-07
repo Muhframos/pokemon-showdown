@@ -542,7 +542,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	barrage: {
 		num: 140,
-		accuracy: 85,
+		accuracy: 100,
 		basePower: 30,
 		category: "Physical",
 		name: "Barrage",
@@ -556,6 +556,27 @@ export const Moves: {[moveid: string]: MoveData} = {
 		target: "normal",
 		type: "Steel",
 		contestType: "Cute",
+	},
+	beatup: {
+		num: 251,
+		accuracy: 100,
+		basePower: 0,
+		basePowerCallback(pokemon, target, move) {
+			return 10 + Math.floor(move.allies!.shift()!.species.baseStats.atk / 10);
+		},
+		category: "Physical",
+		name: "Beat Up",
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, mystery: 1},
+		onModifyMove(move, pokemon) {
+			move.allies = pokemon.side.pokemon.filter(ally => ally === pokemon || !ally.fainted && !ally.status);
+			move.multihit = move.allies.length;
+		},
+		secondary: null,
+		target: "normal",
+		type: "Dark",
+		contestType: "Clever",
 	},
 	vcreate: {
 		num: 557,
@@ -620,14 +641,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 	shadowpunch: {
 		inherit: true,
 		basePower: 75,
-	},
-	clangingscales: {
-		inherit: true,
-		category: "Physical",
-	},
-	clangoroussoulblaze: {
-		inherit: true,
-		category: "Physical",
 	},
 	flash: {
 		inherit: true,

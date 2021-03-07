@@ -1202,12 +1202,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	perrserker: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 120, def: 110, spa: 50, spd: 70, spe: 60},
-		abilities: {0: "Technician", 1: "Tough Claws", H: "Steely Spirit"},
+		baseStats: {hp: 90, atk: 120, def: 115, spa: 65, spd: 70, spe: 60},
 	},
 	thievul: {
 		inherit: true,
-		baseStats: {hp: 70, atk: 88, def: 68, spa: 107, spd: 92, spe: 90},
+		baseStats: {hp: 70, atk: 108, def: 68, spa: 87, spd: 92, spe: 100},
 		abilities: {0: "Pickpocket", 1: "Unburden", H: "Stakeout"},
 	},
 	gogoat: {
@@ -1217,7 +1216,6 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	kommoo: {
 		inherit: true,
-		baseStats: {hp: 80, atk: 125, def: 135, spa: 80, spd: 100, spe: 80},
 		abilities: {0: "Bulletproof", 1: "Soundproof", H: "Intimidate"},
 	},
 };
