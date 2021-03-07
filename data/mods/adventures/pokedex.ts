@@ -1191,6 +1191,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 78, atk: 107, def: 75, spa: 85, spd: 75, spe: 110},
 		abilities: {0: "Overgrow", 1: "Sniper", H: "Long Reach"},
 	},
+	noivern: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 50, def: 85, spa: 97, spd: 85, spe: 123},
+		abilities: {0: "Frisk", 1: "Infiltrator", H: "Aerilate"},
+	},
 	dubwool: {
 		inherit: true,
 		abilities: {0: "Fluffy", 1: "Defiant", H: "Bulletproof"},
