@@ -153,6 +153,18 @@ Ratings and how they work:
 		rating: 4,
 		num: 170,
 	},
+	gravitysurge: {
+		name: "Gravity Surge",
+		desc: "Summons Gravity on switch-in. Lasts for 5 turns.",
+		shortDesc: "Gravity on switch-in.",
+		onStart(source) {
+			this.field.getPseudoWeather('gravity');
+			this.add('-activate', source, 'ability: Gravity Surge');
+		},
+		name: "Gravity Surge",
+		rating: 4,
+		num: -10,
+	},
 	superluck: {
 		name: "Super Luck",
 		desc: "Boosts the user's critical hit ratio by 2 stages.",
@@ -734,6 +746,35 @@ Ratings and how they work:
 			pokemon.trapped = pokemon.maybeTrapped = false;
 		},
 	rating: 1,
+	},
+	poisonpoint: {
+		onDamagingHit(damage, target, source, move) {
+			if (move.flags['contact']) {
+				if (this.randomChance(3, 10)) {
+					source.trySetStatus('tox', target);
+				}
+			}
+		},
+		name: "Poison Point",
+		rating: 1.5,
+		num: 38,
+	},
+	poisontouch: {
+		// upokecenter says this is implemented as an added secondary effect
+		onModifyMove(move) {
+			if (!move || !move.flags['contact'] || move.target === 'self') return;
+			if (!move.secondaries) {
+				move.secondaries = [];
+			}
+			move.secondaries.push({
+				chance: 30,
+				status: 'tox',
+				ability: this.dex.getAbility('poisontouch'),
+			});
+		},
+		name: "Poison Touch",
+		rating: 2,
+		num: 143,
 	},
 }; exports.Abilities = Abilities;
 

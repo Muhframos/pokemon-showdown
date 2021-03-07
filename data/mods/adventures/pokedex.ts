@@ -86,7 +86,16 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	qwilfish: {
 		inherit: true,
 		baseStats: {hp: 95, atk: 115, def: 100, spa: 55, spd: 75, spe: 85},
-		abilities: {0: "Aftermath", H: "Intimidate", 1: "Technician"},
+		abilities: {0: "Aftermath", H: "Intimidate", 1: "Poison Point"},
+	},
+	pidgeot: {
+		inherit: true,
+		baseStats: {hp: 93, atk: 95, def: 75, spa: 95, spd: 70, spe: 101},
+		abilities: {0: "Keen Eye", H: "Gale Wings", 1: "Defiant"},
+	},
+	pidgeotmega: {
+		inherit: true,
+		baseStats: {hp: 93, atk: 115, def: 85, spa: 135, spd: 80, spe: 121},
 	},
 	golduck: {
 		inherit: true,
@@ -320,7 +329,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	cameruptmega: {
 		inherit: true,
-		baseStats: {hp: 80, atk: 120, def: 115, spa: 165, spd: 20, spe: 20},
+		baseStats: {hp: 80, atk: 120, def: 115, spa: 165, spd: 120, spe: 20},
 	},
 	houndoom: {
 		inherit: true,
@@ -632,6 +641,16 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 95, atk: 125, def: 85, spa: 105, spd: 75, spe: 45},
 		abilities: {0: "Limber", 1: "Long Reach", H: "Harvest"},
+	},
+	stonjourner: {
+		inherit: true,
+		baseStats: {hp: 110, atk: 125, def: 185, spa: 20, spd: 20, spe: 70},
+		abilities: {0: "Power Spot", H: "Gravity Surge"},
+	},
+	beheeyem: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 75, def: 85, spa: 150, spd: 105, spe: 40},
+		abilities: {0: "Telepathy", 1: "Analytic", H: "Gravity Surge"},
 	},
 	crustle: {
 		inherit: true,
