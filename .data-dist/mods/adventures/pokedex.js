@@ -965,7 +965,7 @@
 	},
 	lanturn: {
 		inherit: true,
-		baseStats: {hp: 125, atk: 58, def: 58, spa: 106, spd: 106, spe: 67},
+		baseStats: {hp: 125, atk: 58, def: 58, spa: 106, spd: 106, spe: 77},
 	},
 	banettemega: {
 		inherit: true,
@@ -1198,11 +1198,13 @@
 	},
 	absol: {
 		inherit: true,
+		types: ["Dark", "Fairy"],
 		baseStats: {hp: 65, atk: 130, def: 60, spa: 105, spd: 60, spe: 115},
 		abilities: {0: "Portend", 1: "Super Luck", H: "Justified"},
 	},
 	absolmega: {
 		inherit: true,
+		types: ["Dark", "Fairy"],
 		baseStats: {hp: 65, atk: 150, def: 75, spa: 150, spd: 80, spe: 115},
 	},
 	dubwool: {
