@@ -244,8 +244,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			}
 
 			if (success) {
-				this.add('-anim', pokemon, 'Portend');
-				this.add('-start', pokemon, 'Portend');
+				this.add('-anim', pokemon, 'Earthquake');
 			}
 		},
 	},
