@@ -244,7 +244,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			}
 
 			if (success) {
-				this.add('-anim', pokemon, 'Earthquake');
+				this.add('-anim', pokemon, 'Doom Desire');
 			}
 		},
 	},
