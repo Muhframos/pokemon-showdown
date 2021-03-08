@@ -916,4 +916,43 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Dragon",
 		contestType: "Cool",
 	},
+	portend: {
+		num: 248,
+		accuracy: 100,
+		basePower: 100,
+		category: "Physical",
+		name: "Portend",
+		pp: 10,
+		priority: 0,
+		flags: {},
+		ignoreImmunity: true,
+		isFutureMove: true,
+		onTry(source, target) {
+			if (!target.side.addSlotCondition(target, 'futuremove')) return false;
+			Object.assign(target.side.slotConditions[target.position]['futuremove'], {
+				duration: 3,
+				move: 'portend',
+				source: source,
+				moveData: {
+					id: 'portend',
+					name: "Portend",
+					accuracy: 100,
+					basePower: 100,
+					category: "Physical",
+					priority: 0,
+					flags: {},
+					ignoreImmunity: false,
+					effectType: 'Move',
+					isFutureMove: true,
+					type: 'Ground',
+				},
+			});
+			this.add('-start', source, 'move: Portend');
+			return this.NOT_FAIL;
+		},
+		secondary: null,
+		target: "normal",
+		type: "Ground",
+		contestType: "Clever",
+	},
 }

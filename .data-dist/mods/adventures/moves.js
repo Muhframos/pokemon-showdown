@@ -542,7 +542,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	},
 	barrage: {
 		num: 140,
-		accuracy: 85,
+		accuracy: 100,
 		basePower: 30,
 		category: "Physical",
 		name: "Barrage",
@@ -556,6 +556,27 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		target: "normal",
 		type: "Steel",
 		contestType: "Cute",
+	},
+	beatup: {
+		num: 251,
+		accuracy: 100,
+		basePower: 0,
+		basePowerCallback(pokemon, target, move) {
+			return 10 + Math.floor(move.allies.shift().species.baseStats.atk / 10);
+		},
+		category: "Physical",
+		name: "Beat Up",
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, mystery: 1},
+		onModifyMove(move, pokemon) {
+			move.allies = pokemon.side.pokemon.filter(ally => ally === pokemon || !ally.fainted && !ally.status);
+			move.multihit = move.allies.length;
+		},
+		secondary: null,
+		target: "normal",
+		type: "Dark",
+		contestType: "Clever",
 	},
 	vcreate: {
 		num: 557,
@@ -620,14 +641,6 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	shadowpunch: {
 		inherit: true,
 		basePower: 75,
-	},
-	clangingscales: {
-		inherit: true,
-		category: "Physical",
-	},
-	clangoroussoulblaze: {
-		inherit: true,
-		category: "Physical",
 	},
 	flash: {
 		inherit: true,
@@ -902,6 +915,45 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		target: "allAdjacentFoes",
 		type: "Dragon",
 		contestType: "Cool",
+	},
+	portend: {
+		num: 248,
+		accuracy: 100,
+		basePower: 100,
+		category: "Physical",
+		name: "Portend",
+		pp: 10,
+		priority: 0,
+		flags: {},
+		ignoreImmunity: true,
+		isFutureMove: true,
+		onTry(source, target) {
+			if (!target.side.addSlotCondition(target, 'futuremove')) return false;
+			Object.assign(target.side.slotConditions[target.position]['futuremove'], {
+				duration: 3,
+				move: 'portend',
+				source: source,
+				moveData: {
+					id: 'portend',
+					name: "Portend",
+					accuracy: 100,
+					basePower: 100,
+					category: "Physical",
+					priority: 0,
+					flags: {},
+					ignoreImmunity: false,
+					effectType: 'Move',
+					isFutureMove: true,
+					type: 'Ground',
+				},
+			});
+			this.add('-start', source, 'move: Portend');
+			return this.NOT_FAIL;
+		},
+		secondary: null,
+		target: "normal",
+		type: "Ground",
+		contestType: "Clever",
 	},
 }; exports.Moves = Moves
 

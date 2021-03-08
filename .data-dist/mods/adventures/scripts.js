@@ -699,6 +699,15 @@ this.modData('Learnsets', 'decidueye').learnset.powerwhip = ['8L1'];
 
 this.modData('Learnsets', 'dubwool').learnset.headsmash = ['8L1'];
 
+this.modData('Learnsets', 'absol').learnset.nastyplot = ['8L1'];
+this.modData('Learnsets', 'absol').learnset.moonblast = ['8L1'];
+this.modData('Learnsets', 'absol').learnset.moonlight = ['8L1'];
+this.modData('Learnsets', 'absol').learnset.aurasphere = ['8L1'];
+
+this.modData('Learnsets', 'noivern').learnset.twister = ['8L1'];
+this.modData('Learnsets', 'noivern').learnset.fireblast = ['8L1'];
+this.modData('Learnsets', 'noivern').learnset.nastyplot = ['8L1'];
+
 this.modData('Learnsets', 'jumpluff').learnset.airslash = ['8L1'];
 this.modData('Learnsets', 'jumpluff').learnset.fly = ['8L1'];
 

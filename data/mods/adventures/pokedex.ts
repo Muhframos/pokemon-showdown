@@ -1196,6 +1196,15 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 95, atk: 50, def: 85, spa: 97, spd: 85, spe: 123},
 		abilities: {0: "Frisk", 1: "Infiltrator", H: "Aerilate"},
 	},
+	absol: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 130, def: 60, spa: 105, spd: 60, spe: 115},
+		abilities: {0: "Portend", 1: "Super Luck", H: "Justified"},
+	},
+	absolmega: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 150, def: 75, spa: 150, spd: 80, spe: 115},
+	},
 	dubwool: {
 		inherit: true,
 		abilities: {0: "Fluffy", 1: "Defiant", H: "Bulletproof"},

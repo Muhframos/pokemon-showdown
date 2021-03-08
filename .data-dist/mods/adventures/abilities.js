@@ -213,6 +213,44 @@ Ratings and how they work:
 	},
 	rating: 2,
 	num: -8,
+	portend: {
+		name: "Portend",
+		desc: "2 turns after switchin, the user uses Earthquake on the opposing side.",
+		shortDesc: "2 turns delayed Earthquake on switchin.",
+		onStart(pokemon) {
+			this.add('-activate', pokemon, 'ability: Portend');
+			let success = false;
+			for (const target of pokemon.side.foe.active) {
+				if (target.side.addSlotCondition(target, 'futuremove')) {
+					Object.assign(target.side.slotConditions[target.position]['futuremove'], {
+						duration: 3,
+						move: 'portend',
+						source: pokemon,
+						moveData: {
+							id: 'portend',
+							name: "Portend",
+							accuracy: 100,
+							basePower: 100,
+							category: "Physical",
+							priority: 0,
+							flags: {},
+							effectType: 'Move',
+							isFutureMove: true,
+							type: 'Ground',
+						},
+					});
+					success = true;
+				}
+			}
+
+			if (success) {
+				this.add('-anim', pokemon, 'Portend');
+				this.add('-start', pokemon, 'Portend');
+			}
+		},
+	},
+	rating: 2,
+	num: -8,
 	sandforce: {
 		name: "Sand Force",
 		desc: "Ground, Steel and Rock moves have 1.3x Power. Grants Immunity to Sandstorm damage.",

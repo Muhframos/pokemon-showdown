@@ -1191,6 +1191,20 @@
 		baseStats: {hp: 78, atk: 107, def: 75, spa: 85, spd: 75, spe: 110},
 		abilities: {0: "Overgrow", 1: "Sniper", H: "Long Reach"},
 	},
+	noivern: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 50, def: 85, spa: 97, spd: 85, spe: 123},
+		abilities: {0: "Frisk", 1: "Infiltrator", H: "Aerilate"},
+	},
+	absol: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 130, def: 60, spa: 105, spd: 60, spe: 115},
+		abilities: {0: "Portend", 1: "Super Luck", H: "Justified"},
+	},
+	absolmega: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 150, def: 75, spa: 150, spd: 80, spe: 115},
+	},
 	dubwool: {
 		inherit: true,
 		abilities: {0: "Fluffy", 1: "Defiant", H: "Bulletproof"},
@@ -1202,12 +1216,11 @@
 	},
 	perrserker: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 120, def: 110, spa: 50, spd: 70, spe: 60},
-		abilities: {0: "Technician", 1: "Tough Claws", H: "Steely Spirit"},
+		baseStats: {hp: 90, atk: 120, def: 115, spa: 65, spd: 70, spe: 60},
 	},
 	thievul: {
 		inherit: true,
-		baseStats: {hp: 70, atk: 88, def: 68, spa: 107, spd: 92, spe: 90},
+		baseStats: {hp: 70, atk: 108, def: 68, spa: 87, spd: 92, spe: 100},
 		abilities: {0: "Pickpocket", 1: "Unburden", H: "Stakeout"},
 	},
 	gogoat: {
@@ -1217,7 +1230,6 @@
 	},
 	kommoo: {
 		inherit: true,
-		baseStats: {hp: 80, atk: 125, def: 135, spa: 80, spd: 100, spe: 80},
 		abilities: {0: "Bulletproof", 1: "Soundproof", H: "Intimidate"},
 	},
 }; exports.Pokedex = Pokedex;
