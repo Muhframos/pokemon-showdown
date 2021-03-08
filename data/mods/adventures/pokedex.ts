@@ -965,7 +965,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	lanturn: {
 		inherit: true,
-		baseStats: {hp: 125, atk: 58, def: 58, spa: 106, spd: 106, spe: 67},
+		baseStats: {hp: 125, atk: 58, def: 58, spa: 106, spd: 106, spe: 77},
 	},
 	banettemega: {
 		inherit: true,

@@ -617,6 +617,7 @@ this.modData('Learnsets', 'armaldo').learnset.pinmissile = ['8L1'];
 
 this.modData('Learnsets', 'lanturn').learnset.tailglow = ['8L1'];
 this.modData('Learnsets', 'lanturn').learnset.flipturn = ['8L1'];
+this.modData('Learnsets', 'lanturn').learnset.zapcannon = ['8L1'];
 
 this.modData('Learnsets', 'rapidash').learnset.jumpkick = ['8L1'];
 

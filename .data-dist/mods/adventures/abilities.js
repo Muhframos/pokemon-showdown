@@ -244,8 +244,7 @@ Ratings and how they work:
 			}
 
 			if (success) {
-				this.add('-anim', pokemon, 'Portend');
-				this.add('-start', pokemon, 'Portend');
+				this.add('-anim', pokemon, 'Earthquake');
 			}
 		},
 	},

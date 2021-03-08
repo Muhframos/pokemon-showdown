@@ -133,4 +133,18 @@ export const Items: {[k: string]: ModdedItemData} = {
 		},
 		num: -2
 	},
+	expertbelt: {
+		name: "Expert Belt",
+		spritenum: 132,
+		fling: {
+			basePower: 10,
+		},
+		onModifyDamage(damage, source, target, move) {
+			if (move && target.getMoveHitData(move).typeMod > 0) {
+				return this.chainModify([0x1444, 0x1444]);
+			}
+		},
+		num: 268,
+		gen: 4,
+	},
 };
