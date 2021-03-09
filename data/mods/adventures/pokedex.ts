@@ -39,6 +39,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	oricoriopau: {
 		inherit: true,
+		types: ["Fairy", "Flying"],
 		baseStats: {hp: 65, atk: 110, def: 70, spa: 108, spd: 70, spe: 113},
 	},
 	oricoriosensu: {
@@ -963,6 +964,15 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 61, atk: 110, def: 60, spa: 65, spd: 65, spe: 160},
 		abilities: {0: "Moxie", 1: "Aerilate", H: "Speed Boost"},
 	},
+	garchomp: {
+		inherit: true,
+		baseStats: {hp: 108, atk: 130, def: 95, spa: 80, spd: 85, spe: 102},
+	},
+	garchompmega: {
+		inherit: true,
+		baseStats: {hp: 108, atk: 170, def: 125, spa: 110, spd: 85, spe: 102},
+		abilities: {0: "Rough Skin"},
+	},
 	lanturn: {
 		inherit: true,
 		baseStats: {hp: 125, atk: 58, def: 58, spa: 106, spd: 106, spe: 77},
@@ -978,8 +988,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	wailord: {
 		inherit: true,
-		baseStats: {hp: 170, atk: 75, def: 65, spa: 90, spd: 65, spe: 60},
-		abilities: {0: "Magic Guard", 1: "Thick Fat", H: "Dry Skin"},
+		baseStats: {hp: 170, atk: 80, def: 55, spa: 100, spd: 55, spe: 75},
 	},
 	drapion: {
 		inherit: true,
@@ -1213,7 +1222,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	parasect: {
 		inherit: true,
-		baseStats: {hp: 30, atk: 95, def: 160, spa: 95, spd: 160, spe: 35},
+		baseStats: {hp: 30, atk: 90, def: 200, spa: 60, spd: 200, spe: 20},
 		abilities: {0: "Effect Spore", 1: "Dry Skin", H: "Poison Heal"},
 	},
 	perrserker: {

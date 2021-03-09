@@ -244,7 +244,7 @@ Ratings and how they work:
 			}
 
 			if (success) {
-				this.add('-anim', pokemon, 'Earthquake');
+				this.add('-anim', pokemon, 'Doom Desire');
 			}
 		},
 	},

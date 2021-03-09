@@ -285,6 +285,7 @@ this.modData('Learnsets', 'cresselia').learnset.mistyexplosion = ['8L1'];
 this.modData('Learnsets', 'crobat').learnset.flareblitz = ['8L1'];
 this.modData('Learnsets', 'crobat').learnset.wildcharge = ['8L1'];
 this.modData('Learnsets', 'crobat').learnset.firstimpression = ['8L1'];
+this.modData('Learnsets', 'crobat').learnset.gunkshot = ['8L1'];
 
 this.modData('Learnsets', 'cryogonal').learnset.mysticalfire = ['8L1'];
 this.modData('Learnsets', 'cryogonal').learnset.powergem = ['8L1'];
@@ -443,10 +444,11 @@ this.modData('Learnsets', 'grumpig').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'grumpig').learnset.teleport = ['8L1'];
 
 this.modData('Learnsets', 'parasect').learnset.gunkshot = ['8L1'];
-this.modData('Learnsets', 'parasect').learnset.sludgewave = ['8L1'];
-this.modData('Learnsets', 'parasect').learnset.bugbuzz = ['8L1'];
+this.modData('Learnsets', 'parasect').learnset.earthquake = ['8L1'];
+this.modData('Learnsets', 'parasect').learnset.topsyturvy = ['8L1'];
 this.modData('Learnsets', 'parasect').learnset.hornleech = ['8L1'];
-
+this.modData('Learnsets', 'parasect').learnset.toxicspikes = ['8L1'];
+this.modData('Learnsets', 'parasect').learnset.painsplit = ['8L1'];
 
 this.modData('Learnsets', 'heliolisk').learnset.energyball = ['8L1'];
 this.modData('Learnsets', 'heliolisk').learnset.aurorabeam = ['8L1'];
@@ -617,6 +619,7 @@ this.modData('Learnsets', 'armaldo').learnset.pinmissile = ['8L1'];
 
 this.modData('Learnsets', 'lanturn').learnset.tailglow = ['8L1'];
 this.modData('Learnsets', 'lanturn').learnset.flipturn = ['8L1'];
+this.modData('Learnsets', 'lanturn').learnset.zapcannon = ['8L1'];
 
 this.modData('Learnsets', 'rapidash').learnset.jumpkick = ['8L1'];
 
@@ -784,7 +787,6 @@ this.modData('Learnsets', 'vivillon').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'vivillon').learnset.icywind = ['8L1'];
 this.modData('Learnsets', 'vivillon').learnset.muddywater = ['8L1'];
 
-this.modData('Learnsets', 'wailord').learnset.lifedew = ['8L1'];
 this.modData('Learnsets', 'wailord').learnset.flipturn = ['8L1'];
 
 this.modData('Learnsets', 'weavile').learnset.switcheroo = ['8L1'];

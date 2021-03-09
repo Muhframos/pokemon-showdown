@@ -22,11 +22,6 @@ The column value will be ignored for repeat sections.
 		section: "Adventures Dex",
 	},
 	{
-		name: "[Gen 8] Adventures AG",
-		mod: 'adventures',
-		ruleset: ['Standard NatDex'],
-	},
-	{
 		name: "[Gen 8] Adventures OU",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
@@ -113,6 +108,11 @@ The column value will be ignored for repeat sections.
 			'Rotom-Heat', 'Rotom-Wash', 'Sableye-Mega', 'Scizor', 'Shuckle', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Staraptor', 'Swampert', 'Umbreon',
 			'Urshifu-Rapid-Strike', 'Weavile', 'Zapdos-Galar',
 		],
+	},
+	{
+		name: "[Gen 8] Adventures AG",
+		mod: 'adventures',
+		ruleset: ['Standard NatDex'],
 	},
 	{
 		name: "[Gen 8] Adventures 1v1",
