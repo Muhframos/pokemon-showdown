@@ -1,7 +1,7 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true});/* eslint max-len: ["error", 240] */
 
 var _randomteams = require('../gen6/random-teams');
-var _dex = require('../../../.sim-dist/dex');
+var _dex = require('../../../sim/dex');
 
  class RandomGen5Teams extends _randomteams.default {
 	randomSet(species, teamDetails = {}, isLead = false) {

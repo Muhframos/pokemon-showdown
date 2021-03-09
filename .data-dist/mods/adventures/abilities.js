@@ -813,6 +813,12 @@ Ratings and how they work:
 		rating: 2,
 		num: 143,
 	},
+	oblivious: {
+		inherit: true,
+		//hazard immunity coded in moves.ts
+		desc: "This Pokemon cannot be infatuated or taunted. Gaining this Ability while affected cures it. Immune to Intimidate and Hazards.",
+		shortDesc: "This Pokemon cannot be infatuated or taunted. Immune to Intimidate and Hazards.",
+	},
 }; exports.Abilities = Abilities;
 
  //# sourceMappingURL=sourceMaps/abilities.js.map

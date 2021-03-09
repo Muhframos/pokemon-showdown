@@ -541,7 +541,7 @@ this.modData('Learnsets', 'marowakalola').learnset.wildcharge = ['8L1'];
 
 this.modData('Learnsets', 'metagross').learnset.shiftgear = ['8L1'];
 
-this.modData('Learnsets', 'milotic').learnset.quiverdance = ['8L1'];
+this.modData('Learnsets', 'milotic').learnset.drainingkiss = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.charm = ['8L1'];
