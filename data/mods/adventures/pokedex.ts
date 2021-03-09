@@ -979,7 +979,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	wailord: {
 		inherit: true,
 		baseStats: {hp: 170, atk: 75, def: 65, spa: 90, spd: 65, spe: 60},
-		abilities: {0: "Magic Guard", 1: "Thick Fat", H: "Dry Skin"},
+		abilities: {0: "Oblivious", 1: "Thick Fat", H: "Dry Skin"},
 	},
 	drapion: {
 		inherit: true,
