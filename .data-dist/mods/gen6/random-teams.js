@@ -3,7 +3,7 @@
 
 var _randomteams2 = require('../gen7/random-teams');
 
-var _dex = require('../../../sim/dex');
+var _dex = require('../../../.sim-dist/dex');
 
  class RandomGen6Teams extends _randomteams2.default {
 	constructor(format, prng) {

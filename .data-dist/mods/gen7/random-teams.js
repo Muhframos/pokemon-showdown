@@ -2,8 +2,8 @@
 
 var _randomteams = require('../../random-teams');
 
-var _utils = require('../../../lib/utils');
-var _dex = require('../../../sim/dex');
+var _utils = require('../../../.lib-dist/utils');
+var _dex = require('../../../.sim-dist/dex');
 
  class RandomGen7Teams extends _randomteams.RandomTeams {
 	constructor(format, prng) {
