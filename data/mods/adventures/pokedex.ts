@@ -683,7 +683,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	torterra: {
 		inherit: true,
-		abilities: {0: "Overgrow", 1: "Thick Fat", H: "Chlorophyll"},
+		abilities: {0: "Overgrow", 1: "Thick Fat", H: "Gravity Surge"},
 	},
 	torkoal: {
 		inherit: true,
