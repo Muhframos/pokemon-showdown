@@ -605,7 +605,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	diancie: {
 		inherit: true,
-		abilities: {0: "Clear Body", H: "Magic Bounce"},
+		abilities: {0: "Magic Bounce"},
 	},
 	dianciemega: {
 		inherit: true,
