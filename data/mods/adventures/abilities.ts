@@ -828,7 +828,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onTryImmunity(target) {
 			return !target.hasAbility('stickyhold');
 		},
-		onAfterMoveSecondarySelf(target, source, move) {
+		onAfterMoveSecondarySelf(target, source, move, item) {
 		if (move.flags['contact']) {
 			const yourItem = target.takeItem(source);
 			const myItem = source.takeItem();
