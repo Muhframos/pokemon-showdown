@@ -830,7 +830,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		},
 		onAfterMoveSecondarySelf(target, source, move) {
 		if (move.flags['contact']) {
-				const yourItem = target.takeItem(source);
+			const yourItem = target.takeItem(source);
 			const myItem = source.takeItem();
 			if (target.item || source.item || (!yourItem && !myItem)) {
 				if (yourItem) target.item = yourItem.id;
@@ -845,7 +845,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				if (myItem) source.item = myItem.id;
 				return false;
 			}
-			this.add('-activate', source, 'ability: Pickpocket', '[of] ' + target);
+			this.add('-activate', source, 'ability: Pickpocket', '[of] ' + source);
 			if (myItem) {
 				target.setItem(myItem);
 				this.add('-item', target, myItem, '[from] ability: Pickpocket');
