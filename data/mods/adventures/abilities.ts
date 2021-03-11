@@ -827,7 +827,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		shortDesc: "Trick on contact with the target after contact attack.",
 		
 		onAfterMoveSecondarySelf(target, source, move) {
-		if (!move || !move.flags['contact'] || move.target === 'self') {
+		if (move.flags['contact']) {
 				if (target.item || target.switchFlag || target.forceSwitchFlag || source.switchFlag === true) {
 					return;
 				}
