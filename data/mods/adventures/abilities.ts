@@ -831,6 +831,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				onTryImmunity(target) {
 					return !target.hasAbility('stickyhold');
 			},
+			this.add('-activate', target, 'ability: Pickpocket');
+			onHit(target, source, move) {
 			const yourItem = target.takeItem(source);
 			const myItem = source.takeItem();
 			if (target.item || source.item || (!yourItem && !myItem)) {
@@ -860,6 +862,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				this.add('-enditem', source, myItem, '[silent]', '[from] Ability: Pickpocket');
 			}
 		  this.add('-anim', pokemon, 'Trick');
+			}
 		}
-	},
+	}
 };
