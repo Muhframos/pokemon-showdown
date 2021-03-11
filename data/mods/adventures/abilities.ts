@@ -826,38 +826,22 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		desc: "The user switches items with the target after using a contact move.",
 		shortDesc: "Trick on contact with the target after contact attack.",
 		
-		onAfterMoveSecondarySelf(source, target, move) {
-			if (!move || !move.flags['contact'] || move.target === 'self') return;
-					onHit(target, source, move) {
-					const yourItem = target.takeItem(source);
-					const myItem = source.takeItem();
-					if (target.item || source.item || (!yourItem && !myItem)) {
-						if (yourItem) target.item = yourItem.id;
-						if (myItem) source.item = myItem.id;
-						return false;
-					}
-					if (
-						(myItem && !this.singleEvent('TakeItem', myItem, source.itemData, target, source, move, myItem)) ||
-						(yourItem && !this.singleEvent('TakeItem', yourItem, target.itemData, source, target, move, yourItem))
-					) {
-					if (yourItem) target.item = yourItem.id;
-					if (myItem) source.item = myItem.id;
-						return false;
-					}
-					this.add('-activate', source, 'move: Trick', '[of] ' + target);
-					if (myItem) {
-						target.setItem(myItem);
-						this.add('-item', target, myItem, '[from] move: Trick');
-					} else {
-						this.add('-enditem', target, yourItem, '[silent]', '[from] move: Trick');
-					}
-					if (yourItem) {
-						source.setItem(yourItem);
-						this.add('-item', source, yourItem, '[from] move: Trick');
-					} else {
-					this.add('-enditem', source, myItem, '[silent]', '[from] move: Trick');
-					}
-					},
+		onAfterMoveSecondarySelf(target, source, move) {
+			if (source && source !== target && move?.flags['contact']) {
+				if (target.item || target.switchFlag || target.forceSwitchFlag || source.switchFlag === true) {
+					return;
 				}
+				const yourItem = source.takeItem(target);
+				if (!yourItem) {
+					return;
+				}
+				if (!target.setItem(yourItem)) {
+					source.item = yourItem.id;
+					return;
+				}
+				this.add('-enditem', source, yourItem, '[silent]', '[from] ability: Pickpocket', '[of] ' + source);
+				this.add('-item', target, yourItem, '[from] ability: Pickpocket', '[of] ' + source);
 			}
+		}
+	},
 };
