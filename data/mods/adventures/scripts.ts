@@ -555,6 +555,7 @@ this.modData('Learnsets', 'solrock').learnset.bodypress = ['8L1'];
 this.modData('Learnsets', 'magmortar').learnset.darkpulse = ['8L1'];
 this.modData('Learnsets', 'magmortar').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'magmortar').learnset.zapcannon = ['8L1'];
+this.modData('Learnsets', 'magmortar').learnset.inferno = ['8L1'];
 
 this.modData('Learnsets', 'marowak').learnset.rockpolish = ['8L1'];
 
