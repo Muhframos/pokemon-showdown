@@ -819,6 +819,49 @@ Ratings and how they work:
 		desc: "This Pokemon cannot be infatuated or taunted. Gaining this Ability while affected cures it. Immune to Intimidate and Hazards.",
 		shortDesc: "This Pokemon cannot be infatuated or taunted. Immune to Intimidate and Hazards.",
 	},
+	pickpocket: {
+		name: "Pickpocket",
+		rating: 1,
+		num: 124,
+		desc: "The user switches items with the target after using a contact move.",
+		shortDesc: "Trick on contact with the target after contact attack.",
+		
+		onAfterMoveSecondarySelf(source, target, move) {
+			if (!move || !move.flags['contact'] || move.target === 'self') return;
+				if (target.item || target.switchFlag || target.forceSwitchFlag || source.switchFlag === true) {
+					return;
+				}
+				const yourItem = target.takeItem(source);
+			const myItem = source.takeItem();
+			if (target.item || source.item || (!yourItem && !myItem)) {
+				if (yourItem) target.item = yourItem.id;
+				if (myItem) source.item = myItem.id;
+				return false;
+			}
+			if (
+				(myItem && !this.singleEvent('TakeItem', myItem, source.itemData, target, source, move, myItem)) ||
+				(yourItem && !this.singleEvent('TakeItem', yourItem, target.itemData, source, target, move, yourItem))
+			) {
+				if (yourItem) target.item = yourItem.id;
+				if (myItem) source.item = myItem.id;
+				return false;
+			}
+			this.add('-activate', source, 'move: Trick', '[of] ' + target);
+			if (myItem) {
+				target.setItem(myItem);
+				this.add('-item', target, myItem, '[from] Ability: Pickpocket');
+			} else {
+				this.add('-enditem', target, yourItem, '[silent]', '[from] Ability: Pickpocket');
+			}
+			if (yourItem) {
+				source.setItem(yourItem);
+				this.add('-item', source, yourItem, '[from] Ability: Pickpocket');
+			} else {
+				this.add('-enditem', source, myItem, '[silent]', '[from] Ability: Pickpocket');
+			}
+			this.add('-anim', pokemon, 'Trick');
+			}
+		}
 }; exports.Abilities = Abilities;
 
  //# sourceMappingURL=sourceMaps/abilities.js.map
