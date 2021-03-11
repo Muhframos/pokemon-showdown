@@ -828,12 +828,10 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		
 		onAfterMoveSecondarySelf(source, target, move) {
 			if (!move || !move.flags['contact'] || move.target === 'self') return;
-				onTryImmunity(target) {
-					return !target.hasAbility('stickyhold');
-			},
-			this.add('-activate', target, 'ability: Pickpocket');
-			onHit(target, source, move) {
-			const yourItem = target.takeItem(source);
+				if (target.item || target.switchFlag || target.forceSwitchFlag || source.switchFlag === true) {
+					return;
+				}
+				const yourItem = target.takeItem(source);
 			const myItem = source.takeItem();
 			if (target.item || source.item || (!yourItem && !myItem)) {
 				if (yourItem) target.item = yourItem.id;
@@ -861,8 +859,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			} else {
 				this.add('-enditem', source, myItem, '[silent]', '[from] Ability: Pickpocket');
 			}
-		  this.add('-anim', pokemon, 'Trick');
+			this.add('-anim', pokemon, 'Trick');
 			}
 		}
-	}
 };
