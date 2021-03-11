@@ -605,7 +605,11 @@
 	},
 	diancie: {
 		inherit: true,
-		abilities: {0: "Clear Body", H: "Magic Bounce"},
+		abilities: {0: "Magic Bounce"},
+	},
+	dianciemega: {
+		inherit: true,
+		abilities: {0: "Queenly Majesty"},
 	},
 	espeon: {
 		inherit: true,
@@ -867,11 +871,12 @@
 	},
 	slowking: {
 		inherit: true,
+		baseStats: {hp: 95, atk: 75, def: 80, spa: 110, spd: 120, spe: 30},
 		abilities: {0: "Oblivious", 1: "Unaware", H: "Regenerator"},
 	},
 	slowkinggalar: {
 		inherit: true,
-		baseStats: {hp: 95, atk: 70, def: 80, spa: 120, spd: 120, spe: 30},
+		baseStats: {hp: 95, atk: 65, def: 80, spa: 120, spd: 120, spe: 30},
 		abilities: {0: "Curious Medicine", 1: "Unaware", H: "Regenerator"},
 	},
 	electivire: {

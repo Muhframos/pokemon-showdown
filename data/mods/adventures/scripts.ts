@@ -568,7 +568,6 @@ this.modData('Learnsets', 'milotic').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.charm = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.babydolleyes = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.dragonrage = ['8L1'];
-this.modData('Learnsets', 'milotic').learnset.quiverdance = ['8L1'];
 
 this.modData('Learnsets', 'corviknight').learnset.beakblast = ['8L1'];
 
