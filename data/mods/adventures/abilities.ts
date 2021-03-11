@@ -145,9 +145,9 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Magician",
 		desc: "Summons Magic Room on switch-in. Lasts for 5 turns.",
 		shortDesc: "Magic Room on switch-in.",
-		onStart(source) {
-			this.field.getPseudoWeather('magicroom');
-			this.add('-activate', source, 'ability: Magician');
+		onStart(pokemon) {
+			this.add('-activate', pokemon, 'ability: Magician');
+			this.field.addPseudoWeather('magicroom');
 		},
 		name: "Magician",
 		rating: 4,
@@ -157,9 +157,9 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Gravity Surge",
 		desc: "Summons Gravity on switch-in. Lasts for 5 turns.",
 		shortDesc: "Gravity on switch-in.",
-		onStart(source) {
-			this.field.getPseudoWeather('gravity');
-			this.add('-activate', source, 'ability: Gravity Surge');
+		onStart(pokemon) {
+			this.add('-activate', pokemon, 'ability: Gravity Surge');
+			this.field.addPseudoWeather('gravity');
 		},
 		name: "Gravity Surge",
 		rating: 4,
