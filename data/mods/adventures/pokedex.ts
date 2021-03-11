@@ -882,11 +882,13 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	electivire: {
 		inherit: true,
 		types: ["Electric", "Fighting"],
+		baseStats: {hp: 85, atk: 123, def: 67, spa: 85, spd: 85, spe: 95},
 		abilities: {0: "Motor Drive", 1: "Analytic", H: "Moxie"},
 	},
 	magmortar: {
 		inherit: true,
 		types: ["Fire", "Dark"],
+		baseStats: {hp: 125, atk: 45, def: 67, spa: 125, spd: 95, spe: 83},
 		abilities: {0: "Flame Body", 1: "Analytic", H: "Catalyst"},
 	},
 	steelix: {
