@@ -828,9 +828,9 @@ Ratings and how they work:
 		onTryImmunity(target) {
 			return !target.hasAbility('stickyhold');
 		},
-		onAfterMoveSecondarySelf(target, source, move) {
+		onAfterMoveSecondarySelf(target, source, move, item) {
 		if (move.flags['contact']) {
-				const yourItem = target.takeItem(source);
+			const yourItem = target.takeItem(source);
 			const myItem = source.takeItem();
 			if (target.item || source.item || (!yourItem && !myItem)) {
 				if (yourItem) target.item = yourItem.id;
@@ -845,7 +845,7 @@ Ratings and how they work:
 				if (myItem) source.item = myItem.id;
 				return false;
 			}
-			this.add('-activate', source, 'ability: Pickpocket', '[of] ' + target);
+			this.add('-activate', source, 'ability: Pickpocket', '[of] ' + source);
 			if (myItem) {
 				target.setItem(myItem);
 				this.add('-item', target, myItem, '[from] ability: Pickpocket');
