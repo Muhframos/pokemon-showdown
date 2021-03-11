@@ -141,7 +141,7 @@
 		},
 		onModifyDamage(damage, source, target, move) {
 			if (move && target.getMoveHitData(move).typeMod > 0) {
-				return this.chainModify([0x1444, 0x1444]);
+				return this.chainModify([0x14CD, 0x1000]);
 			}
 		},
 		num: 268,
