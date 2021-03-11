@@ -819,4 +819,49 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		desc: "This Pokemon cannot be infatuated or taunted. Gaining this Ability while affected cures it. Immune to Intimidate and Hazards.",
 		shortDesc: "This Pokemon cannot be infatuated or taunted. Immune to Intimidate and Hazards.",
 	},
+	pickpocket: {
+		name: "Pickpocket",
+		rating: 1,
+		num: 124,
+		desc: "The user switches items with the target after using a contact move.",
+		shortDesc: "Trick on contact with the target after contact attack.",
+		
+		onModifyMove(move) {
+		if (!move || !move.flags['contact'] || move.target === 'self') return;
+		onTryImmunity(target) {
+			return !target.hasAbility('stickyhold');
+		},	
+		onHit(target, source, move) {
+			const yourItem = target.takeItem(source);
+			const myItem = source.takeItem();
+			if (target.item || source.item || (!yourItem && !myItem)) {
+				if (yourItem) target.item = yourItem.id;
+				if (myItem) source.item = myItem.id;
+				return false;
+			}
+			if (
+				(myItem && !this.singleEvent('TakeItem', myItem, source.itemData, target, source, move, myItem)) ||
+				(yourItem && !this.singleEvent('TakeItem', yourItem, target.itemData, source, target, move, yourItem))
+			) {
+				if (yourItem) target.item = yourItem.id;
+				if (myItem) source.item = myItem.id;
+				return false;
+			}
+			this.add('-activate', source, 'ability: Pickpocket', '[of] ' + target);
+			if (myItem) {
+				target.setItem(myItem);
+				this.add('-item', target, myItem, '[from] ability: Pickpocket');
+			} else {
+				this.add('-enditem', target, yourItem, '[silent]', '[from] ability: Pickpocket');
+			}
+			if (yourItem) {
+				source.setItem(yourItem);
+				this.add('-item', source, yourItem, '[from] move: Trick');
+			} else {
+				this.add('-enditem', source, myItem, '[silent]', '[from] move: Trick');
+			}
+			this.add('-anim', pokemon, 'Trick');
+			}
+		}
+	},
 };
