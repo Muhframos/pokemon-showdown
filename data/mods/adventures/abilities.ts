@@ -826,12 +826,11 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		desc: "The user switches items with the target after using a contact move.",
 		shortDesc: "Trick on contact with the target after contact attack.",
 		
-		onModifyMove(move) {
-		if (!move || !move.flags['contact'] || move.target === 'self') return;
-		onTryImmunity(target) {
-			return !target.hasAbility('stickyhold');
-		},	
-		onHit(target, source, move) {
+		onAfterMoveSecondarySelf(source, target, move) {
+			if (!move || !move.flags['contact'] || move.target === 'self') return;
+				onTryImmunity(target) {
+					return !target.hasAbility('stickyhold');
+			},
 			const yourItem = target.takeItem(source);
 			const myItem = source.takeItem();
 			if (target.item || source.item || (!yourItem && !myItem)) {
@@ -847,21 +846,20 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				if (myItem) source.item = myItem.id;
 				return false;
 			}
-			this.add('-activate', source, 'ability: Pickpocket', '[of] ' + target);
+			this.add('-activate', source, 'move: Trick', '[of] ' + target);
 			if (myItem) {
 				target.setItem(myItem);
-				this.add('-item', target, myItem, '[from] ability: Pickpocket');
+				this.add('-item', target, myItem, '[from] Ability: Pickpocket');
 			} else {
-				this.add('-enditem', target, yourItem, '[silent]', '[from] ability: Pickpocket');
+				this.add('-enditem', target, yourItem, '[silent]', '[from] Ability: Pickpocket');
 			}
 			if (yourItem) {
 				source.setItem(yourItem);
-				this.add('-item', source, yourItem, '[from] move: Trick');
+				this.add('-item', source, yourItem, '[from] Ability: Pickpocket');
 			} else {
-				this.add('-enditem', source, myItem, '[silent]', '[from] move: Trick');
+				this.add('-enditem', source, myItem, '[silent]', '[from] Ability: Pickpocket');
 			}
-			this.add('-anim', pokemon, 'Trick');
-			}
+		  this.add('-anim', pokemon, 'Trick');
 		}
 	},
 };
