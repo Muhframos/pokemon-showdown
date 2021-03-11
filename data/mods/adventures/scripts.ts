@@ -7,6 +7,27 @@ this.modData('Learnsets', 'trevenant').learnset.synthesis = ['8L1'];
 this.modData('Learnsets', 'trevenant').learnset.shadowsneak = ['8L1'];
 this.modData('Learnsets', 'trevenant').learnset.lightscreen = ['8L1'];
 
+this.modData('Learnsets', 'samurott').learnset.hornleech = ['8L1'];
+this.modData('Learnsets', 'samurott').learnset.iciclecrash = ['8L1'];
+this.modData('Learnsets', 'samurott').learnset.rockpolish = ['8L1'];
+this.modData('Learnsets', 'samurott').learnset.flipturn = ['8L1'];
+
+this.modData('Learnsets', 'emboar').learnset.bodypress = ['8L1'];
+this.modData('Learnsets', 'emboar').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'emboar').learnset.counter = ['8L1'];
+this.modData('Learnsets', 'emboar').learnset.dynamicpunch = ['8L1'];
+this.modData('Learnsets', 'emboar').learnset.machpunch = ['8L1'];
+this.modData('Learnsets', 'emboar').learnset.swordsdance = ['8L1'];
+
+this.modData('Learnsets', 'incineroar').learnset.poweruppunch = ['8L1'];
+this.modData('Learnsets', 'incineroar').learnset.circlethrow = ['8L1'];
+this.modData('Learnsets', 'incineroar').learnset.suckerpunch = ['8L1'];
+this.modData('Learnsets', 'incineroar').learnset.pursuit = ['8L1'];
+this.modData('Learnsets', 'incineroar').learnset.honeclaws = ['8L1'];
+this.modData('Learnsets', 'incineroar').learnset.nightslash = ['8L1'];
+
+this.modData('Learnsets', 'chesnaught').learnset.bodypress = ['8L1'];
+
 this.modData('Learnsets', 'guzzlord').learnset.trickroom = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.gunkshot = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.suckerpunch = ['8L1'];
@@ -547,6 +568,7 @@ this.modData('Learnsets', 'milotic').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.charm = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.babydolleyes = ['8L1'];
 this.modData('Learnsets', 'milotic').learnset.dragonrage = ['8L1'];
+this.modData('Learnsets', 'milotic').learnset.quiverdance = ['8L1'];
 
 this.modData('Learnsets', 'corviknight').learnset.beakblast = ['8L1'];
 

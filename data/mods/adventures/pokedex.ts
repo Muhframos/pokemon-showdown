@@ -16,6 +16,26 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 85, atk: 110, def: 87, spa: 65, spd: 122, spe: 56},
 		abilities: {0: "Natural Cure", 1: "Regenerator", H: "Harvest"},
 	},
+	samurott: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 118, def: 85, spa: 100, spd: 70, spe: 70},
+		abilities: {0: "Torrent", 1: "Shell Armor", H: "Lightning Rod"},
+	},
+	emboar: {
+		inherit: true,
+		baseStats: {hp: 110, atk: 133, def: 115, spa: 60, spd: 85, spe: 35},
+		abilities: {0: "Blaze", 1: "Reckless", H: "Intimidate"},
+	},
+	incineroar: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 115, def: 90, spa: 60, spd: 85, spe: 90},
+		abilities: {0: "Blaze", 1: "Intimidate", H: "Moxie"},
+	},
+	chesnaught: {
+		inherit: true,
+		baseStats: {hp: 98, atk: 107, def: 132, spa: 44, spd: 105, spe: 44},
+		abilities: {0: "Overgrow", 1: "Bulletproof", H: "Iron Barbs"},
+	},
 	blastoise: {
 		inherit: true,
 		types: ["Water", "Steel"],
@@ -587,6 +607,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		abilities: {0: "Clear Body", H: "Magic Bounce"},
 	},
+	dianciemega: {
+		inherit: true,
+		abilities: {0: "Queenly Majesty"},
+	},
 	espeon: {
 		inherit: true,
 		baseStats: {hp: 65, atk: 60, def: 65, spa: 130, spd: 95, spe: 110},
@@ -847,11 +871,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	slowking: {
 		inherit: true,
+		baseStats: {hp: 95, atk: 75, def: 80, spa: 110, spd: 120, spe: 30},
 		abilities: {0: "Oblivious", 1: "Unaware", H: "Regenerator"},
 	},
 	slowkinggalar: {
 		inherit: true,
-		baseStats: {hp: 95, atk: 70, def: 80, spa: 120, spd: 120, spe: 30},
+		baseStats: {hp: 95, atk: 65, def: 80, spa: 120, spd: 120, spe: 30},
 		abilities: {0: "Curious Medicine", 1: "Unaware", H: "Regenerator"},
 	},
 	electivire: {
@@ -989,6 +1014,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	wailord: {
 		inherit: true,
 		baseStats: {hp: 170, atk: 80, def: 55, spa: 100, spd: 55, spe: 75},
+		abilities: {0: "Oblivious", 1: "Thick Fat", H: "Dry Skin"},
 	},
 	drapion: {
 		inherit: true,

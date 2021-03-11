@@ -38,7 +38,7 @@
 		onSourceModifyAccuracyPriority: -2,
 		onSourceModifyAccuracy(accuracy) {
 			if (typeof accuracy === 'number') {
-				return this.chainModify([0x1500, 0x1000]);
+				return this.chainModify([0x1800, 0x1000]);
 			}
 		},
 		num: 265,
