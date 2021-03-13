@@ -1,4 +1,11 @@
 [
-{"title":"Lobby","auth":{},"creationTime":1611949159340,"isOfficial":true,"autojoin":true},
-{"title":"Staff","auth":{},"creationTime":1611949159340,"isPrivate":"hidden","modjoin":"%","autojoin":true}
+{"title":"Lobby","auth":{},"creationTime":1611949159340,"isOfficial":true,"autojoin":true,"introMessage":"Welcome to Pokemon Adventures! -Adventures Changelog: <a href=\"https://shorturl.at/ctHOX\">https://shorturl.at/ctHOX</a> -Discord Server: <a href=\"https://discord.gg/WM6Xtetnv6\">https://discord.gg/WM6Xtetnv6</a>","gameNumber":2},
+{"title":"Staff","auth":{},"creationTime":1611949159340,"isPrivate":"hidden","modjoin":"%","autojoin":true},
+{"title":"Adventures OU","auth":{},"creationTime":1615581996283},
+{"title":"Trivia","auth":{},"creationTime":1615582060601},
+{"title":"Adventures UU","auth":{},"creationTime":1615582065614},
+{"title":"Adventures AG","auth":{},"creationTime":1615582069970},
+{"title":"Adventures Doubles","auth":{},"creationTime":1615582075795},
+{"title":"Adventures 1v1","auth":{},"creationTime":1615582078844},
+{"title":"Axis League","auth":{},"creationTime":1615582084445}
 ]

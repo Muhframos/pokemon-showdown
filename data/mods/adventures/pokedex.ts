@@ -133,7 +133,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
     regigigas: {
 		inherit: true,
 		baseStats: {hp: 110, atk: 160, def: 110, spa: 80, spd: 110, spe: 110},
-		abilities: {0: "Slow Start", 1: "Slumber"},	
+		abilities: {0: "Slow Start"},	
 	},
 	articuno: {
 		inherit: true,
@@ -424,7 +424,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	haxorus: {
 		inherit: true,
 		types: ["Dragon", "Steel"],
-		baseStats: {hp: 86, atk: 147, def: 90, spa: 60, spd: 70, spe: 97},
+		baseStats: {hp: 96, atk: 147, def: 90, spa: 60, spd: 70, spe: 97},
 	},
 	aromatisse: {
 		inherit: true,
@@ -677,6 +677,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 75, atk: 75, def: 85, spa: 150, spd: 105, spe: 40},
 		abilities: {0: "Telepathy", 1: "Analytic", H: "Gravity Surge"},
 	},
+	swellow: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 115, def: 60, spa: 105, spd: 60, spe: 125},
+		abilities: {0: "Guts", 1: "Scrappy", H: "Competitive"},
+	},
 	crustle: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 125, def: 125, spa: 65, spd: 75, spe: 65},
@@ -725,7 +730,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	golisopod: {
 		inherit: true,
-		abilities: {0: "Emergency Exit", 1: "Shell Armor", H: "Water Veil"},
+		abilities: {0: "Shell Armor"},
 	},
 	grimmsnarl: {
 		inherit: true,
@@ -901,7 +906,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	slaking: {
 		inherit: true,
-		abilities: {0: "Truant"},
+		abilities: {0: "Slumber"},
 	},
 	zarude: {
 		inherit: true,
@@ -1259,6 +1264,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	thievul: {
 		inherit: true,
+		types: ["Dark", "Ghost"],
 		baseStats: {hp: 70, atk: 108, def: 68, spa: 87, spd: 92, spe: 100},
 		abilities: {0: "Pickpocket", 1: "Unburden", H: "Stakeout"},
 	},

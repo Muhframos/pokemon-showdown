@@ -727,55 +727,6 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 2,
 		num: 75,
 	},
-	truant: {
-		desc: "Every other turn, this Pokemon loafs around and cannot use attacking moves on that turn.",
-		shortDesc: "Every other turn, can only use status.",
-		onStart(pokemon) {
-			pokemon.removeVolatile('truant');
-			if (pokemon.activeTurns && (pokemon.moveThisTurnResult !== undefined || !this.queue.willMove(pokemon))) {
-				pokemon.addVolatile('truant');
-			}
-		},
-		onBeforeMovePriority: 9,
-		onBeforeMove(pokemon) {
-			if (pokemon.removeVolatile('truant')) {
-				this.add('cant', pokemon, 'ability: Truant');
-				return false;
-			}
-			pokemon.addVolatile('truant');
-		},
-		condition: {
-			duration: 3,
-			onStart(target) {
-				if (target.activeTurns && !this.queue.willMove(target)) {
-					this.effectData.duration++;
-				}
-				this.add('-start', target, 'ability: Truant');
-			},
-			onResidualOrder: 12,
-			onEnd(target) {
-				this.add('-end', target, 'ability: Truant');
-			},
-			onDisableMove(pokemon) {
-				for (const moveSlot of pokemon.moveSlots) {
-					const move = this.dex.getMove(moveSlot.id);
-					if (move.category === 'Status' && move.id !== 'mefirst') {
-						pokemon.disableMove(moveSlot.id);
-					}
-				}
-			},
-			onBeforeMovePriority: 5,
-			onBeforeMove(attacker, defender, move) {
-				if (!move.isZ && !move.isMax && move.category === 'Physical' && move.category === 'Special') {
-					this.add('cant', attacker, 'ability: Truant', move);
-					return false;
-				}
-			},
-		},
-		name: "Truant",
-		rating: -1,
-		num: 54,
-	},
 	runaway: {
 		inherit: true,
 		onTrapPokemonPriority: -10,

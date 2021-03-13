@@ -1,0 +1,17 @@
+[2021-03-11T23:47:10.644Z] (lobby) GLOBAL ADMINISTRATOR: [bennoloth] by muhframos
+[2021-03-11T23:50:32.959Z] (lobby) ROOMINTRO: by muhframos
+[2021-03-11T23:52:40.030Z] (lobby) ROOMINTRO: by muhframos
+[2021-03-11T23:54:06.418Z] (lobby) ROOMINTRO: by muhframos
+[2021-03-11T23:56:32.374Z] (lobby) ROOMINTRO: by muhframos
+[2021-03-11T23:59:59.167Z] (lobby) ROOMINTRO: by muhframos
+[2021-03-12T00:05:55.955Z] (lobby) POLL: by muhframos
+[2021-03-12T00:08:43.333Z] (lobby) HANGMAN: by muhframos
+[2021-03-12T00:09:13.013Z] (lobby) POLL TIMER: by muhframos: 5 minutes
+[2021-03-12T00:11:53.657Z] (lobby) ENDHANGMAN: by muhframos
+[2021-03-12T00:38:17.853Z] (lobby) HANGMAN: by muhframos
+[2021-03-12T04:37:57.266Z] (lobby) HANGMAN: by bennoloth
+[2021-03-12T04:40:21.059Z] (lobby) HANGMAN: by muhframos
+[2021-03-12T04:48:38.805Z] (lobby) HANGMAN: by muhframos
+[2021-03-12T05:04:45.314Z] (lobby) HANGMAN: by muhframos
+[2021-03-12T16:45:25.134Z] (lobby) HANGMAN: by muhframos
+[2021-03-13T03:49:22.569Z] (lobby) HANGMAN: by muhframos

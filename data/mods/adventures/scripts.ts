@@ -64,6 +64,7 @@ this.modData('Learnsets', 'pidgeot').learnset.beakblast = ['8L1'];
 this.modData('Learnsets', 'beheeyem').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'beheeyem').learnset.thunder = ['8L1'];
 this.modData('Learnsets', 'beheeyem').learnset.zapcannon = ['8L1'];
+this.modData('Learnsets', 'beheeyem').learnset.voltswitch = ['8L1'];
 
 this.modData('Learnsets', 'stonjourner').learnset.blazekick = ['8L1'];
 this.modData('Learnsets', 'stonjourner').learnset.doublekick = ['8L1'];
@@ -361,12 +362,21 @@ this.modData('Learnsets', 'raticate').learnset.honeclaws = ['8L1'];
 
 this.modData('Learnsets', 'raticatealola').learnset.honeclaws = ['8L1'];
 
+this.modData('Learnsets', 'swellow').learnset.superpower = ['8L1'];
+this.modData('Learnsets', 'swellow').learnset.aurasphere = ['8L1'];
+this.modData('Learnsets', 'swellow').learnset.finalgambit = ['8L1'];
+this.modData('Learnsets', 'swellow').learnset.acrobatics = ['8L1'];
+this.modData('Learnsets', 'swellow').learnset.dualwingbeat = ['8L1'];
+this.modData('Learnsets', 'swellow').learnset.knockoff = ['8L1'];
+
 this.modData('Learnsets', 'dusknoir').learnset.drainpunch = ['8L1'];
 this.modData('Learnsets', 'dusknoir').learnset.closecombat = ['8L1'];
 
 this.modData('Learnsets', 'electivire').learnset.closecombat = ['8L1'];
 this.modData('Learnsets', 'electivire').learnset.flareblitz = ['8L1'];
 this.modData('Learnsets', 'electivire').learnset.swordsdance = ['8L1'];
+this.modData('Learnsets', 'electivire').learnset.plasmafists = ['8L1'];
+this.modData('Learnsets', 'electivire').learnset.flamecharge = ['8L1'];
 
 this.modData('Learnsets', 'empoleon').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'empoleon').learnset.roost = ['8L1'];

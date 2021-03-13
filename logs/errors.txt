@@ -1635,3 +1635,17 @@ Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
     at ChildProcess.EventEmitter.emit (domain.js:467:12)
     at finish (internal/child_process.js:888:14)
     at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: A query originating in chatlog.js took too long to complete; the process has been killed.
+No debug information found.
+    at Timeout._onTimeout (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:510:10)
+    at listOnTimeout (internal/timers.js:554:17)
+    at processTimers (internal/timers.js:497:7)
+
+Error: Process chatlog.js 4300 crashed and had to be restarted
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:437:4)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
