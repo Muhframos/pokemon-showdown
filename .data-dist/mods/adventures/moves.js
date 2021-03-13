@@ -920,6 +920,30 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		inherit: true,
 		accuracy: 100,
 	},
+	smellingsalts: {
+		num: 265,
+		accuracy: true,
+		desc: "Heals the user of Paralysis and restores 25% of its max HP.",
+		shortDesc: "Heals PAR and restores 25% max HP.",
+		basePowerCallback(pokemon, target, move) {
+			if (target.status === 'par') return move.basePower * 2;
+			return move.basePower;
+		},
+		category: "Status",
+		isNonstandard: "Past",
+		name: "Smelling Salts",
+		pp: 10,
+		priority: 0,
+		flags: {heal: 1, authentic: 1, mystery: 1},
+		onHit(pokemon) {
+			const success = !!this.heal(this.modify(pokemon.maxhp, 0.25));
+			if (pokemon.status === 'par') pokemon.cureStatus();
+		},
+		secondary: null,
+		target: "allies",
+		type: "Normal",
+		contestType: "Tough",
+	},
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map

@@ -1033,14 +1033,6 @@
 		baseStats: {hp: 80, atk: 90, def: 75, spa: 60, spd: 130, spe: 95},
 		abilities: {0: "Battle Armor", 1: "Sniper", H: "Intimidate"},
 	},
-	beedrill: {
-		inherit: true,
-		baseStats: {hp: 65, atk: 90, def: 40, spa: 45, spd: 110, spe: 75},
-	},
-	beedrillmega: {
-		inherit: true,
-		baseStats: {hp: 65, atk: 150, def: 40, spa: 15, spd: 110, spe: 145},
-	},
 	swalot: {
 		inherit: true,
 		baseStats: {hp: 130, atk: 83, def: 93, spa: 83, spd: 93, spe: 55},
@@ -1265,7 +1257,7 @@
 	},
 	perrserker: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 120, def: 115, spa: 65, spd: 70, spe: 60},
+		baseStats: {hp: 100, atk: 120, def: 115, spa: 65, spd: 70, spe: 60},
 	},
 	thievul: {
 		inherit: true,
@@ -1288,7 +1280,7 @@
 	},
 	primeape: {
 		inherit: true,
-		baseStats: {hp: 85, atk: 105, def: 70, spa: 50, spd: 80, spe: 95},
+		baseStats: {hp: 85, atk: 80, def: 80, spa: 50, spd: 90, spe: 100},
 		abilities: {0: "Anger Point", 1: "Defiant", H: "Gorilla Tactics"},
 	},
 	conkeldurr: {
@@ -1299,6 +1291,42 @@
 		inherit: true,
 		baseStats: {hp: 77, atk: 60, def: 110, spa: 145, spd: 105, spe: 43},
 		abilities: {0: "Levitate", 1: "Lightning Rod", H:"Motor Drive"},
+	},
+	beedrill: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 110, def: 40, spa: 45, spd: 90, spe: 100},
+		abilities: {0: "Swarm", 1: "Sniper", H: "Poison Touch"},
+	},
+	beedrillmega: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 160, def: 50, spa: 15, spd: 115, spe: 145},
+	},
+	miltank: {
+		inherit: true,
+		baseStats: {hp: 115, atk: 100, def: 105, spa: 40, spd: 70, spe: 100},
+	},
+	bisharp: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 125, def: 110, spa: 60, spd: 80, spe: 80},
+		abilities: {0: "Defiant", 1: "Inner Focus", H: "Iron Fist"},
+	},
+	hariyama: {
+		inherit: true,
+		baseStats: {hp: 144, atk: 125, def: 75, spa: 40, spd: 75, spe: 50},
+		abilities: {0: "Thick Fat", 1: "Technician", H: "Sheer Force"},
+	},
+	omastar: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 100, def: 135, spa: 115, spd: 70, spe: 55},
+		abilities: {0: "Sturdy", 1: "Shell Armor", H: "Weak Armor"},
+	},
+	mienshao: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 130, def: 70, spa: 95, spd: 70, spe: 105},
+	},
+	scolipede: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 120, def: 99, spa: 55, spd: 79, spe: 112},
 	},
 }; exports.Pokedex = Pokedex;
 
