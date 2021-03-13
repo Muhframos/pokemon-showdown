@@ -1318,7 +1318,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	omastar: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 100, def: 135, spa: 115, spd: 70, spe: 55},
-		abilities: {0: "Sturdy", 1: "Shell Armor", H: "Weak Armor"},
+		abilities: {0: "Shell Armor", 1: "Storm Drain", H: "Weak Armor"},
 	},
 	mienshao: {
 		inherit: true,
