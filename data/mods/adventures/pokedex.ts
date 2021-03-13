@@ -425,6 +425,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		types: ["Dragon", "Steel"],
 		baseStats: {hp: 86, atk: 147, def: 90, spa: 60, spd: 70, spe: 97},
+		abilities: {0: "Mold Breaker", 1: "Defiant", H: "Unnerve"},
 	},
 	aromatisse: {
 		inherit: true,
@@ -1008,6 +1009,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		types: ["Ghost", "Dark"],
 	},
+	banette: {
+		inherit: true,
+		types: ["Ghost", "Dark"],
+	},
 	metagross: {
 		inherit: true,
 		baseStats: {hp: 95, atk: 135, def: 130, spa: 80, spd: 90, spe: 70},
@@ -1211,7 +1216,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	duraludon: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 95, def: 115, spa: 120, spd: 65, spe: 85},
-		abilities: {0: "Clear Body", H: "Steelworker"},
+		abilities: {0: "Stalwart",1: "Clear Body", H: "Steelworker"},
 	},
 	golurk: {
 		inherit: true,
@@ -1265,10 +1270,28 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	gogoat: {
 		inherit: true,
 		baseStats: {hp: 123, atk: 100, def: 72, spa: 97, spd: 81, spe: 88},
-		abilities: {0: "Sap Sipper", 1: "Grass Pet", H: "Reckless"},
+		abilities: {0: "Sap Sipper", 1: "Grass Pelt", H: "Reckless"},
 	},
 	kommoo: {
 		inherit: true,
 		abilities: {0: "Bulletproof", 1: "Soundproof", H: "Intimidate"},
+	},
+	volcanion: {
+		inherit: true,
+		abilities: {0: "Water Absorb", H: "Steam Engine"},
+	},
+	primeape: {
+		inherit: true,
+		baseStats: {hp: 85, atk: 105, def: 70, spa: 50, spd: 80, spe: 95},
+		abilities: {0: "Anger Point", 1: "Defiant", H: "Gorilla Tactics"},
+	},
+	conkeldurr: {
+		inherit: true,
+		baseStats: {hp: 105, atk: 150, def: 95, spa: 55, spd: 75, spe: 65},
+	},
+	vikavolt: {
+		inherit: true,
+		baseStats: {hp: 77, atk: 60, def: 110, spa: 145, spd: 105, spe: 43},
+		abilities: {0: "Levitate", 1: "Lightning Rod", H:"Motor Drive"},
 	},
 };
