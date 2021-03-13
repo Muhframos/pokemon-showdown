@@ -1322,10 +1322,26 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	mienshao: {
 		inherit: true,
-		baseStats: {hp: 70, atk: 130, def: 70, spa: 95, spd: 70, spe: 105},
+		baseStats: {hp: 75, atk: 130, def: 70, spa: 80, spd: 70, spe: 115},
 	},
 	scolipede: {
 		inherit: true,
 		baseStats: {hp: 60, atk: 120, def: 99, spa: 55, spd: 79, spe: 112},
+	},
+	castform: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 80, def: 70, spa: 100, spd: 70, spe: 110},
+	},
+	castformsunny: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 80, def: 70, spa: 100, spd: 70, spe: 110},
+	},
+	castformrainy: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 80, def: 70, spa: 100, spd: 70, spe: 110},
+	},
+	castformsnowy: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 80, def: 70, spa: 100, spd: 70, spe: 110},
 	},
 };

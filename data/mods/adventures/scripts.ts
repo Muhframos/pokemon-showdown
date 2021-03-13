@@ -739,6 +739,7 @@ this.modData('Learnsets', 'hariyama').learnset.circlethrow = ['8L1'];
 this.modData('Learnsets', 'hariyama').learnset.stormthrow = ['8L1'];
 this.modData('Learnsets', 'hariyama').learnset.highhorsepower = ['8L1'];
 
+this.modData('Learnsets', 'mienshao').learnset.rapidspin = ['8L1'];
 this.modData('Learnsets', 'mienshao').learnset.playrough = ['8L1'];
 this.modData('Learnsets', 'mienshao').learnset.thunderouskick = ['8L1'];
 this.modData('Learnsets', 'mienshao').learnset.counter = ['8L1'];
