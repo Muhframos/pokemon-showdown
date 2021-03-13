@@ -189,6 +189,7 @@ this.modData('Learnsets', 'shedinja').learnset.destinybond = ['8L1'];
 this.modData('Learnsets', 'shedinja').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'shedinja').learnset.infestation = ['8L1'];
 this.modData('Learnsets', 'shedinja').learnset.perishsong = ['8L1'];
+this.modData('Learnsets', 'shedinja').learnset.quiverdance = ['8L1'];
 
 this.modData('Learnsets', 'xatu').learnset.whirlwind = ['8L1'];
 this.modData('Learnsets', 'xatu').learnset.focusblast = ['8L1'];
@@ -727,6 +728,33 @@ this.modData('Learnsets', 'golurk').learnset.flareblitz = ['8L1'];
 this.modData('Learnsets', 'golurk').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'golurk').learnset.headsmash = ['8L1'];
 
+this.modData('Learnsets', 'bisharp').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'bisharp').learnset.bulletpunch = ['8L1'];
+this.modData('Learnsets', 'bisharp').learnset.icepunch = ['8L1'];
+this.modData('Learnsets', 'bisharp').learnset.firepunch = ['8L1'];
+this.modData('Learnsets', 'bisharp').learnset.thunderpunch = ['8L1'];
+
+this.modData('Learnsets', 'hariyama').learnset.hammerarm = ['8L1'];
+this.modData('Learnsets', 'hariyama').learnset.circlethrow = ['8L1'];
+this.modData('Learnsets', 'hariyama').learnset.stormthrow = ['8L1'];
+this.modData('Learnsets', 'hariyama').learnset.highhorsepower = ['8L1'];
+
+this.modData('Learnsets', 'mienshao').learnset.playrough = ['8L1'];
+this.modData('Learnsets', 'mienshao').learnset.thunderouskick = ['8L1'];
+this.modData('Learnsets', 'mienshao').learnset.counter = ['8L1'];
+
+this.modData('Learnsets', 'feraligatr').learnset.icefang = ['8L1'];
+this.modData('Learnsets', 'feraligatr').learnset.poisonfang = ['8L1'];
+this.modData('Learnsets', 'feraligatr').learnset.thunderfang = ['8L1'];
+this.modData('Learnsets', 'feraligatr').learnset.highhorsepower = ['8L1'];
+this.modData('Learnsets', 'feraligatr').learnset.scaleshot = ['8L1'];
+
+this.modData('Learnsets', 'omastar').learnset.icefang = ['8L1'];
+this.modData('Learnsets', 'omastar').learnset.poisonfang = ['8L1'];
+this.modData('Learnsets', 'omastar').learnset.psychicfangs = ['8L1'];
+this.modData('Learnsets', 'omastar').learnset.octolock = ['8L1'];
+this.modData('Learnsets', 'omastar').learnset.gyroball = ['8L1'];
+
 this.modData('Learnsets', 'decidueye').learnset.thousandarrows = ['8L1'];
 this.modData('Learnsets', 'decidueye').learnset.focusenergy = ['8L1'];
 this.modData('Learnsets', 'decidueye').learnset.barrage = ['8L1'];
@@ -832,6 +860,8 @@ this.modData('Learnsets', 'weavile').learnset.switcheroo = ['8L1'];
 this.modData('Learnsets', 'weavile').learnset.memento = ['8L1'];
 this.modData('Learnsets', 'weavile').learnset.closecombat = ['8L1'];
 this.modData('Learnsets', 'weavile').learnset.grudge = ['8L1'];
+this.modData('Learnsets', 'weavile').learnset.suckerpunch = ['8L1'];
+this.modData('Learnsets', 'weavile').learnset.playrough = ['8L1'];
 
 this.modData('Learnsets', 'wishiwashi').learnset.fishiousrend = ['8L1'];
 this.modData('Learnsets', 'wishiwashi').learnset.trickroom = ['8L1'];
