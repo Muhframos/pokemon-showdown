@@ -1294,12 +1294,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	beedrill: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 110, def: 40, spa: 25, spd: 80, spe: 100},
+		baseStats: {hp: 65, atk: 110, def: 40, spa: 45, spd: 80, spe: 100},
 		abilities: {0: "Swarm", 1: "Sniper", H: "Poison Touch"},
 	},
 	beedrillmega: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 150, def: 40, spa: 15, spd: 105, spe: 145},
+		baseStats: {hp: 65, atk: 150, def: 40, spa: 15, spd: 115, spe: 145},
 	},
 	miltank: {
 		inherit: true,
