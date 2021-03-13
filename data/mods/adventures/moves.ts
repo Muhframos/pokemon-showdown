@@ -937,7 +937,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		flags: {heal: 1, authentic: 1, mystery: 1},
 		onHit(pokemon) {
 			const success = !!this.heal(this.modify(pokemon.maxhp, 0.25));
-			if (pokemon.status === 'par') pokemon.cureStatus(); || success;
+			if (pokemon.status === 'par') pokemon.cureStatus();
 		},
 		secondary: null,
 		target: "allies",
