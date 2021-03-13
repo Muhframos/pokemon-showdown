@@ -820,11 +820,11 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				this.add('-setboost', target, 'atk', 12, '[from] ability: Anger Point');
 			}
 			onSourceModifyDamage(damage, source, target, move) {
-			if (move?.effectType === 'Move' && target.getMoveHitData(move).crit) {
+			if (target.getMoveHitData(move).crit) {
 				this.debug('Anger Point neutralize');
 				return this.chainModify(0.50);
+				}
 			}
-		},
 		},
 		name: "Anger Point",
 		rating: 1.5,
