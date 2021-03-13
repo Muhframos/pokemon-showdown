@@ -1294,12 +1294,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	beedrill: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 110, def: 40, spa: 45, spd: 90, spe: 100},
+		baseStats: {hp: 65, atk: 110, def: 40, spa: 45, spd: 80, spe: 100},
 		abilities: {0: "Swarm", 1: "Sniper", H: "Poison Touch"},
 	},
 	beedrillmega: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 160, def: 50, spa: 15, spd: 115, spe: 145},
+		baseStats: {hp: 65, atk: 150, def: 40, spa: 15, spd: 115, spe: 145},
 	},
 	miltank: {
 		inherit: true,
@@ -1318,11 +1318,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	omastar: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 100, def: 135, spa: 115, spd: 70, spe: 55},
-		abilities: {0: "Sturdy", 1: "Shell Armor", H: "Weak Armor"},
+		abilities: {0: "Shell Armor", 1: "Storm Drain", H: "Weak Armor"},
 	},
 	mienshao: {
 		inherit: true,
-		baseStats: {hp: 75, atk: 130, def: 70, spa: 80, spd: 70, spe: 115},
+		baseStats: {hp: 85, atk: 135, def: 70, spa: 75, spd: 70, spe: 115},
 	},
 	scolipede: {
 		inherit: true,
