@@ -774,8 +774,8 @@ Ratings and how they work:
 		name: "Pickpocket",
 		rating: 1,
 		num: 124,
-		desc: "The user switches items with the target after using a contact move.",
-		shortDesc: "Trick on contact with the target after contact attack.",
+		desc: "The user switches items with the target after using a contact move. Cannot switch Mega Stones, Z-Stones, etc.",
+		shortDesc: "Switches item with target after using contact move.",
 		onTryImmunity(target) {
 			return !target.hasAbility('stickyhold');
 		},

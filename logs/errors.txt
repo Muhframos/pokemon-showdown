@@ -1649,3 +1649,19 @@ Error: Process chatlog.js 4300 crashed and had to be restarted
     at ChildProcess.EventEmitter.emit (domain.js:467:12)
     at finish (internal/child_process.js:888:14)
     at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: Rule "Endless Battle Clause" was added by "[Gen 8] Adventures 1v1" but already exists in "Standard NatDex"
+    at ModdedDex.getRuleTable (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:860:11)
+    at new TeamValidator (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:199:29)
+    at Function.get (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  formatid = gen8adventures1v1
+  team = Beheeyem||assaultvest|analytic|thunderbolt,psychic,psyshock,focusblast|Quiet|172,,140,108,88,||,0,,,,|||]Incineroar||choiceband|intimidate|flareblitz,knockoff,earthquake,closecombat|Adamant|220,140,148,,,|||||]Primeape||choicescarf|gorillatactics|closecombat,earthquake,outrage,poisonjab|Jolly|,252,,,4,252|||||
+
