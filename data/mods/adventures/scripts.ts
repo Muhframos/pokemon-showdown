@@ -750,6 +750,8 @@ this.modData('Learnsets', 'tropius').learnset.dualwingbeat = ['8L1'];
 this.modData('Learnsets', 'tropius').learnset.skyattack = ['8L1'];
 this.modData('Learnsets', 'tropius').learnset.solarblade = ['8L1'];
 
+this.modData('Learnsets', 'primeape').learnset.drainpunch = ['8L1'];
+
 this.modData('Learnsets', 'appletun').learnset.bellydrum = ['8L1'];
 this.modData('Learnsets', 'appletun').learnset.aromatherapy = ['8L1'];
 
@@ -818,6 +820,10 @@ this.modData('Learnsets', 'vivillon').learnset.heatwave = ['8L1'];
 this.modData('Learnsets', 'vivillon').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'vivillon').learnset.icywind = ['8L1'];
 this.modData('Learnsets', 'vivillon').learnset.muddywater = ['8L1'];
+
+this.modData('Learnsets', 'volcanion').learnset.clearsmog = ['8L1'];
+this.modData('Learnsets', 'volcanion').learnset.lavaplume = ['8L1'];
+this.modData('Learnsets', 'volcanion').learnset.lifedew = ['8L1'];
 
 this.modData('Learnsets', 'wailord').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'wailord').learnset.lifedew = ['8L1'];

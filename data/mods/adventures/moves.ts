@@ -916,4 +916,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Dragon",
 		contestType: "Cool",
 	},
+	steameruption: {
+		inherit: true,
+		accuracy: 100,
+	},
 }

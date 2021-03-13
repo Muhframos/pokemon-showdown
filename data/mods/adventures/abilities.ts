@@ -774,8 +774,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Pickpocket",
 		rating: 1,
 		num: 124,
-		desc: "The user switches items with the target after using a contact move.",
-		shortDesc: "Trick on contact with the target after contact attack.",
+		desc: "The user switches items with the target after using a contact move. Cannot switch Mega Stones, Z-Stones, etc.",
+		shortDesc: "Switches item with target after using contact move.",
 		onTryImmunity(target) {
 			return !target.hasAbility('stickyhold');
 		},
@@ -811,5 +811,23 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			}
 			}
 		}
+	},
+	angerpoint: {
+		onHit(target, source, move) {
+			if (!target.hp) return;
+			if (move?.effectType === 'Move' && target.getMoveHitData(move).crit) {
+				target.setBoost({atk: 6});
+				this.add('-setboost', target, 'atk', 12, '[from] ability: Anger Point');
+			}
+			onSourceModifyDamage(damage, source, target, move) {
+			if (move?.effectType === 'Move' && target.getMoveHitData(move).crit) {
+				this.debug('Anger Point neutralize');
+				return this.chainModify(0.50);
+			}
+		},
+		},
+		name: "Anger Point",
+		rating: 1.5,
+		num: 83,
 	},
 };

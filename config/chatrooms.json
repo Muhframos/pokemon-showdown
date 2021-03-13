@@ -8,4 +8,7 @@
 {"title":"Adventures Doubles","auth":{},"creationTime":1615582075795},
 {"title":"Adventures 1v1","auth":{},"creationTime":1615582078844},
 {"title":"Axis League","auth":{},"creationTime":1615582084445}
+{"title":"Lobby","auth":{},"creationTime":1611949159340,"isOfficial":true,"autojoin":true},
+{"title":"Staff","auth":{},"creationTime":1611949159340,"isPrivate":"hidden","modjoin":"%","autojoin":true}
+{"title":"Trivia","auth":{},"creationTime":1611949159340,"isOfficial":true,},
 ]
