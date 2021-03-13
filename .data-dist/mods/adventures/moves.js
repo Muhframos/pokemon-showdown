@@ -916,6 +916,10 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		type: "Dragon",
 		contestType: "Cool",
 	},
+	steameruption: {
+		inherit: true,
+		accuracy: 100,
+	},
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map
