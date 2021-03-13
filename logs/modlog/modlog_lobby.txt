@@ -15,3 +15,6 @@
 [2021-03-12T05:04:45.314Z] (lobby) HANGMAN: by muhframos
 [2021-03-12T16:45:25.134Z] (lobby) HANGMAN: by muhframos
 [2021-03-13T03:49:22.569Z] (lobby) HANGMAN: by muhframos
+[2021-03-13T18:38:45.548Z] (lobby) HANGMAN: by muhframos
+[2021-03-13T18:38:56.876Z] (lobby) ENDHANGMAN: by muhframos
+[2021-03-13T18:39:09.634Z] (lobby) HANGMAN: by muhframos
