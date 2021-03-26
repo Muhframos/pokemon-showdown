@@ -141,7 +141,7 @@ export const Items: {[k: string]: ModdedItemData} = {
 		},
 		onModifyDamage(damage, source, target, move) {
 			if (move && target.getMoveHitData(move).typeMod > 0) {
-				return this.chainModify([0x14CD, 0x1000]);
+				return this.chainModify([0x1666, 0x1000]);
 			}
 		},
 		num: 268,

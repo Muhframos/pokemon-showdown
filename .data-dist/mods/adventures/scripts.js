@@ -44,7 +44,7 @@ this.modData('Learnsets', 'centiskorch').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'centiskorch').learnset.rapidspin = ['8L1'];
 
 this.modData('Learnsets', 'golduck').learnset.nastyplot = ['8L1'];
-this.modData('Learnsets', 'golduck').learnset.knockoff = ['8L1'];
+this.modData('Learnsets', 'golduck').learnset.storedpower = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.nightslash = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.darkpulse = ['8L1'];
@@ -69,6 +69,8 @@ this.modData('Learnsets', 'beheeyem').learnset.voltswitch = ['8L1'];
 this.modData('Learnsets', 'stonjourner').learnset.blazekick = ['8L1'];
 this.modData('Learnsets', 'stonjourner').learnset.doublekick = ['8L1'];
 this.modData('Learnsets', 'stonjourner').learnset.lowkick = ['8L1'];
+
+this.modData('Learnsets', 'bruxish').learnset.agility = ['8L1'];
 
 this.modData('Learnsets', 'crawdaunt').learnset.flipturn = ['8L1'];
 
@@ -288,6 +290,7 @@ this.modData('Learnsets', 'cacturne').learnset.fakeout = ['8L1'];
 this.modData('Learnsets', 'cacturne').learnset.spikyshield = ['8L1'];
 this.modData('Learnsets', 'cacturne').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'cacturne').learnset.spikecannon = ['8L1'];
+this.modData('Learnsets', 'cacturne').learnset.nightdaze = ['8L1'];
 
 this.modData('Learnsets', 'camerupt').learnset.meteorbeam = ['8L1'];
 this.modData('Learnsets', 'camerupt').learnset.shoreup = ['8L1'];
@@ -300,15 +303,17 @@ this.modData('Learnsets', 'celebi').learnset.grasswhistle = ['8L1'];
 
 this.modData('Learnsets', 'cofagrigus').learnset.scorchingsands = ['8L1'];
 
+this.modData('Learnsets', 'starmie').learnset.zapcannon = ['8L1'];
+
 this.modData('Learnsets', 'cresselia').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'cresselia').learnset.teleport = ['8L1'];
 this.modData('Learnsets', 'cresselia').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'cresselia').learnset.mistyexplosion = ['8L1'];
+this.modData('Learnsets', 'cresselia').learnset.mysticalfire = ['8L1'];
 
-this.modData('Learnsets', 'crobat').learnset.flareblitz = ['8L1'];
-this.modData('Learnsets', 'crobat').learnset.wildcharge = ['8L1'];
 this.modData('Learnsets', 'crobat').learnset.firstimpression = ['8L1'];
 this.modData('Learnsets', 'crobat').learnset.gunkshot = ['8L1'];
+this.modData('Learnsets', 'crobat').learnset.knockoff = ['8L1'];
 
 this.modData('Learnsets', 'cryogonal').learnset.mysticalfire = ['8L1'];
 this.modData('Learnsets', 'cryogonal').learnset.powergem = ['8L1'];
@@ -548,7 +553,7 @@ this.modData('Learnsets', 'linoone').learnset.iciclecrash = ['8L1'];
 this.modData('Learnsets', 'linoone').learnset.wildcharge = ['8L1'];
 this.modData('Learnsets', 'linoone').learnset.waterfall = ['8L1'];
 
-
+this.modData('Learnsets', 'lunatone').learnset.nightdaze = ['8L1'];
 this.modData('Learnsets', 'lunatone').learnset.mysticalfire = ['8L1'];
 this.modData('Learnsets', 'lunatone').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'lunatone').learnset.scorchingsands = ['8L1'];
@@ -567,6 +572,7 @@ this.modData('Learnsets', 'magmortar').learnset.darkpulse = ['8L1'];
 this.modData('Learnsets', 'magmortar').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'magmortar').learnset.zapcannon = ['8L1'];
 this.modData('Learnsets', 'magmortar').learnset.inferno = ['8L1'];
+this.modData('Learnsets', 'magmortar').learnset.nightdaze = ['8L1'];
 
 this.modData('Learnsets', 'marowak').learnset.rockpolish = ['8L1'];
 
@@ -654,6 +660,8 @@ this.modData('Learnsets', 'lanturn').learnset.tailglow = ['8L1'];
 this.modData('Learnsets', 'lanturn').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'lanturn').learnset.zapcannon = ['8L1'];
 
+this.modData('Learnsets', 'houndoom').learnset.weatherball = ['8L1'];
+
 this.modData('Learnsets', 'rapidash').learnset.jumpkick = ['8L1'];
 
 this.modData('Learnsets', 'rapidashgalar').learnset.aurorabeam = ['8L1'];
@@ -684,6 +692,7 @@ this.modData('Learnsets', 'spiritomb').learnset.moonlight = ['8L1'];
 this.modData('Learnsets', 'spiritomb').learnset.spiritbreak = ['8L1'];
 this.modData('Learnsets', 'spiritomb').learnset.defog = ['8L1'];
 this.modData('Learnsets', 'spiritomb').learnset.mistyterrain = ['8L1'];
+this.modData('Learnsets', 'spiritomb').learnset.nightdaze = ['8L1'];
 
 this.modData('Learnsets', 'tapufini').learnset.recover = ['8L1'];
 
@@ -709,10 +718,11 @@ this.modData('Learnsets', 'escavalier').learnset.gyroball = ['8L1'];
 this.modData('Learnsets', 'escavalier').learnset.uturn = ['8L1'];
 
 this.modData('Learnsets', 'minior').learnset.wish = ['8L1'];
-this.modData('Learnsets', 'minior').learnset.bodypress = ['8L1'];
+this.modData('Learnsets', 'minior').learnset.healingwish = ['8L1'];
 this.modData('Learnsets', 'minior').learnset.meteormash = ['8L1'];
-this.modData('Learnsets', 'minior').learnset.dracometeor = ['8L1'];
+this.modData('Learnsets', 'minior').learnset.airslash = ['8L1'];
 this.modData('Learnsets', 'minior').learnset.meteorbeam = ['8L1'];
+this.modData('Learnsets', 'minior').learnset.hurricane = ['8L1'];
 
 this.modData('Learnsets', 'zoroark').learnset.transform = ['8L1'];
 this.modData('Learnsets', 'zoroark').learnset.shadowsneak = ['8L1'];
@@ -739,9 +749,9 @@ this.modData('Learnsets', 'hariyama').learnset.circlethrow = ['8L1'];
 this.modData('Learnsets', 'hariyama').learnset.stormthrow = ['8L1'];
 this.modData('Learnsets', 'hariyama').learnset.highhorsepower = ['8L1'];
 
-this.modData('Learnsets', 'mienshao').learnset.rapidspin = ['8L1'];
+this.modData('Learnsets', 'mienshao').learnset.powerwhip = ['8L1'];
 this.modData('Learnsets', 'mienshao').learnset.playrough = ['8L1'];
-this.modData('Learnsets', 'mienshao').learnset.thunderouskick = ['8L1'];
+this.modData('Learnsets', 'mienshao').learnset.rapidspin = ['8L1'];
 this.modData('Learnsets', 'mienshao').learnset.counter = ['8L1'];
 
 this.modData('Learnsets', 'feraligatr').learnset.icefang = ['8L1'];
@@ -786,7 +796,6 @@ this.modData('Learnsets', 'appletun').learnset.aromatherapy = ['8L1'];
 
 this.modData('Learnsets', 'flapple').learnset.bellydrum = ['8L1'];
 this.modData('Learnsets', 'flapple').learnset.powerwhip = ['8L1'];
-this.modData('Learnsets', 'flapple').learnset.outrage = ['8L1'];
 this.modData('Learnsets', 'flapple').learnset.highhorsepower = ['8L1'];
 this.modData('Learnsets', 'flapple').learnset.superpower = ['8L1'];
 
@@ -867,7 +876,7 @@ this.modData('Learnsets', 'weavile').learnset.playrough = ['8L1'];
 this.modData('Learnsets', 'wishiwashi').learnset.fishiousrend = ['8L1'];
 this.modData('Learnsets', 'wishiwashi').learnset.trickroom = ['8L1'];
 this.modData('Learnsets', 'wishiwashi').learnset.outrage = ['8L1'];
-this.modData('Learnsets', 'wishiwashi').learnset.dragontail = ['8L1'];
+this.modData('Learnsets', 'wishiwashi').learnset.twister = ['8L1'];
 this.modData('Learnsets', 'wishiwashi').learnset.attackorder = ['8L1'];
 this.modData('Learnsets', 'wishiwashi').learnset.healorder = ['8L1'];
 
@@ -877,6 +886,11 @@ this.modData('Learnsets', 'yanmega').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'zarude').learnset.swordsdance = ['8L1'];
 this.modData('Learnsets', 'zarude').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'zarude').learnset.woodhammer = ['8L1'];
+
+this.modData('Learnsets', 'mamoswine').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'mamoswine').learnset.swordsdance = ['8L1'];
+this.modData('Learnsets', 'mamoswine').learnset.bulkup = ['8L1'];
+this.modData('Learnsets', 'mamoswine').learnset.rockpolish = ['8L1'];
 
 
 

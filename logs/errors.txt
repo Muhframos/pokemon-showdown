@@ -1665,3 +1665,167 @@ Additional information:
   formatid = gen8adventures1v1
   team = Beheeyem||assaultvest|analytic|thunderbolt,psychic,psyshock,focusblast|Quiet|172,,140,108,88,||,0,,,,|||]Incineroar||choiceband|intimidate|flareblitz,knockoff,earthquake,closecombat|Adamant|220,140,148,,,|||||]Primeape||choicescarf|gorillatactics|closecombat,earthquake,outrage,poisonjab|Jolly|,252,,,4,252|||||
 
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at StreamProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:288:16)
+    at StreamProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:274:14)
+    at StreamProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: write EPIPE
+    at ChildProcess.target._send (internal/child_process.js:832:20)
+    at ChildProcess.target.send (internal/child_process.js:703:19)
+    at Worker.send (internal/cluster/worker.js:46:10)
+    at RawSubprocessStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:92:24)
+    at RawSubprocessStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at Object.roomBroadcast (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\sockets.js:109:23)
+    at BasicRoom.send (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\rooms.js:324:31)
+    at BasicRoom.update (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\rooms.js:417:8)
+    at C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\rooms.js:1:613
+    at C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\rooms.js:1634:175
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: Process sockets.js 10388 crashed and had to be restarted
+    at RawProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:437:4)
+    at Worker.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at Worker.emit (events.js:315:20)
+    at Worker.EventEmitter.emit (domain.js:467:12)
+    at ChildProcess.<anonymous> (internal/cluster/master.js:220:12)
+    at Object.onceWrapper (events.js:421:28)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:178:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:164:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:421:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+TypeError: Cannot read property 'then' of null
+    at RawProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:421:25)
+    at Worker.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:468:48)
+    at Worker.emit (events.js:315:20)
+    at Worker.EventEmitter.emit (domain.js:467:12)
+    at ChildProcess.<anonymous> (internal/cluster/master.js:220:12)
+    at Object.onceWrapper (events.js:421:28)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: Unrecognized rule "[Gen 8] National Dex"
+    at ModdedDex.validateRule (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:947:11)
+    at ModdedDex.getRuleTable (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:821:26)
+    at new TeamValidator (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:199:29)
+    at Function.get (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  formatid = gen8adventuresuu
+  team = Haxorus||razorclaw|moldbreaker|dragondance,earthquake,dragonhammer,irontail|Jolly|188,252,,,,68|||||]Gardevoir||focussash|mistysurge|quiverdance,psychic,moonblast,mysticalfire|Modest|,,,252,4,252|F|,0,,,,|S||]Bisharp||focussash|ironfist|suckerpunch,bulletpunch,poisonjab,swordsdance|Adamant|252,252,,,4,|M||||]Hariyama||choiceband|technician|stormthrow,rocktomb,bulldoze,bulletpunch|Adamant|252,252,,,4,|||||]Weavile||choiceband|pressure|iceshard,tripleaxel,knockoff,closecombat|Jolly|,252,,,4,252|||||]Mienshao||lifeorb|regenerator|closecombat,uturn,poisonjab,knockoff|Jolly|,252,,,4,252|||||
+
+
+Error: Unrecognized rule "[Gen 8] National Dex"
+    at ModdedDex.validateRule (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:947:11)
+    at ModdedDex.getRuleTable (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:821:26)
+    at new TeamValidator (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:199:29)
+    at Function.get (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  formatid = gen8adventuresuu
+  team = Haxorus||razorclaw|moldbreaker|dragondance,earthquake,dragonhammer,irontail|Jolly|188,252,,,,68|||||]Gardevoir||focussash|mistysurge|quiverdance,psychic,moonblast,mysticalfire|Modest|,,,252,4,252|F|,0,,,,|S||]Bisharp||focussash|ironfist|suckerpunch,bulletpunch,poisonjab,swordsdance|Adamant|252,252,,,4,|M||||]Hariyama||choiceband|technician|stormthrow,rocktomb,bulldoze,bulletpunch|Adamant|252,252,,,4,|||||]Weavile||choiceband|pressure|iceshard,tripleaxel,knockoff,closecombat|Jolly|,252,,,4,252|||||]Mienshao||lifeorb|regenerator|closecombat,uturn,poisonjab,knockoff|Jolly|,252,,,4,252|||||
+
+
+Error: Unrecognized rule "[Gen 8] National Dex"
+    at ModdedDex.validateRule (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:947:11)
+    at ModdedDex.getRuleTable (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:821:26)
+    at new TeamValidator (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:199:29)
+    at Function.get (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:2110:10)
+    at QueryProcessManager._query (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:538:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  formatid = gen8adventuresuu
+  team = Haxorus||razorclaw|moldbreaker|dragondance,earthquake,dragonhammer,irontail|Jolly|188,252,,,,68|||||]Gardevoir||focussash|mistysurge|quiverdance,psychic,moonblast,mysticalfire|Modest|,,,252,4,252|F|,0,,,,|S||]Bisharp||focussash|ironfist|suckerpunch,bulletpunch,poisonjab,swordsdance|Adamant|252,252,,,4,|M||||]Hariyama||choiceband|technician|stormthrow,rocktomb,bulldoze,bulletpunch|Adamant|252,252,,,4,|||||]Weavile||choiceband|pressure|iceshard,tripleaxel,knockoff,closecombat|Jolly|,252,,,4,252|||||]Mienshao||lifeorb|regenerator|closecombat,uturn,poisonjab,knockoff|Jolly|,252,,,4,252|||||
+

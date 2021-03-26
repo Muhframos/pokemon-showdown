@@ -213,22 +213,22 @@ Ratings and how they work:
 	},
 	rating: 2,
 	num: -8,
-	portend: {
-		name: "Portend",
+	omen: {
+		name: "Omen",
 		desc: "2 turns after switchin, the user uses Earthquake on the opposing side.",
 		shortDesc: "2 turns delayed Earthquake on switchin.",
 		onStart(pokemon) {
-			this.add('-activate', pokemon, 'ability: Portend');
+			this.add('-activate', pokemon, 'ability: Omen');
 			let success = false;
 			for (const target of pokemon.side.foe.active) {
 				if (target.side.addSlotCondition(target, 'futuremove')) {
 					Object.assign(target.side.slotConditions[target.position]['futuremove'], {
 						duration: 3,
-						move: 'portend',
+						move: 'omen',
 						source: pokemon,
 						moveData: {
-							id: 'portend',
-							name: "Portend",
+							id: 'omen',
+							name: "Omen",
 							accuracy: 100,
 							basePower: 100,
 							category: "Physical",
@@ -811,6 +811,45 @@ Ratings and how they work:
 			}
 			}
 		}
+	},
+	forewarn: {
+		onStart(pokemon) {
+			let warnMoves = [];
+			let warnBp = 1;
+			for (const target of pokemon.side.foe.active) {
+				if (target.fainted) continue;
+				for (const moveSlot of target.moveSlots) {
+					const move = this.dex.getMove(moveSlot.move);
+					let bp = move.basePower;
+					if (move.ohko) bp = 150;
+					if (move.id === 'counter' || move.id === 'metalburst' || move.id === 'mirrorcoat') bp = 120;
+					if (bp === 1) bp = 80;
+					if (!bp && move.category !== 'Status') bp = 80;
+					if (bp > warnBp) {
+						warnMoves = [[move, target]];
+						warnBp = bp;
+					} else if (bp === warnBp) {
+						warnMoves.push([move, target]);
+					}
+				}
+			}
+			if (!warnMoves.length) return;
+			const [warnMoveName, warnTarget] = this.sample(warnMoves);
+			this.add('-activate', pokemon, 'ability: Forewarn', warnMoveName, '[of] ' + warnTarget);
+		},
+		name: "Forewarn",
+		rating: 0.5,
+		num: 108,
+	},
+	neuroforce: {
+		onModifyDamage(damage, source, target, move) {
+			if (move && target.getMoveHitData(move).typeMod > 0) {
+				return this.chainModify([0x1666, 0x1000]);
+			}
+		},
+		name: "Neuroforce",
+		rating: 2.5,
+		num: 233,
 	},
 }; exports.Abilities = Abilities;
 

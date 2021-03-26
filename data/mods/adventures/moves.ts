@@ -944,4 +944,164 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Normal",
 		contestType: "Tough",
 	},
+	curse: {
+		num: 174,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Curse",
+		pp: 10,
+		priority: 0,
+		flags: {authentic: 1},
+		volatileStatus: 'curse',
+		onModifyMove(move, source, target) {
+			if (!source.hasType('Ghost')) {
+				move.target = move.nonGhostTarget as MoveTarget;
+			}
+		},
+		onTryHit(target, source, move) {
+			if (!source.hasType('Ghost')) {
+				delete move.volatileStatus;
+				delete move.onHit;
+				move.self = {boosts: {spe: -1, atk: 1, def: 1}};
+			} else if (move.volatileStatus && target.volatiles['curse']) {
+				return false;
+			}
+		},
+		onHit(target, source) {
+			this.directDamage(source.maxhp / 4, source, source);
+		},
+		condition: {
+			onStart(pokemon, source) {
+				this.add('-start', pokemon, 'Curse', '[of] ' + source);
+			},
+			onResidualOrder: 10,
+			onResidual(pokemon) {
+				this.damage(pokemon.baseMaxhp / 4);
+			},
+		},
+		secondary: null,
+		target: "randomNormal",
+		nonGhostTarget: "self",
+		type: "Ghost",
+		zMove: {effect: 'curse'},
+		contestType: "Tough",
+	},
+	painsplit: {
+		num: 220,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Pain Split",
+		pp: 20,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, mystery: 1},
+		onHit(target, pokemon) {
+			if (Math.floor(target.getUndynamaxedHP() > 50)) {
+			const targetHP = target.getUndynamaxedHP();
+			const averagehp = Math.floor((targetHP + pokemon.hp) / 2) || 1;
+			const targetChange = ((targetHP - averagehp) + 50);
+			target.sethp(target.hp - targetChange);
+			this.add('-sethp', target, target.getHealth, '[from] move: Pain Split', '[silent]');
+			pokemon.sethp(averagehp + 50);
+			this.add('-sethp', pokemon, pokemon.getHealth, '[from] move: Pain Split');
+			}
+		},
+		secondary: null,
+		target: "normal",
+		type: "Normal",
+		zMove: {boost: {def: 1}},
+		contestType: "Clever",
+	},
+	storedpower: {
+		num: 500,
+		accuracy: 100,
+		basePower: 20,
+		basePowerCallback(pokemon, target, move) {
+			return move.basePower + 20 * pokemon.positiveBoosts();
+		},
+		category: "Special",
+		name: "Stored Power",
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		secondary: null,
+		target: "normal",
+		type: "Psychic",
+		zMove: {basePower: 175},
+		maxMove: {basePower: 130},
+		contestType: "Clever",
+	},
+	nightdaze: {
+		num: 539,
+		accuracy: 100,
+		basePower: 90,
+		category: "Special",
+		name: "Night Daze",
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1},
+		secondary: {
+			chance: 40,
+			boosts: {
+				accuracy: -1,
+			},
+		},
+		target: "normal",
+		type: "Dark",
+		zMove: {basePower: 175},
+		maxMove: {basePower: 130},
+		contestType: "Cool",
+	},
+	drillpeck: {
+		num: 65,
+		accuracy: 100,
+		basePower: 90,
+		category: "Physical",
+		name: "Drill Peck",
+		pp: 20,
+		priority: 0,
+		critRatio: 3,
+		flags: {contact: 1, protect: 1, mirror: 1, distance: 1},
+		secondary: null,
+		target: "any",
+		type: "Flying",
+		contestType: "Cool",
+	},
+	mirrormove: {
+		num: 119,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		isNonstandard: "Past",
+		name: "Mirror Move",
+		pp: 20,
+		priority: 4,
+		flags: {authentic: 1},
+		volatileStatus: 'snatch',
+		condition: {
+			duration: 1,
+			onStart(pokemon) {
+				this.add('-singleturn', pokemon, 'Snatch');
+			},
+			onAnyPrepareHitPriority: -1,
+			onAnyPrepareHit(source, target, move) {
+				const snatchUser = this.effectData.source;
+				if (snatchUser.isSkyDropped()) return;
+				if (!move || !move.flags['mirror'] || move.isZ || move.isMax) {
+				return false;
+				}
+				snatchUser.removeVolatile('snatch');
+				this.add('-activate', snatchUser, 'move: Snatch', '[of] ' + source);
+				this.useMove(move.id, snatchUser);
+				return null;
+			},
+		},
+		secondary: null,
+		pressureTarget: "foeSide",
+		target: "normal",
+		type: "Dark",
+		zMove: {boost: {atk: 2}},
+		contestType: "Clever",
+	},
 }
