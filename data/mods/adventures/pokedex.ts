@@ -412,6 +412,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 85, atk: 70, def: 80, spa: 95, spd: 80, spe: 50},
 		abilities: {0: "Chlorophyll", 1: "Corrosion" , H: "Effect Spore"},
 	},
+	onix: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 75, def: 160, spa: 35, spd: 45, spe: 70},
+		abilities: {0: "Rock Head", 1: "Sturdy", H: "Dry Skin"},
+	},
 	rhydon: {
 		inherit: true,
 		baseStats: {hp: 105, atk: 130, def: 120, spa: 45, spd: 45, spe: 40},
