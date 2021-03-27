@@ -666,6 +666,9 @@ this.modData('Learnsets', 'rapidash').learnset.jumpkick = ['8L1'];
 
 this.modData('Learnsets', 'rapidashgalar').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'rapidashgalar').learnset.jumpkick = ['8L1'];
+this.modData('Learnsets', 'rapidashgalar').learnset.return = ['8L1'];
+this.modData('Learnsets', 'rapidashgalar').learnset.toxic = ['8L1'];
+this.modData('Learnsets', 'rapidashgalar').learnset.frustration = ['8L1'];
 
 this.modData('Learnsets', 'sableye').learnset.trickroom = ['8L1'];
 this.modData('Learnsets', 'sableye').learnset.earthpower = ['8L1'];
