@@ -22630,7 +22630,6 @@ export const Learnsets: {[speciesid: string]: LearnsetData} = {
 			mimic: ["3T"],
 			naturalgift: ["4M"],
 			ominouswind: ["4T"],
-			poweruppunch: ["6M"],
 			protect: ["7M", "7V", "6M", "5M", "4M", "3M"],
 			reflect: ["7M", "7L12", "7V", "6M", "6L14", "5M", "5L14", "4M", "4L14", "3M", "3L24"],
 			rest: ["7M", "7V", "6M", "5M", "4M", "3M"],

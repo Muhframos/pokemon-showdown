@@ -842,6 +842,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 108,
 	},
 	neuroforce: {
+		desc: "This Pokemon's attacks that are super effective against the target do 1.5x damage.",
+		shortDesc: "Super effective hits by this Pokemon do 1.5x damage.",
 		onModifyDamage(damage, source, target, move) {
 			if (move && target.getMoveHitData(move).typeMod > 0) {
 				return this.chainModify([0x1666, 0x1000]);
@@ -850,5 +852,30 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Neuroforce",
 		rating: 2.5,
 		num: 233,
+	},
+	stellarstriker: {
+		desc: "This Pokemon's damaging moves become multi-hit moves that hit four times. The extra hits have its damage halved. Does not affect multi-hit moves or moves that have multiple targets.",
+		shortDesc: "Damaging moves become 4x multihit with halved damage on extra hits.",
+		onPrepareHit(source, target, move) {
+			if (move.category === 'Status' || move.selfdestruct || move.multihit) return;
+			if (['endeavor', 'fling', 'iceball', 'rollout'].includes(move.id)) return;
+			if (!move.flags['charge'] && !move.spreadHit && !move.isZ && !move.isMax && move.flags['punch']) {
+				move.multihit = 4;
+				move.multihitType = 'stellarstriker';
+			}
+		},
+		onBasePowerPriority: 7,
+		onBasePower(basePower, pokemon, target, move) {
+			if (move.multihitType === 'stellarstriker' && move.hit > 1) return this.chainModify(0.50);
+		},
+		onSourceModifySecondaries(secondaries, target, source, move) {
+			if (move.multihitType === 'stellarstriker' && move.id === 'secretpower' && move.hit < 2) {
+				// hack to prevent accidentally suppressing King's Rock/Razor Fang
+				return secondaries.filter(effect => effect.volatileStatus === 'flinch');
+			}
+		},
+		name: "Stellar Striker",
+		rating: 4.5,
+		num: 184,
 	},
 };
