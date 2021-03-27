@@ -896,6 +896,8 @@ this.modData('Learnsets', 'mamoswine').learnset.bulkup = ['8L1'];
 this.modData('Learnsets', 'mamoswine').learnset.rockpolish = ['8L1'];
 
 this.modData('Learnsets', 'ledian').learnset.wish = ['8L1'];
+this.modData('Learnsets', 'ledian').learnset.firepunch = ['8L1'];
+this.modData('Learnsets', 'ledian').learnset.shadowpunch = ['8L1'];
 this.modData('Learnsets', 'ledian').learnset.moonlight = ['8L1'];
 this.modData('Learnsets', 'ledian').learnset.moonblast = ['8L1'];
 this.modData('Learnsets', 'ledian').learnset.psychic = ['8L1'];
