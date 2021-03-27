@@ -226,6 +226,9 @@ this.modData('Learnsets', 'hitmonlee').learnset.tripleaxel = ['8L1'];
 this.modData('Learnsets', 'hitmonchan').learnset.shadowpunch = ['8L1'];
 this.modData('Learnsets', 'hitmonchan').learnset.suckerpunch = ['8L1'];
 
+this.modData('Learnsets', 'articunogalar').learnset.focusblast = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.dazzlinggleam = ['8L1'];
+
 this.modData('Learnsets', 'articuno').learnset.aurorabeam = ['8L1'];
 
 this.modData('Learnsets', 'aegislash').learnset.poltergeist = ['8L1'];
