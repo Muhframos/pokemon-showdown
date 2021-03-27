@@ -137,7 +137,7 @@
 	},
 	articuno: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 85, def: 100, spa: 125, spd: 95, spe: 85},
+		baseStats: {hp: 90, atk: 85, def: 95, spa: 125, spd: 100, spe: 85},
 		abilities: {0: "Pressure", H: "Snow Warning", 1: "Multiscale"},	
 	},
 	ursaring: {
@@ -378,7 +378,7 @@
 	},
 	honchkrow: {
 		inherit: true,
-		baseStats: {hp: 120, atk: 125, def: 62, spa: 105, spd: 62, spe: 71},
+		baseStats: {hp: 120, atk: 125, def: 72, spa: 105, spd: 72, spe: 71},
 		abilities: {0: "Insomnia", 1: "Super Luck", H: "Moxie"},
 	},
 	celebi: {
@@ -411,6 +411,11 @@
 		inherit: true,
 		baseStats: {hp: 85, atk: 70, def: 80, spa: 95, spd: 80, spe: 50},
 		abilities: {0: "Chlorophyll", 1: "Corrosion" , H: "Effect Spore"},
+	},
+	onix: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 75, def: 160, spa: 35, spd: 45, spe: 70},
+		abilities: {0: "Rock Head", 1: "Sturdy", H: "Dry Skin"},
 	},
 	rhydon: {
 		inherit: true,
@@ -767,11 +772,11 @@
 	},
 	cofagrigus: {
 		inherit: true,
-		baseStats: {hp: 58, atk: 70, def: 145, spa: 115, spd: 105, spe: 30},
+		baseStats: {hp: 58, atk: 50, def: 155, spa: 115, spd: 115, spe: 30},
 	},
 	runerigus: {
 		inherit: true,
-		baseStats: {hp: 58, atk: 115, def: 105, spa: 70, spd: 145, spe: 30},
+		baseStats: {hp: 58, atk: 115, def: 115, spa: 50, spd: 155, spe: 30},
 	},
 	dunsparce: {
 		inherit: true,
@@ -846,7 +851,7 @@
 	rapidashgalar: {
 		inherit: true,
 		types: ["Fairy", "Psychic"],
-		baseStats: {hp: 90, atk: 110, def: 70, spa: 80, spd: 80, spe: 105},
+		baseStats: {hp: 90, atk: 100, def: 80, spa: 70, spd: 90, spe: 105},
 		abilities: {0: "Queenly Majesty", 1: "Pastel Veil", H: "Pixilate"},
 	},
 	aurorus: {
@@ -1370,6 +1375,64 @@
 	castformsnowy: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 80, def: 70, spa: 100, spd: 70, spe: 110},
+	},
+	ledian: {
+		inherit: true,
+		baseStats: {hp: 55, atk: 35, def: 50, spa: 35, spd: 110, spe: 85},
+		types: ["Bug", "Fighting"],
+		abilities: {0: "Swarm", 1: "Stellar Striker", H: "Iron Fist"},
+	},
+	cradily: {
+		inherit: true,
+		baseStats: {hp: 86, atk: 91, def: 107, spa: 91, spd: 117, spe: 43},
+		abilities: {0: "Suction Cups", H: "Storm Drain"},
+	},
+	druddigon: {
+		inherit: true,
+		baseStats: {hp: 77, atk: 130, def: 100, spa: 60, spd: 95, spe: 58},
+	},
+	pincurchin: {
+		inherit: true,
+		baseStats: {hp: 48, atk: 101, def: 105, spa: 91, spd: 105, spe: 15},
+		abilities: {0: "Lightning Rod", 1: "Iron Barbs", H: "Electric Surge"},
+	},
+	zapdos: {
+		inherit: true,
+		abilities: {0: "Pressure", 1: "Lightning Rod", H: "Static"},
+	},
+	moltres: {
+		inherit: true,
+		abilities: {0: "Pressure", 1: "Flash Fire", H: "Flame Body"},
+	},
+	machamp: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 130, def: 95, spa: 50, spd: 95, spe: 75},
+	},
+	mantine: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 40, def: 70, spa: 90, spd: 160, spe: 70},
+	},
+	staraptor: {
+		inherit: true,
+		baseStats: {hp: 85, atk: 120, def: 90, spa: 50, spd: 90, spe: 100},
+	},
+	lycanroc: {
+		inherit: true,
+		abilities: {0: "Unburden", 1: "Sand Rush", H: "Sturdy"},
+	},
+	lycanrocmidnight: {
+		inherit: true,
+		baseStats: {hp: 85, atk: 125, def: 95, spa: 45, spd: 95, spe: 82},
+		abilities: {0: "Adaptability", 1: "Vital Spirit", H: "No Guard"},
+	},
+	articunogalar: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 85, def: 90, spa: 125, spd: 90, spe: 100},
+		abilities: {0: "Competitive", H: "Tinted Lens"},
+	},
+	necrozma: {
+		inherit: true,
+		baseStats: {hp: 97, atk: 137, def: 101, spa: 137, spd: 89, spe: 79},
 	},
 }; exports.Pokedex = Pokedex;
 

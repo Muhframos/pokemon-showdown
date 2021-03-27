@@ -892,6 +892,28 @@ this.modData('Learnsets', 'mamoswine').learnset.swordsdance = ['8L1'];
 this.modData('Learnsets', 'mamoswine').learnset.bulkup = ['8L1'];
 this.modData('Learnsets', 'mamoswine').learnset.rockpolish = ['8L1'];
 
+this.modData('Learnsets', 'ledian').learnset.wish = ['8L1'];
+this.modData('Learnsets', 'ledian').learnset.moonlight = ['8L1'];
+this.modData('Learnsets', 'ledian').learnset.moonblast = ['8L1'];
+this.modData('Learnsets', 'ledian').learnset.psychic = ['8L1'];
+this.modData('Learnsets', 'ledian').learnset.aurasphere = ['8L1'];
+
+this.modData('Learnsets', 'druddigon').learnset.highhorsepower = ['8L1'];
+
+this.modData('Learnsets', 'lycanrocmidnight').learnset.accelerock = ['8L1'];
+
+this.modData('Learnsets', 'ferrothorn').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'tangrowth').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'vileplume').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'gloom').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'venusaur').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'cacturne').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'carnivine').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'lurantis').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'leavanny').learnset.vinetrap = ['8L1'];
+this.modData('Learnsets', 'victreebel').learnset.vinetrap = ['8L1'];
+
 
 
 
