@@ -859,7 +859,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onPrepareHit(source, target, move) {
 			if (move.category === 'Status' || move.selfdestruct || move.multihit) return;
 			if (['endeavor', 'fling', 'iceball', 'rollout'].includes(move.id)) return;
-			if (!move.flags['charge'] && !move.spreadHit && !move.isZ && !move.isMax && move.flags['punch']) {
+			if (!move.flags['charge'] && !move.spreadHit && !move.isZ && !move.isMax) {
 				move.multihit = 4;
 				move.multihitType = 'stellarstriker';
 			}
@@ -875,7 +875,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			}
 		},
 		name: "Stellar Striker",
-		rating: 4.5,
+		rating: 5,
 		num: 184,
 	},
 };
