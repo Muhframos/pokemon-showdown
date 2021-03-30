@@ -900,6 +900,8 @@ this.modData('Learnsets', 'ledian').learnset.aurasphere = ['8L1'];
 
 this.modData('Learnsets', 'druddigon').learnset.highhorsepower = ['8L1'];
 
+this.modData('Learnsets', 'sharpedo').learnset.obstruct = ['8L1'];
+
 this.modData('Learnsets', 'lycanrocmidnight').learnset.accelerock = ['8L1'];
 
 this.modData('Learnsets', 'ferrothorn').learnset.vinetrap = ['8L1'];
