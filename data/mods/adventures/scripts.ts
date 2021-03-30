@@ -226,6 +226,9 @@ this.modData('Learnsets', 'hitmonlee').learnset.tripleaxel = ['8L1'];
 this.modData('Learnsets', 'hitmonchan').learnset.shadowpunch = ['8L1'];
 this.modData('Learnsets', 'hitmonchan').learnset.suckerpunch = ['8L1'];
 
+this.modData('Learnsets', 'articunogalar').learnset.focusblast = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.dazzlinggleam = ['8L1'];
+
 this.modData('Learnsets', 'articuno').learnset.aurorabeam = ['8L1'];
 
 this.modData('Learnsets', 'aegislash').learnset.poltergeist = ['8L1'];
@@ -666,6 +669,9 @@ this.modData('Learnsets', 'rapidash').learnset.jumpkick = ['8L1'];
 
 this.modData('Learnsets', 'rapidashgalar').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'rapidashgalar').learnset.jumpkick = ['8L1'];
+this.modData('Learnsets', 'rapidashgalar').learnset.return = ['8L1'];
+this.modData('Learnsets', 'rapidashgalar').learnset.toxic = ['8L1'];
+this.modData('Learnsets', 'rapidashgalar').learnset.frustration = ['8L1'];
 
 this.modData('Learnsets', 'sableye').learnset.trickroom = ['8L1'];
 this.modData('Learnsets', 'sableye').learnset.earthpower = ['8L1'];
@@ -893,6 +899,8 @@ this.modData('Learnsets', 'mamoswine').learnset.bulkup = ['8L1'];
 this.modData('Learnsets', 'mamoswine').learnset.rockpolish = ['8L1'];
 
 this.modData('Learnsets', 'ledian').learnset.wish = ['8L1'];
+this.modData('Learnsets', 'ledian').learnset.firepunch = ['8L1'];
+this.modData('Learnsets', 'ledian').learnset.shadowpunch = ['8L1'];
 this.modData('Learnsets', 'ledian').learnset.moonlight = ['8L1'];
 this.modData('Learnsets', 'ledian').learnset.moonblast = ['8L1'];
 this.modData('Learnsets', 'ledian').learnset.psychic = ['8L1'];
