@@ -140,6 +140,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 90, atk: 85, def: 95, spa: 125, spd: 100, spe: 85},
 		abilities: {0: "Pressure", H: "Snow Warning", 1: "Multiscale"},	
 	},
+	froslass: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 110, def: 70, spa: 110, spd: 70, spe: 110},
+		abilities: {0: "Snow Cloak", H: "Snow Warning", 1: "Cursed Body"},	
+	},
 	ursaring: {
 		inherit: true,
 		baseStats: {hp: 90, atk: 130, def: 75, spa: 75, spd: 75, spe: 85},
