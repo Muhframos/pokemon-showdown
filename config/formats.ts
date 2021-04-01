@@ -19,10 +19,10 @@ The column value will be ignored for repeat sections.
 
 export const Formats: FormatList = [
 	{
-		section: "Adventures Dex",
+		section: "National Dex",
 	},
 	{
-		name: "[Gen 8] National Dex Adventures OU",
+		name: "[Gen 8] Adventures OU",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
@@ -36,7 +36,7 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] National Dex Adventures UU",
+		name: "[Gen 8] Adventures UU",
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3660920/">National Dex UU Metagame Discussion</a>`,
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3672486/">National Dex UU Sample Teams</a>`,
@@ -68,7 +68,7 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] National Dex Adventures DOU",
+		name: "[Gen 8] Adventures DOU",
 		mod: 'adventures',
 		gameType: 'doubles',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
@@ -83,7 +83,7 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] National Dex Adventures DUU",
+		name: "[Gen 8] Adventures DUU",
 		mod: 'adventures',
 		gameType: 'doubles',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
@@ -110,12 +110,12 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] National Dex Adventures AG",
+		name: "[Gen 8] Adventures AG",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex'],
 	},
 	{
-		name: "[Gen 8] National Dex Adventures 1v1",
+		name: "[Gen 8] Adventures 1v1",
 		desc: `Bring three Pok&eacute;mon to Team Preview and choose one to battle.`,
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3656364/">1v1 Metagame Discussion</a>`,
@@ -137,7 +137,7 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "Adventures Custom Game",
+		name: "[Gen 8] Adventures Custom Game",
 
 		mod: 'adventures',
 		debug: true,
