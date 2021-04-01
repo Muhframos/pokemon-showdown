@@ -842,8 +842,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 108,
 	},
 	neuroforce: {
-		desc: "This Pokemon's attacks that are super effective against the target do 1.5x damage.",
-		shortDesc: "Super effective hits by this Pokemon do 1.5x damage.",
+		desc: "This Pokemon's attacks that are super effective against the target do 1.4x damage.",
+		shortDesc: "Super effective hits by this Pokemon do 1.4x damage.",
 		onModifyDamage(damage, source, target, move) {
 			if (move && target.getMoveHitData(move).typeMod > 0) {
 				return this.chainModify([0x1666, 0x1000]);
