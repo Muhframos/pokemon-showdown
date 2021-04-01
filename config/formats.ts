@@ -22,7 +22,7 @@ export const Formats: FormatList = [
 		section: "Adventures Dex",
 	},
 	{
-		name: "[Gen 8] Adventures OU",
+		name: "Adventures OU",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
@@ -36,7 +36,7 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] Adventures UU",
+		name: "Adventures UU",
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3660920/">National Dex UU Metagame Discussion</a>`,
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3672486/">National Dex UU Sample Teams</a>`,
@@ -44,7 +44,7 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'gen8',
-		ruleset: ['[Gen 8] National Dex'],
+		ruleset: ['National Dex'],
 		banlist: [
 			// National Dex OU
 			'Blissey', 'Chansey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Ferrothorn',
@@ -83,7 +83,7 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] Adventures DUU",
+		name: "Adventures DUU",
 		mod: 'adventures',
 		gameType: 'doubles',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
@@ -110,12 +110,12 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] Adventures AG",
+		name: "Adventures AG",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex'],
 	},
 	{
-		name: "[Gen 8] Adventures 1v1",
+		name: "Adventures 1v1",
 		desc: `Bring three Pok&eacute;mon to Team Preview and choose one to battle.`,
 		threads: [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3656364/">1v1 Metagame Discussion</a>`,
@@ -137,10 +137,9 @@ export const Formats: FormatList = [
 		],
 	},
 	{
-		name: "[Gen 8] Adventures Custom Game",
+		name: "Adventures Custom Game",
 
 		mod: 'adventures',
-		searchShow: false,
 		debug: true,
 		maxLevel: 9999,
 		battle: {trunc: Math.trunc},
