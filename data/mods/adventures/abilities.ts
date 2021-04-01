@@ -361,7 +361,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	blaze: {
 		name: "Blaze",
-		desc: "This pokemon's Fire-type moves are boosted by 25%, but 100% under 25% HP.",
+		desc: "This pokemon's Fire-type moves are boosted by 25%, but 50% under 25% HP.",
 		shortdesc: "User gets boosted Fire-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
@@ -381,14 +381,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Blaze boost');
-				return this.chainModify(2);
+				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Fire' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Blaze boost');
-				return this.chainModify(2);
+				return this.chainModify(1.5);
 			}
 		},
 		name: "Blaze",
@@ -397,7 +397,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	torrent: {
 		name: "Torrent",
-		desc: "This pokemon's Water-type moves are boosted by 25%, but 100% under 25% HP.",
+		desc: "This pokemon's Water-type moves are boosted by 25%, but 50% under 25% HP.",
 		shortdesc: "User gets boosted Water-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
@@ -417,14 +417,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Torrent boost');
-				return this.chainModify(2);
+				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Water' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Torrent boost');
-				return this.chainModify(2);
+				return this.chainModify(1.5);
 			}
 		},
 		name: "Torrent",
@@ -433,7 +433,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	overgrow: {
 		name: "Overgrow",
-		desc: "This pokemon's Grass-type moves are boosted by 25%, but 100% under 25% HP.",
+		desc: "This pokemon's Grass-type moves are boosted by 25%, but 50% under 25% HP.",
 		shortdesc: "User gets boosted Grass-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
@@ -453,14 +453,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Overgrow boost');
-				return this.chainModify(2);
+				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Grass' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Overgrow boost');
-				return this.chainModify(2);
+				return this.chainModify(1.5);
 			}
 		},
 		name: "Overgrow",
@@ -469,7 +469,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	swarm: {
 		name: "Swarm",
-		desc: "This pokemon's Bug-type moves are boosted by 25%, but 100% under 25% HP.",
+		desc: "This pokemon's Bug-type moves are boosted by 25%, but 50% under 25% HP.",
 		shortdesc: "User gets boosted Bug-type moves, even more on low HP.",
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, attacker, defender, move) {
@@ -489,14 +489,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onModifyAtk(atk, attacker, defender, move) {
 			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Swarm boost');
-				return this.chainModify(2);
+				return this.chainModify(1.5);
 			}
 		},
 		onModifySpAPriority: 5,
 		onModifySpA(atk, attacker, defender, move) {
 			if (move.type === 'Bug' && attacker.hp <= attacker.maxhp / 4) {
 				this.debug('Swarm boost');
-				return this.chainModify(2);
+				return this.chainModify(1.5);
 			}
 		},
 		name: "Swarm",
@@ -699,6 +699,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 212,
 	},
 	shellarmor: {
+		desc: "This Pokemon cannot be struck with a critical hit or burned.",
+		shortDesc: "User can't be hit with a critical hit or burned.",
 				onUpdate(pokemon) {
 			if (pokemon.status === 'brn') {
 				this.add('-activate', pokemon, 'ability: Water Veil');
@@ -718,6 +720,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 75,
 	},
 	battlearmor: {
+		desc: "This Pokemon cannot be struck with a critical hit or affected by a move's secondary effect.",
+		shortDesc: "User can't be struck with critical hits or secondary effects.",
 				onModifySecondaries(secondaries) {
 			this.debug('Shield Dust prevent secondary');
 			return secondaries.filter(effect => !!(effect.self || effect.dustproof));
@@ -728,6 +732,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 75,
 	},
 	runaway: {
+		desc: "This Pokemon cannot be trapped. (Shadow Tag, Arena Trap, No Retreat, Block, Etc.)",
+		shortDesc: "This Pokemon cannot be trapped.",
 		inherit: true,
 		onTrapPokemonPriority: -10,
 		onTrapPokemon(pokemon) {
@@ -736,6 +742,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	rating: 1,
 	},
 	poisonpoint: {
+		desc: "Pokemon that use a contact move on this Pokemon have a 30% chance to be badly poisoned.",
+		shortDesc: "30% chance to badly poison when hit by a contact move.",
 		onDamagingHit(damage, target, source, move) {
 			if (move.flags['contact']) {
 				if (this.randomChance(3, 10)) {
@@ -748,6 +756,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 38,
 	},
 	poisontouch: {
+		desc: "This Pokemon has a 30% chance to badly poison the target after using a contact move.",
+		shortDesc: "30% chance to badly poison on contact move.",
 		// upokecenter says this is implemented as an added secondary effect
 		onModifyMove(move) {
 			if (!move || !move.flags['contact'] || move.target === 'self') return;
