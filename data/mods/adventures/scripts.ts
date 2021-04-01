@@ -922,9 +922,6 @@ this.modData('Learnsets', 'venusaur').learnset.vinetrap = ['8L1'];
 this.modData('Learnsets', 'cacturne').learnset.vinetrap = ['8L1'];
 this.modData('Learnsets', 'carnivine').learnset.vinetrap = ['8L1'];
 this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
-this.modData('Learnsets', 'lurantis').learnset.vinetrap = ['8L1'];
-this.modData('Learnsets', 'leavanny').learnset.vinetrap = ['8L1'];
-this.modData('Learnsets', 'victreebel').learnset.vinetrap = ['8L1'];
 
 
 
