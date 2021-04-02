@@ -1996,3 +1996,482 @@ Additional information:
   log = 
 |t:|1617331213
 
+
+TypeError: Cannot read property 'faint' of null
+    at Battle.lose (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js:1272:18)
+    at RoomBattleStream._writeLine (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:132:16)
+    at RoomBattleStream._writeLines (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+    at RoomBattleStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1211:9)
+    at RoomBattleStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:660:17)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  chunk = >forcelose p4
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[14261,42597,60196,10221]}
+>player p1 {"name":"Senpai_1987","avatar":"lady-gen4","team":"Blacephalon||choicescarf|beastboost|mindblown,shadowball,darkpulse,explosion|Hasty|,4,,252,,252|N||||]Maractus||rockyhelmet|ironbarbs|synthesis,babydolleyes,toxicspikes,knockoff|Impish|252,4,252,,,|||||]Spiritomb||leftovers|neutralizinggas|moonlight,shadowsneak,suckerpunch,willowisp|Impish|248,8,252,,,|||||]Slowking|slowkinggalar|assaultvest|regenerator|futuresight,sludgebomb,scald,flamethrower|Calm|252,,,4,252,||,0,,,,|S||]Golisopod||assaultvest|shellarmor|leechlife,uturn,drillrun,waterfall|Adamant|,252,252,,4,|||||]Banette||banettite|frisk|taunt,destinybond,poltergeist,suckerpunch|Adamant|252,252,,,4,|||||","rating":0}
+>player p2 {"name":"WarrorKing","avatar":"hilbert-dueldisk","team":"Lil'Angel|vileplume|blacksludge|corrosion|gigadrain,toxic,strengthsap,sleeppowder|Bold|252,,252,4,,||,0,,,,|||]Heatran||leftovers|flashfire|magmastorm,toxic,earthpower,stealthrock|Calm|252,,,,136,120||,0,,,,|||]Raichu||heavydutyboots|lightningrod|volttackle,lowkick,extremespeed,fakeout|Jolly|,252,,,4,252|F||||]Sableye||leftovers|prankster|foulplay,knockoff,recover,willowisp|Careful|248,8,,,252,|||||]Tauros||razorclaw|superluck|headcharge,throatchop,earthquake,flareblitz|Jolly|,252,,,4,252|M||||]Mantine||heavydutyboots|waterabsorb|scald,roost,defog,haze|Bold|248,,164,,,96|||||","rating":0}
+>player p3 {"name":"alee51104","avatar":"2","team":"Rapidash|rapidashgalar|expertbelt|queenlymajesty|playrough,wildcharge,jumpkick,highhorsepower|Jolly|,252,,,4,252|F||S||]Noivern||choicespecs|aerilate|boomburst,uturn,fireblast,twister|Timid|,,,252,4,252|||||]Landorus|landorustherian|focussash|intimidate|stealthrock,earthquake,toxic,defog|Jolly|,252,,,4,252|M||||]Bisharp||choicescarf|ironfist|suckerpunch,closecombat,thunderpunch,icepunch|Jolly|,252,,,4,252|||||]Kartana||steeliumz|beastboost|smartstrike,leafblade,swordsdance,sacredsword|Jolly|,252,,,4,252|N||||]Volcanion||leftovers|waterabsorb|lifedew,clearsmog,steameruption,fireblast|Modest|252,,,252,4,|N|,0,,,,|||","rating":0}
+>player p4 {"name":"Muhframos","avatar":"benga","team":"Beedrill||beedrillite|swarm|tailwind,uturn,drillrun,knockoff|Jolly|,252,,,4,252|||||]Exploud||choicespecs|punkrock|boomburst,blizzard,surf,overheat|Timid|,,,252,4,252||,0,,,,|||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,108,,,148,|||||]Regigigas||normaliumz|slowstart|protect,substitute,return,earthquake|Adamant|252,252,,,,4|N||||]Pincurchin||choicespecs|electricsurge|discharge,risingvoltage,surf,scald|Quiet|252,,,252,4,||,0,,,,0|||]Cresselia||aguavberry|levitate|trickroom,teleport,expandingforce,moonblast|Calm|252,,76,,180,|F|,0,,,,|||","rating":0}
+>chat ☆Muhframos|rk
+>chat ☆Muhframos|oh shit it worked
+>chat ☆alee51104|WOOOHOO
+>chat ☆Senpai_1987|hply shit
+>chat ☆WarrorKing|WOOOO
+>chat ☆alee51104|LETS GO
+>chat +Redgoop115|nice
+>chat ☆Muhframos|uh
+>chat ☆WarrorKing|Hol up
+>chat ☆Muhframos|can anyone pick their mons
+>chat +Redgoop115|it worked yall
+>chat ☆alee51104|Lol
+>chat ☆alee51104|Nope
+>chat ☆Muhframos|senpai?
+>chat ☆alee51104|Muh
+>chat +Redgoop115|lmaooooo
+>chat ☆Muhframos|what the fuck is thiss
+>chat ☆Senpai_1987|i can pick mine
+>chat ☆alee51104|We have an isssue
+>chat ☆alee51104|Lol
+>chat ☆Muhframos|senpai
+>chat ☆Muhframos|pick ur mon
+>chat ☆WarrorKing|Does Galar Slowking have the bucket thing form Squarepants?
+>chat +Redgoop115|im so happy i didnt get off r6
+>chat ☆Senpai_1987|i did
+>chat ☆Muhframos|can anyone pick their mon
+>chat ☆Muhframos|now
+>chat ☆alee51104|Nope
+>chat ☆Muhframos|other than senpoi
+>chat ☆Muhframos|warror?
+>chat +Redgoop115|senpoi
+>chat ☆WarrorKing|Also there is Martin from Madasgascar over there
+>chat ☆alee51104|senpoi
+>chat ☆Muhframos|warrororororo
+>chat ☆WarrorKing|I already selected
+>chat ☆alee51104|Alright
+>chat ☆alee51104|So
+>chat ☆alee51104|We're in
+>chat ☆Muhframos|alee?
+>chat ☆alee51104|But also not in
+>chat ☆Muhframos|ok
+>chat ☆alee51104|Nope, can't select
+>chat ☆Muhframos|so just those two could select mons
+>chat ☆Muhframos|good to know
+>chat ☆Muhframos|at least no crashing happened
+>chat ☆alee51104|Yep
+>chat ☆WarrorKing|Can you just copy and paste the code from the base Showdown?
+>chat ☆WarrorKing|Is that possible?
+>chat ☆Muhframos|i did
+>chat ☆alee51104|I want my trial to be like this tbh
+  log = 
+|t:|1617332120
+|gametype|freeforall
+|player|p1|Senpai_1987|lady-gen4|
+|player|p2|WarrorKing|hilbert-dueldisk|
+|player|p3|alee51104|2|
+|player|p4|Muhframos|benga|
+|teamsize|p1|6
+|teamsize|p2|6
+|teamsize|p3|6
+|teamsize|p4|6
+|gen|8
+|tier|[Gen 8] Adventures Free For All
+|clearpoke
+|poke|p1|Blacephalon|
+|poke|p1|Maractus, F|
+|poke|p1|Spiritomb, M|
+|poke|p1|Slowking-Galar, M|
+|poke|p1|Golisopod, M|
+|poke|p1|Banette, F|
+|poke|p2|Vileplume, M|
+|poke|p2|Heatran, M|
+|poke|p2|Raichu, F|
+|poke|p2|Sableye, M|
+|poke|p2|Tauros, M|
+|poke|p2|Mantine, F|
+|poke|p3|Rapidash-Galar, F|
+|poke|p3|Noivern, F|
+|poke|p3|Landorus-Therian, M|
+|poke|p3|Bisharp, M|
+|poke|p3|Kartana|
+|poke|p3|Volcanion|
+|poke|p4|Beedrill, F|
+|poke|p4|Exploud, M|
+|poke|p4|Trevenant, M|
+|poke|p4|Regigigas|
+|poke|p4|Pincurchin, F|
+|poke|p4|Cresselia, F|
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+
+
+TypeError: Cannot read property 'faint' of null
+    at Battle.lose (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js:1272:18)
+    at RoomBattleStream._writeLine (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:132:16)
+    at RoomBattleStream._writeLines (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+    at RoomBattleStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1211:9)
+    at RoomBattleStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:660:17)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  chunk = >forcelose p3
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[14261,42597,60196,10221]}
+>player p1 {"name":"Senpai_1987","avatar":"lady-gen4","team":"Blacephalon||choicescarf|beastboost|mindblown,shadowball,darkpulse,explosion|Hasty|,4,,252,,252|N||||]Maractus||rockyhelmet|ironbarbs|synthesis,babydolleyes,toxicspikes,knockoff|Impish|252,4,252,,,|||||]Spiritomb||leftovers|neutralizinggas|moonlight,shadowsneak,suckerpunch,willowisp|Impish|248,8,252,,,|||||]Slowking|slowkinggalar|assaultvest|regenerator|futuresight,sludgebomb,scald,flamethrower|Calm|252,,,4,252,||,0,,,,|S||]Golisopod||assaultvest|shellarmor|leechlife,uturn,drillrun,waterfall|Adamant|,252,252,,4,|||||]Banette||banettite|frisk|taunt,destinybond,poltergeist,suckerpunch|Adamant|252,252,,,4,|||||","rating":0}
+>player p2 {"name":"WarrorKing","avatar":"hilbert-dueldisk","team":"Lil'Angel|vileplume|blacksludge|corrosion|gigadrain,toxic,strengthsap,sleeppowder|Bold|252,,252,4,,||,0,,,,|||]Heatran||leftovers|flashfire|magmastorm,toxic,earthpower,stealthrock|Calm|252,,,,136,120||,0,,,,|||]Raichu||heavydutyboots|lightningrod|volttackle,lowkick,extremespeed,fakeout|Jolly|,252,,,4,252|F||||]Sableye||leftovers|prankster|foulplay,knockoff,recover,willowisp|Careful|248,8,,,252,|||||]Tauros||razorclaw|superluck|headcharge,throatchop,earthquake,flareblitz|Jolly|,252,,,4,252|M||||]Mantine||heavydutyboots|waterabsorb|scald,roost,defog,haze|Bold|248,,164,,,96|||||","rating":0}
+>player p3 {"name":"alee51104","avatar":"2","team":"Rapidash|rapidashgalar|expertbelt|queenlymajesty|playrough,wildcharge,jumpkick,highhorsepower|Jolly|,252,,,4,252|F||S||]Noivern||choicespecs|aerilate|boomburst,uturn,fireblast,twister|Timid|,,,252,4,252|||||]Landorus|landorustherian|focussash|intimidate|stealthrock,earthquake,toxic,defog|Jolly|,252,,,4,252|M||||]Bisharp||choicescarf|ironfist|suckerpunch,closecombat,thunderpunch,icepunch|Jolly|,252,,,4,252|||||]Kartana||steeliumz|beastboost|smartstrike,leafblade,swordsdance,sacredsword|Jolly|,252,,,4,252|N||||]Volcanion||leftovers|waterabsorb|lifedew,clearsmog,steameruption,fireblast|Modest|252,,,252,4,|N|,0,,,,|||","rating":0}
+>player p4 {"name":"Muhframos","avatar":"benga","team":"Beedrill||beedrillite|swarm|tailwind,uturn,drillrun,knockoff|Jolly|,252,,,4,252|||||]Exploud||choicespecs|punkrock|boomburst,blizzard,surf,overheat|Timid|,,,252,4,252||,0,,,,|||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,108,,,148,|||||]Regigigas||normaliumz|slowstart|protect,substitute,return,earthquake|Adamant|252,252,,,,4|N||||]Pincurchin||choicespecs|electricsurge|discharge,risingvoltage,surf,scald|Quiet|252,,,252,4,||,0,,,,0|||]Cresselia||aguavberry|levitate|trickroom,teleport,expandingforce,moonblast|Calm|252,,76,,180,|F|,0,,,,|||","rating":0}
+>chat ☆Muhframos|rk
+>chat ☆Muhframos|oh shit it worked
+>chat ☆alee51104|WOOOHOO
+>chat ☆Senpai_1987|hply shit
+>chat ☆WarrorKing|WOOOO
+>chat ☆alee51104|LETS GO
+>chat +Redgoop115|nice
+>chat ☆Muhframos|uh
+>chat ☆WarrorKing|Hol up
+>chat ☆Muhframos|can anyone pick their mons
+>chat +Redgoop115|it worked yall
+>chat ☆alee51104|Lol
+>chat ☆alee51104|Nope
+>chat ☆Muhframos|senpai?
+>chat ☆alee51104|Muh
+>chat +Redgoop115|lmaooooo
+>chat ☆Muhframos|what the fuck is thiss
+>chat ☆Senpai_1987|i can pick mine
+>chat ☆alee51104|We have an isssue
+>chat ☆alee51104|Lol
+>chat ☆Muhframos|senpai
+>chat ☆Muhframos|pick ur mon
+>chat ☆WarrorKing|Does Galar Slowking have the bucket thing form Squarepants?
+>chat +Redgoop115|im so happy i didnt get off r6
+>chat ☆Senpai_1987|i did
+>chat ☆Muhframos|can anyone pick their mon
+>chat ☆Muhframos|now
+>chat ☆alee51104|Nope
+>chat ☆Muhframos|other than senpoi
+>chat ☆Muhframos|warror?
+>chat +Redgoop115|senpoi
+>chat ☆WarrorKing|Also there is Martin from Madasgascar over there
+>chat ☆alee51104|senpoi
+>chat ☆Muhframos|warrororororo
+>chat ☆WarrorKing|I already selected
+>chat ☆alee51104|Alright
+>chat ☆alee51104|So
+>chat ☆alee51104|We're in
+>chat ☆Muhframos|alee?
+>chat ☆alee51104|But also not in
+>chat ☆Muhframos|ok
+>chat ☆alee51104|Nope, can't select
+>chat ☆Muhframos|so just those two could select mons
+>chat ☆Muhframos|good to know
+>chat ☆Muhframos|at least no crashing happened
+>chat ☆alee51104|Yep
+>chat ☆WarrorKing|Can you just copy and paste the code from the base Showdown?
+>chat ☆WarrorKing|Is that possible?
+>chat ☆Muhframos|i did
+>chat ☆alee51104|I want my trial to be like this tbh
+>chat ☆alee51104|Oop
+>chat ☆Muhframos|nice
+>chat +Redgoop115|lol
+>chat +Redgoop115|im deaddd
+>chat ☆WarrorKing|o
+  log = 
+|t:|1617332120
+|gametype|freeforall
+|player|p1|Senpai_1987|lady-gen4|
+|player|p2|WarrorKing|hilbert-dueldisk|
+|player|p3|alee51104|2|
+|player|p4|Muhframos|benga|
+|teamsize|p1|6
+|teamsize|p2|6
+|teamsize|p3|6
+|teamsize|p4|6
+|gen|8
+|tier|[Gen 8] Adventures Free For All
+|clearpoke
+|poke|p1|Blacephalon|
+|poke|p1|Maractus, F|
+|poke|p1|Spiritomb, M|
+|poke|p1|Slowking-Galar, M|
+|poke|p1|Golisopod, M|
+|poke|p1|Banette, F|
+|poke|p2|Vileplume, M|
+|poke|p2|Heatran, M|
+|poke|p2|Raichu, F|
+|poke|p2|Sableye, M|
+|poke|p2|Tauros, M|
+|poke|p2|Mantine, F|
+|poke|p3|Rapidash-Galar, F|
+|poke|p3|Noivern, F|
+|poke|p3|Landorus-Therian, M|
+|poke|p3|Bisharp, M|
+|poke|p3|Kartana|
+|poke|p3|Volcanion|
+|poke|p4|Beedrill, F|
+|poke|p4|Exploud, M|
+|poke|p4|Trevenant, M|
+|poke|p4|Regigigas|
+|poke|p4|Pincurchin, F|
+|poke|p4|Cresselia, F|
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+
+
+TypeError: Cannot read property 'faint' of null
+    at Battle.lose (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js:1272:18)
+    at RoomBattleStream._writeLine (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:132:16)
+    at RoomBattleStream._writeLines (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+    at RoomBattleStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1211:9)
+    at RoomBattleStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:660:17)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  chunk = >forcelose p1
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[14261,42597,60196,10221]}
+>player p1 {"name":"Senpai_1987","avatar":"lady-gen4","team":"Blacephalon||choicescarf|beastboost|mindblown,shadowball,darkpulse,explosion|Hasty|,4,,252,,252|N||||]Maractus||rockyhelmet|ironbarbs|synthesis,babydolleyes,toxicspikes,knockoff|Impish|252,4,252,,,|||||]Spiritomb||leftovers|neutralizinggas|moonlight,shadowsneak,suckerpunch,willowisp|Impish|248,8,252,,,|||||]Slowking|slowkinggalar|assaultvest|regenerator|futuresight,sludgebomb,scald,flamethrower|Calm|252,,,4,252,||,0,,,,|S||]Golisopod||assaultvest|shellarmor|leechlife,uturn,drillrun,waterfall|Adamant|,252,252,,4,|||||]Banette||banettite|frisk|taunt,destinybond,poltergeist,suckerpunch|Adamant|252,252,,,4,|||||","rating":0}
+>player p2 {"name":"WarrorKing","avatar":"hilbert-dueldisk","team":"Lil'Angel|vileplume|blacksludge|corrosion|gigadrain,toxic,strengthsap,sleeppowder|Bold|252,,252,4,,||,0,,,,|||]Heatran||leftovers|flashfire|magmastorm,toxic,earthpower,stealthrock|Calm|252,,,,136,120||,0,,,,|||]Raichu||heavydutyboots|lightningrod|volttackle,lowkick,extremespeed,fakeout|Jolly|,252,,,4,252|F||||]Sableye||leftovers|prankster|foulplay,knockoff,recover,willowisp|Careful|248,8,,,252,|||||]Tauros||razorclaw|superluck|headcharge,throatchop,earthquake,flareblitz|Jolly|,252,,,4,252|M||||]Mantine||heavydutyboots|waterabsorb|scald,roost,defog,haze|Bold|248,,164,,,96|||||","rating":0}
+>player p3 {"name":"alee51104","avatar":"2","team":"Rapidash|rapidashgalar|expertbelt|queenlymajesty|playrough,wildcharge,jumpkick,highhorsepower|Jolly|,252,,,4,252|F||S||]Noivern||choicespecs|aerilate|boomburst,uturn,fireblast,twister|Timid|,,,252,4,252|||||]Landorus|landorustherian|focussash|intimidate|stealthrock,earthquake,toxic,defog|Jolly|,252,,,4,252|M||||]Bisharp||choicescarf|ironfist|suckerpunch,closecombat,thunderpunch,icepunch|Jolly|,252,,,4,252|||||]Kartana||steeliumz|beastboost|smartstrike,leafblade,swordsdance,sacredsword|Jolly|,252,,,4,252|N||||]Volcanion||leftovers|waterabsorb|lifedew,clearsmog,steameruption,fireblast|Modest|252,,,252,4,|N|,0,,,,|||","rating":0}
+>player p4 {"name":"Muhframos","avatar":"benga","team":"Beedrill||beedrillite|swarm|tailwind,uturn,drillrun,knockoff|Jolly|,252,,,4,252|||||]Exploud||choicespecs|punkrock|boomburst,blizzard,surf,overheat|Timid|,,,252,4,252||,0,,,,|||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,108,,,148,|||||]Regigigas||normaliumz|slowstart|protect,substitute,return,earthquake|Adamant|252,252,,,,4|N||||]Pincurchin||choicespecs|electricsurge|discharge,risingvoltage,surf,scald|Quiet|252,,,252,4,||,0,,,,0|||]Cresselia||aguavberry|levitate|trickroom,teleport,expandingforce,moonblast|Calm|252,,76,,180,|F|,0,,,,|||","rating":0}
+>chat ☆Muhframos|rk
+>chat ☆Muhframos|oh shit it worked
+>chat ☆alee51104|WOOOHOO
+>chat ☆Senpai_1987|hply shit
+>chat ☆WarrorKing|WOOOO
+>chat ☆alee51104|LETS GO
+>chat +Redgoop115|nice
+>chat ☆Muhframos|uh
+>chat ☆WarrorKing|Hol up
+>chat ☆Muhframos|can anyone pick their mons
+>chat +Redgoop115|it worked yall
+>chat ☆alee51104|Lol
+>chat ☆alee51104|Nope
+>chat ☆Muhframos|senpai?
+>chat ☆alee51104|Muh
+>chat +Redgoop115|lmaooooo
+>chat ☆Muhframos|what the fuck is thiss
+>chat ☆Senpai_1987|i can pick mine
+>chat ☆alee51104|We have an isssue
+>chat ☆alee51104|Lol
+>chat ☆Muhframos|senpai
+>chat ☆Muhframos|pick ur mon
+>chat ☆WarrorKing|Does Galar Slowking have the bucket thing form Squarepants?
+>chat +Redgoop115|im so happy i didnt get off r6
+>chat ☆Senpai_1987|i did
+>chat ☆Muhframos|can anyone pick their mon
+>chat ☆Muhframos|now
+>chat ☆alee51104|Nope
+>chat ☆Muhframos|other than senpoi
+>chat ☆Muhframos|warror?
+>chat +Redgoop115|senpoi
+>chat ☆WarrorKing|Also there is Martin from Madasgascar over there
+>chat ☆alee51104|senpoi
+>chat ☆Muhframos|warrororororo
+>chat ☆WarrorKing|I already selected
+>chat ☆alee51104|Alright
+>chat ☆alee51104|So
+>chat ☆alee51104|We're in
+>chat ☆Muhframos|alee?
+>chat ☆alee51104|But also not in
+>chat ☆Muhframos|ok
+>chat ☆alee51104|Nope, can't select
+>chat ☆Muhframos|so just those two could select mons
+>chat ☆Muhframos|good to know
+>chat ☆Muhframos|at least no crashing happened
+>chat ☆alee51104|Yep
+>chat ☆WarrorKing|Can you just copy and paste the code from the base Showdown?
+>chat ☆WarrorKing|Is that possible?
+>chat ☆Muhframos|i did
+>chat ☆alee51104|I want my trial to be like this tbh
+>chat ☆alee51104|Oop
+>chat ☆Muhframos|nice
+>chat +Redgoop115|lol
+>chat +Redgoop115|im deaddd
+>chat ☆WarrorKing|o
+  log = 
+|t:|1617332120
+|gametype|freeforall
+|player|p1|Senpai_1987|lady-gen4|
+|player|p2|WarrorKing|hilbert-dueldisk|
+|player|p3|alee51104|2|
+|player|p4|Muhframos|benga|
+|teamsize|p1|6
+|teamsize|p2|6
+|teamsize|p3|6
+|teamsize|p4|6
+|gen|8
+|tier|[Gen 8] Adventures Free For All
+|clearpoke
+|poke|p1|Blacephalon|
+|poke|p1|Maractus, F|
+|poke|p1|Spiritomb, M|
+|poke|p1|Slowking-Galar, M|
+|poke|p1|Golisopod, M|
+|poke|p1|Banette, F|
+|poke|p2|Vileplume, M|
+|poke|p2|Heatran, M|
+|poke|p2|Raichu, F|
+|poke|p2|Sableye, M|
+|poke|p2|Tauros, M|
+|poke|p2|Mantine, F|
+|poke|p3|Rapidash-Galar, F|
+|poke|p3|Noivern, F|
+|poke|p3|Landorus-Therian, M|
+|poke|p3|Bisharp, M|
+|poke|p3|Kartana|
+|poke|p3|Volcanion|
+|poke|p4|Beedrill, F|
+|poke|p4|Exploud, M|
+|poke|p4|Trevenant, M|
+|poke|p4|Regigigas|
+|poke|p4|Pincurchin, F|
+|poke|p4|Cresselia, F|
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+
+
+TypeError: Cannot read property 'faint' of null
+    at Battle.lose (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js:1272:18)
+    at RoomBattleStream._writeLine (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:132:16)
+    at RoomBattleStream._writeLines (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+    at RoomBattleStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1211:9)
+    at RoomBattleStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:660:17)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  chunk = >forcelose p2
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[14261,42597,60196,10221]}
+>player p1 {"name":"Senpai_1987","avatar":"lady-gen4","team":"Blacephalon||choicescarf|beastboost|mindblown,shadowball,darkpulse,explosion|Hasty|,4,,252,,252|N||||]Maractus||rockyhelmet|ironbarbs|synthesis,babydolleyes,toxicspikes,knockoff|Impish|252,4,252,,,|||||]Spiritomb||leftovers|neutralizinggas|moonlight,shadowsneak,suckerpunch,willowisp|Impish|248,8,252,,,|||||]Slowking|slowkinggalar|assaultvest|regenerator|futuresight,sludgebomb,scald,flamethrower|Calm|252,,,4,252,||,0,,,,|S||]Golisopod||assaultvest|shellarmor|leechlife,uturn,drillrun,waterfall|Adamant|,252,252,,4,|||||]Banette||banettite|frisk|taunt,destinybond,poltergeist,suckerpunch|Adamant|252,252,,,4,|||||","rating":0}
+>player p2 {"name":"WarrorKing","avatar":"hilbert-dueldisk","team":"Lil'Angel|vileplume|blacksludge|corrosion|gigadrain,toxic,strengthsap,sleeppowder|Bold|252,,252,4,,||,0,,,,|||]Heatran||leftovers|flashfire|magmastorm,toxic,earthpower,stealthrock|Calm|252,,,,136,120||,0,,,,|||]Raichu||heavydutyboots|lightningrod|volttackle,lowkick,extremespeed,fakeout|Jolly|,252,,,4,252|F||||]Sableye||leftovers|prankster|foulplay,knockoff,recover,willowisp|Careful|248,8,,,252,|||||]Tauros||razorclaw|superluck|headcharge,throatchop,earthquake,flareblitz|Jolly|,252,,,4,252|M||||]Mantine||heavydutyboots|waterabsorb|scald,roost,defog,haze|Bold|248,,164,,,96|||||","rating":0}
+>player p3 {"name":"alee51104","avatar":"2","team":"Rapidash|rapidashgalar|expertbelt|queenlymajesty|playrough,wildcharge,jumpkick,highhorsepower|Jolly|,252,,,4,252|F||S||]Noivern||choicespecs|aerilate|boomburst,uturn,fireblast,twister|Timid|,,,252,4,252|||||]Landorus|landorustherian|focussash|intimidate|stealthrock,earthquake,toxic,defog|Jolly|,252,,,4,252|M||||]Bisharp||choicescarf|ironfist|suckerpunch,closecombat,thunderpunch,icepunch|Jolly|,252,,,4,252|||||]Kartana||steeliumz|beastboost|smartstrike,leafblade,swordsdance,sacredsword|Jolly|,252,,,4,252|N||||]Volcanion||leftovers|waterabsorb|lifedew,clearsmog,steameruption,fireblast|Modest|252,,,252,4,|N|,0,,,,|||","rating":0}
+>player p4 {"name":"Muhframos","avatar":"benga","team":"Beedrill||beedrillite|swarm|tailwind,uturn,drillrun,knockoff|Jolly|,252,,,4,252|||||]Exploud||choicespecs|punkrock|boomburst,blizzard,surf,overheat|Timid|,,,252,4,252||,0,,,,|||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,108,,,148,|||||]Regigigas||normaliumz|slowstart|protect,substitute,return,earthquake|Adamant|252,252,,,,4|N||||]Pincurchin||choicespecs|electricsurge|discharge,risingvoltage,surf,scald|Quiet|252,,,252,4,||,0,,,,0|||]Cresselia||aguavberry|levitate|trickroom,teleport,expandingforce,moonblast|Calm|252,,76,,180,|F|,0,,,,|||","rating":0}
+>chat ☆Muhframos|rk
+>chat ☆Muhframos|oh shit it worked
+>chat ☆alee51104|WOOOHOO
+>chat ☆Senpai_1987|hply shit
+>chat ☆WarrorKing|WOOOO
+>chat ☆alee51104|LETS GO
+>chat +Redgoop115|nice
+>chat ☆Muhframos|uh
+>chat ☆WarrorKing|Hol up
+>chat ☆Muhframos|can anyone pick their mons
+>chat +Redgoop115|it worked yall
+>chat ☆alee51104|Lol
+>chat ☆alee51104|Nope
+>chat ☆Muhframos|senpai?
+>chat ☆alee51104|Muh
+>chat +Redgoop115|lmaooooo
+>chat ☆Muhframos|what the fuck is thiss
+>chat ☆Senpai_1987|i can pick mine
+>chat ☆alee51104|We have an isssue
+>chat ☆alee51104|Lol
+>chat ☆Muhframos|senpai
+>chat ☆Muhframos|pick ur mon
+>chat ☆WarrorKing|Does Galar Slowking have the bucket thing form Squarepants?
+>chat +Redgoop115|im so happy i didnt get off r6
+>chat ☆Senpai_1987|i did
+>chat ☆Muhframos|can anyone pick their mon
+>chat ☆Muhframos|now
+>chat ☆alee51104|Nope
+>chat ☆Muhframos|other than senpoi
+>chat ☆Muhframos|warror?
+>chat +Redgoop115|senpoi
+>chat ☆WarrorKing|Also there is Martin from Madasgascar over there
+>chat ☆alee51104|senpoi
+>chat ☆Muhframos|warrororororo
+>chat ☆WarrorKing|I already selected
+>chat ☆alee51104|Alright
+>chat ☆alee51104|So
+>chat ☆alee51104|We're in
+>chat ☆Muhframos|alee?
+>chat ☆alee51104|But also not in
+>chat ☆Muhframos|ok
+>chat ☆alee51104|Nope, can't select
+>chat ☆Muhframos|so just those two could select mons
+>chat ☆Muhframos|good to know
+>chat ☆Muhframos|at least no crashing happened
+>chat ☆alee51104|Yep
+>chat ☆WarrorKing|Can you just copy and paste the code from the base Showdown?
+>chat ☆WarrorKing|Is that possible?
+>chat ☆Muhframos|i did
+>chat ☆alee51104|I want my trial to be like this tbh
+>chat ☆alee51104|Oop
+>chat ☆Muhframos|nice
+>chat +Redgoop115|lol
+>chat +Redgoop115|im deaddd
+>chat ☆WarrorKing|o
+  log = 
+|t:|1617332120
+|gametype|freeforall
+|player|p1|Senpai_1987|lady-gen4|
+|player|p2|WarrorKing|hilbert-dueldisk|
+|player|p3|alee51104|2|
+|player|p4|Muhframos|benga|
+|teamsize|p1|6
+|teamsize|p2|6
+|teamsize|p3|6
+|teamsize|p4|6
+|gen|8
+|tier|[Gen 8] Adventures Free For All
+|clearpoke
+|poke|p1|Blacephalon|
+|poke|p1|Maractus, F|
+|poke|p1|Spiritomb, M|
+|poke|p1|Slowking-Galar, M|
+|poke|p1|Golisopod, M|
+|poke|p1|Banette, F|
+|poke|p2|Vileplume, M|
+|poke|p2|Heatran, M|
+|poke|p2|Raichu, F|
+|poke|p2|Sableye, M|
+|poke|p2|Tauros, M|
+|poke|p2|Mantine, F|
+|poke|p3|Rapidash-Galar, F|
+|poke|p3|Noivern, F|
+|poke|p3|Landorus-Therian, M|
+|poke|p3|Bisharp, M|
+|poke|p3|Kartana|
+|poke|p3|Volcanion|
+|poke|p4|Beedrill, F|
+|poke|p4|Exploud, M|
+|poke|p4|Trevenant, M|
+|poke|p4|Regigigas|
+|poke|p4|Pincurchin, F|
+|poke|p4|Cresselia, F|
+|rule|Endless Battle Clause: Forcing endless battles is banned
+|rule|Species Clause: Limit one of each Pokémon
+|rule|Dynamax Clause: You cannot dynamax
+|rule|HP Percentage Mod: HP is shown in percentages
+|rule|Sleep Clause Mod: Limit one foe put to sleep
+|teampreview
+
