@@ -6,7 +6,7 @@
  *
  * @license MIT license
  */
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 
@@ -51,11 +51,11 @@ function formatEvent(room, event, showAliases, showCategories) {
 	);
 
 	let ret = `<tr title="${explanation}">`;
-	ret += _utils.Utils.html`<td>${event.eventName}</td>`;
-	if (showAliases) ret += _utils.Utils.html`<td>${aliases.join(", ")}</td>`;
-	if (showCategories) ret += _utils.Utils.html`<td>${categories.join(", ")}</td>`;
+	ret += _lib.Utils.html`<td>${event.eventName}</td>`;
+	if (showAliases) ret += _lib.Utils.html`<td>${aliases.join(", ")}</td>`;
+	if (showCategories) ret += _lib.Utils.html`<td>${categories.join(", ")}</td>`;
 	ret += `<td>${Chat.formatText(event.desc, true)}</td>`;
-	ret += _utils.Utils.html`<td><time>${event.date}</time></td></tr>`;
+	ret += _lib.Utils.html`<td><time>${event.date}</time></td></tr>`;
 	return ret;
 }
 
@@ -221,13 +221,13 @@ function getEventID(nameOrAlias, room) {
 				if (_optionalChain([activeUser, 'optionalAccess', _9 => _9.connected])) {
 					activeUser.sendTo(
 						room,
-						_utils.Utils.html`|notify|A new roomevent in ${room.title} has started!|` +
+						_lib.Utils.html`|notify|A new roomevent in ${room.title} has started!|` +
 						`The "${event.eventName}" roomevent has started!`
 					);
 				}
 			}
 			this.add(
-				_utils.Utils.html`|raw|<div class="broadcast-blue"><b>The "${event.eventName}" roomevent has started!</b></div>`
+				_lib.Utils.html`|raw|<div class="broadcast-blue"><b>The "${event.eventName}" roomevent has started!</b></div>`
 			);
 			this.modlog('ROOMEVENT', null, `started "${toID(event.eventName)}"`);
 			event.started = true;
@@ -318,7 +318,7 @@ function getEventID(nameOrAlias, room) {
 			this.sendReply(`|raw|<div class="infobox-limited">${buff}</div>`);
 			if (!this.broadcasting && user.can('ban', null, room, 'roomevents view') && events.length === 1) {
 				const event = events[0];
-				this.sendReplyBox(_utils.Utils.html`<details><summary>Source</summary><code style="white-space: pre-wrap; display: table; tab-size: 3">/roomevents add ${event.eventName} | ${event.date} | ${event.desc}</code></details>`.replace(/\n/g, '<br />'));
+				this.sendReplyBox(_lib.Utils.html`<details><summary>Source</summary><code style="white-space: pre-wrap; display: table; tab-size: 3">/roomevents add ${event.eventName} | ${event.date} | ${event.desc}</code></details>`.replace(/\n/g, '<br />'));
 			}
 		},
 

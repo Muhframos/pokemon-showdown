@@ -7,8 +7,7 @@
  * @license MIT
  */
 
-var _fs = require('../.lib-dist/fs');
-var _utils = require('../.lib-dist/utils');
+var _lib = require('../.lib-dist');
 
 
 
@@ -124,22 +123,22 @@ var _utils = require('../.lib-dist/utils');
 		if (relpath === this.roomlogFilename) return;
 
 		if (sync) {
-			_fs.FS.call(void 0, basepath + monthString).mkdirpSync();
+			_lib.FS.call(void 0, basepath + monthString).mkdirpSync();
 		} else {
-			await _fs.FS.call(void 0, basepath + monthString).mkdirp();
+			await _lib.FS.call(void 0, basepath + monthString).mkdirp();
 			if (this.roomlogStream === null) return;
 		}
 		this.roomlogFilename = relpath;
 		if (this.roomlogStream) void this.roomlogStream.writeEnd();
-		this.roomlogStream = _fs.FS.call(void 0, basepath + relpath).createAppendStream();
+		this.roomlogStream = _lib.FS.call(void 0, basepath + relpath).createAppendStream();
 		// Create a symlink to today's lobby log.
 		// These operations need to be synchronous, but it's okay
 		// because this code is only executed once every 24 hours.
 		const link0 = basepath + 'today.txt.0';
-		_fs.FS.call(void 0, link0).unlinkIfExistsSync();
+		_lib.FS.call(void 0, link0).unlinkIfExistsSync();
 		try {
-			_fs.FS.call(void 0, link0).symlinkToSync(relpath); // intentionally a relative link
-			_fs.FS.call(void 0, link0).renameSync(basepath + 'today.txt');
+			_lib.FS.call(void 0, link0).symlinkToSync(relpath); // intentionally a relative link
+			_lib.FS.call(void 0, link0).renameSync(basepath + 'today.txt');
 		} catch (e) {} // OS might not support symlinks or atomic rename
 		if (!exports.Roomlogs.rollLogTimer) void exports.Roomlogs.rollLogs();
 	}
@@ -218,7 +217,7 @@ var _utils = require('../.lib-dist/utils');
 		const messageStart = !this.noLogTimes ? '|c:|' : '|c|';
 		const section = !this.noLogTimes ? 4 : 3; // ['', 'c' timestamp?, author, message]
 		if (line.startsWith(messageStart)) {
-			const parts = _utils.Utils.splitFirst(line, '|', section);
+			const parts = _lib.Utils.splitFirst(line, '|', section);
 			return {user: parts[section - 1], message: parts[section]};
 		}
 	}
@@ -236,11 +235,11 @@ var _utils = require('../.lib-dist/utils');
 		const roomlogStreamExisted = this.roomlogStream !== null;
 		await this.destroy(false); // don't destroy modlog, since it's renamed later
 		const [roomlogExists, newRoomlogExists] = await Promise.all([
-			_fs.FS.call(void 0, roomlogPath + `/${this.roomid}`).exists(),
-			_fs.FS.call(void 0, roomlogPath + `/${newID}`).exists(),
+			_lib.FS.call(void 0, roomlogPath + `/${this.roomid}`).exists(),
+			_lib.FS.call(void 0, roomlogPath + `/${newID}`).exists(),
 		]);
 		if (roomlogExists && !newRoomlogExists) {
-			await _fs.FS.call(void 0, roomlogPath + `/${this.roomid}`).rename(roomlogPath + `/${newID}`);
+			await _lib.FS.call(void 0, roomlogPath + `/${this.roomid}`).rename(roomlogPath + `/${newID}`);
 		}
 		await Rooms.Modlog.rename(this.roomid, newID);
 		this.roomid = newID;

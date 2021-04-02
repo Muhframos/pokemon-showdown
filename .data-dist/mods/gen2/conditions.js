@@ -143,7 +143,7 @@
 				flags: {},
 				selfdestruct: move.selfdestruct,
 			} ;
-			const damage = this.getDamage(pokemon, pokemon, move);
+			const damage = this.actions.getDamage(pokemon, pokemon, move);
 			if (typeof damage !== 'number') throw new Error("Confusion damage not dealt");
 			this.directDamage(damage);
 			return false;

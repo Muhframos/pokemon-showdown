@@ -2,8 +2,7 @@
 	anticipation: {
 		inherit: true,
 		onStart(pokemon) {
-			for (const target of pokemon.side.foe.active) {
-				if (!target || target.fainted) continue;
+			for (const target of pokemon.foes()) {
 				for (const moveSlot of target.moveSlots) {
 					const move = this.dex.getMove(moveSlot.move);
 					if (move.category !== 'Status' && (
@@ -20,7 +19,7 @@
 	frisk: {
 		inherit: true,
 		onStart(pokemon) {
-			const target = pokemon.side.foe.randomActive();
+			const target = pokemon.side.randomFoe();
 			if (_optionalChain([target, 'optionalAccess', _ => _.item])) {
 				this.add('-item', target, target.getItem().name, '[from] ability: Frisk', '[of] ' + pokemon);
 			}

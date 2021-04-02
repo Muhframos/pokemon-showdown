@@ -135,8 +135,7 @@
 		onStart(pokemon) {
 			let warnMoves = [];
 			let warnBp = 1;
-			for (const target of pokemon.side.foe.active) {
-				if (target.fainted) continue;
+			for (const target of pokemon.foes()) {
 				for (const moveSlot of target.moveSlots) {
 					const move = this.dex.getMove(moveSlot.move);
 					let bp = move.basePower;
@@ -172,15 +171,9 @@
 	intimidate: {
 		inherit: true,
 		onStart(pokemon) {
-			let activated = false;
-			for (const target of pokemon.side.foe.active) {
-				if (target && this.isAdjacent(target, pokemon) &&
-					!(target.volatiles['substitute'] ||
-						target.volatiles['substitutebroken'] && target.volatiles['substitutebroken'].move === 'uturn')) {
-					activated = true;
-					break;
-				}
-			}
+			const activated = pokemon.adjacentFoes().some(target => (
+				!(target.volatiles['substitute'] || _optionalChain([target, 'access', _ => _.volatiles, 'access', _2 => _2['substitutebroken'], 'optionalAccess', _3 => _3.move]) === 'uturn')
+			));
 
 			if (!activated) {
 				this.hint("In Gen 4, Intimidate does not activate if every target has a Substitute (or the Substitute was just broken by U-turn).", false, pokemon.side);
@@ -188,12 +181,10 @@
 			}
 			this.add('-ability', pokemon, 'Intimidate', 'boost');
 
-			for (const target of pokemon.side.foe.active) {
-				if (!target || !this.isAdjacent(target, pokemon)) continue;
-
+			for (const target of pokemon.adjacentFoes()) {
 				if (target.volatiles['substitute']) {
 					this.add('-immune', target);
-				} else if (target.volatiles['substitutebroken'] && target.volatiles['substitutebroken'].move === 'uturn') {
+				} else if (_optionalChain([target, 'access', _4 => _4.volatiles, 'access', _5 => _5['substitutebroken'], 'optionalAccess', _6 => _6.move]) === 'uturn') {
 					this.hint("In Gen 4, if U-turn breaks Substitute the incoming Intimidate does nothing.");
 				} else {
 					this.boost({atk: -1}, target, pokemon, null, true);
@@ -233,12 +224,8 @@
 	},
 	minus: {
 		onModifySpA(spa, pokemon) {
-			const allyActive = pokemon.side.active;
-			if (allyActive.length === 1) {
-				return;
-			}
-			for (const ally of allyActive) {
-				if (ally && ally.position !== pokemon.position && !ally.fainted && ally.ability === 'plus') {
+			for (const ally of pokemon.allies()) {
+				if (ally.ability === 'plus') {
 					return spa * 1.5;
 				}
 			}
@@ -287,12 +274,8 @@
 	},
 	plus: {
 		onModifySpA(spa, pokemon) {
-			const allyActive = pokemon.side.active;
-			if (allyActive.length === 1) {
-				return;
-			}
-			for (const ally of allyActive) {
-				if (ally && ally.position !== pokemon.position && !ally.fainted && ally.ability === 'minus') {
+			for (const ally of pokemon.allies()) {
+				if (ally.ability === 'minus') {
 					return spa * 1.5;
 				}
 			}
@@ -327,7 +310,7 @@
 		inherit: true,
 		onDamagingHit(damage, target, source, move) {
 			if (damage && move.flags['contact']) {
-				this.damage(source.baseMaxhp / 16, source, target);
+				this.damage(source.baseMaxhp / 8, source, target);
 			}
 		},
 	},
@@ -438,7 +421,7 @@
 		onModifyAccuracyPriority: 6,
 		onModifyAccuracy(accuracy, target) {
 			if (typeof accuracy !== 'number') return;
-			if (_optionalChain([target, 'optionalAccess', _ => _.volatiles, 'access', _2 => _2['confusion']])) {
+			if (_optionalChain([target, 'optionalAccess', _7 => _7.volatiles, 'access', _8 => _8['confusion']])) {
 				this.debug('Tangled Feet - decreasing accuracy');
 				return accuracy * 0.5;
 			}
@@ -471,7 +454,7 @@
 		inherit: true,
 		onUpdate(pokemon) {
 			if (!pokemon.isStarted) return;
-			const target = pokemon.side.foe.randomActive();
+			const target = pokemon.side.randomFoe();
 			if (!target || target.fainted) return;
 			const ability = target.getAbility();
 			const bannedAbilities = ['forecast', 'multitype', 'trace'];

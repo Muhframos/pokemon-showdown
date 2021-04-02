@@ -4,7 +4,7 @@
  *
  * @license MIT license
  */
-var _utils = require('../.lib-dist/utils');
+var _lib = require('../.lib-dist');
 
 /**
 * Converts anything to an ID. An ID must have only lowercase alphanumeric
@@ -105,10 +105,10 @@ var _utils = require('../.lib-dist/utils');
 		this.exists = true;
 		data = combine(this, data, ...moreData);
 
-		this.name = _utils.Utils.getString(data.name).trim();
+		this.name = _lib.Utils.getString(data.name).trim();
 		this.id = data.realMove ? toID(data.realMove) : toID(this.name); // Hidden Power hack
-		this.fullname = _utils.Utils.getString(data.fullname) || this.name;
-		this.effectType = _utils.Utils.getString(data.effectType)  || 'Condition';
+		this.fullname = _lib.Utils.getString(data.fullname) || this.name;
+		this.effectType = _lib.Utils.getString(data.effectType)  || 'Condition';
 		this.exists = !!(this.exists && this.id);
 		this.num = data.num || 0;
 		this.gen = data.gen || 0;
@@ -207,8 +207,8 @@ var _utils = require('../.lib-dist/utils');
 		data = combine(this, data, ...moreData);
 
 		this.id = data.id || '';
-		this.name = _utils.Utils.getString(data.name).trim();
-		this.effectType = _utils.Utils.getString(data.effectType)  || 'Type';
+		this.name = _lib.Utils.getString(data.name).trim();
+		this.effectType = _lib.Utils.getString(data.effectType)  || 'Type';
 		this.exists = !!(this.exists && this.id);
 		this.gen = data.gen || 0;
 		this.damageTaken = data.damageTaken || {};

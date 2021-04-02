@@ -102,7 +102,8 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 
 
 /** Wraps the process object in the PARENT process. */
- class QueryProcessWrapper  {
+ class QueryProcessWrapper {
+	
 	
 	
 	
@@ -110,12 +111,13 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 	
 	
 
-	constructor(file) {
+	constructor(file, messageCallback) {
 		this.process = child_process.fork(file, [], {cwd: ROOT_DIR});
 		this.taskId = 0;
 		this.pendingTasks = new Map();
 		this.pendingRelease = null;
 		this.resolveRelease = null;
+		this.messageCallback = messageCallback || null;
 
 		this.process.on('message', (message) => {
 			if (message.startsWith('THROW\n')) {
@@ -129,6 +131,11 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 				return;
 			}
 
+			if (this.messageCallback && message.startsWith(`CALLBACK\n`)) {
+				this.messageCallback(message.slice(9));
+				return;
+			}
+
 			const nlLoc = message.indexOf('\n');
 			if (nlLoc <= 0) throw new Error(`Invalid response ${message}`);
 			const taskId = parseInt(message.slice(0, nlLoc));
@@ -137,7 +144,7 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 			this.pendingTasks.delete(taskId);
 			resolve(JSON.parse(message.slice(nlLoc + 1)));
 
-			if (this.resolveRelease && !this.load) this.destroy();
+			if (this.resolveRelease && !this.getLoad()) this.destroy();
 		});
 	}
 
@@ -145,7 +152,7 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 		return this.process;
 	}
 
-	get load() {
+	getLoad() {
 		return this.pendingTasks.size;
 	}
 
@@ -160,7 +167,7 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 
 	release() {
 		if (this.pendingRelease) return this.pendingRelease;
-		if (!this.load) {
+		if (!this.getLoad()) {
 			this.destroy();
 		} else {
 			this.pendingRelease = new Promise(resolve => {
@@ -178,7 +185,7 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 		this.process.disconnect();
 		for (const resolver of this.pendingTasks.values()) {
 			// maybe we should track reject functions too...
-			resolver('');
+			resolver('' );
 		}
 		this.pendingTasks.clear();
 		if (this.resolveRelease) {
@@ -202,15 +209,22 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 	setDebug(message) {
 		this.debug = (this.debug || '').slice(-32768) + '\n=====\n' + message;
 	}
+	
 
-	constructor(file) {;StreamProcessWrapper.prototype.__init.call(this);StreamProcessWrapper.prototype.__init2.call(this);StreamProcessWrapper.prototype.__init3.call(this);StreamProcessWrapper.prototype.__init4.call(this);
+	constructor(file, messageCallback) {;StreamProcessWrapper.prototype.__init.call(this);StreamProcessWrapper.prototype.__init2.call(this);StreamProcessWrapper.prototype.__init3.call(this);StreamProcessWrapper.prototype.__init4.call(this);
 		this.process = child_process.fork(file, [], {cwd: ROOT_DIR});
+		this.messageCallback = messageCallback;
 
 		this.process.on('message', (message) => {
 			if (message.startsWith('THROW\n')) {
 				const error = new Error();
 				error.stack = message.slice(6);
 				throw error;
+			}
+
+			if (this.messageCallback && message.startsWith(`CALLBACK\n`)) {
+				this.messageCallback(message.slice(9));
+				return;
 			}
 
 			if (message.startsWith('DEBUG\n')) {
@@ -246,6 +260,10 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 		});
 	}
 
+	getLoad() {
+		return this.activeStreams.size;
+	}
+
 	getProcess() {
 		return this.process;
 	}
@@ -253,11 +271,7 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 	deleteStream(taskId) {
 		this.activeStreams.delete(taskId);
 		// try to release
-		if (this.resolveRelease && !this.load) void this.destroy();
-	}
-
-	get load() {
-		return this.activeStreams.size;
+		if (this.resolveRelease && !this.getLoad()) void this.destroy();
 	}
 
 	createStream() {
@@ -270,7 +284,7 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 
 	release() {
 		if (this.pendingRelease) return this.pendingRelease;
-		if (!this.load) {
+		if (!this.getLoad()) {
 			void this.destroy();
 		} else {
 			this.pendingRelease = new Promise(resolve => {
@@ -347,13 +361,16 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 		this.stream = new RawSubprocessStream(this);
 	}
 
+	getLoad() {
+		return this.load;
+	}
 	getProcess() {
 		return this.process.process ? this.process.process : this.process;
 	}
 
 	release() {
 		if (this.pendingRelease) return this.pendingRelease;
-		if (!this.load) {
+		if (!this.getLoad()) {
 			void this.destroy();
 		} else {
 			this.pendingRelease = new Promise(resolve => {
@@ -403,7 +420,7 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 		}
 		let lowestLoad = this.processes[0];
 		for (const process of this.processes) {
-			if (process.load < lowestLoad.load) {
+			if (process.getLoad() < lowestLoad.getLoad()) {
 				lowestLoad = process;
 			}
 		}
@@ -445,29 +462,39 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 		}
 	}
 	unspawn() {
-		const released = [];
-		const processes = this.processes;
-		this.processes = [];
-		for (const process of processes) {
-			this.destroyProcess(process);
-			released.push(process.release().then(() => {
-				const index = this.releasingProcesses.indexOf(process);
-				if (index >= 0) {
-					this.releasingProcesses.splice(index, 1);
-				}
-			}));
-		}
-		this.releasingProcesses = this.releasingProcesses.concat(processes);
-		return Promise.all(released);
+		return Promise.all([...this.processes].map(
+			process => this.unspawnOne(process)
+		));
+	}
+	async unspawnOne(process) {
+		if (!process) return;
+		this.destroyProcess(process);
+		const processIndex = this.processes.indexOf(process);
+		if (processIndex < 0) throw new Error('Process inactive');
+		this.processes.splice(this.processes.indexOf(process), 1);
+		this.releasingProcesses.push(process);
+
+		await process.release();
+
+		const index = this.releasingProcesses.indexOf(process);
+		if (index < 0) return; // can happen if process crashed while releasing
+		this.releasingProcesses.splice(index, 1);
 	}
 	spawn(count = 1, force) {
 		if (!this.isParentProcess) return;
 		if (exports.disabled && !force) return;
-		while (this.processes.length < count) {
-			const process = this.createProcess();
-			process.process.on('disconnect', () => this.releaseCrashed(process));
-			this.processes.push(process);
+		const spawnCount = count - this.processes.length;
+		for (let i = 0; i < spawnCount; i++) {
+			this.spawnOne(force);
 		}
+	}
+	spawnOne(force) {
+		if (!this.isParentProcess) throw new Error('Must use in parent process');
+		if (exports.disabled && !force) return null;
+		const process = this.createProcess();
+		process.process.on('disconnect', () => this.releaseCrashed(process));
+		this.processes.push(process);
+		return process;
 	}
 	respawn(count = null) {
 		if (count === null) count = this.processes.length;
@@ -488,20 +515,23 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
  class QueryProcessManager extends ProcessManager {
 	
 	
+	
 
 	/**
 	 * @param timeout The number of milliseconds to wait before terminating a query. Defaults to 900000 ms (15 minutes).
 	 */
-	constructor(module, query, timeout = 15 * 60 * 1000) {
+	constructor(
+		module, query,
+		timeout = 15 * 60 * 1000, debugCallback
+	) {
 		super(module);
 		this._query = query;
 		this.timeout = timeout;
+		this.messageCallback = debugCallback;
 
 		exports.processManagers.push(this);
 	}
-	async query(input) {
-		const process = this.acquire() ;
-
+	async query(input, process = this.acquire()) {
 		if (!process) return this._query(input);
 
 		const timeout = setTimeout(() => {
@@ -517,8 +547,14 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 		clearTimeout(timeout);
 		return result;
 	}
+	queryTemporaryProcess(input, force) {
+		const process = this.spawnOne(force);
+		const result = this.query(input, process);
+		void this.unspawnOne(process);
+		return result;
+	}
 	createProcess() {
-		return new QueryProcessWrapper(this.filename);
+		return new QueryProcessWrapper(this.filename, this.messageCallback);
 	}
 	listen() {
 		if (this.isParentProcess) return;
@@ -549,21 +585,27 @@ class RawSubprocessStream extends Streams.ObjectReadWriteStream {
 	/* taskid: stream used only in child process */
 	
 	
+	
 
-	constructor(module, createStream) {
+	constructor(
+		module,
+		createStream,
+		messageCallback
+	) {
 		super(module);
 		this.activeStreams = new Map();
 		this._createStream = createStream;
+		this.messageCallback = messageCallback;
 
 		exports.processManagers.push(this);
 	}
 	createStream() {
-		const process = this.acquire() ;
+		const process = this.acquire();
 		if (!process) return this._createStream();
 		return process.createStream();
 	}
 	createProcess() {
-		return new StreamProcessWrapper(this.filename);
+		return new StreamProcessWrapper(this.filename, this.messageCallback);
 	}
 	async pipeStream(taskId, stream) {
 		let done = false;

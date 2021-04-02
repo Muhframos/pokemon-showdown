@@ -2,7 +2,7 @@
  * Poll chat plugin
  * By bumbadadabum and Zarel.
  */
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 const MINUTES = 60000;
 
@@ -83,7 +83,7 @@ const MINUTES = 60000;
 	deselect(user, option) {
 		const userid = user.id;
 		const pendingVote = this.pendingVotes[userid];
-		if (!pendingVote || !pendingVote.includes(option)) {
+		if (!_optionalChain([pendingVote, 'optionalAccess', _ => _.includes, 'call', _2 => _2(option)])) {
 			throw new Chat.ErrorMessage(this.room.tr`That option is not selected.`);
 		}
 		pendingVote.splice(pendingVote.indexOf(option), 1);
@@ -141,7 +141,7 @@ const MINUTES = 60000;
 			const pendingVotes = (user && this.pendingVotes[user.id]) || [];
 			for (const [num, answer] of this.answers) {
 				const selected = pendingVotes.includes(num);
-				output += `<div style="margin-top: 5px"><button style="text-align: left; border: none; background: none; color: inherit;" value="/poll ${selected ? 'de' : ''}select ${num}" name="send" title="${selected ? "Deselect" : "Select"} ${num}. ${_utils.Utils.escapeHTML(answer.name)}">${selected ? "<strong>" : ''}${selected ? chosen : empty} ${num}. `;
+				output += `<div style="margin-top: 5px"><button style="text-align: left; border: none; background: none; color: inherit;" value="/poll ${selected ? 'de' : ''}select ${num}" name="send" title="${selected ? "Deselect" : "Select"} ${num}. ${_lib.Utils.escapeHTML(answer.name)}">${selected ? "<strong>" : ''}${selected ? chosen : empty} ${num}. `;
 				output += `${Poll.getAnswerMarkup(answer, this.supportHTML)}${selected ? "</strong>" : ''}</button></div>`;
 			}
 			const submitButton = pendingVotes.length ? (
@@ -153,7 +153,7 @@ const MINUTES = 60000;
 			output += `</div>`;
 		} else {
 			for (const [num, answer] of this.answers) {
-				output += `<div style="margin-top: 5px"><button class="button" style="text-align: left" value="/poll vote ${num}" name="send" title="${this.room.tr`Vote for ${num}`}. ${_utils.Utils.escapeHTML(answer.name)}">${num}.`;
+				output += `<div style="margin-top: 5px"><button class="button" style="text-align: left" value="/poll vote ${num}" name="send" title="${this.room.tr`Vote for ${num}`}. ${_lib.Utils.escapeHTML(answer.name)}">${num}.`;
 				output += ` <strong>${Poll.getAnswerMarkup(answer, this.supportHTML)}</strong></button></div>`;
 			}
 			output += `<div style="margin-top: 7px; padding-left: 12px"><button value="/poll results" name="send" title="${this.room.tr`View results`} - ${this.room.tr`you will not be able to vote after viewing results`}"><small>(${this.room.tr`View results`})</small></button></div>`;
@@ -178,7 +178,7 @@ const MINUTES = 60000;
 		// nums start at 1 so the actual order is 1. blue, 2. green, 3. indigo, 4. blue
 		const colors = ['#88B', '#79A', '#8A8'];
 		for (const [num, answer] of answers) {
-			const chosen = _optionalChain([choice, 'optionalAccess', _ => _.includes, 'call', _2 => _2(num)]);
+			const chosen = _optionalChain([choice, 'optionalAccess', _3 => _3.includes, 'call', _4 => _4(num)]);
 			const percentage = Math.round((answer.votes * 100) / (options.totalVotes || 1));
 			const answerMarkup = options.isQuiz ?
 				`<span style="color:${answer.correct ? 'green' : 'red'};">${answer.correct ? '' : '<s>'}${this.getAnswerMarkup(answer, options.supportHTML)}${answer.correct ? '' : '</s>'}</span>` :
@@ -359,6 +359,7 @@ const MINUTES = 60000;
 		htmlcreatemulti: 'new',
 		queue: 'new',
 		queuehtml: 'new',
+		htmlqueue: 'new',
 		queuemulti: 'new',
 		htmlqueuemulti: 'new',
 		new(target, room, user, connection, cmd, message) {
@@ -425,7 +426,7 @@ const MINUTES = 60000;
 		newhelp: [
 			`/poll create [question], [option1], [option2], [...] - Creates a poll. Requires: % @ # &`,
 			`/poll createmulti [question], [option1], [option2], [...] - Creates a poll, allowing for multiple answers to be selected. Requires: % @ # &`,
-			`To queue a poll, use [queue], [queuemulti], or [htmlqueuemulti].`,
+			`To queue a poll, use [queue], [queuemulti], [queuehtml], or [htmlqueuemulti].`,
 			`Polls can be used as quiz questions. To do this, prepend all correct answers with a +.`,
 		],
 
@@ -436,45 +437,47 @@ const MINUTES = 60000;
 		},
 		viewqueuehelp: [`/viewqueue - view the queue of polls in the room. Requires: % @ # &`],
 
-		clearqueue: 'deletequeue',
-		deletequeue(target, room, user, connection, cmd) {
+		deletequeue(target, room, user) {
+			room = this.requireRoom();
+			if (!target) return this.parse('/help deletequeue');
+
+			this.checkCan('mute', null, room);
+			const queue = room.getMinorActivityQueue();
+			if (!queue) {
+				return this.errorReply(this.tr`The queue is already empty.`);
+			}
+			const slot = parseInt(target);
+			if (isNaN(slot)) {
+				return this.errorReply(this.tr`Can't delete poll at slot ${target} - "${target}" is not a number.`);
+			}
+			if (!queue[slot - 1]) return this.errorReply(this.tr`There is no poll in queue at slot ${slot}.`);
+
+			room.clearMinorActivityQueue(slot - 1);
+
+			room.modlog({
+				action: 'DELETEQUEUE',
+				loggedBy: user.id,
+				note: slot.toString(),
+			});
+			room.sendMods(this.tr`(${user.name} deleted the queued poll in slot ${slot}.)`);
+			room.update();
+			this.refreshPage(`pollqueue-${room.roomid}`);
+		},
+		deletequeuehelp: [
+			`/poll deletequeue [number] - deletes poll at the corresponding queue slot (1 = next, 2 = the one after that, etc). Requires: % @ # &`,
+		],
+		clearqueue(target, room, user, connection, cmd) {
 			room = this.requireRoom();
 			this.checkCan('mute', null, room);
 			const queue = room.getMinorActivityQueue();
 			if (!queue) {
 				return this.errorReply(this.tr`The queue is already empty.`);
 			}
-			if (cmd === 'deletequeue' && queue.length !== 1 && !target) {
-				return this.parse('/help deletequeue');
-			}
-			if (!target) {
-				room.clearMinorActivityQueue();
-				this.modlog('CLEARQUEUE');
-				this.sendReply(this.tr`Cleared poll queue.`);
-			} else {
-				const [slotString, roomid] = target.split(',');
-				const slot = parseInt(slotString);
-				const curRoom = roomid ? Rooms.search(roomid) : room;
-				if (!curRoom) return this.errorReply(this.tr`Room "${roomid}" not found.`);
-				if (isNaN(slot)) {
-					return this.errorReply(this.tr`Can't delete poll at slot ${slotString} - "${slotString}" is not a number.`);
-				}
-				if (!queue[slot - 1]) return this.errorReply(this.tr`There is no poll in queue at slot ${slot}.`);
-
-				curRoom.clearMinorActivityQueue(slot - 1);
-
-				curRoom.modlog({
-					action: 'DELETEQUEUE',
-					loggedBy: user.id,
-					note: slot.toString(),
-				});
-				curRoom.sendMods(this.tr`(${user.name} deleted the queued poll in slot ${slot}.)`);
-				curRoom.update();
-				this.refreshPage(`pollqueue-${curRoom.roomid}`);
-			}
+			room.clearMinorActivityQueue();
+			this.modlog('CLEARQUEUE');
+			this.sendReply(this.tr`Cleared poll queue.`);
 		},
-		deletequeuehelp: [
-			`/poll deletequeue [number] - deletes poll at the corresponding queue slot (1 = next, 2 = the one after that, etc). Requires: % @ # &`,
+		clearqueuehelp: [
 			`/poll clearqueue - deletes the queue of polls. Requires: % @ # &`,
 		],
 
@@ -530,7 +533,7 @@ const MINUTES = 60000;
 			} else {
 				if (!this.runBroadcast()) return;
 				if (poll.timeout) {
-					return this.sendReply(this.tr`The poll timer is on and will end in ${Chat.toDurationString(poll.timeoutMins)}.`);
+					return this.sendReply(this.tr`The poll timer is on and will end in ${Chat.toDurationString(poll.timeoutMins * MINUTES)}.`);
 				} else {
 					return this.sendReply(this.tr`The poll timer is off.`);
 				}
@@ -608,7 +611,7 @@ const MINUTES = 60000;
 		let buf = `<div class="pad"><strong>${this.tr`Queued polls:`}</strong>`;
 		buf += `<button class="button" name="send" value="/join view-pollqueue-${room.roomid}" style="float: right">`;
 		buf += `<i class="fa fa-refresh"></i> ${this.tr`Refresh`}</button><br />`;
-		const queue = _optionalChain([room, 'access', _3 => _3.getMinorActivityQueue, 'call', _4 => _4(), 'optionalAccess', _5 => _5.filter, 'call', _6 => _6(activity => activity.activityid === 'poll')]);
+		const queue = _optionalChain([room, 'access', _5 => _5.getMinorActivityQueue, 'call', _6 => _6(), 'optionalAccess', _7 => _7.filter, 'call', _8 => _8(activity => activity.activityid === 'poll')]);
 		if (!queue) {
 			buf += `<hr /><strong>${this.tr`No polls queued.`}</strong></div>`;
 			return buf;
@@ -617,7 +620,7 @@ const MINUTES = 60000;
 			const number = i + 1; // for translation convienence
 			const button = (
 				`<strong>${this.tr`#${number} in queue`} </strong>` +
-				`<button class="button" name="send" value="/poll deletequeue ${i + 1},${room.roomid}">` +
+				`<button class="button" name="send" value="/msgroom ${room.roomid},/poll deletequeue ${i + 1}">` +
 				`(${this.tr`delete`})</button>`
 			);
 			buf += `<hr />`;
@@ -666,8 +669,8 @@ for (const room of Rooms.rooms.values()) {
 		}
 		room.saveSettings();
 	}
-	if (_optionalChain([room, 'access', _7 => _7.settings, 'access', _8 => _8.minorActivity, 'optionalAccess', _9 => _9.activityid]) === 'poll') {
-		room.setMinorActivity(new Poll(room, room.settings.minorActivity));
+	if (_optionalChain([room, 'access', _9 => _9.settings, 'access', _10 => _10.minorActivity, 'optionalAccess', _11 => _11.activityid]) === 'poll') {
+		room.setMinorActivity(new Poll(room, room.settings.minorActivity), true);
 	}
 }
 

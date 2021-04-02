@@ -6,9 +6,7 @@
  * @author Kris
  */
 
-var _fs = require('../../.lib-dist/fs');
-var _net = require('../../.lib-dist/net');
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 var _youtube = require('./youtube');
 
 const LASTFM_DB = 'config/chat-plugins/lastfm.json';
@@ -44,8 +42,8 @@ const DEFAULT_IMAGES = [
 
 
 
-const lastfm = JSON.parse(_fs.FS.call(void 0, LASTFM_DB).readIfExistsSync() || "{}");
-const recommendations = JSON.parse(_fs.FS.call(void 0, RECOMMENDATIONS).readIfExistsSync() || "{}");
+const lastfm = JSON.parse(_lib.FS.call(void 0, LASTFM_DB).readIfExistsSync() || "{}");
+const recommendations = JSON.parse(_lib.FS.call(void 0, RECOMMENDATIONS).readIfExistsSync() || "{}");
 
 if (!recommendations.saved) recommendations.saved = [];
 if (!recommendations.suggested) recommendations.suggested = [];
@@ -66,10 +64,10 @@ function updateRecTags() {
 updateRecTags();
 
 function saveLastFM() {
-	_fs.FS.call(void 0, LASTFM_DB).writeUpdate(() => JSON.stringify(lastfm));
+	_lib.FS.call(void 0, LASTFM_DB).writeUpdate(() => JSON.stringify(lastfm));
 }
 function saveRecommendations() {
-	_fs.FS.call(void 0, RECOMMENDATIONS).writeUpdate(() => JSON.stringify(recommendations));
+	_lib.FS.call(void 0, RECOMMENDATIONS).writeUpdate(() => JSON.stringify(recommendations));
 }
 
  class LastFMInterface {
@@ -78,7 +76,7 @@ function saveRecommendations() {
 		const accountName = this.getAccountName(username);
 		let raw;
 		try {
-			raw = await _net.Net.call(void 0, API_ROOT).get({
+			raw = await _lib.Net.call(void 0, API_ROOT).get({
 				query: {
 					method: 'user.getRecentTracks', user: accountName,
 					limit: 1, api_key: Config.lastfmkey, format: 'json',
@@ -99,7 +97,7 @@ function saveRecommendations() {
 			if (track.image[imageIndex]['#text']) {
 				buf += `<td style="padding-right:5px"><img src="${track.image[imageIndex]['#text']}" width="75" height="75" /></td>`;
 			}
-			buf += `<td><strong><a href="https://www.last.fm/user/${accountName}">${_utils.Utils.escapeHTML(displayName || accountName)}</a></strong>`;
+			buf += `<td><strong><a href="https://www.last.fm/user/${accountName}">${_lib.Utils.escapeHTML(displayName || accountName)}</a></strong>`;
 			if (_optionalChain([track, 'access', _6 => _6['@attr'], 'optionalAccess', _7 => _7.nowplaying])) {
 				buf += ` is currently listening to:`;
 			} else {
@@ -116,7 +114,7 @@ function saveRecommendations() {
 			if (!_optionalChain([videoIDs, 'optionalAccess', _10 => _10.length])) {
 				throw new Chat.ErrorMessage(`Something went wrong with the YouTube API.`);
 			}
-			buf += `<a href="https://youtu.be/${videoIDs[0]}">${_utils.Utils.escapeHTML(trackName)}</a>`;
+			buf += `<a href="https://youtu.be/${videoIDs[0]}">${_lib.Utils.escapeHTML(trackName)}</a>`;
 			buf += `</td></tr></table>${this.getScrobbleBadge()}`;
 		}
 		return buf;
@@ -159,7 +157,7 @@ function saveRecommendations() {
 		if (artist) query.artist = artist;
 		let raw;
 		try {
-			raw = await _net.Net.call(void 0, API_ROOT).get({query});
+			raw = await _lib.Net.call(void 0, API_ROOT).get({query});
 		} catch (e) {
 			throw new Chat.ErrorMessage(`No track data found.`);
 		}
@@ -218,12 +216,6 @@ class RecommendationsInterface {
 		return recs[Math.floor(Math.random() * recs.length)];
 	}
 
-	checkRoom(room) {
-		if (_optionalChain([room, 'optionalAccess', _18 => _18.roomid]) !== 'thestudio') {
-			throw new Chat.ErrorMessage(`This command can only be used in The Studio.`);
-		}
-	}
-
 	async add(
 		artist, title, url, description,
 		username, tags, avatar
@@ -253,7 +245,7 @@ class RecommendationsInterface {
 	delete(artist, title) {
 		artist = artist.trim();
 		title = title.trim();
-		if (!_optionalChain([recommendations, 'access', _19 => _19.saved, 'optionalAccess', _20 => _20.length])) {
+		if (!_optionalChain([recommendations, 'access', _18 => _18.saved, 'optionalAccess', _19 => _19.length])) {
 			throw new Chat.ErrorMessage(`The song titled '${title}' by ${artist} isn't recommended.`);
 		}
 		const recIndex = this.getIndex(artist, title);
@@ -327,14 +319,14 @@ class RecommendationsInterface {
 			buf += `<td style="text-align:center;"><img src="${rec.videoInfo.thumbnail}" width="120" height="67" /><br />`;
 			buf += `<small><em>${!suggested ? `${Chat.count(rec.likes, "points")} | ` : ``}${rec.videoInfo.views} views</em></small></td>`;
 		}
-		buf += _utils.Utils.html`<td style="max-width:300px"><a href="${rec.url}" style="color:#000;font-weight:bold;">${rec.artist} - ${rec.title}</a>`;
-		const tags = rec.tags.map(x => _utils.Utils.escapeHTML(x))
+		buf += _lib.Utils.html`<td style="max-width:300px"><a href="${rec.url}" style="color:#000;font-weight:bold;">${rec.artist} - ${rec.title}</a>`;
+		const tags = rec.tags.map(x => _lib.Utils.escapeHTML(x))
 			.filter(x => toID(x) !== toID(rec.userData.name) && toID(x) !== toID(rec.artist));
 		if (tags.length) {
 			buf += `<br /><strong>Tags:</strong> <em>${tags.join(', ')}</em>`;
 		}
 		if (rec.description) {
-			buf += `<br /><span style="display:inline-block;line-height:1.15em;"><strong>Description:</strong> ${_utils.Utils.escapeHTML(rec.description)}</span>`;
+			buf += `<br /><span style="display:inline-block;line-height:1.15em;"><strong>Description:</strong> ${_lib.Utils.escapeHTML(rec.description)}</span>`;
 		}
 		if (!rec.videoInfo && !suggested) {
 			buf += `<br /><strong>Score:</strong> ${Chat.count(rec.likes, "points")}`;
@@ -344,10 +336,10 @@ class RecommendationsInterface {
 		}
 		buf += `<hr />`;
 		if (suggested) {
-			buf += _utils.Utils.html`<button class="button" name="send" value="/approvesuggestion ${rec.userData.name}|${rec.artist}|${rec.title}">Approve</button> | `;
-			buf += _utils.Utils.html`<button class="button" name="send" value="/denysuggestion ${rec.userData.name}|${rec.artist}|${rec.title}">Deny</button>`;
+			buf += _lib.Utils.html`<button class="button" name="send" value="/msgroom thestudio,/approvesuggestion ${rec.userData.name}|${rec.artist}|${rec.title}">Approve</button> | `;
+			buf += _lib.Utils.html`<button class="button" name="send" value="/msgroom thestudio,/denysuggestion ${rec.userData.name}|${rec.artist}|${rec.title}">Deny</button>`;
 		} else {
-			buf += _utils.Utils.html`<button class="button" name="send" value="/likerec ${rec.artist}|${rec.title}" style="float:right;display:inline;padding:3px 5px;font-size:8pt;">`;
+			buf += _lib.Utils.html`<button class="button" name="send" value="/msgroom thestudio,/likerec ${rec.artist}|${rec.title}" style="float:right;display:inline;padding:3px 5px;font-size:8pt;">`;
 			buf += `<img src="https://${Config.routes.client}/sprites/bwicons/441.png" style="margin:-9px 0 -6px -7px;" width="32" height="32" />`;
 			buf += `<span style="position:relative;bottom:2.6px;">Upvote</span></button>`;
 		}
@@ -467,7 +459,7 @@ class RecommendationsInterface {
 		room = this.requireRoom('thestudio' );
 		this.checkCan('show', null, room);
 		const [artist, title, url, description, ...tags] = target.split('|').map(x => x.trim());
-		if (!(artist && title && url && description && _optionalChain([tags, 'optionalAccess', _21 => _21.length]))) {
+		if (!(artist && title && url && description && _optionalChain([tags, 'optionalAccess', _20 => _20.length]))) {
 			return this.parse(`/help addrecommendation`);
 		}
 
@@ -483,15 +475,12 @@ class RecommendationsInterface {
 
 	delrec: 'removerecommendation',
 	removerecommendation(target, room, user) {
-		const targetRoom = Rooms.search('thestudio') || room;
-		exports.Recs.checkRoom(targetRoom);
-		this.room = targetRoom;
-		const [artist, title] = target.split(`|`).map(x => x.trim());
+		room = this.requireRoom('thestudio' );		const [artist, title] = target.split(`|`).map(x => x.trim());
 		if (!(artist && title)) return this.parse(`/help removerecommendation`);
 		const rec = exports.Recs.get(artist, title);
 		if (!rec) throw new Chat.ErrorMessage(`Recommendation not found.`);
 		if (toID(rec.userData.name) !== user.id) {
-			this.checkCan('mute', null, targetRoom);
+			this.checkCan('mute', null, room);
 		}
 
 		exports.Recs.delete(artist, title);
@@ -513,7 +502,7 @@ class RecommendationsInterface {
 		this.checkChat(target);
 		if (!user.autoconfirmed) return this.errorReply(`You cannot use this command while not autoconfirmed.`);
 		const [artist, title, url, description, ...tags] = target.split('|').map(x => x.trim());
-		if (!(artist && title && url && description && _optionalChain([tags, 'optionalAccess', _22 => _22.length]))) {
+		if (!(artist && title && url && description && _optionalChain([tags, 'optionalAccess', _21 => _21.length]))) {
 			return this.parse(`/help suggestrecommendation`);
 		}
 
@@ -532,10 +521,8 @@ class RecommendationsInterface {
 	],
 
 	approvesuggestion(target, room, user) {
-		const targetRoom = Rooms.search('thestudio') || room;
-		exports.Recs.checkRoom(targetRoom);
-		this.room = targetRoom;
-		this.checkCan('mute', null, targetRoom);
+		room = this.requireRoom('thestudio' );
+		this.checkCan('mute', null, room);
 		const [submitter, artist, title] = target.split('|').map(x => x.trim());
 		if (!(submitter && artist && title)) return this.parse(`/help approvesuggestion`);
 
@@ -549,10 +536,8 @@ class RecommendationsInterface {
 	],
 
 	denysuggestion(target, room, user) {
-		const targetRoom = Rooms.search('thestudio') || room;
-		exports.Recs.checkRoom(targetRoom);
-		this.room = targetRoom;
-		this.checkCan('mute', null, targetRoom);
+		room = this.requireRoom('thestudio' );
+		this.checkCan('mute', null, room);
 		const [submitter, artist, title] = target.split('|').map(x => x.trim());
 		if (!(submitter && artist && title)) return this.parse(`/help approvesuggestion`);
 
@@ -576,9 +561,7 @@ class RecommendationsInterface {
 		if (!recommendations.saved.length) {
 			throw new Chat.ErrorMessage(`There are no recommendations saved.`);
 		}
-		const targetRoom = Rooms.search('thestudio') || room;
-		exports.Recs.checkRoom(targetRoom);
-		this.room = targetRoom;
+		room = this.requireRoom('thestudio' );
 		this.runBroadcast();
 		if (!target) {
 			return this.sendReply(`|html|${await exports.Recs.render(exports.Recs.getRandomRecommendation())}`);
@@ -595,7 +578,7 @@ class RecommendationsInterface {
 		if (!matches.length) {
 			throw new Chat.ErrorMessage(`No matches found.`);
 		}
-		const sample = _utils.Utils.shuffle(matches)[0];
+		const sample = _lib.Utils.shuffle(matches)[0];
 		this.sendReply(`|html|${await exports.Recs.render(sample)}`);
 	},
 	recommendationhelp: [
@@ -605,9 +588,7 @@ class RecommendationsInterface {
 
 	likerec: 'likerecommendation',
 	likerecommendation(target, room, user, connection) {
-		const targetRoom = Rooms.search('thestudio') || room;
-		exports.Recs.checkRoom(targetRoom);
-		this.room = targetRoom;
+		room = this.requireRoom('thestudio' );
 		const [artist, title] = target.split('|').map(x => x.trim());
 		if (!(artist && title)) return this.parse(`/help likerecommendation`);
 		exports.Recs.likeRecommendation(artist, title, user);
@@ -619,10 +600,8 @@ class RecommendationsInterface {
 
 	viewrecs: 'viewrecommendations',
 	viewrecommendations(target, room, user) {
-		const targetRoom = Rooms.search('thestudio') || room;
-		exports.Recs.checkRoom(targetRoom);
-		this.room = targetRoom;
-		this.parse(`/j view-recommendations-${targetRoom.roomid}`);
+		room = this.requireRoom('thestudio' );
+		this.parse(`/j view-recommendations-${room.roomid}`);
 	},
 	viewrecommendationshelp: [
 		`/viewrecommendations OR /viewrecs - View all recommended songs.`,
@@ -631,10 +610,8 @@ class RecommendationsInterface {
 	viewsuggestions: 'viewsuggestedrecommendations',
 	viewsuggestedrecs: 'viewsuggestedrecommendations',
 	viewsuggestedrecommendations(target, room, user) {
-		const targetRoom = Rooms.search('thestudio') || room;
-		exports.Recs.checkRoom(targetRoom);
-		this.room = targetRoom;
-		this.parse(`/j view-suggestedrecommendations-${targetRoom.roomid}`);
+		room = this.requireRoom('thestudio' );
+		this.parse(`/j view-suggestedrecommendations-${room.roomid}`);
 	},
 	viewsuggestedrecommendationshelp: [
 		`/viewsuggestedrecommendations OR /viewsuggestions - View all suggested recommended songs. Requires: % @ * # &`,
@@ -645,12 +622,12 @@ class RecommendationsInterface {
 	async recommendations(query, user, connection) {
 		const room = this.requireRoom();
 		this.checkCan('mute', null, room);
-		if (!user.inRoom(room)) throw new Chat.ErrorMessage(`You must be in ${room.title} to view this page.`);
+		if (!user.inRooms.has(room.roomid)) throw new Chat.ErrorMessage(`You must be in ${room.title} to view this page.`);
 		this.title = 'Recommendations';
 		let buf = `<div class="pad">`;
 		buf += `<button style="float:right" class="button" name="send" value="/j view-recommendations-${room.roomid}"><i class="fa fa-refresh"></i> Refresh</button>`;
 		const recs = recommendations.saved;
-		if (!_optionalChain([recs, 'optionalAccess', _23 => _23.length])) {
+		if (!_optionalChain([recs, 'optionalAccess', _22 => _22.length])) {
 			return `${buf}<h2>There are currently no recommendations.</h2></div>`;
 		}
 		buf += `<h2>Recommendations (${recs.length}):</h2>`;
@@ -658,7 +635,7 @@ class RecommendationsInterface {
 			buf += `<div class="infobox">`;
 			buf += await exports.Recs.render(rec);
 			if (user.can('mute', null, room) || toID(rec.userData.name) === user.id) {
-				buf += `<hr /><button class="button" name="send" value="/removerecommendation ${rec.artist}|${rec.title}">Delete</button>`;
+				buf += `<hr /><button class="button" name="send" value="/msgroom thestudio,/removerecommendation ${rec.artist}|${rec.title}">Delete</button>`;
 			}
 			buf += `</div>`;
 		}
@@ -667,12 +644,12 @@ class RecommendationsInterface {
 	async suggestedrecommendations(query, user, connection) {
 		const room = this.requireRoom();
 		this.checkCan('mute', null, room);
-		if (!user.inRoom(room)) throw new Chat.ErrorMessage(`You must be in ${room.title} to view this page.`);
+		if (!user.inRooms.has(room.roomid)) throw new Chat.ErrorMessage(`You must be in ${room.title} to view this page.`);
 		this.title = 'Suggested Recommendations';
 		let buf = `<div class="pad">`;
 		buf += `<button style="float:right" class="button" name="send" value="/j view-suggestedrecommendations-${room.roomid}"><i class="fa fa-refresh"></i> Refresh</button>`;
 		const recs = recommendations.suggested;
-		if (!_optionalChain([recs, 'optionalAccess', _24 => _24.length])) {
+		if (!_optionalChain([recs, 'optionalAccess', _23 => _23.length])) {
 			return `${buf}<h2>There are currently no suggested recommendations.</h2></div>`;
 		}
 		buf += `<h2>Suggested Recommendations (${recs.length}):</h2>`;

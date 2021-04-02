@@ -11,13 +11,11 @@
  * @license MIT
  */
 
+import {FS, Repl, ProcessManager} from '../lib';
 import {execSync} from "child_process";
-import {FS} from "../lib/fs";
-import {Utils} from '../lib/utils';
-import {StreamProcessManager} from "../lib/process-manager";
-import {Repl} from "../lib/repl";
 import {BattleStream} from "../sim/battle-stream";
 import * as RoomGames from "./room-game";
+import type {Tournament} from './tournaments/index';
 
 type ChannelIndex = 0 | 1 | 2 | 3 | 4;
 type PlayerIndex = 1 | 2 | 3 | 4;
@@ -114,6 +112,8 @@ export class RoomBattlePlayer extends RoomGames.RoomGamePlayer {
 		this.connected = true;
 
 		if (user) {
+			user.games.add(this.game.roomid);
+			user.updateSearch();
 			for (const connection of user.connections) {
 				if (connection.inRooms.has(game.roomid)) {
 					Sockets.channelMove(connection.worker, this.game.roomid, this.channelIndex, connection.socketid);
@@ -130,7 +130,8 @@ export class RoomBattlePlayer extends RoomGames.RoomGamePlayer {
 			for (const connection of user.connections) {
 				Sockets.channelMove(connection.worker, this.game.roomid, 0, connection.socketid);
 			}
-			user.updateGames();
+			user.games.delete(this.game.roomid);
+			user.updateSearch();
 		}
 		this.id = '';
 		this.connected = false;
@@ -209,7 +210,7 @@ export class RoomBattleTimer {
 			maxPerTurn: isChallenge ? MAX_TURN_TIME_CHALLENGE : MAX_TURN_TIME,
 			maxFirstTurn: isChallenge ? MAX_TURN_TIME_CHALLENGE : MAX_TURN_TIME,
 			timeoutAutoChoose: false,
-			accelerate: !timerSettings,
+			accelerate: !timerSettings && !isChallenge,
 			...timerSettings,
 		};
 		if (this.settings.maxPerTurn <= 0) this.settings.maxPerTurn = Infinity;
@@ -228,7 +229,7 @@ export class RoomBattleTimer {
 			this.timerRequesters.add(userid);
 			return false;
 		}
-		if (requester && requester.inGame(this.battle.room) && this.lastDisabledByUser === requester.id) {
+		if (requester && this.battle.playerTable[requester.id] && this.lastDisabledByUser === requester.id) {
 			const remainingCooldownMs = (this.lastDisabledTime || 0) + TIMER_COOLDOWN - Date.now();
 			if (remainingCooldownMs > 0) {
 				this.battle.playerTable[requester.id].sendRoom(
@@ -449,6 +450,31 @@ export class RoomBattleTimer {
 	}
 }
 
+interface RoomBattlePlayerOptions {
+	user: User;
+	/** should be '' for random teams */
+	team?: string;
+	rating?: number;
+	inviteOnly?: boolean;
+	hidden?: boolean;
+}
+
+export interface RoomBattleOptions {
+	format: string;
+	p1?: RoomBattlePlayerOptions;
+	p2?: RoomBattlePlayerOptions;
+	p3?: RoomBattlePlayerOptions;
+	p4?: RoomBattlePlayerOptions;
+
+	challengeType?: ChallengeType;
+	allowRenames?: boolean;
+	rated?: number | boolean | null;
+	tour?: Tournament | null;
+	inputLog?: string;
+	ratedMessage?: string;
+	seed?: PRNGSeed;
+}
+
 export class RoomBattle extends RoomGames.RoomGame {
 	readonly gameid: ID;
 	readonly room: GameRoom;
@@ -494,20 +520,20 @@ export class RoomBattle extends RoomGames.RoomGame {
 	rqid: number;
 	requestCount: number;
 	dataResolvers?: [((args: string[]) => void), ((error: Error) => void)][];
-	constructor(room: GameRoom, formatid: string, options: AnyObject) {
+	constructor(room: GameRoom, options: RoomBattleOptions) {
 		super(room);
-		const format = Dex.getFormat(formatid, true);
+		const format = Dex.getFormat(options.format, true);
 		this.gameid = 'battle' as ID;
 		this.room = room;
 		this.title = format.name;
 		if (!this.title.endsWith(" Battle")) this.title += " Battle";
 		this.allowRenames = options.allowRenames !== undefined ? !!options.allowRenames : (!options.rated && !options.tour);
 
-		this.format = formatid;
+		this.format = options.format;
 		this.gameType = format.gameType;
-		this.challengeType = options.challengeType;
-		this.rated = options.rated || 0;
-		this.ladder = typeof format.rated === 'string' ? toID(format.rated) : formatid;
+		this.challengeType = options.challengeType || 'challenge';
+		this.rated = options.rated === true ? 1 : options.rated || 0;
+		this.ladder = typeof format.rated === 'string' ? toID(format.rated) : options.format;
 		// true when onCreateBattleRoom has been called
 		this.missingBattleStartMessage = !!options.inputLog;
 		this.started = false;
@@ -520,12 +546,12 @@ export class RoomBattle extends RoomGames.RoomGame {
 		// TypeScript bug: no `T extends RoomGamePlayer`
 		this.players = [];
 
-		this.playerCap = this.gameType === 'multi' || this.gameType === 'free-for-all' ? 4 : 2;
+		this.playerCap = this.gameType === 'multi' || this.gameType === 'freeforall' ? 4 : 2;
 		this.p1 = null!;
 		this.p2 = null!;
 		this.p3 = null!;
 		this.p4 = null!;
-		this.inviteOnlySetter = null!;
+		this.inviteOnlySetter = null;
 
 		// data to be logged
 		this.allowExtraction = {};
@@ -567,11 +593,11 @@ export class RoomBattle extends RoomGames.RoomGame {
 
 		void this.listen();
 
-		this.addPlayer(options.p1, options.p1team || '', options.p1rating);
-		this.addPlayer(options.p2, options.p2team || '', options.p2rating);
+		this.addPlayer(options.p1?.user || null, options.p1);
+		this.addPlayer(options.p2?.user || null, options.p2);
 		if (this.playerCap > 2) {
-			this.addPlayer(options.p3, options.p3team || '', options.p3rating);
-			this.addPlayer(options.p4, options.p4team || '', options.p4rating);
+			this.addPlayer(options.p3?.user || null, options.p3);
+			this.addPlayer(options.p4?.user || null, options.p4);
 		}
 		this.timer = new RoomBattleTimer(this);
 		if (Config.forcetimer || this.format.includes('blitz')) this.timer.start();
@@ -582,14 +608,14 @@ export class RoomBattle extends RoomGames.RoomGame {
 		let active = true;
 		if (this.ended || !this.started) {
 			active = false;
-		} else if (!this.p1 || !this.p1.active) {
+		} else if (!this.p1?.active) {
 			active = false;
-		} else if (!this.p2 || !this.p2.active) {
+		} else if (!this.p2?.active) {
 			active = false;
 		} else if (this.playerCap > 2) {
-			if (!this.p3 || !this.p3.active) {
+			if (!this.p3?.active) {
 				active = false;
-			} else if (!this.p4 || !this.p4.active) {
+			} else if (!this.p4?.active) {
 				active = false;
 			}
 		}
@@ -643,7 +669,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 			return false;
 		}
 
-		if (user.inGame(this.room)) {
+		if (user.id in this.playerTable) {
 			user.popup(`You have already joined this battle.`);
 			return false;
 		}
@@ -680,7 +706,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 			Rooms.global.onCreateBattleRoom(users, this.room, {rated: this.rated});
 			this.missingBattleStartMessage = false;
 		}
-		if (user.inRoom(this.room)) this.onConnect(user);
+		if (user.inRooms.has(this.roomid)) this.onConnect(user);
 		this.room.update();
 		return true;
 	}
@@ -915,10 +941,11 @@ export class RoomBattle extends RoomGames.RoomGame {
 		if (user.id === oldUserid) return;
 		if (!this.playerTable) {
 			// !! should never happen but somehow still does
+			user.games.delete(this.roomid);
 			return;
 		}
 		if (!(oldUserid in this.playerTable)) {
-			if (user.inGame(this.room)) {
+			if (user.id in this.playerTable) {
 				// this handles a user renaming themselves into a user in the
 				// battle (e.g. by using /nick)
 				this.onConnect(user);
@@ -931,13 +958,16 @@ export class RoomBattle extends RoomGames.RoomGame {
 				const message = isForceRenamed ? " lost by having an inappropriate name." : " forfeited by changing their name.";
 				this.forfeitPlayer(player, message);
 			}
+			if (!(user.id in this.playerTable)) {
+				user.games.delete(this.roomid);
+			}
 			return;
 		}
 		if (!user.named) {
 			this.onLeave(user, oldUserid);
 			return;
 		}
-		if (user.inGame(this.room)) return;
+		if (user.id in this.playerTable) return;
 		const player = this.playerTable[oldUserid];
 		if (player) {
 			this.updatePlayer(player, user);
@@ -995,26 +1025,32 @@ export class RoomBattle extends RoomGames.RoomGame {
 		if (!message) message = ' forfeited.';
 		this.room.add(`|-message|${player.name}${message}`);
 		this.endType = 'forfeit';
-		const otherids = ['p2', 'p1'];
-		void this.stream.write(`>forcewin ${otherids[player.num - 1]}`);
+		// multi battles, they need to be removed, else they can do things like spam forfeit
+		if (this.playerCap > 2) {
+			player.sendRoom(`|request|null`);
+			this.removePlayer(player);
+		}
+		void this.stream.write(`>forcelose ${player.slot}`);
 		return true;
 	}
 
 	/**
-	 * Team should be '' for random teams. `null` should be used only if importing
-	 * an inputlog (so the player isn't recreated)
+	 * playerOpts should be emtpy only if importing an inputlog
+	 * (so the player isn't recreated)
 	 */
-	addPlayer(user: User | null, team: string | null, rating = 0) {
+	addPlayer(user: User | null, playerOpts?: RoomBattlePlayerOptions) {
+		// TypeScript bug: no `T extends RoomGamePlayer`
 		const player = super.addPlayer(user) as RoomBattlePlayer;
+		if (!player) return null;
 		const slot = player.slot;
 		this[slot] = player;
 
-		if (team !== null) {
+		if (playerOpts) {
 			const options = {
 				name: player.name,
 				avatar: user ? '' + user.avatar : '',
-				team,
-				rating: Math.round(rating),
+				team: playerOpts.team || undefined,
+				rating: Math.round(playerOpts.rating || 0),
 			};
 			void this.stream.write(`>player ${slot} ${JSON.stringify(options)}`);
 		}
@@ -1025,7 +1061,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 				this.forcePublic = user.battlesForcedPublic();
 			}
 		}
-		if (user?.inRoom(this.room)) this.onConnect(user);
+		if (user?.inRooms.has(this.roomid)) this.onConnect(user);
 		return player;
 	}
 
@@ -1073,7 +1109,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 
 		if (this.gameType === 'multi') {
 			this.room.title = `Team ${this.p1.name} vs. Team ${this.p2.name}`;
-		} else if (this.gameType === 'free-for-all') {
+		} else if (this.gameType === 'freeforall') {
 			// p1 vs. p2 vs. p3 vs. p4 is too long of a title
 			this.room.title = `${this.p1.name} and friends`;
 		} else {
@@ -1142,7 +1178,10 @@ export class RoomBattle extends RoomGames.RoomGame {
 		return result;
 	}
 	onChatMessage(message: string, user: User) {
-		void this.stream.write(`>chat-inputlogonly ${user.getIdentity(this.room.roomid)}|${message}`);
+		const parts = message.split('\n');
+		for (const line of parts) {
+			void this.stream.write(`>chat-inputlogonly ${user.getIdentity(this.room.roomid)}|${line}`);
+		}
 	}
 	async getLog(): Promise<string[] | void> {
 		if (!this.logData) this.logData = {};
@@ -1190,69 +1229,7 @@ export class RoomBattleStream extends BattleStream {
 		if (this.battle) this.battle.sendUpdates();
 		const deltaTime = Date.now() - startTime;
 		if (deltaTime > 1000) {
-			console.log(`[slow battle] ${deltaTime}ms - ${chunk}`);
-		}
-	}
-
-	_writeLine(type: string, message: string) {
-		switch (type) {
-		case 'chat-inputlogonly':
-			this.battle.inputLog.push(`>chat ${message}`);
-			break;
-		case 'chat':
-			this.battle.inputLog.push(`>chat ${message}`);
-			this.battle.add('chat', `${message}`);
-			break;
-		case 'requestlog':
-			this.push(`requesteddata\n${this.battle.inputLog.join('\n')}`);
-			break;
-		case 'eval':
-			const battle = this.battle;
-			battle.inputLog.push(`>${type} ${message}`);
-			message = message.replace(/\f/g, '\n');
-			battle.add('', '>>> ' + message.replace(/\n/g, '\n||'));
-			try {
-				/* eslint-disable no-eval, @typescript-eslint/no-unused-vars */
-				const p1 = battle?.sides[0];
-				const p2 = battle?.sides[1];
-				const p3 = battle?.sides[2];
-				const p4 = battle?.sides[3];
-				const p1active = p1?.active[0];
-				const p2active = p2?.active[0];
-				const p3active = p3?.active[0];
-				const p4active = p4?.active[0];
-				let result = eval(message);
-				/* eslint-enable no-eval, @typescript-eslint/no-unused-vars */
-
-				if (result?.then) {
-					result.then((unwrappedResult: any) => {
-						unwrappedResult = Utils.visualize(unwrappedResult);
-						battle.add('', 'Promise -> ' + unwrappedResult);
-						battle.sendUpdates();
-					}, (error: Error) => {
-						battle.add('', '<<< error: ' + error.message);
-						battle.sendUpdates();
-					});
-				} else {
-					result = Utils.visualize(result);
-					result = result.replace(/\n/g, '\n||');
-					battle.add('', '<<< ' + result);
-				}
-			} catch (e) {
-				battle.add('', '<<< error: ' + e.message);
-			}
-			break;
-		case 'requestteam':
-			message = message.trim();
-			const slotNum = parseInt(message.slice(1)) - 1;
-			if (isNaN(slotNum) || slotNum < 0) {
-				throw new Error(`Team requested for slot ${message}, but that slot does not exist.`);
-			}
-			const side = this.battle.sides[slotNum];
-			const team = Dex.packTeam(side.team);
-			this.push(`requesteddata\n${team}`);
-			break;
-		default: super._writeLine(type, message);
+			Monitor.slow(`[slow battle] ${deltaTime}ms - ${chunk.replace(/\n/ig, ' | ')}`);
 		}
 	}
 }
@@ -1261,7 +1238,11 @@ export class RoomBattleStream extends BattleStream {
  * Process manager
  *********************************************************/
 
-export const PM = new StreamProcessManager(module, () => new RoomBattleStream());
+export const PM = new ProcessManager.StreamProcessManager(module, () => new RoomBattleStream(), message => {
+	if (message.startsWith(`SLOW\n`)) {
+		Monitor.slow(message.slice(5));
+	}
+});
 
 if (!PM.isParentProcess) {
 	// This is a child process!
@@ -1272,6 +1253,9 @@ if (!PM.isParentProcess) {
 		crashlog(error: Error, source = 'A simulator process', details: AnyObject | null = null) {
 			const repr = JSON.stringify([error.name, error.message, source, details]);
 			process.send!(`THROW\n@!!@${repr}\n${error.stack}`);
+		},
+		slow(text: string) {
+			process.send!(`CALLBACK\nSLOW\n${text}`);
 		},
 	};
 	global.__version = {head: ''};

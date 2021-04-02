@@ -228,8 +228,8 @@ var _streams = require('./streams'); var Streams = _streams;
 	}
 } exports.NetRequest = NetRequest;
 
- function Net(uri) {
-	return new NetRequest(uri);
-} exports.Net = Net;
+ const Net = Object.assign((path) => new NetRequest(path), {
+	NetRequest, NetStream,
+}); exports.Net = Net;
 
  //# sourceMappingURL=sourceMaps/net.js.map

@@ -2,7 +2,7 @@
  * Rock Paper Scissors plugin by Mia
  * @author mia-pi-git
  */
-import {Utils} from '../../lib/utils';
+import {Utils} from '../../lib';
 
 const MAX_ROUNDS = 500;
 const TIMEOUT = 10 * 1000;
@@ -247,12 +247,13 @@ export class RPSGame extends Rooms.RoomGame {
 		delete this.playerTable[user.id];
 		this.end();
 	}
-	makePlayer(user: User | string | null = null): RPSPlayer {
-		if (user && typeof user !== 'string') {
-			this.room.auth.set(user.id, Users.PLAYER_SYMBOL);
-			user.sendTo(this.room, `You have successfully joined the Rock Paper Scissors game.`);
-		}
-		return new RPSPlayer(user, this);
+	addPlayer(user: User) {
+		if (this.playerTable[user.id]) throw new Chat.ErrorMessage(`You are already a player in this game.`);
+		this.playerTable[user.id] = new RPSPlayer(user, this);
+		this.players.push(this.playerTable[user.id]);
+		this.room.auth.set(user.id, Users.PLAYER_SYMBOL);
+		user.sendTo(this.room, `You have successfully joined the Rock Paper Scissors game.`);
+		return this.playerTable[user.id];
 	}
 }
 
@@ -295,13 +296,12 @@ export const commands: ChatCommands = {
 			const targetUser = Users.get(id);
 			if (!targetUser) return this.errorReply(`The user who challenged you to Rock Paper Scissors is offline.`);
 			const existingRoom = findExisting(user.id, targetUser.id);
-			const options = {
-				modchat: '+',
-				isPrivate: true,
-			};
 			const roomid = `rps-${targetUser.id}-${user.id}`;
-			const gameRoom = existingRoom ? existingRoom : Rooms.createGameRoom(
-				roomid as RoomID, `[RPS] ${user.name} vs ${targetUser.name}`, options
+			const gameRoom = existingRoom || Rooms.createGameRoom(
+				roomid as RoomID, `[RPS] ${user.name} vs ${targetUser.name}`, {
+					modchat: '+',
+					isPrivate: true,
+				}
 			);
 			gameRoom.game = new RPSGame(gameRoom);
 			gameRoom.add(

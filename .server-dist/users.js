@@ -43,15 +43,13 @@ const PERMALOCK_CACHE_TIME = 30 * 24 * 60 * 60 * 1000; // 30 days
 
 const DEFAULT_TRAINER_SPRITES = [1, 2, 101, 102, 169, 170, 265, 266];
 
-var _utils = require('../.lib-dist/utils');
-var _fs = require('../.lib-dist/fs');
+var _lib = require('../.lib-dist');
 var _usergroups = require('./user-groups');
 
 const MINUTES = 60 * 1000;
 const IDLE_TIMER = 60 * MINUTES;
 const STAFF_IDLE_TIMER = 30 * MINUTES;
 const CONNECTION_EXPIRY_TIME = 24 * 60 * MINUTES;
-
 
 
 /*********************************************************
@@ -318,17 +316,9 @@ const connections = new Map();
  class User extends Chat.MessageContext {
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
+	/**
+	 * Set of room IDs
+	 */
 	
 	
 	
@@ -343,10 +333,24 @@ const connections = new Map();
 	
 	
 	
-
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	
+	
+	
+
+	
+
+	
+
 
 
 
@@ -389,6 +393,8 @@ const connections = new Map();
 	constructor(connection) {
 		super(connection.user);User.prototype.__init.call(this);User.prototype.__init2.call(this);;
 		this.user = this;
+		this.inRooms = new Set();
+		this.games = new Set();
 		this.mmrCache = Object.create(null);
 		this.guestNum = -1;
 		this.name = "";
@@ -580,8 +586,8 @@ const connections = new Map();
 		if (roomid) {
 			return Rooms.get(roomid).onUpdateIdentity(this);
 		}
-		for (const room of this.getRooms()) {
-			room.onUpdateIdentity(this);
+		for (const inRoomID of this.inRooms) {
+			Rooms.get(inRoomID).onUpdateIdentity(this);
 		}
 	}
 	async validateToken(token, name, userid, connection) {
@@ -607,7 +613,7 @@ const connections = new Map();
 			return null;
 		}
 
-		const [tokenData, tokenSig] = _utils.Utils.splitFirst(token, ';');
+		const [tokenData, tokenSig] = _lib.Utils.splitFirst(token, ';');
 		const tokenDataSplit = tokenData.split(',');
 		const [signedChallenge, signedUserid, userType, signedDate, signedHostname] = tokenDataSplit;
 
@@ -668,12 +674,17 @@ const connections = new Map();
 	 */
 	async rename(name, token, newlyRegistered, connection) {
 		let userid = toID(name);
-		if (userid !== this.id && this.named) {
-			for (const game of this.getGames()) {
-				if (!game.allowRenames) {
-					this.popup(`You can't change your name right now because you're in ${game.title}, which doesn't allow renaming.`);
-					return false;
+		if (userid !== this.id) {
+			for (const roomid of this.games) {
+				const room = Rooms.get(roomid);
+				if (!_optionalChain([room, 'optionalAccess', _ => _.game]) || room.game.ended) {
+					this.games.delete(roomid);
+					console.log(`desynced roomgame ${roomid} renaming ${this.id} -> ${userid}`);
+					continue;
 				}
+				if (room.game.allowRenames || !this.named) continue;
+				this.popup(`You can't change your name right now because you're in ${room.game.title}, which doesn't allow renaming.`);
+				return false;
 			}
 		}
 
@@ -794,7 +805,7 @@ const connections = new Map();
 
 		let user = users.get(userid);
 		const possibleUser = exports.Users.get(userid);
-		if (_optionalChain([possibleUser, 'optionalAccess', _ => _.namelocked])) {
+		if (_optionalChain([possibleUser, 'optionalAccess', _2 => _2.namelocked])) {
 			// allows namelocked users to be merged
 			user = possibleUser;
 		}
@@ -867,16 +878,24 @@ const connections = new Map();
 			// console.log('' + name + ' renaming: socket ' + i + ' of ' + this.connections.length);
 			connection.send(this.getUpdateuserText());
 		}
-		for (const room of Rooms.rooms.values()) {
-			if (oldid in room.users) {
-				room.onRename(this, oldid, joining);
+		for (const roomid of this.games) {
+			const room = Rooms.get(roomid);
+			if (!room) {
+				Monitor.warn(`while renaming, room ${roomid} expired for user ${this.id} in rooms ${[...this.inRooms]} and games ${[...this.games]}`);
+				this.games.delete(roomid);
+				continue;
 			}
-			if (room.game && (oldid in room.users || oldid in room.game.playerTable)) {
-				room.game.onRename(this, oldid, joining, isForceRenamed);
+			if (!room.game) {
+				Monitor.warn(`game desync for user ${this.id} in room ${room.roomid}`);
+				this.games.delete(roomid);
+				continue;
 			}
+			room.game.onRename(this, oldid, joining, isForceRenamed);
+		}
+		for (const roomid of this.inRooms) {
+			Rooms.get(roomid).onRename(this, oldid, joining);
 		}
 		if (isForceRenamed) this.trackRename = oldname;
-		this.updateGames();
 		return true;
 	}
 	getUpdateuserText() {
@@ -907,8 +926,8 @@ const connections = new Map();
 	 */
 	merge(oldUser) {
 		oldUser.cancelReady();
-		for (const room of oldUser.getRooms()) {
-			room.onLeave(oldUser);
+		for (const roomid of oldUser.inRooms) {
+			Rooms.get(roomid).onLeave(oldUser);
 		}
 
 		const oldLocked = this.locked;
@@ -947,6 +966,7 @@ const connections = new Map();
 		for (const connection of oldUser.connections) {
 			this.mergeConnection(connection);
 		}
+		oldUser.inRooms.clear();
 		oldUser.connections = [];
 
 		if (oldUser.chatQueue) {
@@ -995,7 +1015,7 @@ const connections = new Map();
 		connection.user = this;
 		for (const roomid of connection.inRooms) {
 			const room = Rooms.get(roomid);
-			if (!this.inRoom(room)) {
+			if (!this.inRooms.has(roomid)) {
 				if (Punishments.checkNameInRoom(this, room.roomid)) {
 					// the connection was in a room that this user is banned from
 					connection.sendTo(room.roomid, `|deinit`);
@@ -1003,6 +1023,7 @@ const connections = new Map();
 					continue;
 				}
 				room.onJoin(this, connection);
+				this.inRooms.add(roomid);
 			}
 			if (room.game && room.game.onUpdateConnection) {
 				// Yes, this is intentionally supposed to call onConnect twice
@@ -1012,32 +1033,6 @@ const connections = new Map();
 			}
 		}
 		this.updateReady(connection);
-	}
-	getRooms() {
-		const rooms = [];
-		for (const curRoom of Rooms.rooms.values()) {
-			if (this.inRoom(curRoom)) rooms.push(curRoom);
-		}
-		return rooms;
-	}
-	inRoom(roomid) {
-		const room = Rooms.get(roomid);
-		if (!room) return false;
-		return this.id in room.users;
-	}
-	getGames() {
-		const games = [];
-		for (const curRoom of Rooms.rooms.values()) {
-			if (curRoom.game && this.id in curRoom.game.playerTable && !curRoom.game.ended) {
-				games.push(curRoom.game);
-			}
-		}
-		return games;
-	}
-	inGame(roomid) {
-		const room = Rooms.get(roomid);
-		if (!room || !room.game) return false;
-		return !!room.game.playerTable[this.id];
 	}
 	debugData() {
 		let str = `${this.tempGroup}${this.name} (${this.id})`;
@@ -1073,7 +1068,7 @@ const connections = new Map();
 		const groupInfo = Config.groups[this.tempGroup];
 		this.isStaff = !!(groupInfo && (groupInfo.lock || groupInfo.root));
 		if (!this.isStaff) {
-			const rank = _optionalChain([Rooms, 'access', _2 => _2.get, 'call', _3 => _3('staff'), 'optionalAccess', _4 => _4.auth, 'access', _5 => _5.getDirect, 'call', _6 => _6(this.id)]);
+			const rank = _optionalChain([Rooms, 'access', _3 => _3.get, 'call', _4 => _4('staff'), 'optionalAccess', _5 => _5.auth, 'access', _6 => _6.getDirect, 'call', _7 => _7(this.id)]);
 			this.isStaff = !!(rank && rank !== '*' && rank !== exports.Users.Auth.defaultSymbol());
 		}
 		if (this.trusted) {
@@ -1105,7 +1100,7 @@ const connections = new Map();
 		const groupInfo = Config.groups[this.tempGroup];
 		this.isStaff = !!(groupInfo && (groupInfo.lock || groupInfo.root));
 		if (!this.isStaff) {
-			const rank = _optionalChain([Rooms, 'access', _7 => _7.get, 'call', _8 => _8('staff'), 'optionalAccess', _9 => _9.auth, 'access', _10 => _10.getDirect, 'call', _11 => _11(this.id)]);
+			const rank = _optionalChain([Rooms, 'access', _8 => _8.get, 'call', _9 => _9('staff'), 'optionalAccess', _10 => _10.auth, 'access', _11 => _11.getDirect, 'call', _12 => _12(this.id)]);
 			this.isStaff = !!(rank && rank !== '*' && rank !== exports.Users.Auth.defaultSymbol());
 		}
 		Rooms.global.checkAutojoin(this);
@@ -1180,13 +1175,13 @@ const connections = new Map();
 			}
 		}
 		if (!this.connections.length) {
-			for (const room of Rooms.rooms.values()) {
-				if (this.id in room.users) {
-					// should never happen.
-					Monitor.debug(`!! room miscount: ${room.roomid} not left`);
-					room.onLeave(this);
-				}
+			for (const roomid of this.inRooms) {
+				// should never happen.
+				Monitor.debug(`!! room miscount: ${roomid} not left`);
+				Rooms.get(roomid).onLeave(this);
 			}
+			// cleanup
+			this.inRooms.clear();
 			if (!this.named && !this.previousIDs.length) {
 				// user never chose a name (and therefore never talked/battled)
 				// there's no need to keep track of this user, so we can
@@ -1214,11 +1209,11 @@ const connections = new Map();
 			// should never happen
 			throw new Error(`Failed to drop all connections for ${this.id}`);
 		}
-		for (const room of Rooms.rooms.values()) {
-			if (this.id in room.users) {
-				throw new Error(`Room miscount: ${room.roomid} not left for ${this.id}`);
-			}
+		for (const roomid of this.inRooms) {
+			// should never happen.
+			throw new Error(`Room miscount: ${roomid} not left for ${this.id}`);
 		}
+		this.inRooms.clear();
 	}
 	/**
 	 * If this user is included in the returned list of
@@ -1245,7 +1240,7 @@ const connections = new Map();
 		if (!room && roomid.startsWith('view-')) {
 			return Chat.resolvePage(roomid, this, connection);
 		}
-		if (!room || !room.checkModjoin(this)) {
+		if (!_optionalChain([room, 'optionalAccess', _13 => _13.checkModjoin, 'call', _14 => _14(this)])) {
 			if (!this.named) {
 				return Rooms.RETRY_AFTER_LOGIN;
 			} else {
@@ -1302,7 +1297,8 @@ const connections = new Map();
 			return;
 		}
 		if (!connection.inRooms.has(room.roomid)) {
-			if (!this.inRoom(room)) {
+			if (!this.inRooms.has(room.roomid)) {
+				this.inRooms.add(room.roomid);
 				room.onJoin(this, connection);
 			}
 			connection.joinRoom(room);
@@ -1311,7 +1307,7 @@ const connections = new Map();
 	}
 	leaveRoom(room, connection = null) {
 		room = Rooms.get(room);
-		if (!this.inRoom(room)) {
+		if (!this.inRooms.has(room.roomid)) {
 			return false;
 		}
 		for (const curConnection of this.connections) {
@@ -1330,6 +1326,7 @@ const connections = new Map();
 		}
 		if (!stillInRoom) {
 			room.onLeave(this);
+			this.inRooms.delete(room.roomid);
 		}
 	}
 
@@ -1342,19 +1339,17 @@ const connections = new Map();
 		}
 		// cancel tour challenges
 		// no need for a popup because users can't change their name while in a tournament anyway
-		for (const game of this.getGames()) {
-			_optionalChain([(game ), 'access', _12 => _12.cancelChallenge, 'optionalCall', _13 => _13(this)]);
+		for (const roomid of this.games) {
+			const room = Rooms.get(roomid);
+			// @ts-ignore Tournaments aren't TS'd yet
+			if (room.game && room.game.cancelChallenge) room.game.cancelChallenge(this);
 		}
 	}
 	updateReady(connection = null) {
 		Ladders.updateSearch(this, connection);
 		Ladders.updateChallenges(this, connection);
 	}
-	/**
-	 * Tells the client what games the user is currently in, and what
-	 * formats the user is searching for games in.
-	 */
-	updateGames(connection = null) {
+	updateSearch(connection = null) {
 		Ladders.updateSearch(this, connection);
 	}
 	/**
@@ -1362,6 +1357,8 @@ const connections = new Map();
 	 * This function's main use case is for when a room is renamed.
 	 */
 	moveConnections(oldRoomID, newRoomID) {
+		this.inRooms.delete(oldRoomID);
+		this.inRooms.add(newRoomID);
 		for (const connection of this.connections) {
 			connection.inRooms.delete(oldRoomID);
 			connection.inRooms.add(newRoomID);
@@ -1492,8 +1489,21 @@ const connections = new Map();
 	}
 	destroy() {
 		// deallocate user
-		for (const game of this.getGames()) {
-			_optionalChain([game, 'access', _14 => _14.forfeit, 'optionalCall', _15 => _15(this)]);
+		for (const roomid of this.games) {
+			const room = Rooms.get(roomid);
+			if (!room) {
+				Monitor.warn(`while deallocating, room ${roomid} did not exist for ${this.id} in rooms ${[...this.inRooms]} and games ${[...this.games]}`);
+				this.games.delete(roomid);
+				continue;
+			}
+			const game = room.game;
+			if (!game) {
+				Monitor.warn(`while deallocating, room ${roomid} did not have a game for ${this.id} in rooms ${[...this.inRooms]} and games ${[...this.games]}`);
+				this.games.delete(roomid);
+				continue;
+			}
+			if (game.ended) continue;
+			if (game.forfeit) game.forfeit(this);
 		}
 		this.clearChatQueue();
 		this.destroyPunishmentTimer();
@@ -1522,7 +1532,7 @@ function pruneInactive(threshold) {
 			const awayTimer = user.can('lock') ? STAFF_IDLE_TIMER : IDLE_TIMER;
 			const bypass = !user.can('bypassall') && (
 				user.can('bypassafktimer') ||
-				user.getRooms().some(room => user.can('bypassafktimer', null, room))
+				Array.from(user.inRooms).some(room => user.can('bypassafktimer', null, Rooms.get(room)))
 			);
 			if (!bypass && !user.connections.some(connection => now - connection.lastActiveTime < awayTimer)) {
 				user.setStatusType('idle');
@@ -1555,7 +1565,7 @@ function logGhostConnections(threshold) {
 		}
 	}
 	return buffer.length ?
-		_fs.FS.call(void 0, `logs/ghosts-${process.pid}.log`).append(buffer.join('\r\n') + '\r\n') :
+		_lib.FS.call(void 0, `logs/ghosts-${process.pid}.log`).append(buffer.join('\r\n') + '\r\n') :
 		Promise.resolve();
 }
 
@@ -1580,7 +1590,7 @@ function socketConnect(
 	}
 	// Emergency mode connections logging
 	if (Config.emergency) {
-		void _fs.FS.call(void 0, 'logs/cons.emergency.log').append('[' + ip + ']\n');
+		void _lib.FS.call(void 0, 'logs/cons.emergency.log').append('[' + ip + ']\n');
 	}
 
 	const user = new User(connection);
@@ -1666,7 +1676,7 @@ function socketReceive(worker, workerid, socketid, message) {
 	}
 	// Emergency logging
 	if (Config.emergency) {
-		void _fs.FS.call(void 0, 'logs/emergency.log').append(`[${user} (${connection.ip})] ${roomId}|${message}\n`);
+		void _lib.FS.call(void 0, 'logs/emergency.log').append(`[${user} (${connection.ip})] ${roomId}|${message}\n`);
 	}
 
 	for (const line of lines) {

@@ -1,34 +1,15 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _lib = require('../../.lib-dist');
 var _youtube = require('./youtube');
 
 const MINUTE = 60 * 1000;
 const PRENOM_BUMP_TIME = 2 * 60 * MINUTE;
-const ROOMIDS = [
-	'thestudio', 'tvfilms', 'youtube', 'thelibrary',
-	'prowrestling', 'animeandmanga', 'sports', 'videogames',
-];
 
-const rooms = {};
-
-const otds = new Map();
-
-for (const roomid of ROOMIDS) {
-	rooms[roomid] = Rooms.get(roomid) ;
-}
-
-const AOTDS_FILE = 'config/chat-plugins/thestudio.tsv';
-const FOTDS_FILE = 'config/chat-plugins/tvbf-films.tsv';
-const SOTDS_FILE = 'config/chat-plugins/tvbf-shows.tsv';
-const COTDS_FILE = 'config/chat-plugins/youtube-channels.tsv';
-const BOTWS_FILE = 'config/chat-plugins/thelibrary.tsv';
-const MOTWS_FILE = 'config/chat-plugins/prowrestling-matches.tsv';
-const ANOTDS_FILE = 'config/chat-plugins/animeandmanga-shows.tsv';
-const ATHOTDS_FILE = 'config/chat-plugins/sports-athletes.tsv';
-const VGOTDS_FILE = 'config/chat-plugins/videogames-games.tsv';
 const PRENOMS_FILE = 'config/chat-plugins/otd-prenoms.json';
+const DATA_FILE = 'config/chat-plugins/otds.json';
 
-const prenoms = JSON.parse(_fs.FS.call(void 0, PRENOMS_FILE).readIfExistsSync() || "{}");
+ const prenoms = JSON.parse(_lib.FS.call(void 0, PRENOMS_FILE).readIfExistsSync() || "{}"); exports.prenoms = prenoms;
+ const otdData = JSON.parse(_lib.FS.call(void 0, DATA_FILE).readIfExistsSync() || "{}"); exports.otdData = otdData;
+ const otds = new Map(); exports.otds = otds;
 
 const FINISH_HANDLERS = {
 	cotw: async winner => {
@@ -38,10 +19,12 @@ const FINISH_HANDLERS = {
 		if (result) {
 			if (_youtube.YouTube.data.channels[result]) return;
 			void _youtube.YouTube.getChannelData(`https://www.youtube.com/channel/${result}`);
-			rooms.youtube.sendMods(
+			const yt = Rooms.get('youtube');
+			if (!yt) return;
+			yt.sendMods(
 				`|c|&|/log The channel with ID ${result} was added to the YouTube channel database.`
 			);
-			rooms.youtube.modlog({
+			yt.modlog({
 				action: `ADDCHANNEL`,
 				note: `${result} (${toID(nominator)})`,
 				loggedBy: toID(`COTW`),
@@ -50,8 +33,22 @@ const FINISH_HANDLERS = {
 	},
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function savePrenoms() {
-	return _fs.FS.call(void 0, PRENOMS_FILE).write(JSON.stringify(prenoms));
+	return _lib.FS.call(void 0, PRENOMS_FILE).writeUpdate(() => JSON.stringify(exports.prenoms));
 }
 
 function toNominationId(nomination) {
@@ -73,46 +70,53 @@ class OtdHandler {
 	
 	
 	constructor(
-		id, name, room, filename, keys, keyLabels, week = false
+		id, room, settings
 	) {
 		this.id = id;
-		this.name = name;
+		this.name = settings.title;
 		this.room = room;
 
-		this.nominations = new Map(prenoms[id]);
+		this.nominations = new Map(exports.prenoms[id]);
 		this.removedNominations = new Map();
 
 		this.voting = false;
 		this.timer = null;
 
-		this.file = _fs.FS.call(void 0, filename);
-
-		this.keys = keys;
-		this.keyLabels = keyLabels;
-		this.timeLabel = week ? 'Week' : 'Day';
+		this.keys = settings.keys;
+		this.keyLabels = settings.keyLabels;
+		this.timeLabel = settings.timeLabel;
+		this.settings = settings;
 
 		this.lastPrenom = 0;
 
-		this.winners = [];
+		this.winners = _optionalChain([exports.otdData, 'access', _2 => _2[this.id], 'optionalAccess', _3 => _3.winners]) || [];
+	}
 
-		this.file.read().then(content => {
-			const data = ('' + content).split("\n");
-			for (const arg of data) {
-				if (!arg || arg === '\r') continue;
-				if (arg.startsWith(`${this.keyLabels[0]}\t`)) continue;
-				const entry = {};
-				const vals = arg.trim().split("\t");
-				for (let i = 0; i < vals.length; i++) {
-					entry[this.keys[i]] = vals[i];
-				}
-				entry.time = Number(entry.time) || 0;
-				this.winners.push(entry);
+	static create(room, settings) {
+		const {title, timeLabel} = settings;
+		const id = settings.id || toID(title).charAt(0) + 'ot' + timeLabel.charAt(0);
+		const handler = new OtdHandler(id, room, settings);
+		exports.otds.set(id, handler);
+		return handler;
+	}
+
+	static parseOldWinners(content, keyLabels, keys) {
+		const data = ('' + content).split("\n");
+		const winners = [];
+		for (const arg of data) {
+			if (!arg || arg === '\r') continue;
+			if (arg.startsWith(`${keyLabels[0]}\t`)) {
+				continue;
 			}
-			this.convertNominations();
-		}).catch((error) => {
-			if (error.code !== 'ENOENT') throw new Error(error);
-			return;
-		});
+			const entry = {};
+			const vals = arg.trim().split("\t");
+			for (let i = 0; i < vals.length; i++) {
+				entry[keys[i]] = vals[i];
+			}
+			entry.time = Number(entry.time) || 0;
+			winners.push(entry);
+		}
+		return winners;
 	}
 
 	/**
@@ -139,7 +143,7 @@ class OtdHandler {
 		this.voting = false;
 		this.nominations = new Map();
 		this.removedNominations = new Map();
-		delete prenoms[this.id];
+		delete exports.prenoms[this.id];
 		void savePrenoms();
 		if (this.timer) clearTimeout(this.timer);
 	}
@@ -147,7 +151,7 @@ class OtdHandler {
 	addNomination(user, nomination) {
 		const id = toNominationId(nomination);
 
-		if (this.winners.slice(this.room === rooms.tvfilms ? -15 : -30)
+		if (this.winners.slice(-30)
 			.some(entry => toNominationId(entry[this.keys[0]]) === id)
 		) {
 			return user.sendTo(this.room, `This ${this.name.toLowerCase()} has already been ${this.id} in the past month.`);
@@ -172,10 +176,10 @@ class OtdHandler {
 			if (value.userids.includes(toID(user)) || (!Config.noipchecks && value.ips.includes(user.latestIp))) {
 				user.sendTo(this.room, `Your previous vote for ${value.nomination} will be removed.`);
 				this.nominations.delete(key);
-				if (prenoms[this.id]) {
-					const idx = prenoms[this.id].findIndex(val => val[0] === key);
+				if (exports.prenoms[this.id]) {
+					const idx = exports.prenoms[this.id].findIndex(val => val[0] === key);
 					if (idx > -1) {
-						prenoms[this.id].splice(idx, 1);
+						exports.prenoms[this.id].splice(idx, 1);
 						void savePrenoms();
 					}
 				}
@@ -194,8 +198,8 @@ class OtdHandler {
 
 		this.nominations.set(id, nomObj);
 
-		if (!prenoms[this.id]) prenoms[this.id] = [];
-		prenoms[this.id].push([id, nomObj]);
+		if (!exports.prenoms[this.id]) exports.prenoms[this.id] = [];
+		exports.prenoms[this.id].push([id, nomObj]);
 		void savePrenoms();
 
 		user.sendTo(this.room, `Your nomination for ${nomination} was successfully submitted.`);
@@ -208,7 +212,10 @@ class OtdHandler {
 				this.lastPrenom = now;
 			}
 		}
-		this.display(updateOnly);
+
+		if (this.settings.updateOnNom) {
+			this.display(updateOnly);
+		}
 	}
 
 	generateNomWindow() {
@@ -230,7 +237,7 @@ class OtdHandler {
 		const entries = [];
 
 		for (const value of this.nominations.values()) {
-			entries.push(_utils.Utils.html`<li><b>${value.nomination}</b> <i>(Submitted by ${value.name})</i></li>`);
+			entries.push(_lib.Utils.html`<li><b>${value.nomination}</b> <i>(Submitted by ${value.name})</i></li>`);
 		}
 
 		if (entries.length > 20) {
@@ -269,7 +276,7 @@ class OtdHandler {
 		const columns = names.length > 27 ? 4 : names.length > 18 ? 3 : names.length > 9 ? 2 : 1;
 		let content = '';
 		for (let i = 0; i < columns; i++) {
-			content += `<td>${names.slice(Math.ceil((i / columns) * names.length), Math.ceil(((i + 1) / columns) * names.length)).join('<br/>')}</td>`;
+			content += `<td>${names.slice(Math.ceil((i / columns) * names.length), Math.ceil(((i + 1) / columns) * names.length)).join('<br />')}</td>`;
 		}
 		const namesHTML = `<table><tr>${content}</tr></table></p></div>`;
 
@@ -278,7 +285,7 @@ class OtdHandler {
 			void finishHandler(winnerEntry);
 		}
 		this.room.add(
-			_utils.Utils.html `|uhtml|otd|<div class="broadcast-blue"><p style="font-weight:bold;text-align:center;font-size:12pt;">` +
+			_lib.Utils.html `|uhtml|otd|<div class="broadcast-blue"><p style="font-weight:bold;text-align:center;font-size:12pt;">` +
 			`Nominations for ${this.name} of the ${this.timeLabel} are over!</p><p style="tex-align:center;font-size:10pt;">` +
 			`Out of ${keys.length} nominations, we randomly selected <strong>${winner.nomination}</strong> as the winner!` +
 			`(Nomination by ${winner.name})</p><p style="font-weight:bold;">Thanks to today's participants:` + namesHTML
@@ -297,10 +304,10 @@ class OtdHandler {
 			if (value.userids.includes(name)) {
 				this.removedNominations.set(key, value);
 				this.nominations.delete(key);
-				if (prenoms[this.id]) {
-					const idx = prenoms[this.id].findIndex(val => val[0] === key);
+				if (exports.prenoms[this.id]) {
+					const idx = exports.prenoms[this.id].findIndex(val => val[0] === key);
 					if (idx > -1) {
-						prenoms[this.id].splice(idx, 1);
+						exports.prenoms[this.id].splice(idx, 1);
 						void savePrenoms();
 					}
 				}
@@ -321,8 +328,19 @@ class OtdHandler {
 		const entry = {time: Date.now(), nominator: user};
 		entry[this.keys[0]] = nomination;
 		this.winners.push(entry);
-		void this.saveWinners();
+		this.save();
 		return entry;
+	}
+
+	removeWinner(nominationName) {
+		for (const [i, entry] of this.winners.entries()) {
+			if (toID(entry[this.keys[0]]) === toID(nominationName)) {
+				const removed = this.winners.splice(i, 1);
+				this.save();
+				return removed[0];
+			}
+		}
+		throw new Chat.ErrorMessage(`The winner with nomination ${nominationName} could not be found.`);
 	}
 
 	setWinnerProperty(properties) {
@@ -330,68 +348,72 @@ class OtdHandler {
 		for (const i in properties) {
 			this.winners[this.winners.length - 1][i] = properties[i];
 		}
-		return this.saveWinners();
+		return this.save();
 	}
 
-	saveWinners() {
-		let buf = `${this.keyLabels.join('\t')}\n`;
-		for (const winner of this.winners) {
-			const strings = [];
-
-			for (const key of this.keys) {
-				strings.push(winner[key] || '');
-			}
-
-			buf += `${strings.join('\t')}\n`;
+	save(destroy = false) {
+		if (!destroy) {
+			exports.otdData[this.id] = {
+				settings: this.settings,
+				winners: this.winners,
+			};
 		}
+		_lib.FS.call(void 0, DATA_FILE).writeUpdate(() => JSON.stringify(exports.otdData));
+	}
 
-		return this.file.write(buf);
+	destroy() {
+		this.room = null;
+		delete exports.otdData[this.id];
+		exports.otds.delete(this.id);
+		delete Chat.commands[this.id];
+		delete Chat.pages[this.id];
+		this.save(true);
 	}
 
 	async generateWinnerDisplay() {
 		if (!this.winners.length) return false;
 		const winner = this.winners[this.winners.length - 1];
 
-		let output = _utils.Utils.html `<div class="broadcast-blue" style="text-align:center;">` +
+		let output = _lib.Utils.html `<div class="broadcast-blue" style="text-align:center;">` +
 		`<p><span style="font-weight:bold;font-size:11pt">The ${this.name} of the ${this.timeLabel} is ` +
 		`${winner[this.keys[0]]}${winner.author ? ` by ${winner.author}` : ''}.</span>`;
 
-		if (winner.quote) output += _utils.Utils.html `<br/><span style="font-style:italic;">"${winner.quote}"</span>`;
-		if (winner.tagline) output += _utils.Utils.html `<br/>${winner.tagline}`;
+		if (winner.quote) output += _lib.Utils.html `<br /><span style="font-style:italic;">"${winner.quote}"</span>`;
+		if (winner.tagline) output += _lib.Utils.html `<br />${winner.tagline}`;
 		output += `</p><table style="margin:auto;"><tr>`;
 		if (winner.image) {
 			try {
 				const [width, height] = await Chat.fitImage(winner.image, 100, 100);
-				output += _utils.Utils.html `<td><img src="${winner.image}" width=${width} height=${height}></td>`;
+				output += _lib.Utils.html `<td><img src="${winner.image}" width=${width} height=${height}></td>`;
 			} catch (err) {}
 		}
 		output += `<td style="text-align:right;margin:5px;">`;
-		if (winner.event) output += _utils.Utils.html `<b>Event:</b> ${winner.event}<br/>`;
+		if (winner.event) output += _lib.Utils.html `<b>Event:</b> ${winner.event}<br />`;
 		if (winner.song) {
 			output += `<b>Song:</b> `;
 			if (winner.link) {
-				output += _utils.Utils.html `<a href="${winner.link}">${winner.song}</a>`;
+				output += _lib.Utils.html `<a href="${winner.link}">${winner.song}</a>`;
 			} else {
-				output += _utils.Utils.escapeHTML(winner.song);
+				output += _lib.Utils.escapeHTML(winner.song);
 			}
-			output += `<br/>`;
+			output += `<br />`;
 		} else if (winner.link) {
-			output += _utils.Utils.html `<b>Link:</b> <a href="${winner.link}">${winner.link}</a><br/>`;
+			output += _lib.Utils.html `<b>Link:</b> <a href="${winner.link}">${winner.link}</a><br />`;
 		}
 
 		// Batch these together on 2 lines. Order intentional.
 		const athleteDetails = [];
-		if (winner.sport) athleteDetails.push(_utils.Utils.html `<b>Sport:</b> ${winner.sport}`);
-		if (winner.team) athleteDetails.push(_utils.Utils.html `<b>Team:</b> ${winner.team}`);
-		if (winner.age) athleteDetails.push(_utils.Utils.html `<b>Age:</b> ${winner.age}`);
-		if (winner.country) athleteDetails.push(_utils.Utils.html `<b>Nationality:</b> ${winner.country}`);
+		if (winner.sport) athleteDetails.push(_lib.Utils.html `<b>Sport:</b> ${winner.sport}`);
+		if (winner.team) athleteDetails.push(_lib.Utils.html `<b>Team:</b> ${winner.team}`);
+		if (winner.age) athleteDetails.push(_lib.Utils.html `<b>Age:</b> ${winner.age}`);
+		if (winner.country) athleteDetails.push(_lib.Utils.html `<b>Nationality:</b> ${winner.country}`);
 
 		if (athleteDetails.length) {
-			output += athleteDetails.slice(0, 2).join(' | ') + '<br/>';
-			if (athleteDetails.length > 2) output += athleteDetails.slice(2).join(' | ') + '<br/>';
+			output += athleteDetails.slice(0, 2).join(' | ') + '<br />';
+			if (athleteDetails.length > 2) output += athleteDetails.slice(2).join(' | ') + '<br />';
 		}
 
-		output += _utils.Utils.html `Nominated by ${winner.nominator}.`;
+		output += _lib.Utils.html `Nominated by ${winner.nominator}.`;
 		output += `</td></tr></table></div>`;
 
 		return output;
@@ -427,7 +449,7 @@ class OtdHandler {
 
 					const pad = (num) => num < 10 ? '0' + num : num;
 
-					return _utils.Utils.html `${pad(date.getMonth() + 1)}-${pad(date.getDate())}-${date.getFullYear()}`;
+					return _lib.Utils.html `${pad(date.getMonth() + 1)}-${pad(date.getDate())}-${date.getFullYear()}`;
 				case 'song':
 					if (!this.winners[i].link) return val;
 					// falls through
@@ -437,9 +459,9 @@ class OtdHandler {
 					val = `${val}${this.winners[i].author ? ` by ${this.winners[i].author}` : ''}`;
 					// falls through
 				case columns[0]:
-					return `${_utils.Utils.escapeHTML(val)}${this.winners[i].nominator ? _utils.Utils.html `<br/><span style="font-style:italic;font-size:8pt;">nominated by ${this.winners[i].nominator}</span>` : ''}`;
+					return `${_lib.Utils.escapeHTML(val)}${this.winners[i].nominator ? _lib.Utils.html `<br /><span style="font-style:italic;font-size:8pt;">nominated by ${this.winners[i].nominator}</span>` : ''}`;
 				default:
-					return _utils.Utils.escapeHTML(val);
+					return _lib.Utils.escapeHTML(val);
 				}
 			});
 			content += `<tr>${entry.map(val => `<td style="max-width:${600 / columns.length}px;word-wrap:break-word;">${val}</td>`).join('')}</tr>`;
@@ -454,19 +476,9 @@ class OtdHandler {
 	}
 }
 
-otds.set('aotd', new OtdHandler('aotd', 'Artist', rooms.thestudio, AOTDS_FILE, ['artist', 'nominator', 'quote', 'song', 'link', 'image', 'time'], ['Artist', 'Nominator', 'Quote', 'Song', 'Link', 'Image', 'Timestamp']));
-otds.set('fotd', new OtdHandler('fotd', 'Film', rooms.tvfilms, FOTDS_FILE, ['film', 'nominator', 'quote', 'link', 'image', 'time'], ['Film', 'Nominator', 'Quote', 'Link', 'Image', 'Timestamp']));
-otds.set('sotd', new OtdHandler('sotd', 'Show', rooms.tvfilms, SOTDS_FILE, ['show', 'nominator', 'quote', 'link', 'image', 'time'], ['Show', 'Nominator', 'Quote', 'Link', 'Image', 'Timestamp']));
-otds.set('cotw', new OtdHandler('cotw', 'Channel', rooms.youtube, COTDS_FILE, ['channel', 'nominator', 'link', 'tagline', 'image', 'time'], ['Show', 'Nominator', 'Link', 'Tagline', 'Image', 'Timestamp'], true));
-otds.set('botw', new OtdHandler('botw', 'Book', rooms.thelibrary, BOTWS_FILE, ['book', 'nominator', 'link', 'quote', 'author', 'image', 'time'], ['Book', 'Nominator', 'Link', 'Quote', 'Author', 'Image', 'Timestamp'], true));
-otds.set('motw', new OtdHandler('motw', 'Match', rooms.prowrestling, MOTWS_FILE, ['match', 'nominator', 'link', 'tagline', 'event', 'image', 'time'], ['Match', 'Nominator', 'Link', 'Tagline', 'Event', 'Image', 'Timestamp'], true));
-otds.set('anotd', new OtdHandler('anotd', 'Animanga', rooms.animeandmanga, ANOTDS_FILE, ['show', 'nominator', 'link', 'quote', 'image', 'time'], ['Show', 'Nominator', 'Link', 'Tagline', 'Image', 'Timestamp']));
-otds.set('athotd', new OtdHandler('athotd', 'Athlete', rooms.sports, ATHOTDS_FILE, ['athlete', 'nominator', 'image', 'sport', 'team', 'country', 'age', 'quote', 'time'], ['Athlete', 'Nominator', 'Image', 'Sport', 'Team', 'Country', 'Age', 'Quote', 'Timestamp']));
-otds.set('vgotd', new OtdHandler('vgotd', 'Video Game', rooms.videogames, VGOTDS_FILE, ['game', 'nominator', 'link', 'tagline', 'image', 'time'], ['Video Game', 'Nominator', 'Link', 'Tagline', 'Image', 'Timestamp']));
-
 function selectHandler(message) {
 	const id = toID(message.substring(1).split(' ')[0]);
-	const handler = otds.get(id);
+	const handler = exports.otds.get(id);
 	if (!handler) throw new Error("Invalid type for otd handler.");
 	return handler;
 }
@@ -572,6 +584,23 @@ function selectHandler(message) {
 	removehelp: [
 		`/-otd remove [username] - Remove a user's nomination for the Thing of the Day.`,
 		 `Prevents them from voting again until the next round. Requires: % @ # &`,
+	],
+
+	removewinner(target, room, user) {
+		const handler = selectHandler(this.message);
+		room = this.requireRoom(handler.room.roomid);
+		this.checkCan('mute', null, room);
+
+		if (!toID(target)) {
+			return this.parse(`/help aotd removewinner`);
+		}
+		const removed = handler.removeWinner(target);
+		this.privateModAction(`${user.name} removed the nomination for ${removed[handler.keys[0]]} from ${removed.nominator}`);
+		this.modlog(`${handler.id.toUpperCase()} REMOVEWINNER`, removed.nominator, removed[handler.keys[0]]);
+	},
+	removewinnerhelp: [
+		`/-otd removewinner [nomination] - Remove winners matching the given [nomination] from Thing of the Day.`,
+		`Requires: % @ # &`,
 	],
 
 	force(target, room, user) {
@@ -693,6 +722,31 @@ function selectHandler(message) {
 		`Requires: % @ # &`,
 	],
 
+	toggleupdate(target, room, user) {
+		const otd = selectHandler(this.message);
+		room = this.requireRoom(otd.room.roomid);
+
+		this.checkCan('declare', null, room);
+		let logMessage = '';
+
+		if (this.meansYes(target)) {
+			if (otd.settings.updateOnNom) {
+				throw new Chat.ErrorMessage(`This -OTD is already set to update automatically on nomination.`);
+			}
+			otd.settings.updateOnNom = true;
+			logMessage = 'update automatically on nomination';
+		} else {
+			if (!otd.settings.updateOnNom) {
+				throw new Chat.ErrorMessage(`This -OTD is not set to update automatically on nomination.`);
+			}
+			delete otd.settings.updateOnNom;
+			logMessage = 'not update on nomination';
+		}
+		this.privateModAction(`${user.name} set the ${otd.name} of the ${otd.timeLabel} to ${logMessage}`);
+		this.modlog(`OTD TOGGLEUPDATE`, null, logMessage);
+		otd.save();
+	},
+
 	winners(target, room, user, connection) {
 		this.checkChat();
 
@@ -720,7 +774,108 @@ function selectHandler(message) {
 	},
 }; exports.otdCommands = otdCommands;
 
-const help = [
+ const pages = {}; exports.pages = pages;
+ const commands = {
+	otd: {
+		create(target, room, user) {
+			room = this.requireRoom();
+			if (room.settings.isPrivate !== undefined) {
+				return this.errorReply(`This command is only available in public rooms`);
+			}
+			const count = [...exports.otds.values()].filter(otd => otd.room.roomid === room.roomid).length;
+			if (count > 3) {
+				return this.errorReply(`This room already has 3+ -otd's.`);
+			}
+			this.checkCan('rangeban');
+
+			if (!toID(target)) {
+				return this.parse(`/help otd`);
+			}
+			const [title, time, ...keyLabels] = target.split(',').map(i => i.trim());
+			if (!toID(title)) {
+				return this.errorReply(`Invalid title.`);
+			}
+			const timeLabel = toID(time);
+			if (!['week', 'day'].includes(timeLabel)) {
+				return this.errorReply("Invalid time label - use 'week' or 'month'");
+			}
+			const id = `${title.charAt(0)}ot${timeLabel.charAt(0)}`;
+			const existing = exports.otds.get(id);
+			if (existing) {
+				this.errorReply(`That -OTD already exists (${existing.name} of the ${existing.timeLabel}, in ${existing.room.title})`);
+				return this.errorReply(`Try picking a new title.`);
+			}
+			const titleIdx = keyLabels.map(toID).indexOf(toID(title));
+			if (titleIdx > -1) {
+				keyLabels.splice(titleIdx, 1);
+			}
+			keyLabels.unshift(title);
+
+			const filteredKeys = keyLabels.map(toNominationId).filter(Boolean);
+			if (!filteredKeys.length) {
+				return this.errorReply(`No valid key labels given.`);
+			}
+			if (new Set(filteredKeys).size !== keyLabels.length) {
+				return this.errorReply(`Invalid keys in set - do not use duplicate key labels.`);
+			}
+			if (filteredKeys.length < 3) {
+				return this.errorReply(`Specify at least 3 key labels.`);
+			}
+			if (filteredKeys.some(k => k.length < 3 || k.length > 50)) {
+				return this.errorReply(`All labels must be more than 3 characters and less than 50 characters long.`);
+			}
+			const otd = OtdHandler.create(room, {
+				keyLabels, keys: filteredKeys, title, timeLabel, roomid: room.roomid,
+			});
+			const name = `${otd.name} of the ${otd.timeLabel}`;
+			this.globalModlog(`OTD CREATE`, null, `${name} - ${filteredKeys.join(', ')}`);
+			this.privateGlobalModAction(`${user.name} created the ${name} for ${room.title}`);
+			otd.save();
+		},
+		updateroom(target, room, user) {
+			this.checkCan('rangeban');
+			const [otdId, roomid] = target.split(',').map(i => toID(i));
+			if (!otdId || !roomid) {
+				return this.parse('/help otd');
+			}
+			const otd = exports.otds.get(otdId);
+			if (!otd) {
+				return this.errorReply(`OTD ${otd} not found.`);
+			}
+			const targetRoom = Rooms.get(roomid);
+			if (!targetRoom) {
+				return this.errorReply(`Room ${roomid} not found.`);
+			}
+			const oldRoom = otd.settings.roomid.slice();
+			otd.settings.roomid = targetRoom.roomid;
+			otd.room = targetRoom;
+			otd.save();
+			this.privateGlobalModAction(
+				`${user.name} updated the room for the ${otd.name} of the ${otd.timeLabel} from ${oldRoom} to ${targetRoom}`
+			);
+			this.globalModlog(`OTD UPDATEROOM`, null, `${otd.id} to ${targetRoom} from ${oldRoom}`);
+		},
+		delete(target, room, user) {
+			this.checkCan('rangeban');
+			target = toID(target);
+			if (!target) {
+				return this.parse(`/help otd`);
+			}
+			const otd = exports.otds.get(target);
+			if (!otd) return this.errorReply(`OTD ${target} not found.`);
+			otd.destroy();
+			this.globalModlog(`OTD DELETE`, null, target);
+			this.privateGlobalModAction(`${user.name} deleted the OTD ${otd.name} of the ${otd.timeLabel}`);
+		},
+	},
+	otdhelp: [
+		`/otd create [title], [time], [...labels] - Creates a Thing of the Day with the given [name], [time], and [labels]. Requires: &`,
+		`/otd updateroom [otd], [room] - Updates the room for the given [otd] to the new [room]. Requires: &`,
+		`/otd delete [otd] - Removes the given Thing of the Day. Requires: &`,
+	],
+}; exports.commands = commands;
+
+const otdHelp = [
 	`Thing of the Day plugin commands (aotd, fotd, sotd, cotd, botw, motw, anotd):`,
 	`- /-otd - View the current Thing of the Day.`,
 	`- /-otd start - Starts nominations for the Thing of the Day. Requires: % @ # &`,
@@ -731,17 +886,38 @@ const help = [
 	`- /-otd delay - Turns off the automatic 20 minute timer for Thing of the Day voting rounds. Requires: % @ # &`,
 	`- /-otd set property: value[, property: value] - Set the winner, quote, song, link or image for the current Thing of the Day. Requires: % @ # &`,
 	`- /-otd winners - Displays a list of previous things of the day.`,
+	`- /-otd toggleupdate [on|off] - Changes the Thing of the Day to display on nomination ([on] to update, [off] to turn off updates). Requires: % @ # &`,
 ];
 
- const pages = {}; exports.pages = pages;
- const commands = {}; exports.commands = commands;
+for (const otd in exports.otdData) {
+	const data = exports.otdData[otd];
+	const settings = data.settings;
+	const room = Rooms.get(settings.roomid);
+	if (!room) {
+		Monitor.warn(`Room for -otd ${settings.title} of the ${settings.timeLabel} (${settings.roomid}) not found.`);
+		continue;
+	}
+	OtdHandler.create(room, settings);
+}
 
-for (const [k, v] of otds) {
+for (const [k, v] of exports.otds) {
 	exports.pages[k] = function () {
 		return v.generateWinnerList(this);
 	};
 	exports.commands[k] = exports.otdCommands;
-	exports.commands[`${k}help`] = help;
+	exports.commands[`${k}help`] = otdHelp;
 }
+
+ const onRenameRoom = (oldID, newID, room) => {
+	for (const otd in exports.otdData) {
+		const data = exports.otdData[otd];
+		if (data.settings.roomid === oldID) {
+			data.settings.roomid = newID;
+			const handler = exports.otds.get(otd);
+			handler.room = room ;
+			handler.save();
+		}
+	}
+}; exports.onRenameRoom = onRenameRoom;
 
  //# sourceMappingURL=sourceMaps/thing-of-the-day.js.map

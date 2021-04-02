@@ -6,9 +6,7 @@
  * @author mia-pi-git
  */
 
-var _net = require('../../.lib-dist/net');
-var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 const ROOT = 'https://www.googleapis.com/youtube/v3/';
 const STORAGE_PATH = 'config/chat-plugins/youtube.json';
@@ -47,14 +45,30 @@ const STORAGE_PATH = 'config/chat-plugins/youtube.json';
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function loadData() {
-	const raw = JSON.parse(_fs.FS.call(void 0, STORAGE_PATH).readIfExistsSync() || "{}");
+	const raw = JSON.parse(_lib.FS.call(void 0, STORAGE_PATH).readIfExistsSync() || "{}");
 	if (!(raw.channels && raw.categories)) { // hasn't been converted to new format
 		const data = {};
 		data.channels = raw;
 		data.categories = [];
 		// re-save into new format
-		_fs.FS.call(void 0, STORAGE_PATH).writeUpdate(() => JSON.stringify(data));
+		_lib.FS.call(void 0, STORAGE_PATH).writeUpdate(() => JSON.stringify(data));
 		return data ;
 	}
 	return raw ;
@@ -80,11 +94,11 @@ const channelData = loadData();
 			throw new Chat.ErrorMessage(`This server does not support YouTube commands. If you're the owner, you can enable them by setting up Config.youtubekey.`);
 		}
 		const id = this.getId(link);
-		const raw = await _net.Net.call(void 0, `${ROOT}channels`).get({
+		const raw = await _lib.Net.call(void 0, `${ROOT}channels`).get({
 			query: {part: 'snippet,statistics', id, key: Config.youtubeKey},
 		});
 		const res = JSON.parse(raw);
-		if (!res || !res.items || res.items.length < 1) {
+		if (!_optionalChain([res, 'optionalAccess', _8 => _8.items]) || res.items.length < 1) {
 			throw new Chat.ErrorMessage(`Channel not found.`);
 		}
 		const data = res.items[0];
@@ -141,7 +155,7 @@ const channelData = loadData();
 			});
 		}
 
-		const id = _utils.Utils.shuffle(channels)[0];
+		const id = _lib.Utils.shuffle(channels)[0];
 		return this.generateChannelDisplay(id);
 	}
 	get(id, username) {
@@ -153,14 +167,14 @@ const channelData = loadData();
 		if (cached) return cached;
 		let raw;
 		try {
-			raw = await _net.Net.call(void 0, `${ROOT}videos`).get({
+			raw = await _lib.Net.call(void 0, `${ROOT}videos`).get({
 				query: {part: 'snippet,statistics', id, key: Config.youtubeKey},
 			});
 		} catch (e) {
 			throw new Chat.ErrorMessage(`Failed to retrieve video data: ${e.message}.`);
 		}
 		const res = JSON.parse(raw);
-		if (!res || !res.items || res.items.length < 1) return null;
+		if (!_optionalChain([res, 'optionalAccess', _9 => _9.items]) || res.items.length < 1) return null;
 		const video = res.items[0];
 		const data = {
 			title: video.snippet.title,
@@ -212,7 +226,7 @@ const channelData = loadData();
 		if (id.includes('?')) id = id.split('?')[0];
 		return id;
 	}
-	async generateVideoDisplay(link, fullInfo = true) {
+	async generateVideoDisplay(link, fullInfo = false) {
 		if (!Config.youtubeKey) {
 			throw new Chat.ErrorMessage(`This server does not support YouTube commands. If you're the owner, you can enable them by setting up Config.youtubekey.`);
 		}
@@ -242,33 +256,33 @@ const channelData = loadData();
 		return buf;
 	}
 	save() {
-		return _fs.FS.call(void 0, STORAGE_PATH).writeUpdate(() => JSON.stringify(this.data));
+		return _lib.FS.call(void 0, STORAGE_PATH).writeUpdate(() => JSON.stringify(this.data));
 	}
 	async searchVideo(name, limit) {
 		const cached = exports.searchDataCache.get(toID(name));
 		if (cached) {
 			return cached.slice(0, limit);
 		}
-		const raw = await _net.Net.call(void 0, `${ROOT}search`).get({
+		const raw = await _lib.Net.call(void 0, `${ROOT}search`).get({
 			query: {
 				part: 'snippet', q: name,
 				key: Config.youtubeKey, order: 'relevance',
 			},
 		});
 		const result = JSON.parse(raw);
-		const resultArray = _optionalChain([result, 'access', _8 => _8.items, 'optionalAccess', _9 => _9.map, 'call', _10 => _10((item) => _optionalChain([item, 'optionalAccess', _11 => _11.id, 'optionalAccess', _12 => _12.videoId])), 'access', _13 => _13.filter, 'call', _14 => _14(Boolean)]);
+		const resultArray = _optionalChain([result, 'access', _10 => _10.items, 'optionalAccess', _11 => _11.map, 'call', _12 => _12((item) => _optionalChain([item, 'optionalAccess', _13 => _13.id, 'optionalAccess', _14 => _14.videoId])), 'access', _15 => _15.filter, 'call', _16 => _16(Boolean)]);
 		exports.searchDataCache.set(toID(name), resultArray);
 		return resultArray.slice(0, limit);
 	}
 	async searchChannel(name, limit = 10) {
-		const raw = await _net.Net.call(void 0, `${ROOT}search`).get({
+		const raw = await _lib.Net.call(void 0, `${ROOT}search`).get({
 			query: {
 				part: 'snippet', q: name, type: 'channel',
 				key: Config.youtubeKey, order: 'relevance', maxResults: limit,
 			},
 		});
 		const result = JSON.parse(raw);
-		return _optionalChain([result, 'optionalAccess', _15 => _15.items, 'access', _16 => _16.map, 'call', _17 => _17((item) => _optionalChain([item, 'optionalAccess', _18 => _18.snippet, 'optionalAccess', _19 => _19.channelId]))]);
+		return _optionalChain([result, 'optionalAccess', _17 => _17.items, 'access', _18 => _18.map, 'call', _19 => _19((item) => _optionalChain([item, 'optionalAccess', _20 => _20.snippet, 'optionalAccess', _21 => _21.channelId]))]);
 	}
 	runInterval(time) {
 		let interval = Number(time);
@@ -298,7 +312,7 @@ const channelData = loadData();
 		}
 		const num = baseRoom.nextGameNumber();
 		baseRoom.saveSettings();
-		const gameRoom = Rooms.createGameRoom(`video-watch-${num}` , _utils.Utils.html`[Group Watch] ${title}`, {
+		const gameRoom = Rooms.createGameRoom(`video-watch-${num}` , _lib.Utils.html`[Group Watch] ${title}`, {
 			isPrivate: 'hidden',
 		});
 		const game = new GroupWatch(gameRoom, url, videoInfo);
@@ -307,6 +321,45 @@ const channelData = loadData();
 		return gameRoom;
 	}
 } exports.YoutubeInterface = YoutubeInterface;
+
+ const Twitch = new class {
+	async getChannel(channel) {
+		channel = toID(channel);
+		let res;
+		try {
+			res = await _lib.Net.call(void 0, `https://api.twitch.tv/kraken/search/channels`).get({
+				headers: {
+					'Client-Id': Config.twitchKey,
+					'Content-Type': 'application/json',
+					'Accept': "application/vnd.twitchtv.v5+json",
+				},
+				query: {query: channel},
+			});
+		} catch (e) {
+			throw new Chat.ErrorMessage(`Error retrieving twitch channel: ${e.message}`);
+		}
+		const data = JSON.parse(res);
+		(data.channels ).sort((a, b) => b.followers - a.followers);
+		return _optionalChain([data, 'optionalAccess', _22 => _22.channels, 'optionalAccess', _23 => _23[0]]) ;
+	}
+	visualizeChannel(info) {
+		let buf = `<div class="infobox"><table style="margin:0px;"><tr>`;
+		buf += `<td style="margin:5px;padding:5px;min-width:175px;max-width:160px;text-align:center;border-bottom:0px;">`;
+		buf += `<div style="padding:5px;background:white;border:1px solid black;margin:auto;max-width:100px;max-height:100px;">`;
+		buf += `<a href="${info.url}"><img src="${info.logo}" width=100px height=100px/></a>`;
+		buf += `</div><p style="margin:5px 0px 4px 0px;word-wrap:break-word;">`;
+		buf += `<a style="font-weight:bold;color:#6441a5;font-size:12pt;" href="${info.logo}">${info.display_name}</a>`;
+		buf += `</p></td><td style="padding: 0px 25px;font-size:10pt;background:rgb(100, 65, 164);width:100%;border-bottom:0px;vertical-align:top;">`;
+		buf += `<p style="padding: 5px;border-radius:8px;color:white;font-size:15px;font-weight:bold;text-align:center;">`;
+		const created = new Date(info.created_at);
+		buf += `${info.followers} subscribers | ${info.views} stream views | created ${Chat.toTimestamp(created).split(' ')[0]}</p>`;
+		buf += `<p style="color:white;font-size:10px">Last seen playing ${info.game} (Status: ${info.status})</p>`;
+		buf += `<hr /><p style="margin-left: 5px; font-size:9pt;color:white;">`;
+		buf += `${info.description.slice(0, 400).replace(/\n/g, ' ')}${info.description.length > 400 ? '...' : ''}</p>`;
+		buf += '</td></tr></table></div>';
+		return buf;
+	}
+}; exports.Twitch = Twitch;
 
  class GroupWatch extends Rooms.RoomGame {
 	
@@ -381,6 +434,79 @@ const channelData = loadData();
 	}
 } exports.GroupWatch = GroupWatch;
 
+ class TwitchStream extends Rooms.RoomGame {
+	__init3() {this.started = false}
+	
+	constructor(room, data) {
+		super(room);TwitchStream.prototype.__init3.call(this);;
+		this.data = data;
+	}
+	static async createStreamWatch(room, channel) {
+		if ([...Rooms.rooms.values()].some(r => r.roomid.startsWith(`twitch-`))) {
+			throw new Chat.ErrorMessage(`Twitch watch already in progress`);
+		}
+		const data = await exports.Twitch.getChannel(channel);
+		if (!data) throw new Chat.ErrorMessage(`Channel not found`);
+		const watchRoom = Rooms.createGameRoom(
+			`twitch-stream-watch-${room.nextGameNumber()}` ,
+			_lib.Utils.html`[Twitch Watch] ${data.display_name}`,
+			{isPrivate: 'hidden'}
+		);
+		room.saveSettings();
+		watchRoom.setParent(room);
+		const stream = new TwitchStream(watchRoom, data);
+		watchRoom.game = stream;
+		return watchRoom;
+	}
+	field(buf) {
+		this.add(`|fieldhtml|${buf}`);
+	}
+	controls(buf) {
+		this.add(`|controlshtml|${buf}`);
+	}
+	add(data) {
+		return this.room.add(data).update();
+	}
+	onJoin(user) {
+		if (!user.named) return;
+		this.controls(this.getControlsDisplay());
+	}
+	onLeave(user) {
+		if (!user.named) return;
+		this.controls(this.getControlsDisplay());
+	}
+	start() {
+		if (this.started) {
+			throw new Chat.ErrorMessage(`Stream already started`);
+		}
+		this.controls(this.getControlsDisplay());
+		this.field(this.getStreamDisplay());
+		this.add(`|html|<h2>The stream watch has started!</h2>`);
+		this.started = true;
+	}
+	end() {
+		this.field('');
+		this.controls(`<center><h2>Stream watch ended</h2></center>`);
+		_optionalChain([this, 'access', _24 => _24.room, 'access', _25 => _25.parent, 'optionalAccess', _26 => _26.add, 'call', _27 => _27(`|c|&|/uhtmlchange ts-${this.room.roomid},`)]);
+		this.add(`|expire|Stream ended`);
+		this.room.destroy();
+	}
+	getControlsDisplay() {
+		let buf = `<p style="background: #6441a5; padding: 5px;border-radius:8px;color:white;font-weight:bold;text-align:center;">`;
+		buf += `<strong>Watching <a href="${this.data.url}" class="subtle">${this.data.display_name}</strong><br />`;
+		buf += `${Chat.count(Object.keys(this.room.users).length, 'users')} watching<br />`;
+		buf += `<strong>Playing: ${this.data.game}`;
+		return buf;
+	}
+	getStreamDisplay() {
+		let buf = `<p style="background: #6441a5; padding: 5px;border-radius:8px;color:white;font-weight:bold;text-align:center;">`;
+		buf += `<br /><br /><strong>Watching ${this.data.display_name}</strong><br />`;
+		buf += `<twitch src="${this.data.url}">`;
+		buf += `<br />`.repeat(4);
+		return buf;
+	}
+} exports.TwitchStream = TwitchStream;
+
  const YouTube = new YoutubeInterface(channelData); exports.YouTube = YouTube;
 
  function destroy() {
@@ -439,7 +565,7 @@ const channelData = loadData();
 		async video(target, room, user) {
 			room = this.requireRoom('youtube' );
 			this.checkCan('mute', null, room);
-			const buffer = await exports.YouTube.generateVideoDisplay(target);
+			const buffer = await exports.YouTube.generateVideoDisplay(target, true);
 			this.runBroadcast();
 			this.sendReplyBox(buffer);
 		},
@@ -474,6 +600,14 @@ const channelData = loadData();
 			if (!target) {
 				if (!exports.YouTube.interval) return this.errorReply(`The YouTube plugin is not currently running an interval.`);
 				return this.sendReply(`Interval is currently set to ${Chat.toDurationString(exports.YouTube.intervalTime * 60 * 1000)}.`);
+			}
+			if (this.meansNo(target)) {
+				if (!exports.YouTube.interval) return this.errorReply(`The interval is not currently running`);
+				clearInterval(exports.YouTube.interval);
+				delete exports.YouTube.data.intervalTime;
+				exports.YouTube.save();
+				this.privateModAction(`${user.name} turned off the YouTube interval`);
+				return this.modlog(`YOUTUBE INTERVAL`, null, 'OFF');
 			}
 			if (Object.keys(channelData).length < 1) return this.errorReply(`No channels in the database.`);
 			if (isNaN(parseInt(target))) return this.errorReply(`Specify a number (in minutes) for the interval.`);
@@ -516,7 +650,7 @@ const channelData = loadData();
 			room = this.requireRoom('youtube' );
 			this.checkCan('mute', null, room);
 			target = target.trim();
-			const [category, id] = _utils.Utils.splitFirst(target, ',').map(item => item.trim());
+			const [category, id] = _lib.Utils.splitFirst(target, ',').map(item => item.trim());
 			if (!target || !category || !id) {
 				return this.parse('/help youtube');
 			}
@@ -551,7 +685,7 @@ const channelData = loadData();
 		async groupwatch(target, room, user) {
 			room = this.requireRoom('youtube' );
 			this.checkCan('mute', null, room);
-			const [url, title] = _utils.Utils.splitFirst(target, ',').map(p => p.trim());
+			const [url, title] = _lib.Utils.splitFirst(target, ',').map(p => p.trim());
 			if (!url || !title) return this.errorReply(`You must specify a video to watch and a title for the group watch.`);
 			const gameRoom = await exports.YouTube.createGroupWatch(url, room, title);
 			this.modlog(`YOUTUBE GROUPWATCH`, null, `${url} (${title})`);
@@ -559,6 +693,7 @@ const channelData = loadData();
 				`|c|~|/uhtml ${gameRoom.roomid},` +
 				`<button class="button" name="send" value="/j ${gameRoom.roomid}">Join the ongoing group watch!</button>`
 			);
+			room.send(`|tempnotify|youtube|New groupwatch - ${title}!`);
 			this.update();
 			user.joinRoom(gameRoom);
 		},
@@ -576,6 +711,15 @@ const channelData = loadData();
 			this.checkCan('mute', null, room);
 			const game = this.requireGame(GroupWatch);
 			game.start();
+		},
+		groupwatches() {
+			let buf = `<strong>Ongoing groupwatches:</strong><br />`;
+			for (const curRoom of Rooms.rooms.values()) {
+				if (!curRoom.getGame(GroupWatch)) continue;
+				buf += `<button class="button" name="send" value="/j ${curRoom.roomid}">${curRoom.title}</button>`;
+			}
+			this.runBroadcast();
+			this.sendReplyBox(buf);
 		},
 	},
 	youtubehelp: [
@@ -597,6 +741,41 @@ const channelData = loadData();
 		`/youtube startwatch - Starts the group watch in the current room, if there is one. Requires % @ & #`,
 		`/youtube stopwatch - Ends the current group watch, if there is one in the current room. Requires % @ & #`,
 	],
+	twitch: {
+		async channel(target, room, user) {
+			room = this.requireRoom('youtube' );
+			if (!Config.twitchKey) return this.errorReply(`Twitch is not configured`);
+			const data = await exports.Twitch.getChannel(target);
+			if (!data) return this.errorReply(`Channel not found`);
+			const html = exports.Twitch.visualizeChannel(data);
+			this.runBroadcast();
+			return this.sendReplyBox(html);
+		},
+		async watch(target, room, user) {
+			room = this.requireRoom('youtube' );
+			this.checkCan('mute', null, room);
+			if (!toID(target)) {
+				return this.errorReply(`Invalid channel`);
+			}
+			const gameRoom = await TwitchStream.createStreamWatch(room, target);
+			user.joinRoom(gameRoom);
+			room.add(
+				`|c|&|/uhtml ts-${gameRoom.roomid},` +
+				`<button class="button" name="send" value="/j ${gameRoom.roomid}">Join the ongoing stream watch!</button>`
+			).update();
+		},
+		start(target, room) {
+			room = this.requireRoom();
+			const stream = this.requireGame(TwitchStream);
+			stream.start();
+		},
+		stop(target, room, user) {
+			room = this.requireRoom();
+			const stream = this.requireGame(TwitchStream);
+			this.checkCan('mute', null, room);
+			stream.end();
+		},
+	},
 }; exports.commands = commands;
 
  const pages = {
@@ -637,7 +816,7 @@ const channelData = loadData();
 			}
 			break;
 		default:
-			for (const id of _utils.Utils.shuffle(Object.keys(exports.YouTube.data.channels))) {
+			for (const id of _lib.Utils.shuffle(Object.keys(exports.YouTube.data.channels))) {
 				const {name, username} = await exports.YouTube.get(id);
 				if (toID(type) !== 'all' && !username) continue;
 				buffer += `<details><summary>${name}`;

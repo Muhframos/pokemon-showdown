@@ -139,11 +139,11 @@ var _roomfaqs = require('./room-faqs');
 			const repeatText = repeat.faq ? _roomfaqs.roomFaqs[room.roomid][repeat.id] : repeat.phrase;
 			const phrase = repeat.isHTML ? repeat.phrase : Chat.formatText(repeatText, true);
 			html += `<tr><td>${repeat.id}</td><td>${phrase}</td><td>${Chat.getReadmoreCodeBlock(repeatText)}</td><td>${repeat.isByMessages ? this.tr`every ${minutes} chat message(s)` : this.tr`every ${minutes} minute(s)`}</td>`;
-			html += `<td><button class="button" name="send" value="/removerepeat ${repeat.id},${room.roomid}">${this.tr`Remove`}</button></td>`;
+			html += `<td><button class="button" name="send" value="/msgroom ${room.roomid},/removerepeat ${repeat.id}">${this.tr`Remove`}</button></td>`;
 		}
 		html += `</table>`;
 		if (user.can("editroom", null, room)) {
-			html += `<br /><button class="button" name="send" value="/removeallrepeats ${room.roomid}">${this.tr`Remove all repeats`}</button>`;
+			html += `<br /><button class="button" name="send" value="/msgroom ${room.roomid},/removeallrepeats">${this.tr`Remove all repeats`}</button>`;
 		}
 		html += `</div>`;
 		return html;
@@ -243,51 +243,40 @@ var _roomfaqs = require('./room-faqs');
 
 	deleterepeat: 'removerepeat',
 	removerepeat(target, room, user) {
-		target = target.trim();
-		const [name, roomid] = target.split(',');
-		const id = toID(name);
+		room = this.requireRoom();
+		const id = toID(target);
 		if (!id) {
 			return this.parse(`/help repeat`);
 		}
-		const targetRoom = roomid ? Rooms.search(roomid) : room;
-		if (!targetRoom) {
-			return this.errorReply(`Invalid room.`);
-		}
-		this.room = targetRoom;
-		this.checkCan('mute', null, targetRoom);
-		if (!_optionalChain([targetRoom, 'access', _21 => _21.settings, 'access', _22 => _22.repeats, 'optionalAccess', _23 => _23.length])) {
+		this.checkCan('mute', null, room);
+		if (!_optionalChain([room, 'access', _21 => _21.settings, 'access', _22 => _22.repeats, 'optionalAccess', _23 => _23.length])) {
 			return this.errorReply(this.tr`There are no repeated phrases in this room.`);
 		}
 
-		if (!exports.Repeats.hasRepeat(targetRoom, id)) {
+		if (!exports.Repeats.hasRepeat(room, id)) {
 			return this.errorReply(this.tr`The phrase labeled with "${id}" is not being repeated in this room.`);
 		}
 
-		exports.Repeats.removeRepeat(targetRoom, id);
+		exports.Repeats.removeRepeat(room, id);
 
 		this.modlog('REMOVE REPEATPHRASE', null, `"${id}"`);
-	  this.privateModAction(targetRoom.tr`${user.name} removed the repeated phrase labeled with "${id}".`);
-		this.refreshPage(`repeats-${targetRoom.roomid}`);
+		this.privateModAction(room.tr`${user.name} removed the repeated phrase labeled with "${id}".`);
+		this.refreshPage(`repeats-${room.roomid}`);
 	},
 
 	removeallrepeats(target, room, user) {
-		target = target.trim();
-		const targetRoom = target ? Rooms.search(target) : room;
-		if (!targetRoom) {
-			return this.errorReply(this.tr`Invalid room.`);
-		}
-		this.room = targetRoom;
-		this.checkCan('declare', null, targetRoom);
-		if (!_optionalChain([targetRoom, 'access', _24 => _24.settings, 'access', _25 => _25.repeats, 'optionalAccess', _26 => _26.length])) {
+		room = this.requireRoom();
+		this.checkCan('declare', null, room);
+		if (!_optionalChain([room, 'access', _24 => _24.settings, 'access', _25 => _25.repeats, 'optionalAccess', _26 => _26.length])) {
 			return this.errorReply(this.tr`There are no repeated phrases in this room.`);
 		}
 
-		for (const {id} of targetRoom.settings.repeats) {
-			exports.Repeats.removeRepeat(targetRoom, id);
+		for (const {id} of room.settings.repeats) {
+			exports.Repeats.removeRepeat(room, id);
 		}
 
 		this.modlog('REMOVE REPEATPHRASE', null, 'all repeated phrases');
-		this.privateModAction(targetRoom.tr`${user.name} removed all repeated phrases.`);
+		this.privateModAction(room.tr`${user.name} removed all repeated phrases.`);
 	},
 
 	repeats: 'viewrepeats',

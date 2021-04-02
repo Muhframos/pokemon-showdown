@@ -10,9 +10,7 @@
 const LOGIN_SERVER_TIMEOUT = 30000;
 const LOGIN_SERVER_BATCH_TIME = 1000;
 
-var _net = require('../.lib-dist/net');
-
-var _fs = require('../.lib-dist/fs');
+var _lib = require('../.lib-dist');
 
 /**
  * A custom error type used when requests to the login server take too long.
@@ -61,7 +59,7 @@ class LoginServerInstance {
 		this.openRequests++;
 
 		try {
-			const request = _net.Net.call(void 0, this.uri);
+			const request = _lib.Net.call(void 0, this.uri);
 			const buffer = await request.get({
 				query: {
 					...data,
@@ -132,7 +130,7 @@ class LoginServerInstance {
 		this.requestStart(requests.length);
 
 		try {
-			const request = _net.Net.call(void 0, `${this.uri}action.php`);
+			const request = _lib.Net.call(void 0, `${this.uri}action.php`);
 			let buffer = await request.post({
 				body: {
 					serverid: Config.serverid,
@@ -191,7 +189,7 @@ class LoginServerInstance {
 	prepreplayServer: new LoginServerInstance(),
 }); exports.LoginServer = LoginServer;
 
-_fs.FS.call(void 0, './config/custom.css').onModify(() => {
+_lib.FS.call(void 0, './config/custom.css').onModify(() => {
 	void exports.LoginServer.request('invalidatecss');
 });
 if (!Config.nofswriting) {

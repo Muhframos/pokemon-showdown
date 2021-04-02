@@ -90,7 +90,7 @@
 				return this.errorReply(this.tr`There is already a poll or announcement in progress in this room.`);
 			}
 
-			const source = supportHTML ? this.checkHTML(target) : Chat.formatText(target);
+			const source = supportHTML ? this.checkHTML(target) : Chat.formatText(target, true);
 
 			room.setMinorActivity(new Announcement(room, {source}));
 
@@ -179,7 +179,7 @@ process.nextTick(() => {
 // should handle restarts and also hotpatches
 for (const room of Rooms.rooms.values()) {
 	if (_optionalChain([room, 'access', _ => _.settings, 'access', _2 => _2.minorActivity, 'optionalAccess', _3 => _3.activityid]) === 'announcement') {
-		room.setMinorActivity(new Announcement(room, room.settings.minorActivity));
+		room.setMinorActivity(new Announcement(room, room.settings.minorActivity), true);
 	}
 }
 

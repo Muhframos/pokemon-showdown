@@ -143,13 +143,14 @@ The column value will be ignored for repeat sections.
 		gameType: 'freeforall',
 		challengeShow: false,
 		rated: false,
-		ruleset: ['Obtainable', 'Species Clause', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable', 'HP Percentage Mod', 'Sleep Clause Mod'],
 	},
 	{
 		name: "[Gen 8] Adventures Custom Game",
 
 		mod: 'adventures',
 		debug: true,
+		rated: false,
 		maxLevel: 9999,
 		battle: {trunc: Math.trunc},
 		defaultLevel: 100,

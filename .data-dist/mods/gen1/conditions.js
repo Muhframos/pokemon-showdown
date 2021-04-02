@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});/**
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }/**
  * Status worked very differently in Gen 1.
  * - Sleep lasted longer, had no reset on switch and took a whole turn to wake up.
  * - Frozen only thaws when hit by fire or Haze.
@@ -177,7 +177,7 @@
 		name: 'trapped',
 		noCopy: true,
 		onTrapPokemon(pokemon) {
-			if (!this.effectData.source || !this.effectData.source.isActive) {
+			if (!_optionalChain([this, 'access', _ => _.effectData, 'access', _2 => _2.source, 'optionalAccess', _3 => _3.isActive])) {
 				delete pokemon.volatiles['trapped'];
 				return;
 			}

@@ -2,9 +2,24 @@
  * Simulator Side
  * Pokemon Showdown - http://pokemonshowdown.com/
  *
- * @license MIT license
+ * There's a lot of ambiguity between the terms "player", "side", "team",
+ * and "half-field", which I'll try to explain here:
+ *
+ * These terms usually all mean the same thing. The exceptions are:
+ *
+ * - Multi-battle: there are 2 half-fields, 2 teams, 4 sides
+ *
+ * - Free-for-all: there are 2 half-fields, 4 teams, 4 sides
+ *
+ * "Half-field" is usually abbreviated to "half".
+ *
+ * Function naming will be very careful about which term to use. Pay attention
+ * if it's relevant to your code.
+ *
+ * @license MIT
  */
-var _utils = require('../.lib-dist/utils');
+
+var _lib = require('../.lib-dist');
 
 var _pokemon = require('./pokemon');
 var _state = require('./state');
@@ -43,33 +58,48 @@ var _dex = require('./dex');
  class Side {
 	
 	
+	/** Index in `battle.sides`: `battle.sides[side.n] === side` */
 	
 
 	
 	
 	
-	
+	__init() {this.foe = null} // set in battle.start()
+	/** Only exists in multi battle, for the allied side */
+	__init2() {this.allySide = null} // set in battle.start()
 	
 	
 	
 
 	
+	
+	/**
+	 * This will be true in any gen before 8 or if the player (or their battle partner) has dynamaxed once already
+	 *
+	 * Use Side.canDynamaxNow() to check if a side can dynamax instead of this property because only one
+	 * player per team can dynamax on any given turn of a gen 8 Multi Battle.
+	 */
 	
 
 	
 	
 	/** only used by Gen 1 Counter */
-	__init() {this.lastSelectedMove = ''}
+	__init3() {this.lastSelectedMove = ''}
+
+	/** these point to the same object as the ally's, in multi battles */
+	
+	
 
 	
 	
 
-	
+	/**
+	 * In gen 1, all lastMove stuff is tracked on Side rather than Pokemon
+	 * (this is for Counter and Mirror Move)
+	 */
 	
 
-	
-
-	constructor(name, battle, sideNum, team) {;Side.prototype.__init.call(this);
+	constructor(name, battle, sideNum, team) {;Side.prototype.__init.call(this);Side.prototype.__init2.call(this);Side.prototype.__init3.call(this);
 		const sideScripts = battle.dex.data.Scripts.side;
 		if (sideScripts) Object.assign(this, sideScripts);
 
@@ -80,7 +110,6 @@ var _dex = require('./dex');
 		this.name = name;
 		this.avatar = '';
 		this.maxTeamSize = 6;
-		this.foe = sideNum ? this.battle.sides[0] : this.battle.sides[1];
 
 		this.team = team;
 		this.pokemon = [];
@@ -107,6 +136,7 @@ var _dex = require('./dex');
 		this.faintedLastTurn = null;
 		this.faintedThisTurn = null;
 		this.zMoveUsed = false;
+		this.dynamaxUsed = this.battle.gen < 8;
 
 		this.sideConditions = {};
 		this.slotConditions = [];
@@ -142,6 +172,16 @@ var _dex = require('./dex');
 		return 'move';
 	}
 
+	canDynamaxNow() {
+		// In multi battles, players on a team are alternatingly given the option to dynamax each turn
+		// On turn 1, the players on their team's respective left have the first chance (p1 and p2)
+		if (this.battle.gameType === 'multi' && this.battle.turn % 2 !== [1, 1, 0, 0][this.n]) return false;
+		// if (this.battle.gameType === 'multitriples' && this.battle.turn % 3 !== [1, 1, 2, 2, 0, 0][this.side.n]) {
+		//		return false;
+		// }
+		return !this.dynamaxUsed;
+	}
+
 	getChoice() {
 		if (this.choice.actions.length > 1 && this.choice.actions.every(action => action.choice === 'team')) {
 			return `team ` + this.choice.actions.map(action => action.pokemon.position + 1).join(', ');
@@ -170,33 +210,66 @@ var _dex = require('./dex');
 		return `${this.id}: ${this.name}`;
 	}
 
-	getRequestData() {
+	getRequestData(forAlly) {
 		const data = {
 			name: this.name,
 			id: this.id,
 			pokemon: [] ,
 		};
 		for (const pokemon of this.pokemon) {
-			data.pokemon.push(pokemon.getSwitchRequestData());
+			data.pokemon.push(pokemon.getSwitchRequestData(forAlly));
 		}
 		return data;
 	}
 
-	randomActive() {
-		const actives = this.active.filter(active => active && !active.fainted);
+	randomFoe() {
+		const actives = this.foes();
 		if (!actives.length) return null;
 		return this.battle.sample(actives);
+	}
+
+	/** Intended as a way to iterate through all foe side conditions - do not use for anything else. */
+	foeSidesWithConditions() {
+		if (this.battle.gameType === 'multi') return this.battle.sides.filter(side => side !== this);
+
+		return [this.foe];
+	}
+	foePokemonLeft() {
+		if (this.battle.gameType === 'freeforall') {
+			return this.battle.sides.filter(side => side !== this).map(side => side.pokemonLeft).reduce((a, b) => a + b);
+		}
+
+		if (this.foe.allySide) return this.foe.pokemonLeft + this.foe.allySide.pokemonLeft;
+
+		return this.foe.pokemonLeft;
+	}
+	allies() {
+		// called during the first switch-in, so `active` can still contain nulls at this point
+		return this.activeTeam().filter(ally => ally && !ally.fainted);
+	}
+	foes() {
+		if (this.battle.gameType === 'freeforall') {
+			return this.battle.sides.map(side => side.active[0])
+				.filter(pokemon => pokemon && pokemon.side !== this && !pokemon.fainted);
+		}
+		return this.foe.allies();
+	}
+	activeTeam() {
+		if (this.battle.gameType !== 'multi') return this.active;
+
+		return this.battle.sides[this.n % 2].active.concat(this.battle.sides[this.n % 2 + 2].active);
+	}
+	hasAlly(pokemon) {
+		return pokemon.side === this || pokemon.side === this.allySide;
 	}
 
 	addSideCondition(
 		status, source = null, sourceEffect = null
 	) {
-		if (this.n >= 2 && this.battle.gameType === 'multi') {
-			return this.battle.sides[this.n % 2].addSideCondition(status, source, sourceEffect);
-		}
 		if (!source && this.battle.event && this.battle.event.target) source = this.battle.event.target;
 		if (source === 'debug') source = this.active[0];
 		if (!source) throw new Error(`setting sidecond without a source`);
+		if (!source.getSlot) source = (source ).active[0];
 
 		status = this.battle.dex.getEffect(status);
 		if (this.sideConditions[status.id]) {
@@ -207,7 +280,7 @@ var _dex = require('./dex');
 			id: status.id,
 			target: this,
 			source,
-			sourcePosition: source.position,
+			sourceSlot: source.getSlot(),
 			duration: status.duration,
 		};
 		if (status.durationCallback) {
@@ -222,26 +295,17 @@ var _dex = require('./dex');
 	}
 
 	getSideCondition(status) {
-		if (this.n >= 2 && this.battle.gameType === 'multi') {
-			return this.battle.sides[this.n % 2].getSideCondition(status);
-		}
 		status = this.battle.dex.getEffect(status) ;
 		if (!this.sideConditions[status.id]) return null;
 		return status;
 	}
 
 	getSideConditionData(status) {
-		if (this.n >= 2 && this.battle.gameType === 'multi') {
-			return this.battle.sides[this.n % 2].getSideConditionData(status);
-		}
 		status = this.battle.dex.getEffect(status) ;
 		return this.sideConditions[status.id] || null;
 	}
 
 	removeSideCondition(status) {
-		if (this.n >= 2 && this.battle.gameType === 'multi') {
-			return this.battle.sides[this.n % 2].removeSideCondition(status);
-		}
 		status = this.battle.dex.getEffect(status) ;
 		if (!this.sideConditions[status.id]) return false;
 		this.battle.singleEvent('End', status, this.sideConditions[status.id], this);
@@ -263,18 +327,18 @@ var _dex = require('./dex');
 			if (!status.onRestart) return false;
 			return this.battle.singleEvent('Restart', status, this.slotConditions[target][status.id], this, source, sourceEffect);
 		}
-		const slotConditionData = this.slotConditions[target][status.id] = {
+		const conditionState = this.slotConditions[target][status.id] = {
 			id: status.id,
 			target: this,
 			source,
-			sourcePosition: source.position,
+			sourceSlot: source.getSlot(),
 			duration: status.duration,
 		};
 		if (status.durationCallback) {
-			slotConditionData.duration =
+			conditionState.duration =
 				status.durationCallback.call(this.battle, this.active[0], source, sourceEffect);
 		}
-		if (!this.battle.singleEvent('Start', status, slotConditionData, this.active[target], source, sourceEffect)) {
+		if (!this.battle.singleEvent('Start', status, conditionState, this.active[target], source, sourceEffect)) {
 			delete this.slotConditions[target][status.id];
 			return false;
 		}
@@ -410,7 +474,7 @@ var _dex = require('./dex');
 
 		// Z-move
 
-		const zMove = megaDynaOrZ === 'zmove' ? this.battle.getZMove(move, pokemon) : undefined;
+		const zMove = megaDynaOrZ === 'zmove' ? this.battle.actions.getZMove(move, pokemon) : undefined;
 		if (megaDynaOrZ === 'zmove' && !zMove) {
 			return this.emitChoiceError(`Can't move: ${pokemon.name} can't use ${move.name} as a Z-move`);
 		}
@@ -423,7 +487,7 @@ var _dex = require('./dex');
 		// Dynamax
 		// Is dynamaxed or will dynamax this turn.
 		const maxMove = (megaDynaOrZ === 'dynamax' || pokemon.volatiles['dynamax']) ?
-			this.battle.getMaxMove(move, pokemon) : undefined;
+			this.battle.actions.getMaxMove(move, pokemon) : undefined;
 		if (megaDynaOrZ === 'dynamax' && !maxMove) {
 			return this.emitChoiceError(`Can't move: ${pokemon.name} can't use ${move.name} as a Max Move`);
 		}
@@ -434,7 +498,7 @@ var _dex = require('./dex');
 
 		if (autoChoose) {
 			targetLoc = 0;
-		} else if (this.battle.targetTypeChoices(targetType)) {
+		} else if (this.battle.actions.targetTypeChoices(targetType)) {
 			if (!targetLoc && this.active.length >= 2) {
 				return this.emitChoiceError(`Can't move: ${move.name} needs a target`);
 			}
@@ -528,10 +592,18 @@ var _dex = require('./dex');
 			return this.emitChoiceError(`Can't move: You can only ultra burst once per battle`);
 		}
 		let dynamax = (megaDynaOrZ === 'dynamax');
-		if (dynamax && (this.choice.dynamax || !pokemon.getDynamaxRequest())) {
+		const canDynamax = _optionalChain([this, 'access', _ => _.activeRequest, 'optionalAccess', _2 => _2.active, 'access', _3 => _3[this.active.indexOf(pokemon)], 'access', _4 => _4.canDynamax]);
+		if (dynamax && (this.choice.dynamax || !canDynamax)) {
 			if (pokemon.volatiles['dynamax']) {
 				dynamax = false;
 			} else {
+				if (this.battle.gen < 8) {
+					return this.emitChoiceError(`Can't move: Dynamaxing doesn't exist before Gen 8.`);
+				} else if (pokemon.side.canDynamaxNow()) {
+					return this.emitChoiceError(`Can't move: ${pokemon.name} can't Dynamax now.`);
+				} else if (_optionalChain([pokemon, 'access', _5 => _5.side, 'access', _6 => _6.allySide, 'optionalAccess', _7 => _7.canDynamaxNow, 'call', _8 => _8()])) {
+					return this.emitChoiceError(`Can't move: It's your partner's turn to Dynamax.`);
+				}
 				return this.emitChoiceError(`Can't move: You can only Dynamax once per battle.`);
 			}
 		}
@@ -559,7 +631,7 @@ var _dex = require('./dex');
 	}
 
 	updateRequestForPokemon(pokemon, update) {
-		if (!this.activeRequest || !this.activeRequest.active) {
+		if (!_optionalChain([this, 'access', _9 => _9.activeRequest, 'optionalAccess', _10 => _10.active])) {
 			throw new Error(`Can't update a request without active Pokemon`);
 		}
 		const req = this.activeRequest.active[pokemon.position];
@@ -726,7 +798,7 @@ var _dex = require('./dex');
 		let forcedSwitches = 0;
 		let forcedPasses = 0;
 		if (this.battle.requestState === 'switch') {
-			const canSwitchOut = this.active.filter(pokemon => _optionalChain([pokemon, 'optionalAccess', _ => _.switchFlag])).length;
+			const canSwitchOut = this.active.filter(pokemon => _optionalChain([pokemon, 'optionalAccess', _11 => _11.switchFlag])).length;
 			const canSwitchIn = this.pokemon.slice(this.active.length).filter(pokemon => pokemon && !pokemon.fainted).length;
 			forcedSwitches = Math.min(canSwitchOut, canSwitchIn);
 			forcedPasses = canSwitchOut - forcedSwitches;
@@ -767,7 +839,7 @@ var _dex = require('./dex');
 		}
 
 		for (const choiceString of choiceStrings) {
-			let [choiceType, data] = _utils.Utils.splitFirst(choiceString.trim(), ' ');
+			let [choiceType, data] = _lib.Utils.splitFirst(choiceString.trim(), ' ');
 			data = data.trim();
 
 			switch (choiceType) {

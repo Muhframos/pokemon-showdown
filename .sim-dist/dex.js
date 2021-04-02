@@ -39,7 +39,7 @@ var _dexabilities = require('./dex-abilities');
 var _dexspecies = require('./dex-species');
 var _dexformats = require('./dex-formats');
 
-var _utils = require('../.lib-dist/utils');
+var _lib = require('../.lib-dist');
 
 const BASE_MOD = 'gen8' ;
 const DEFAULT_MOD = BASE_MOD;
@@ -132,7 +132,7 @@ const nullEffect = new (0, _dexconditions.Condition)({name: '', exists: false});
 	
 	
 
-	__init22() {this.deepClone = _utils.Utils.deepClone}
+	__init22() {this.deepClone = _lib.Utils.deepClone}
 
 	constructor(mod = 'base', isOriginal = false) {;ModdedDex.prototype.__init.call(this);ModdedDex.prototype.__init2.call(this);ModdedDex.prototype.__init3.call(this);ModdedDex.prototype.__init4.call(this);ModdedDex.prototype.__init5.call(this);ModdedDex.prototype.__init6.call(this);ModdedDex.prototype.__init7.call(this);ModdedDex.prototype.__init8.call(this);ModdedDex.prototype.__init9.call(this);ModdedDex.prototype.__init10.call(this);ModdedDex.prototype.__init11.call(this);ModdedDex.prototype.__init12.call(this);ModdedDex.prototype.__init13.call(this);ModdedDex.prototype.__init14.call(this);ModdedDex.prototype.__init15.call(this);ModdedDex.prototype.__init16.call(this);ModdedDex.prototype.__init17.call(this);ModdedDex.prototype.__init18.call(this);ModdedDex.prototype.__init19.call(this);ModdedDex.prototype.__init20.call(this);ModdedDex.prototype.__init21.call(this);ModdedDex.prototype.__init22.call(this);
 		this.isBase = (mod === 'base');
@@ -197,7 +197,7 @@ const nullEffect = new (0, _dexconditions.Condition)({name: '', exists: false});
 	modData(dataType, id) {
 		if (this.isBase) return this.data[dataType][id];
 		if (this.data[dataType][id] !== dexes[this.parentMod].data[dataType][id]) return this.data[dataType][id];
-		return (this.data[dataType][id] = _utils.Utils.deepClone(this.data[dataType][id]));
+		return (this.data[dataType][id] = _lib.Utils.deepClone(this.data[dataType][id]));
 	}
 
 	effectToString() {
@@ -410,6 +410,7 @@ const nullEffect = new (0, _dexconditions.Condition)({name: '', exists: false});
 			species.canHatch = species.canHatch ||
 				(!['Ditto', 'Undiscovered'].includes(species.eggGroups[0]) && !species.prevo && species.name !== 'Manaphy');
 			if (this.gen === 1) species.bst -= species.baseStats.spd;
+			if (this.gen < 5) delete species.abilities['H'];
 		} else {
 			species = new (0, _dexspecies.Species)({
 				id, name, exists: false, tier: 'Illegal', doublesTier: 'Illegal', isNonstandard: 'Custom',
@@ -1077,7 +1078,7 @@ const nullEffect = new (0, _dexconditions.Condition)({name: '', exists: false});
 			if (!searchObj) continue;
 
 			for (const j in searchObj) {
-				const ld = _utils.Utils.levenshtein(cmpTarget, j, maxLd);
+				const ld = _lib.Utils.levenshtein(cmpTarget, j, maxLd);
 				if (ld <= maxLd) {
 					const word = searchObj[j].name || searchObj[j].species || j;
 					const results = this.dataSearch(word, searchIn, word);

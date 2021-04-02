@@ -1,9 +1,8 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }const LOTTERY_FILE = 'config/chat-plugins/lottery.json';
 
-var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
-const lotteriesContents = _fs.FS.call(void 0, LOTTERY_FILE).readIfExistsSync();
+const lotteriesContents = _lib.FS.call(void 0, LOTTERY_FILE).readIfExistsSync();
 const lotteries
 
 
@@ -32,7 +31,7 @@ function writeLotteries() {
 			delete lotteries[roomid];
 		}
 	}
-	_fs.FS.call(void 0, LOTTERY_FILE).writeUpdate(() => JSON.stringify(lotteries));
+	_lib.FS.call(void 0, LOTTERY_FILE).writeUpdate(() => JSON.stringify(lotteries));
 }
 function destroyLottery(roomid) {
 	delete lotteries[roomid];
@@ -116,10 +115,10 @@ function getWinnersInLottery(roomid) {
 			const edited = _optionalChain([lottery, 'optionalAccess', _3 => _3.running]);
 			if (cmd === 'edit' && !target && lottery) {
 				this.sendReply('Source:');
-				const markup = _utils.Utils.html`${lottery.markup}`.replace(/\n/g, '<br />');
+				const markup = _lib.Utils.html`${lottery.markup}`.replace(/\n/g, '<br />');
 				return this.sendReplyBox(`<code style="white-space: pre-wrap">/lottery edit ${lottery.maxWinners}, ${lottery.name}, ${markup}</code>`);
 			}
-			const [maxWinners, name, markup] = _utils.Utils.splitFirst(target, ',', 2).map(val => val.trim());
+			const [maxWinners, name, markup] = _lib.Utils.splitFirst(target, ',', 2).map(val => val.trim());
 			if (!(maxWinners && name && markup.length)) {
 				return this.errorReply("You're missing a command parameter - see /help lottery for this command's syntax.");
 			}
@@ -141,7 +140,7 @@ function getWinnersInLottery(roomid) {
 			this.sendReply(`The lottery was successfully ${edited ? 'edited' : 'created'}.`);
 			if (!edited) {
 				this.add(
-					_utils.Utils.html`|raw|<div class="broadcast-blue"><b>${user.name} created the` +
+					_lib.Utils.html`|raw|<div class="broadcast-blue"><b>${user.name} created the` +
 					` "<a href="/view-lottery-${room.roomid}">${name}</a>" lottery!</b></div>`
 				);
 			}
@@ -185,7 +184,7 @@ function getWinnersInLottery(roomid) {
 			const winners = getWinnersInLottery(room.roomid);
 			if (!winners) return this.errorReply(`An error occured while getting the winners.`);
 			this.add(
-				_utils.Utils.html`|raw|<div class="broadcast-blue"><b>${Chat.toListString(winners)} won the "<a href="/view-lottery-${room.roomid}">${lottery.name}</a>" lottery!</b></div>`
+				_lib.Utils.html`|raw|<div class="broadcast-blue"><b>${Chat.toListString(winners)} won the "<a href="/view-lottery-${room.roomid}">${lottery.name}</a>" lottery!</b></div>`
 			);
 			this.modlog(`LOTTERY END ${lottery.name}`);
 			endLottery(room.roomid, winners);

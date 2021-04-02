@@ -54,7 +54,7 @@ var _processmanager = require('../.lib-dist/process-manager');
 			team,
 		});
 		problems = [
-			`Your team crashed the validator. We'll fix this crash within a few minutes (we're automatically notified),` +
+			`Your team crashed the validator. We'll fix this crash within a few hours (we're automatically notified),` +
 			` but if you don't want to wait, just use a different team for now.`,
 		];
 	}

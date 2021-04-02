@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _utils = require('../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _lib = require('../.lib-dist');
 var _dexdata = require('./dex-data');
 
 /**
@@ -19,6 +19,11 @@ var _dexdata = require('./dex-data');
  * scripted - The move targets the foe that damaged the user.
  * self - The move affects the user of the move.
  */
+
+
+
+
+
 
 
 
@@ -433,12 +438,12 @@ var _dexdata = require('./dex-data');
 
 		this.fullname = `move: ${this.name}`;
 		this.effectType = 'Move';
-		this.type = _utils.Utils.getString(data.type);
+		this.type = _lib.Utils.getString(data.type);
 		this.target = data.target;
 		this.basePower = Number(data.basePower);
 		this.accuracy = data.accuracy;
 		this.critRatio = Number(data.critRatio) || 1;
-		this.baseMoveType = _utils.Utils.getString(data.baseMoveType) || this.type;
+		this.baseMoveType = _lib.Utils.getString(data.baseMoveType) || this.type;
 		this.secondary = data.secondary || null;
 		this.secondaries = data.secondaries || (this.secondary && [this.secondary]) || null;
 		this.priority = Number(data.priority) || 0;

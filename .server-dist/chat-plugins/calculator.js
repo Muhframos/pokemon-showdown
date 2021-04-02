@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _utils = require('../../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _lib = require('../../.lib-dist');
 
 
 
@@ -91,12 +91,26 @@ function parseMathematicalExpression(infix) {
 }
 
 function solveRPN(rpn) {
+	let base = 10;
 	const resultStack = [];
-	for (const token of rpn) {
+	for (let token of rpn) {
 		if (token === 'negative') {
 			if (!resultStack.length) throw new SyntaxError(`Unknown syntax error`);
 			resultStack.push(-resultStack.pop());
 		} else if (!"^%*/+-".includes(token)) {
+			if (token.endsWith('h')) {
+				// Convert h suffix for hexadecimal to 0x prefix
+				token = `0x${token.slice(0, -1)}`;
+			} else if (token.endsWith('o')) {
+				// Convert o suffix for octal to 0o prefix
+				token = `0o${token.slice(0, -1)}`;
+			} else if (token.endsWith('b')) {
+				// Convert b suffix for binary to 0b prefix
+				token = `0b${token.slice(0, -1)}`;
+			}
+			if (token.startsWith('0x')) base = 16;
+			if (token.startsWith('0b')) base = 2;
+			if (token.startsWith('0o')) base = 8;
 			let num = Number(token);
 			if (isNaN(num) && token.toUpperCase() in Math) {
 				// @ts-ignore
@@ -133,22 +147,15 @@ function solveRPN(rpn) {
 		}
 	}
 	if (resultStack.length !== 1) throw new SyntaxError(`Unknown syntax error`);
-	return resultStack.pop();
+	return [resultStack.pop(), base];
 }
 
  const commands = {
 	math: "calculate",
 	calculate(target, room, user) {
 		if (!target) return this.parse('/help calculate');
-		let base = 10;
-		if (target.includes('0x')) {
-			base = 16;
-		} else if (target.includes('0o')) {
-			base = 8;
-		} else if (target.includes('0b')) {
-			base = 2;
-		}
 
+		let base = 0;
 		const baseMatchResult = (/\b(?:in|to)\s+([a-zA-Z]+)\b/).exec(target);
 		if (baseMatchResult) {
 			switch (toID(baseMatchResult[1])) {
@@ -164,7 +171,8 @@ function solveRPN(rpn) {
 
 		if (!this.runBroadcast()) return;
 		try {
-			const result = solveRPN(parseMathematicalExpression(expression));
+			const [result, inferredBase] = solveRPN(parseMathematicalExpression(expression));
+			if (!base) base = inferredBase;
 			let baseResult = '';
 			if (result && base !== 10) {
 				baseResult = `${BASE_PREFIXES[base]}${result.toString(base).toUpperCase()}`;
@@ -179,7 +187,7 @@ function solveRPN(rpn) {
 			this.sendReplyBox(`${expression}<br />= ${resultStr}`);
 		} catch (e) {
 			this.sendReplyBox(
-				_utils.Utils.html`${expression}<br />= <span class="message-error"><strong>Invalid input:</strong> ${e.message}</span>`
+				_lib.Utils.html`${expression}<br />= <span class="message-error"><strong>Invalid input:</strong> ${e.message}</span>`
 			);
 		}
 	},

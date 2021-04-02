@@ -8,8 +8,7 @@
  */
 
 var _child_process = require('child_process');
-var _crashlogger = require('../.lib-dist/crashlogger');
-var _fs = require('../.lib-dist/fs');
+var _lib = require('../.lib-dist');
 
 const MONITOR_CLEAN_TIMEOUT = 2 * 60 * 60 * 1000;
 
@@ -86,7 +85,7 @@ if (('Config' in global) &&
 				error.stack = stack.slice(nlIndex + 1);
 			} catch (e) {}
 		}
-		const crashType = _crashlogger.crashlogger.call(void 0, error, source, details);
+		const crashType = _lib.crashlogger.call(void 0, error, source, details);
 		Rooms.global.reportCrash(error, source);
 		if (crashType === 'lockdown') {
 			Config.autolockdown = false;
@@ -133,6 +132,15 @@ if (('Config' in global) &&
 
 	notice(text) {
 		if (Config.loglevel <= 2) console.log(text);
+	}
+
+	slow(text) {
+		const logRoom = Rooms.get('slowlog');
+		if (logRoom) {
+			logRoom.add(`|c|&|/log ${text}`).update();
+		} else {
+			this.warn(text);
+		}
 	}
 
 	/*********************************************************
@@ -270,7 +278,7 @@ if (('Config' in global) &&
 		for (const i in this.networkUse) {
 			buf += `${this.networkUse[i]}\t${this.networkCount[i]}\t${i}\n`;
 		}
-		void _fs.FS.call(void 0, 'logs/networkuse.tsv').write(buf);
+		void _lib.FS.call(void 0, 'logs/networkuse.tsv').write(buf);
 	}
 
 	clearNetworkUse() {
@@ -325,8 +333,8 @@ if (('Config' in global) &&
 	async version() {
 		let hash;
 		try {
-			await _fs.FS.call(void 0, '.git/index').copyFile('logs/.gitindex');
-			const index = _fs.FS.call(void 0, 'logs/.gitindex');
+			await _lib.FS.call(void 0, '.git/index').copyFile('logs/.gitindex');
+			const index = _lib.FS.call(void 0, 'logs/.gitindex');
 			const options = {
 				cwd: __dirname,
 				env: {GIT_INDEX_FILE: index.path},

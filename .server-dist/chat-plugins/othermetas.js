@@ -5,7 +5,7 @@
  * @author Kris
 */
 
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 
@@ -59,7 +59,7 @@ function getMegaStone(stone, mod = 'gen8') {
 			buffer += `- <a href="https://www.smogon.com/forums/forums/531/">Other Metagames Forum</a><br />`;
 			if (!target) return this.sendReplyBox(buffer);
 		}
-		const showMonthly = (target === 'all' || target === 'omofthemonth' || target === 'omotm' || target === 'month');
+		const showMonthly = (target === 'all' || target === 'omofthemonth' || target === 'month');
 
 		if (target === 'all') {
 			// Display OMotM formats, with forum thread links as caption
@@ -130,8 +130,8 @@ function getMegaStone(stone, mod = 'gen8') {
 		} else if (megaSpecies.types[1] !== baseSpecies.types[1]) {
 			deltas.type = megaSpecies.types[1];
 		}
-		const mixedSpecies = _utils.Utils.deepClone(species);
-		mixedSpecies.abilities = _utils.Utils.deepClone(megaSpecies.abilities);
+		const mixedSpecies = _lib.Utils.deepClone(species);
+		mixedSpecies.abilities = _lib.Utils.deepClone(megaSpecies.abilities);
 		if (mixedSpecies.types[0] === deltas.type) { // Add any type gains
 			mixedSpecies.types = [deltas.type];
 		} else if (deltas.type === 'mono') {
@@ -142,7 +142,7 @@ function getMegaStone(stone, mod = 'gen8') {
 		let statName;
 		mixedSpecies.bst = 0;
 		for (statName in species.baseStats) { // Add the changed stats and weight
-			mixedSpecies.baseStats[statName] = _utils.Utils.clampIntRange(
+			mixedSpecies.baseStats[statName] = _lib.Utils.clampIntRange(
 				mixedSpecies.baseStats[statName] + deltas.baseStats[statName], 1, 255
 			);
 			mixedSpecies.bst += mixedSpecies.baseStats[statName];
@@ -309,7 +309,7 @@ function getMegaStone(stone, mod = 'gen8') {
 			const format = Dex.getFormat(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
-		const species = _utils.Utils.deepClone(dex.getSpecies(args[0]));
+		const species = _lib.Utils.deepClone(dex.getSpecies(args[0]));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : args[0].trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -350,7 +350,7 @@ function getMegaStone(stone, mod = 'gen8') {
 			const format = Dex.getFormat(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
-		const species = _utils.Utils.deepClone(dex.getSpecies(args[0]));
+		const species = _lib.Utils.deepClone(dex.getSpecies(args[0]));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : args[0].trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -375,7 +375,7 @@ function getMegaStone(stone, mod = 'gen8') {
 		for (const statName in species.baseStats) {
 			if (statName === 'hp') continue;
 			if (dex.gen === 1 && statName === 'spd') continue;
-			species.baseStats[statName] = _utils.Utils.clampIntRange(species.baseStats[statName] + boost, 1, 255);
+			species.baseStats[statName] = _lib.Utils.clampIntRange(species.baseStats[statName] + boost, 1, 255);
 			species.bst += species.baseStats[statName];
 		}
 		this.sendReply(`|raw|${Chat.getDataPokemonHTML(species, dex.gen)}`);
@@ -407,7 +407,7 @@ function getMegaStone(stone, mod = 'gen8') {
 			const format = Dex.getFormat(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
-		const species = _utils.Utils.deepClone(dex.getSpecies(args[0]));
+		const species = _lib.Utils.deepClone(dex.getSpecies(args[0]));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : args[0].trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -419,7 +419,7 @@ function getMegaStone(stone, mod = 'gen8') {
 		for (const stat in species.baseStats) {
 			if (stat === 'hp') continue;
 			if (dex.gen === 1 && stat === 'spd') continue;
-			species.baseStats[stat] = _utils.Utils.clampIntRange(species.baseStats[stat] * scale / bstNoHP, 1, 255);
+			species.baseStats[stat] = _lib.Utils.clampIntRange(species.baseStats[stat] * scale / bstNoHP, 1, 255);
 			species.bst += species.baseStats[stat];
 		}
 		species.bst += species.baseStats.hp;
@@ -453,7 +453,7 @@ function getMegaStone(stone, mod = 'gen8') {
 		} else if (_optionalChain([room, 'optionalAccess', _4 => _4.battle])) {
 			dex = Dex.forFormat(room.battle.format);
 		}
-		const species = _utils.Utils.deepClone(dex.getSpecies(mon));
+		const species = _lib.Utils.deepClone(dex.getSpecies(mon));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : mon.trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -510,7 +510,7 @@ function getMegaStone(stone, mod = 'gen8') {
 		const natureObj = dex.getNature(nature);
 		if (dex.gen < 3) throw new Chat.ErrorMessage(`Error: Natures don't exist prior to Generation 3.`);
 		if (!natureObj.exists) throw new Chat.ErrorMessage(`Error: Nature ${nature} not found.`);
-		const species = _utils.Utils.deepClone(dex.getSpecies(pokemon));
+		const species = _lib.Utils.deepClone(dex.getSpecies(pokemon));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : args[0].trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -533,7 +533,7 @@ function getMegaStone(stone, mod = 'gen8') {
 	crossevo: 'crossevolve',
 	crossevolve(target, user, room) {
 		if (!this.runBroadcast()) return;
-		if (!target || !target.includes(',')) return this.parse(`/help crossevo`);
+		if (!_optionalChain([target, 'optionalAccess', _6 => _6.includes, 'call', _7 => _7(',')])) return this.parse(`/help crossevo`);
 
 		const pokes = target.split(',');
 		const species = Dex.getSpecies(pokes[0]);
@@ -563,14 +563,14 @@ function getMegaStone(stone, mod = 'gen8') {
 		if (setStage + 1 !== crossStage) {
 			throw new Chat.ErrorMessage(`Error: Cross evolution must follow evolutionary stages. (${species.name} is Stage ${setStage} and can only cross evolve to Stage ${setStage + 1})`);
 		}
-		const mixedSpecies = _utils.Utils.deepClone(species);
-		mixedSpecies.abilities = _utils.Utils.deepClone(crossSpecies.abilities);
-		mixedSpecies.baseStats = _utils.Utils.deepClone(mixedSpecies.baseStats);
+		const mixedSpecies = _lib.Utils.deepClone(species);
+		mixedSpecies.abilities = _lib.Utils.deepClone(crossSpecies.abilities);
+		mixedSpecies.baseStats = _lib.Utils.deepClone(mixedSpecies.baseStats);
 		mixedSpecies.bst = 0;
 		let statName;
 		for (statName in species.baseStats) {
 			const statChange = crossSpecies.baseStats[statName] - prevo.baseStats[statName];
-			mixedSpecies.baseStats[statName] = _utils.Utils.clampIntRange(mixedSpecies.baseStats[statName] + statChange, 1, 255);
+			mixedSpecies.baseStats[statName] = _lib.Utils.clampIntRange(mixedSpecies.baseStats[statName] + statChange, 1, 255);
 			mixedSpecies.bst += mixedSpecies.baseStats[statName];
 		}
 		mixedSpecies.types = [species.types[0]];
@@ -628,7 +628,7 @@ function getMegaStone(stone, mod = 'gen8') {
 			throw new Chat.ErrorMessage(`Error: ${evo.name} is not an evolution.`);
 		}
 		const prevoSpecies = Dex.getSpecies(evo.prevo);
-		const deltas = _utils.Utils.deepClone(evo);
+		const deltas = _lib.Utils.deepClone(evo);
 		deltas.tier = 'CE';
 		deltas.weightkg = evo.weightkg - prevoSpecies.weightkg;
 		deltas.bst = 0;

@@ -7,8 +7,7 @@
  * @author mia-pi-git
  */
 
-var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 var _chatlog = require('./chatlog');
 var _roomfaqs = require('./room-faqs');
 
@@ -19,7 +18,7 @@ const MINIMUM_LENGTH = 4;
  let answererData = {}; exports.answererData = answererData;
 
 try {
-	exports.answererData = JSON.parse(_fs.FS.call(void 0, PATH).readSync());
+	exports.answererData = JSON.parse(_lib.FS.call(void 0, PATH).readSync());
 } catch (e) {}
 
 /**
@@ -86,10 +85,10 @@ try {
 		const response = this.find(question, user);
 		if (response) {
 			let buf = '';
-			buf += _utils.Utils.html`<strong>You said:</strong> ${question}<br />`;
+			buf += _lib.Utils.html`<strong>You said:</strong> ${question}<br />`;
 			buf += `<strong>Our automated reply:</strong> ${Chat.formatText(response)}`;
 			if (!hideButton) {
-				buf += _utils.Utils.html`<hr /><button class="button" name="send" value="A: ${question}">`;
+				buf += _lib.Utils.html`<hr /><button class="button" name="send" value="A: ${question}">`;
 				buf += `Send to ${this.room.title} if you weren't answered correctly. </button>`;
 			}
 			return buf;
@@ -120,7 +119,7 @@ try {
 		return false;
 	}
 	stringRegex(str, raw) {
-		[str] = _utils.Utils.splitFirst(str, '=>');
+		[str] = _lib.Utils.splitFirst(str, '=>');
 		const args = str.split(',').map(item => item.trim());
 		if (!raw && args.length > 10) {
 			throw new Chat.ErrorMessage(`Too many arguments.`);
@@ -159,7 +158,7 @@ try {
 	}
 	log(entry, faq, expression) {
 		if (!this.data.stats) this.data.stats = {};
-		const [day] = _utils.Utils.splitFirst(Chat.toTimestamp(new Date), ' ');
+		const [day] = _lib.Utils.splitFirst(Chat.toTimestamp(new Date), ' ');
 		if (!this.data.stats[day]) this.data.stats[day] = {};
 		const today = this.data.stats[day];
 		const log = {
@@ -183,7 +182,7 @@ try {
 			this.updateFaqData(faq);
 		}
 		exports.answererData[this.room.roomid] = this.data;
-		return _fs.FS.call(void 0, PATH).writeUpdate(() => JSON.stringify(exports.answererData));
+		return _lib.FS.call(void 0, PATH).writeUpdate(() => JSON.stringify(exports.answererData));
 	}
 	tryAddRegex(inputString, raw) {
 		let [args, faq] = inputString.split('=>').map(item => item.trim()) ;
@@ -348,22 +347,12 @@ const BYPASS_TERMS = ['a:', 'A:', '!', '/'];
 			this.modlog(`AUTOFILTER ADD`, null, target);
 		},
 		remove(target, room, user) {
-			const [faq, index, id] = target.split(',');
-			if (id) {
-				const targetRoom = Rooms.search(id);
-				if (!targetRoom) {
-					return this.errorReply(`Room not found.`);
-				}
-				room = targetRoom;
-			} else {
-				room = this.requireRoom();
-			}
+			const [faq, index] = target.split(',');
+			room = this.requireRoom();
 			if (!room.responder) {
 				return this.errorReply(`${room.title} has not configured an auto-response filter.`);
 			}
 			this.checkCan('ban', null, room);
-			// intended for use mainly within the page, so supports being used in all rooms
-			this.room = room;
 			const num = parseInt(index);
 			if (isNaN(num)) return this.errorReply("Invalid index.");
 			room.responder.tryRemoveRegex(faq, num - 1);
@@ -391,14 +380,6 @@ const BYPASS_TERMS = ['a:', 'A:', '!', '/'];
 			this.modlog(`AUTOFILTER IGNORE`, null, target);
 		},
 		unignore(target, room, user) {
-			let targetId;
-			[target, targetId] = _utils.Utils.splitFirst(target, '|');
-			if (targetId) {
-				const targetRoom = Rooms.search(targetId);
-				if (!targetRoom) return this.errorReply(`Invalid room.`);
-				room = targetRoom;
-				this.room = room;
-			}
 			room = this.requireRoom();
 			if (!room.responder) {
 				return this.errorReply(`${room.title} has not configured an auto-response filter.`);
@@ -496,7 +477,7 @@ const BYPASS_TERMS = ['a:', 'A:', '!', '/'];
 				buffer += `</tr>`;
 				for (const regex of regexes) {
 					const index = regexes.indexOf(regex) + 1;
-					const button = `<button class="button" name="send"value="/ar remove ${item}, ${index}, ${room.roomid}">Remove</button>`;
+					const button = `<button class="button" name="send"value="/msgroom ${room.roomid},/ar remove ${item}, ${index}">Remove</button>`;
 					buffer += `<tr><td>${index}</td><td><code>${regex}</code></td>`;
 					if (canChange) buffer += `<td>${button}</td></tr>`;
 				}
@@ -511,7 +492,7 @@ const BYPASS_TERMS = ['a:', 'A:', '!', '/'];
 				return this.errorReply(`No terms on ignore list.`);
 			}
 			for (const term of roomData.ignore) {
-				buf += `- ${term} <button class="button" name="send"value="/ar unignore ${term}|${room.roomid}">Remove</button><br />`;
+				buf += `- ${term} <button class="button" name="send"value="/msgroom ${room.roomid},/ar unignore ${term}">Remove</button><br />`;
 			}
 			buf += `</div>`;
 			break;
@@ -527,5 +508,14 @@ const BYPASS_TERMS = ['a:', 'A:', '!', '/'];
 		return _chatlog.LogViewer.linkify(buf);
 	},
 }; exports.pages = pages;
+
+ const onRenameRoom = (oldID, newID) => {
+	if (exports.answererData[oldID]) {
+		if (!exports.answererData[newID]) exports.answererData[newID] = {pairs: {}};
+		Object.assign(exports.answererData[newID], exports.answererData[oldID]);
+		delete exports.answererData[oldID];
+		_lib.FS.call(void 0, PATH).writeUpdate(() => JSON.stringify(exports.answererData));
+	}
+}; exports.onRenameRoom = onRenameRoom;
 
  //# sourceMappingURL=sourceMaps/responder.js.map

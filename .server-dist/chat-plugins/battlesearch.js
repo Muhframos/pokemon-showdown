@@ -1,10 +1,8 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }/**
  * Battle search - handles searching battle logs.
  */
-var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
-var _processmanager = require('../../.lib-dist/process-manager');
-var _repl = require('../../.lib-dist/repl');
+var _lib = require('../../.lib-dist');
+
 var _configloader = require('../config-loader');
 
 const BATTLESEARCH_PROCESS_TIMEOUT = 3 * 60 * 60 * 1000; // 3 hours
@@ -32,7 +30,7 @@ const MAX_BATTLESEARCH_PROCESSES = 1;
 	const results = {};
 	let files = [];
 	try {
-		files = await _fs.FS.call(void 0, pathString).readdir();
+		files = await _lib.FS.call(void 0, pathString).readdir();
 	} catch (err) {
 		if (err.code === 'ENOENT') {
 			return results;
@@ -48,12 +46,12 @@ const MAX_BATTLESEARCH_PROCESSES = 1;
 		const regexString = userids.map(id => `(?=.*?("p(1|2)":"${[...id].join('[^a-zA-Z0-9]*')}[^a-zA-Z0-9]*"))`).join('');
 		let output;
 		try {
-			output = await _processmanager.exec.call(void 0, ['rg', '-i', regexString, '--no-line-number', '-P', '-tjson', ...files]);
+			output = await _lib.ProcessManager.exec(['rg', '-i', regexString, '--no-line-number', '-P', '-tjson', ...files]);
 		} catch (error) {
 			return results;
 		}
 		for (const line of output.stdout.split('\n').reverse()) {
-			const [file, raw] = _utils.Utils.splitFirst(line, ':');
+			const [file, raw] = _lib.Utils.splitFirst(line, ':');
 			if (!raw || !line) continue;
 			const data = JSON.parse(raw);
 			const day = file.split('/')[3];
@@ -120,10 +118,10 @@ const MAX_BATTLESEARCH_PROCESSES = 1;
 		return results;
 	}
 	for (const file of files) {
-		const subFiles = _fs.FS.call(void 0, `${file}`).readdirSync();
+		const subFiles = _lib.FS.call(void 0, `${file}`).readdirSync();
 		const day = file.split('/')[3];
 		for (const dayFile of subFiles) {
-			const json = _fs.FS.call(void 0, `${file}/${dayFile}`).readIfExistsSync();
+			const json = _lib.FS.call(void 0, `${file}/${dayFile}`).readIfExistsSync();
 			const data = JSON.parse(json);
 			const p1id = toID(data.p1);
 			const p2id = toID(data.p2);
@@ -248,7 +246,8 @@ async function getBattleSearch(
 	async battlesearch(args, user, connection) {
 		if (!user.named) return Rooms.RETRY_AFTER_LOGIN;
 		this.checkCan('forcewin');
-		const [ids, rawLimit, month, formatid, confirmation] = _utils.Utils.splitFirst(this.pageid.slice(18), '--', 5);
+		if (Config.nobattlesearch) return this.errorReply(`Battlesearch has been temporarily disabled due to load issues.`);
+		const [ids, rawLimit, month, formatid, confirmation] = _lib.Utils.splitFirst(this.pageid.slice(18), '--', 5);
 		let turnLimit = parseInt(rawLimit);
 		if (isNaN(turnLimit)) turnLimit = undefined;
 		const userids = ids.split('-');
@@ -262,7 +261,7 @@ async function getBattleSearch(
 		}
 		buf += `</p>`;
 
-		const months = (await _fs.FS.call(void 0, 'logs/').readdir()).filter(f => f.length === 7 && f.includes('-')).sort((aKey, bKey) => {
+		const months = (await _lib.FS.call(void 0, 'logs/').readdir()).filter(f => f.length === 7 && f.includes('-')).sort((aKey, bKey) => {
 			const a = aKey.split('-').map(n => parseInt(n));
 			const b = bKey.split('-').map(n => parseInt(n));
 			if (a[0] !== b[0]) return b[0] - a[0];
@@ -282,7 +281,7 @@ async function getBattleSearch(
 		}
 
 		const tierid = toID(formatid);
-		const tiers = (await _fs.FS.call(void 0, `logs/${month}/`).readdir()).sort((a, b) => {
+		const tiers = (await _lib.FS.call(void 0, `logs/${month}/`).readdir()).sort((a, b) => {
 			// First sort by gen with the latest being first
 			let aGen = 6;
 			let bGen = 6;
@@ -368,10 +367,16 @@ async function getBattleSearch(
  * Process manager
  *********************************************************/
 
- const PM = new _processmanager.QueryProcessManager(module, async data => {
+ const PM = new _lib.ProcessManager.QueryProcessManager(module, async data => {
 	const {userids, turnLimit, month, tierid} = data;
+	const start = Date.now();
 	try {
-		return await runBattleSearch(userids, month, tierid, turnLimit);
+		const result = await runBattleSearch(userids, month, tierid, turnLimit);
+		const elapsedTime = Date.now() - start;
+		if (elapsedTime > 10 * 60 * 1000) {
+			Monitor.slow(`[Slow battlesearch query] ${elapsedTime}ms: ${JSON.stringify(data)}`);
+		}
+		return result;
 	} catch (err) {
 		Monitor.crashlog(err, 'A battle search query', {
 			userids,
@@ -381,7 +386,11 @@ async function getBattleSearch(
 		});
 	}
 	return null;
-}, BATTLESEARCH_PROCESS_TIMEOUT); exports.PM = PM;
+}, BATTLESEARCH_PROCESS_TIMEOUT, message => {
+	if (message.startsWith('SLOW\n')) {
+		Monitor.slow(message.slice(5));
+	}
+}); exports.PM = PM;
 
 if (!exports.PM.isParentProcess) {
 	// This is a child process!
@@ -390,6 +399,9 @@ if (!exports.PM.isParentProcess) {
 		crashlog(error, source = 'A battle search process', details = null) {
 			const repr = JSON.stringify([error.name, error.message, source, details]);
 			process.send(`THROW\n@!!@${repr}\n${error.stack}`);
+		},
+		slow(text) {
+			process.send(`CALLBACK\nSLOW\n${text}`);
 		},
 	};
 	process.on('uncaughtException', err => {
@@ -400,7 +412,7 @@ if (!exports.PM.isParentProcess) {
 	global.Dex = require('../../.sim-dist/dex').Dex;
 	global.toID = Dex.toID;
 	// eslint-disable-next-line no-eval
-	_repl.Repl.start('battlesearch', cmd => eval(cmd));
+	_lib.Repl.start('battlesearch', cmd => eval(cmd));
 } else {
 	exports.PM.spawn(MAX_BATTLESEARCH_PROCESSES);
 }

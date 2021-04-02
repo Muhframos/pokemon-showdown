@@ -6,7 +6,7 @@
 		tier: "NFE",
 	},
 	venusaur: {
-		randomBattleMoves: ["gigadrain", "hiddenpowerfire", "hiddenpowerice", "leechseed", "naturepower", "powerwhip", "sleeppowder", "sludgebomb", "swordsdance", "synthesis"],
+		randomBattleMoves: ["hiddenpowerfire", "hiddenpowerice", "leechseed", "naturepower", "powerwhip", "sleeppowder", "sludgebomb", "swordsdance", "synthesis"],
 		tier: "(OU)",
 		doublesTier: "DOU",
 	},
@@ -29,7 +29,7 @@
 		doublesTier: "NFE",
 	},
 	blastoise: {
-		randomBattleMoves: ["dragontail", "icebeam", "protect", "rapidspin", "scald", "toxic"],
+		randomBattleMoves: ["icebeam", "protect", "rapidspin", "scald", "toxic"],
 		tier: "UU",
 		doublesTier: "DUU",
 	},
@@ -117,7 +117,7 @@
 		tier: "NFE",
 	},
 	nidoqueen: {
-		randomBattleMoves: ["earthpower", "fireblast", "focusblast", "icebeam", "sludgewave", "stealthrock", "toxicspikes"],
+		randomBattleMoves: ["earthpower", "fireblast", "icebeam", "sludgewave", "stealthrock", "toxicspikes"],
 		tier: "UU",
 		doublesTier: "DUU",
 	},
@@ -128,7 +128,7 @@
 		tier: "NFE",
 	},
 	nidoking: {
-		randomBattleMoves: ["earthpower", "fireblast", "focusblast", "icebeam", "sludgewave", "substitute"],
+		randomBattleMoves: ["earthpower", "fireblast", "icebeam", "sludgewave", "substitute", "superpower"],
 		tier: "UU",
 		doublesTier: "DUU",
 	},
@@ -139,7 +139,7 @@
 		tier: "NFE",
 	},
 	clefable: {
-		randomBattleMoves: ["calmmind", "doubleedge", "icebeam", "softboiled", "stealthrock", "thunderbolt"],
+		randomBattleMoves: ["calmmind", "doubleedge", "icebeam", "softboiled", "stealthrock", "thunderbolt", "thunderwave"],
 		tier: "RU",
 		doublesTier: "DUU",
 	},
@@ -186,7 +186,7 @@
 		doublesTier: "DUU",
 	},
 	bellossom: {
-		randomBattleMoves: ["gigadrain", "hiddenpowerrock", "leafstorm", "leechseed", "sleeppowder", "stunspore", "synthesis"],
+		randomBattleMoves: ["gigadrain", "hiddenpowerfire", "hiddenpowerrock", "leafstorm", "leechseed", "sleeppowder", "stunspore", "synthesis"],
 		tier: "(NU)",
 		doublesTier: "DUU",
 	},
@@ -234,7 +234,7 @@
 		tier: "LC",
 	},
 	primeape: {
-		randomBattleMoves: ["closecombat", "encore", "icepunch", "punishment", "stoneedge", "uturn"],
+		randomBattleMoves: ["closecombat", "honeclaws", "icepunch", "stoneedge", "uturn"],
 		tier: "NU",
 		doublesTier: "DUU",
 	},
@@ -258,7 +258,7 @@
 		doublesTier: "DUU",
 	},
 	politoed: {
-		randomBattleMoves: ["encore", "focusblast", "hiddenpowergrass", "hypnosis", "icebeam", "perishsong", "protect", "scald", "toxic"],
+		randomBattleMoves: ["encore", "focusblast", "hiddenpowergrass", "hypnosis", "icebeam", "protect", "scald", "toxic"],
 		tier: "OU",
 		doublesTier: "DOU",
 	},
@@ -319,7 +319,7 @@
 		tier: "LC",
 	},
 	rapidash: {
-		randomBattleMoves: ["batonpass", "drillrun", "flareblitz", "megahorn", "morningsun", "wildcharge"],
+		randomBattleMoves: ["drillrun", "flareblitz", "megahorn", "morningsun", "wildcharge", "willowisp"],
 		tier: "(NU)",
 		doublesTier: "DUU",
 	},
@@ -327,12 +327,12 @@
 		tier: "LC",
 	},
 	slowbro: {
-		randomBattleMoves: ["calmmind", "fireblast", "psyshock", "scald", "slackoff", "thunderwave", "toxic", "trick"],
+		randomBattleMoves: ["calmmind", "icebeam", "psyshock", "scald", "slackoff", "thunderwave", "toxic"],
 		tier: "UU",
 		doublesTier: "DUU",
 	},
 	slowking: {
-		randomBattleMoves: ["fireblast", "grassknot", "icebeam", "psychic", "surf", "trick", "trickroom"],
+		randomBattleMoves: ["fireblast", "grassknot", "icebeam", "nastyplot", "psychic", "surf", "trickroom"],
 		tier: "RU",
 		doublesTier: "DUU",
 	},
@@ -409,7 +409,7 @@
 		tier: "LC",
 	},
 	hypno: {
-		randomBattleMoves: ["foulplay", "protect", "psychic", "seismictoss", "thunderwave", "toxic", "wish"],
+		randomBattleMoves: ["foulplay", "protect", "psychic", "thunderwave", "toxic", "wish"],
 		tier: "(NU)",
 		doublesTier: "DUU",
 	},
@@ -467,7 +467,7 @@
 		tier: "LC",
 	},
 	lickilicky: {
-		randomBattleMoves: ["bodyslam", "dragontail", "earthquake", "explosion", "healbell", "powerwhip", "protect", "swordsdance", "toxic", "wish"],
+		randomBattleMoves: ["bodyslam", "earthquake", "healbell", "powerwhip", "protect", "swordsdance", "toxic", "wish"],
 		tier: "NU",
 		doublesTier: "DUU",
 	},
@@ -475,7 +475,7 @@
 		tier: "LC",
 	},
 	weezing: {
-		randomBattleMoves: ["fireblast", "haze", "painsplit", "sludgebomb", "thunderbolt", "willowisp"],
+		randomBattleMoves: ["fireblast", "haze", "painsplit", "sludgebomb", "willowisp"],
 		tier: "NU",
 		doublesTier: "DUU",
 	},
@@ -496,12 +496,12 @@
 		tier: "LC",
 	},
 	chansey: {
-		randomBattleMoves: ["aromatherapy", "protect", "seismictoss", "softboiled", "stealthrock", "toxic", "wish"],
+		randomBattleMoves: ["aromatherapy", "seismictoss", "softboiled", "stealthrock", "toxic"],
 		tier: "UUBL",
 		doublesTier: "NFE",
 	},
 	blissey: {
-		randomBattleMoves: ["aromatherapy", "flamethrower", "protect", "seismictoss", "softboiled", "stealthrock", "thunderwave", "toxic"],
+		randomBattleMoves: ["aromatherapy", "protect", "seismictoss", "softboiled", "stealthrock", "thunderwave", "toxic"],
 		tier: "(OU)",
 		doublesTier: "DUU",
 	},
@@ -510,7 +510,7 @@
 		doublesTier: "NFE",
 	},
 	tangrowth: {
-		randomBattleMoves: ["gigadrain", "hiddenpowerfire", "leechseed", "powerwhip", "rockslide", "sleeppowder", "synthesis"],
+		randomBattleMoves: ["earthquake", "hiddenpowerfire", "leechseed", "powerwhip", "rockslide", "sleeppowder", "synthesis"],
 		tier: "RU",
 		doublesTier: "DUU",
 	},
@@ -722,7 +722,7 @@
 		tier: "LC",
 	},
 	dragonair: {
-		randomBattleMoves: ["dragondance", "fireblast", "outrage", "rest", "sleeptalk"],
+		randomBattleMoves: ["dragondance", "outrage", "rest", "sleeptalk", "waterfall"],
 		tier: "NFE",
 	},
 	dragonite: {
@@ -839,7 +839,7 @@
 		tier: "NFE",
 	},
 	ampharos: {
-		randomBattleMoves: ["focusblast", "healbell", "hiddenpowergrass", "hiddenpowerice", "thunderbolt", "toxic", "voltswitch"],
+		randomBattleMoves: ["agility", "focusblast", "healbell", "hiddenpowergrass", "hiddenpowerice", "thunderbolt", "toxic", "voltswitch"],
 		tier: "NU",
 		doublesTier: "DUU",
 	},
@@ -901,12 +901,12 @@
 		tier: "LC",
 	},
 	quagsire: {
-		randomBattleMoves: ["curse", "earthquake", "encore", "recover", "scald", "toxic", "waterfall"],
+		randomBattleMoves: ["earthquake", "encore", "recover", "scald", "toxic"],
 		tier: "RU",
 		doublesTier: "DUU",
 	},
 	murkrow: {
-		randomBattleMoves: ["calmmind", "darkpulse", "featherdance", "roost", "substitute"],
+		randomBattleMoves: ["foulplay", "roost", "taunt", "thunderwave", "toxic"],
 		tier: "NFE",
 	},
 	honchkrow: {
@@ -973,7 +973,7 @@
 		doublesTier: "DUU",
 	},
 	qwilfish: {
-		randomBattleMoves: ["destinybond", "painsplit", "poisonjab", "spikes", "taunt", "thunderwave", "waterfall"],
+		randomBattleMoves: ["destinybond", "poisonjab", "spikes", "taunt", "thunderwave", "toxicspikes", "waterfall"],
 		tier: "RU",
 		doublesTier: "DUU",
 	},
@@ -991,7 +991,7 @@
 		tier: "NFE",
 	},
 	weavile: {
-		randomBattleMoves: ["iceshard", "lowkick", "nightslash", "pursuit", "swordsdance"],
+		randomBattleMoves: ["icepunch", "iceshard", "lowkick", "nightslash", "pursuit", "swordsdance"],
 		tier: "UU",
 		doublesTier: "DOU",
 	},
@@ -1156,7 +1156,7 @@
 		tier: "NFE",
 	},
 	swampert: {
-		randomBattleMoves: ["earthquake", "icepunch", "roar", "stealthrock", "superpower", "toxic", "waterfall"],
+		randomBattleMoves: ["earthquake", "icebeam", "protect", "roar", "scald", "stealthrock", "toxic"],
 		tier: "UU",
 		doublesTier: "DUU",
 	},
@@ -1577,7 +1577,7 @@
 		doublesTier: "DUU",
 	},
 	tropius: {
-		randomBattleMoves: ["airslash", "leechseed", "protect", "roost", "substitute", "toxic"],
+		randomBattleMoves: ["airslash", "leechseed", "protect", "substitute", "toxic"],
 		tier: "(NU)",
 		doublesTier: "DUU",
 	},
@@ -1705,7 +1705,7 @@
 		doublesTier: "DUber",
 	},
 	jirachi: {
-		randomBattleMoves: ["bodyslam", "calmmind", "firepunch", "icepunch", "ironhead", "psychic", "substitute", "thunder", "uturn", "wish"],
+		randomBattleMoves: ["bodyslam", "firepunch", "icepunch", "ironhead", "substitute", "uturn", "wish"],
 		tier: "OU",
 		doublesTier: "DUber",
 	},
@@ -1994,7 +1994,7 @@
 		doublesTier: "DOU",
 	},
 	rotom: {
-		randomBattleMoves: ["hiddenpowerfighting", "hiddenpowerice", "shadowball", "substitute", "painsplit", "thunderbolt", "trick", "voltswitch", "willowisp"],
+		randomBattleMoves: ["hiddenpowerice", "shadowball", "substitute", "painsplit", "thunderbolt", "trick", "voltswitch", "willowisp"],
 		tier: "RU",
 		doublesTier: "DUU",
 	},
@@ -2039,7 +2039,7 @@
 		doublesTier: "DUU",
 	},
 	dialga: {
-		randomBattleMoves: ["aurasphere", "bulkup", "dracometeor", "dragontail", "fireblast", "rest", "sleeptalk", "stealthrock", "thunderbolt"],
+		randomBattleMoves: ["aurasphere", "dracometeor", "dragontail", "fireblast", "stealthrock", "thunderbolt"],
 		tier: "Uber",
 		doublesTier: "DUber",
 	},
@@ -2220,7 +2220,7 @@
 		tier: "LC",
 	},
 	simisage: {
-		randomBattleMoves: ["focusblast", "gigadrain", "hiddenpowerrock", "leechseed", "nastyplot", "substitute", "superpower"],
+		randomBattleMoves: ["focusblast", "gigadrain", "hiddenpowerrock", "leechseed", "nastyplot", "substitute"],
 		tier: "(NU)",
 		doublesTier: "DUU",
 	},
@@ -2228,7 +2228,7 @@
 		tier: "LC",
 	},
 	simisear: {
-		randomBattleMoves: ["fireblast", "focusblast", "grassknot", "hiddenpowerrock", "nastyplot", "substitute", "superpower"],
+		randomBattleMoves: ["fireblast", "focusblast", "grassknot", "hiddenpowerrock", "nastyplot", "substitute"],
 		tier: "(NU)",
 		doublesTier: "DUU",
 	},
@@ -2591,7 +2591,7 @@
 		tier: "NFE",
 	},
 	eelektross: {
-		randomBattleMoves: ["aquatail", "drainpunch", "flamethrower", "gigadrain", "hiddenpowerice", "superpower", "thunderbolt", "thunderpunch", "uturn"],
+		randomBattleMoves: ["flamethrower", "gigadrain", "hiddenpowerice", "superpower", "thunderbolt", "uturn"],
 		tier: "NU",
 		doublesTier: "DUU",
 	},
@@ -2676,7 +2676,7 @@
 		tier: "LC",
 	},
 	bisharp: {
-		randomBattleMoves: ["ironhead", "lowkick", "nightslash", "substitute", "suckerpunch", "swordsdance"],
+		randomBattleMoves: ["ironhead", "lowkick", "nightslash", "suckerpunch", "swordsdance"],
 		tier: "UU",
 		doublesTier: "DUU",
 	},
@@ -2791,7 +2791,7 @@
 		doublesTier: "DUU",
 	},
 	kyuremblack: {
-		randomBattleMoves: ["dragonclaw", "fusionbolt", "hiddenpowerfire", "icebeam", "roost", "substitute"],
+		randomBattleMoves: ["dragonclaw", "earthpower", "fusionbolt", "icebeam", "roost", "substitute"],
 		tier: "OU",
 		doublesTier: "DOU",
 	},

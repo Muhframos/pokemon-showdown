@@ -8,7 +8,7 @@
  */
 
 var _scavengers = require('./scavengers');
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 
@@ -124,7 +124,7 @@ const TWISTS = {
 		onAfterEnd() {
 			const perfect = this.completed.filter(entry => entry.isPerfect).map(entry => entry.name);
 			if (perfect.length) {
-				this.announce(_utils.Utils.html`${Chat.toListString(perfect)} ${perfect.length > 1 ? 'have' : 'has'} completed the hunt without a single wrong answer!`);
+				this.announce(_lib.Utils.html`${Chat.toListString(perfect)} ${perfect.length > 1 ? 'have' : 'has'} completed the hunt without a single wrong answer!`);
 			}
 		},
 	},
@@ -171,7 +171,7 @@ const TWISTS = {
 		onAfterEnd() {
 			const noSkip = this.completed.filter(entry => entry.noSkip).map(entry => entry.name);
 			if (noSkip.length) {
-				this.announce(_utils.Utils.html`${Chat.toListString(noSkip)} ${noSkip.length > 1 ? 'have' : 'has'} completed the hunt without skipping the last question!`);
+				this.announce(_lib.Utils.html`${Chat.toListString(noSkip)} ${noSkip.length > 1 ? 'have' : 'has'} completed the hunt without skipping the last question!`);
 			}
 		},
 	},
@@ -499,8 +499,8 @@ const MODES = {
 			onCreateCallback() {
 				if (this.answerLock) {
 					return `|raw|<div class="broadcast-blue"><strong>${['official', 'unrated'].includes(this.gameType) ? 'An' : 'A'} ${this.gameType} ` +
-						`Scavenger Hunt by <em>${_utils.Utils.escapeHTML(Chat.toListString(this.hosts.map(h => h.name)))}</em> ` +
-						`has been started${(this.hosts.some(h => h.id === this.staffHostId) ? '' : ` by <em>${_utils.Utils.escapeHTML(this.staffHostName)}</em>`)}.` +
+						`Scavenger Hunt by <em>${_lib.Utils.escapeHTML(Chat.toListString(this.hosts.map(h => h.name)))}</em> ` +
+						`has been started${(this.hosts.some(h => h.id === this.staffHostId) ? '' : ` by <em>${_lib.Utils.escapeHTML(this.staffHostName)}</em>`)}.` +
 						`<br />The first hint is currently being handed out to early finishers.`;
 				}
 			},
@@ -546,7 +546,7 @@ const MODES = {
 
 			for (const userid of team.players) {
 				const user = Users.getExact(userid);
-				if (!user || !user.connected) continue; // user is offline
+				if (!_optionalChain([user, 'optionalAccess', _14 => _14.connected])) continue; // user is offline
 
 				user.sendTo(this.room, `|raw|<div class="infobox">${message}</div>`);
 			}
@@ -653,7 +653,7 @@ const MODES = {
 				if (player.currentQuestion + 1 < this.questions.length) {
 					game.teamAnnounce(
 						player,
-						_utils.Utils.html`<strong>${player.name}</strong> has gotten the correct answer (${value}) for question #${player.currentQuestion + 1}.`
+						_lib.Utils.html`<strong>${player.name}</strong> has gotten the correct answer (${value}) for question #${player.currentQuestion + 1}.`
 					);
 					game.advanceTeam(player);
 
@@ -674,7 +674,7 @@ const MODES = {
 				if (player.completed) return;
 
 				if (team.answers.includes(value)) return;
-				game.teamAnnounce(player, _utils.Utils.html`${player.name} has guessed "${value}".`);
+				game.teamAnnounce(player, _lib.Utils.html`${player.name} has guessed "${value}".`);
 				team.answers.push(value);
 			},
 
@@ -695,7 +695,7 @@ const MODES = {
 
 				game.teamAnnounce(
 					player,
-					_utils.Utils.html`<strong>${player.name}</strong> has gotten the correct answer for question #${player.currentQuestion}.  Your team has completed the hunt!`
+					_lib.Utils.html`<strong>${player.name}</strong> has gotten the correct answer for question #${player.currentQuestion}.  Your team has completed the hunt!`
 				);
 			},
 
@@ -732,7 +732,7 @@ const MODES = {
 	}
 
 	eliminate(userid) {
-		if (!this.playerlist || !this.playerlist.includes(userid)) return false;
+		if (!_optionalChain([this, 'access', _15 => _15.playerlist, 'optionalAccess', _16 => _16.includes, 'call', _17 => _17(userid)])) return false;
 		this.playerlist = this.playerlist.filter(pid => pid !== userid);
 
 		if (this.leaderboard) delete this.leaderboard.data[userid];
@@ -751,7 +751,7 @@ const LoadGame = function (room, gameid) {
 
 	const base = new ScavengerGameTemplate(room);
 
-	const scavgame = Object.assign(base, _utils.Utils.deepClone(game));
+	const scavgame = Object.assign(base, _lib.Utils.deepClone(game));
 
 	// initialize leaderboard if required
 	if (scavgame.leaderboard) {

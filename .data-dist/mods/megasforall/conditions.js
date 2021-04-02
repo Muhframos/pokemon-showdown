@@ -1,4 +1,80 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; } const Conditions = {
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }const longwhip = {
+	// this is a slot condition
+	onResidualOrder: 3,
+	onResidual(target) {
+		// unlike a future move, Long Whip activates each turn
+		this.effectData.target = this.getAtSlot(this.effectData.slot);
+		const data = this.effectData;
+		const move = this.dex.getMove(data.move);
+		if (data.target.fainted || data.target === data.source) {
+			this.hint(`${move.name} did not hit because the target is ${(data.fainted ? 'fainted' : 'the user')}.`);
+			return;
+		}
+
+		this.add('-message', `${(data.target.illusion ? data.target.illusion.name : data.target.name)} took the ${move.name} attack!`);
+		data.target.removeVolatile('Protect');
+		data.target.removeVolatile('Endure');
+
+		if (data.source.hasAbility('infiltrator') && this.gen >= 6) {
+			data.moveData.infiltrates = true;
+		}
+		if (data.source.hasAbility('normalize') && this.gen >= 6) {
+			data.moveData.type = 'Normal';
+		}
+		if (data.source.hasAbility('adaptability') && this.gen >= 6) {
+			data.moveData.stab = 2;
+		}
+		if (data.move.name === 'Triple Axel' || data.move.name === 'Triple Kick') {
+			data.moveData.longWhipBoost = 3 - data.duration;
+		}
+		data.moveData.accuracy = true;
+		data.moveData.isFutureMove = true;
+		data.move.multihit = null;
+
+		const hitMove = new this.dex.Move(data.moveData) ;
+		if (data.source.isActive) {
+			this.add('-anim', data.source, hitMove, data.target);
+		}
+		this.actions.trySpreadMoveHit([data.target], data.source, hitMove);
+	},
+	onEnd(target) {
+		// unlike a future move, Long Whip activates each turn
+		this.effectData.target = this.getAtSlot(this.effectData.slot);
+		const data = this.effectData;
+		const move = this.dex.getMove(data.move);
+		if (data.target.fainted || data.target === data.source) {
+			this.hint(`${move.name} did not hit because the target is ${(data.fainted ? 'fainted' : 'the user')}.`);
+			return;
+		}
+
+		this.add('-message', `${(data.target.illusion ? data.target.illusion.name : data.target.name)} took the ${move.name} attack!`);
+		data.target.removeVolatile('Protect');
+		data.target.removeVolatile('Endure');
+
+		if (data.source.hasAbility('infiltrator') && this.gen >= 6) {
+			data.moveData.infiltrates = true;
+		}
+		if (data.source.hasAbility('normalize') && this.gen >= 6) {
+			data.moveData.type = 'Normal';
+		}
+		if (data.source.hasAbility('adaptability') && this.gen >= 6) {
+			data.moveData.stab = 2;
+		}
+		if (data.move.name === 'Triple Axel' || data.move.name === 'Triple Kick') {
+			data.moveData.longWhipBoost = 3 - data.duration;
+		}
+		data.moveData.accuracy = true;
+		data.moveData.isFutureMove = true;
+		data.move.multihit = null;
+
+		const hitMove = new this.dex.Move(data.moveData) ;
+		if (data.source.isActive) {
+			this.add('-anim', data.source, hitMove, data.target);
+		}
+		this.actions.trySpreadMoveHit([data.target], data.source, hitMove);
+	},
+};
+ const Conditions = {
 	desertgales: {
 		name: 'Desert Gales',
 		effectType: 'Weather',
@@ -36,7 +112,7 @@
 			if (move.type === 'Rock' || move.type === 'Ground' || move.type === 'Steel') {
 				this.debug('Desert Gales boost');
 				this.add('-message', `${move.name} was powered up by the desert gales!`);
-				return this.chainModify([0x1333, 0x1000]);
+				return this.chainModify([4915, 4096]);
 			}
 		},
 		onResidual() {
@@ -196,6 +272,11 @@
 			}
 		},
 	},
+	longwhip1: longwhip,
+	longwhip2: longwhip,
+	longwhip3: longwhip,
+	longwhip4: longwhip,
+	longwhip5: longwhip,
 }; exports.Conditions = Conditions;
 
  //# sourceMappingURL=sourceMaps/conditions.js.map

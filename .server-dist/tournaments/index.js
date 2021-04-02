@@ -1,7 +1,7 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }
 var _generatorelimination = require('./generator-elimination');
 var _generatorroundrobin = require('./generator-round-robin');
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 
@@ -249,11 +249,11 @@ function usersToNames(users) {
 			}
 		}
 		const html = [];
-		if (bans.length) html.push(_utils.Utils.html`<b>Added bans</b> - ${bans.join(', ')}`);
-		if (unbans.length) html.push(_utils.Utils.html`<b>Removed bans</b> - ${unbans.join(', ')}`);
-		if (restrictions.length) html.push(_utils.Utils.html`<b>Added Restrictions</b> - ${restrictions.join(', ')}`);
-		if (addedRules.length) html.push(_utils.Utils.html`<b>Added rules</b> - ${addedRules.join(', ')}`);
-		if (removedRules.length) html.push(_utils.Utils.html`<b>Removed rules</b> - ${removedRules.join(', ')}`);
+		if (bans.length) html.push(_lib.Utils.html`<b>Added bans</b> - ${bans.join(', ')}`);
+		if (unbans.length) html.push(_lib.Utils.html`<b>Removed bans</b> - ${unbans.join(', ')}`);
+		if (restrictions.length) html.push(_lib.Utils.html`<b>Added restrictions</b> - ${restrictions.join(', ')}`);
+		if (addedRules.length) html.push(_lib.Utils.html`<b>Added rules</b> - ${addedRules.join(', ')}`);
+		if (removedRules.length) html.push(_lib.Utils.html`<b>Removed rules</b> - ${removedRules.join(', ')}`);
 		return html.join(`<br />`);
 	}
 
@@ -390,7 +390,8 @@ function usersToNames(users) {
 			return;
 		}
 
-		if (user.getGames().length > 4) {
+		const gameCount = user.games.size;
+		if (gameCount > 4) {
 			output.errorReply("Due to high load, you are limited to 4 games at the same time.");
 			return;
 		}
@@ -514,7 +515,7 @@ function usersToNames(users) {
 			matchPlayer.isBusy = false;
 
 			matchPlayer.inProgressMatch.room.addRaw(
-				_utils.Utils.html`<div class="broadcast-red"><b>${user.name} is no longer in the tournament.<br />` +
+				_lib.Utils.html`<div class="broadcast-red"><b>${user.name} is no longer in the tournament.<br />` +
 				`You can finish playing, but this battle is no longer considered a tournament battle.</div>`
 			).update();
 			matchPlayer.inProgressMatch.room.setParent(null);
@@ -907,7 +908,7 @@ function usersToNames(users) {
 		const from = this.playerTable[user.id];
 		const to = this.playerTable[targetUserid];
 		const availableMatches = from.availableMatches;
-		if (!availableMatches || !availableMatches.has(to)) {
+		if (!_optionalChain([availableMatches, 'optionalAccess', _4 => _4.has, 'call', _5 => _5(to)])) {
 			output.sendReply('|tournament|error|InvalidMatch');
 			return;
 		}
@@ -934,8 +935,12 @@ function usersToNames(users) {
 		}
 
 		to.lastActionTime = Date.now();
-		from.pendingChallenge = {to, team: ready.team, hidden: ready.hidden, inviteOnly: ready.inviteOnly};
-		to.pendingChallenge = {from, team: ready.team, hidden: ready.hidden, inviteOnly: ready.inviteOnly};
+		from.pendingChallenge = {
+			to, team: ready.settings.team, hidden: ready.settings.hidden, inviteOnly: ready.settings.inviteOnly,
+		};
+		to.pendingChallenge = {
+			from, team: ready.settings.team, hidden: ready.settings.hidden, inviteOnly: ready.settings.inviteOnly,
+		};
 		from.sendRoom(`|tournament|update|${JSON.stringify({challenging: to.name})}`);
 		to.sendRoom(`|tournament|update|${JSON.stringify({challenged: from.name})}`);
 
@@ -955,7 +960,7 @@ function usersToNames(users) {
 
 		const player = this.playerTable[user.id];
 		const challenge = player.pendingChallenge;
-		if (!challenge || !challenge.to) return;
+		if (!_optionalChain([challenge, 'optionalAccess', _6 => _6.to])) return;
 
 		player.isBusy = false;
 		challenge.to.isBusy = false;
@@ -981,35 +986,40 @@ function usersToNames(users) {
 
 		const player = this.playerTable[user.id];
 		const challenge = player.pendingChallenge;
-		if (!challenge || !challenge.from) return;
+		if (!_optionalChain([challenge, 'optionalAccess', _7 => _7.from])) return;
 
 		const ready = await Ladders(this.fullFormat).prepBattle(output.connection, 'tour');
 		if (!ready) return;
 
 		// Prevent battles between offline users from starting
 		const from = Users.get(challenge.from.id);
-		if (!from || !from.connected || !user.connected) return;
+		if (!_optionalChain([from, 'optionalAccess', _8 => _8.connected]) || !user.connected) return;
 
 		// Prevent double accepts and users that have been disqualified while between these two functions
 		if (!challenge.from.pendingChallenge) return;
 		if (!player.pendingChallenge) return;
 
-		const room = Rooms.createBattle(this.fullFormat, {
+		const room = Rooms.createBattle({
+			format: this.fullFormat,
 			isPrivate: this.room.settings.isPrivate,
-			p1: from,
-			p1team: challenge.team,
-			p1hidden: challenge.hidden,
-			p1inviteOnly: challenge.inviteOnly,
-			p2: user,
-			p2team: ready.team,
-			p2hidden: ready.hidden,
-			p2inviteOnly: ready.inviteOnly,
+			p1: {
+				user: from,
+				team: challenge.team,
+				hidden: challenge.hidden,
+				inviteOnly: challenge.inviteOnly,
+			},
+			p2: {
+				user,
+				team: ready.settings.team,
+				hidden: ready.settings.hidden,
+				inviteOnly: ready.settings.inviteOnly,
+			},
 			rated: !Ladders.disabled && this.isRated,
 			challengeType: ready.challengeType,
 			tour: this,
 			parentid: this.roomid,
 		});
-		if (!room || !room.battle) throw new Error(`Failed to create battle in ${room}`);
+		if (!_optionalChain([room, 'optionalAccess', _9 => _9.battle])) throw new Error(`Failed to create battle in ${room}`);
 
 		challenge.from.pendingChallenge = null;
 		player.pendingChallenge = null;
@@ -1121,7 +1131,7 @@ function usersToNames(users) {
 		if (this.generator.isTournamentEnded()) {
 			if (!this.room.settings.isPrivate && this.generator.name.includes('Elimination') && !Config.autosavereplays) {
 				const uploader = Users.get(winnerid);
-				if (_optionalChain([uploader, 'optionalAccess', _4 => _4.connections, 'access', _5 => _5[0]])) {
+				if (_optionalChain([uploader, 'optionalAccess', _10 => _10.connections, 'access', _11 => _11[0]])) {
 					void Chat.parse('/savereplay', room, uploader, uploader.connections[0]);
 				}
 			}
@@ -1252,7 +1262,7 @@ const commands = {
 				return this.errorReply("Tournaments in this room cannot be announced.");
 			}
 			if (!target) {
-				if (_optionalChain([room, 'access', _6 => _6.settings, 'access', _7 => _7.tournaments, 'optionalAccess', _8 => _8.announcements])) {
+				if (_optionalChain([room, 'access', _12 => _12.settings, 'access', _13 => _13.tournaments, 'optionalAccess', _14 => _14.announcements])) {
 					return this.sendReply("Tournament announcements are enabled.");
 				} else {
 					return this.sendReply("Tournament announcements are disabled.");
@@ -1261,14 +1271,14 @@ const commands = {
 
 			const option = target.toLowerCase();
 			if (this.meansYes(option)) {
-				if (_optionalChain([room, 'access', _9 => _9.settings, 'access', _10 => _10.tournaments, 'optionalAccess', _11 => _11.announcements])) return this.errorReply("Tournament announcements are already enabled.");
+				if (_optionalChain([room, 'access', _15 => _15.settings, 'access', _16 => _16.tournaments, 'optionalAccess', _17 => _17.announcements])) return this.errorReply("Tournament announcements are already enabled.");
 				if (!room.settings.tournaments) room.settings.tournaments = {};
 				room.settings.tournaments.announcements = true;
 				room.saveSettings();
 				this.privateModAction(`Tournament announcements were enabled by ${user.name}`);
 				this.modlog('TOUR ANNOUNCEMENTS', null, 'ON');
 			} else if (this.meansNo(option)) {
-				if (!_optionalChain([room, 'access', _12 => _12.settings, 'access', _13 => _13.tournaments, 'optionalAccess', _14 => _14.announcements])) return this.errorReply("Tournament announcements are already disabled.");
+				if (!_optionalChain([room, 'access', _18 => _18.settings, 'access', _19 => _19.tournaments, 'optionalAccess', _20 => _20.announcements])) return this.errorReply("Tournament announcements are already disabled.");
 				if (!room.settings.tournaments) room.settings.tournaments = {};
 				room.settings.tournaments.announcements = false;
 				room.saveSettings();
@@ -1293,11 +1303,11 @@ const commands = {
 			if (tour) {
 				this.privateModAction(`${user.name} created a tournament in ${tour.baseFormat} format.`);
 				this.modlog('TOUR CREATE', null, tour.baseFormat);
-				if (_optionalChain([room, 'access', _15 => _15.settings, 'access', _16 => _16.tournaments, 'optionalAccess', _17 => _17.announcements])) {
+				if (_optionalChain([room, 'access', _21 => _21.settings, 'access', _22 => _22.tournaments, 'optionalAccess', _23 => _23.announcements])) {
 					const tourRoom = Rooms.search(Config.tourroom || 'tournaments');
 					if (tourRoom && tourRoom !== room) {
 						tourRoom.addRaw(
-							_utils.Utils.html`<div class="infobox"><a href="/${room.roomid}" class="ilink">` +
+							_lib.Utils.html`<div class="infobox"><a href="/${room.roomid}" class="ilink">` +
 							`<strong>${Dex.getFormat(tour.name).name}</strong> tournament created in` +
 							` <strong>${room.title}</strong>.</a></div>`
 						).update();
@@ -1314,9 +1324,9 @@ const commands = {
 				const name = format.name.startsWith(`[Gen ${Dex.gen}] `) ? format.name.slice(8) : format.name;
 				if (format.section !== section) {
 					section = format.section;
-					buf += _utils.Utils.html`<br /><strong>${section}:</strong><br />&bull; ${name}`;
+					buf += _lib.Utils.html`<br /><strong>${section}:</strong><br />&bull; ${name}`;
 				} else {
-					buf += _utils.Utils.html`<br />&bull; ${name}`;
+					buf += _lib.Utils.html`<br />&bull; ${name}`;
 				}
 			}
 			this.sendReplyBox(`<div class="chat"><details class="readmore"><summary>Valid Formats: </summary>${buf}</details></div>`);
@@ -1333,7 +1343,7 @@ const commands = {
 
 			const targetUserid = targetUser ? targetUser.id : toID(userid);
 			if (!targetUser) return false;
-			if (_optionalChain([reason, 'optionalAccess', _18 => _18.length]) > MAX_REASON_LENGTH) {
+			if (_optionalChain([reason, 'optionalAccess', _24 => _24.length]) > MAX_REASON_LENGTH) {
 				return this.errorReply(`The reason is too long. It cannot exceed ${MAX_REASON_LENGTH} characters.`);
 			}
 
@@ -1402,7 +1412,7 @@ const commands = {
 			const users = usersToNames(tournament.getRemainingPlayers().sort());
 			this.sendReplyBox(
 				`<strong>${users.length}/${tournament.players.length}` +
-				_utils.Utils.html` users remain in this tournament:</strong><br />${users.join(', ')}`
+				_lib.Utils.html` users remain in this tournament:</strong><br />${users.join(', ')}`
 			);
 		},
 		getupdate(target, room, user) {
@@ -1436,7 +1446,7 @@ const commands = {
 				return;
 			}
 			const result = await TeamValidatorAsync.get(tournament.fullFormat).validateTeam(user.battleSettings.team);
-			if (result.charAt(0) === '1') {
+			if (result.startsWith('1')) {
 				connection.popup("Your team is valid for this tournament.");
 			} else {
 				const formatName = Dex.getFormat(tournament.baseFormat).name;
@@ -1553,7 +1563,8 @@ const commands = {
 			if (!target) {
 				this.sendReply("Usage: /tour rules <list of rules>");
 				this.sendReply("Rules can be: -bannedthing, +un[banned|restricted]thing, *restrictedthing, !removedrule, addedrule");
-				return this.parse('/tour viewrules');
+				this.parse('/tour viewrules');
+				return this.sendReplyBox(`<details><summary>Source</summary><code style="white-space: pre-wrap; display: table; tab-size: 3">/tour rules ${tournament.customRules}</code></details>`);
 			}
 			if (tournament.isTournamentStarted) {
 				return this.errorReply("The custom rules cannot be changed once the tournament has started.");
@@ -1564,6 +1575,7 @@ const commands = {
 				);
 				this.privateModAction(`${user.name} updated the tournament's custom rules.`);
 				this.modlog('TOUR RULES', null, tournament.customRules.join(', '));
+				this.sendReplyBox(`<details><summary>Source</summary><code style="white-space: pre-wrap; display: table; tab-size: 3">/tour rules ${tournament.customRules}</code></details>`);
 			}
 		},
 		clearruleset: 'clearcustomrules',
@@ -1645,7 +1657,7 @@ const commands = {
 			const [userid, reason] = target.split(',').map(item => item.trim());
 			const targetUser = Users.get(userid);
 			const targetUserid = toID(targetUser || userid);
-			if (_optionalChain([reason, 'optionalAccess', _19 => _19.length]) > MAX_REASON_LENGTH) {
+			if (_optionalChain([reason, 'optionalAccess', _25 => _25.length]) > MAX_REASON_LENGTH) {
 				return this.errorReply(`The reason is too long. It cannot exceed ${MAX_REASON_LENGTH} characters.`);
 			}
 			if (tournament.disqualifyUser(targetUserid, this, reason)) {
@@ -1873,7 +1885,7 @@ const commands = {
 					}
 				} else {
 					if (room.settings.tournaments.allowModjoin) {
-						if (_optionalChain([tour, 'optionalAccess', _20 => _20.allowModjoin])) this.parse(`/tour modjoin disallow`);
+						if (_optionalChain([tour, 'optionalAccess', _26 => _26.allowModjoin])) this.parse(`/tour modjoin disallow`);
 						room.settings.tournaments.allowModjoin = false;
 						room.saveSettings();
 						this.privateModAction(`Modjoin was disabled for every tournament by ${user.name}`);
@@ -1901,7 +1913,7 @@ const commands = {
 					}
 				} else {
 					if (room.settings.tournaments) {
-						if (_optionalChain([tour, 'optionalAccess', _21 => _21.allowScouting])) this.parse(`/tour scouting disallow`);
+						if (_optionalChain([tour, 'optionalAccess', _27 => _27.allowScouting])) this.parse(`/tour scouting disallow`);
 						room.settings.tournaments.allowScouting = false;
 						room.saveSettings();
 						this.privateModAction(`Scouting was disabled for every tournament by ${user.name}`);
@@ -1919,7 +1931,7 @@ const commands = {
 				if (!room.settings.tournaments) room.settings.tournaments = {};
 				if (this.meansNo(target)) {
 					if (room.settings.tournaments.forcePublic) {
-						if (_optionalChain([tour, 'optionalAccess', _22 => _22.forcePublic])) this.parse(`/tour forcepublic off`);
+						if (_optionalChain([tour, 'optionalAccess', _28 => _28.forcePublic])) this.parse(`/tour forcepublic off`);
 						room.settings.tournaments.forcePublic = false;
 						room.saveSettings();
 						this.privateModAction(`Forced public battles were disabled for every tournament by ${user.name}`);
@@ -1947,7 +1959,7 @@ const commands = {
 				if (!room.settings.tournaments) room.settings.tournaments = {};
 				if (this.meansNo(target)) {
 					if (room.settings.tournaments.forceTimer) {
-						if (_optionalChain([tour, 'optionalAccess', _23 => _23.forceTimer])) this.parse(`/tour forcetimer off`);
+						if (_optionalChain([tour, 'optionalAccess', _29 => _29.forceTimer])) this.parse(`/tour forcetimer off`);
 						room.settings.tournaments.forceTimer = false;
 						room.saveSettings();
 						this.privateModAction(`Forced timer was disabled for every tournament by ${user.name}`);
@@ -2042,7 +2054,7 @@ const commands = {
 						throw new Chat.ErrorMessage(`Automatic disqualification for every tournament is already set to ${num}.`);
 					}
 					room.settings.tournaments.autodq = timeout;
-					if (_optionalChain([tour, 'optionalAccess', _24 => _24.autoDisqualifyTimeout]) === Infinity) {
+					if (_optionalChain([tour, 'optionalAccess', _30 => _30.autoDisqualifyTimeout]) === Infinity) {
 						this.parse(`/tour autodq ${num}`);
 					}
 					room.saveSettings();
@@ -2143,32 +2155,32 @@ const roomSettings = [
 		label: "Tournament Forced Public Battles",
 		permission: "editroom",
 		options: [
-			['on', _optionalChain([room, 'access', _25 => _25.settings, 'access', _26 => _26.tournaments, 'optionalAccess', _27 => _27.forcePublic]) || 'tour settings forcepublic on'],
-			['off', !_optionalChain([room, 'access', _28 => _28.settings, 'access', _29 => _29.tournaments, 'optionalAccess', _30 => _30.forcePublic]) || 'tour settings forcepublic off'],
+			['on', _optionalChain([room, 'access', _31 => _31.settings, 'access', _32 => _32.tournaments, 'optionalAccess', _33 => _33.forcePublic]) || 'tour settings forcepublic on'],
+			['off', !_optionalChain([room, 'access', _34 => _34.settings, 'access', _35 => _35.tournaments, 'optionalAccess', _36 => _36.forcePublic]) || 'tour settings forcepublic off'],
 		],
 	}),
 	room => ({
 		label: "Tournament Forced Timer",
 		permission: "editroom",
 		options: [
-			['on', _optionalChain([room, 'access', _31 => _31.settings, 'access', _32 => _32.tournaments, 'optionalAccess', _33 => _33.forceTimer]) || 'tour settings forcetimer on'],
-			['off', !_optionalChain([room, 'access', _34 => _34.settings, 'access', _35 => _35.tournaments, 'optionalAccess', _36 => _36.forceTimer]) || 'tour settings forcetimer off'],
+			['on', _optionalChain([room, 'access', _37 => _37.settings, 'access', _38 => _38.tournaments, 'optionalAccess', _39 => _39.forceTimer]) || 'tour settings forcetimer on'],
+			['off', !_optionalChain([room, 'access', _40 => _40.settings, 'access', _41 => _41.tournaments, 'optionalAccess', _42 => _42.forceTimer]) || 'tour settings forcetimer off'],
 		],
 	}),
 	room => ({
 		label: "Tournament Modjoin",
 		permission: "editroom",
 		options: [
-			['allow', _optionalChain([room, 'access', _37 => _37.settings, 'access', _38 => _38.tournaments, 'optionalAccess', _39 => _39.allowModjoin]) || 'tour settings modjoin allow'],
-			['disallow', !_optionalChain([room, 'access', _40 => _40.settings, 'access', _41 => _41.tournaments, 'optionalAccess', _42 => _42.allowModjoin]) || 'tour settings modjoin disallow'],
+			['allow', _optionalChain([room, 'access', _43 => _43.settings, 'access', _44 => _44.tournaments, 'optionalAccess', _45 => _45.allowModjoin]) || 'tour settings modjoin allow'],
+			['disallow', !_optionalChain([room, 'access', _46 => _46.settings, 'access', _47 => _47.tournaments, 'optionalAccess', _48 => _48.allowModjoin]) || 'tour settings modjoin disallow'],
 		],
 	}),
 	room => ({
 		label: "Tournament Scouting",
 		permission: "editroom",
 		options: [
-			['allow', _optionalChain([room, 'access', _43 => _43.settings, 'access', _44 => _44.tournaments, 'optionalAccess', _45 => _45.allowScouting]) || 'tour settings scouting allow'],
-			['disallow', !_optionalChain([room, 'access', _46 => _46.settings, 'access', _47 => _47.tournaments, 'optionalAccess', _48 => _48.allowScouting]) || 'tour settings scouting disallow'],
+			['allow', _optionalChain([room, 'access', _49 => _49.settings, 'access', _50 => _50.tournaments, 'optionalAccess', _51 => _51.allowScouting]) || 'tour settings scouting allow'],
+			['disallow', !_optionalChain([room, 'access', _52 => _52.settings, 'access', _53 => _53.tournaments, 'optionalAccess', _54 => _54.allowScouting]) || 'tour settings scouting disallow'],
 		],
 	}),
 ];

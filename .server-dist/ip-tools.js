@@ -19,7 +19,7 @@ const HOSTS_FILE = 'config/hosts.csv';
 const PROXIES_FILE = 'config/proxies.csv';
 
 var _dns = require('dns'); var dns = _dns;
-var _fs = require('../.lib-dist/fs');
+var _lib = require('../.lib-dist');
 
 
 
@@ -206,7 +206,7 @@ function removeNohost(hostname) {
 	 * in the range.
 	 */
 	checker(rangeString) {
-		if (!rangeString || !rangeString.length) return () => false;
+		if (!_optionalChain([rangeString, 'optionalAccess', _5 => _5.length])) return () => false;
 		let ranges = [];
 		if (typeof rangeString === 'string') {
 			const rangePatterns = exports.IPTools.stringToRange(rangeString);
@@ -226,7 +226,7 @@ function removeNohost(hostname) {
 	__init9() {this.residentialHosts = new Set()}
 	__init10() {this.mobileHosts = new Set()}
 	async loadHostsAndRanges() {
-		const data = await _fs.FS.call(void 0, HOSTS_FILE).readIfExists() + await _fs.FS.call(void 0, PROXIES_FILE).readIfExists();
+		const data = await _lib.FS.call(void 0, HOSTS_FILE).readIfExists() + await _lib.FS.call(void 0, PROXIES_FILE).readIfExists();
 		// Strip carriage returns for Windows compatibility
 		const rows = data.split('\n').map(row => row.replace('\r', ''));
 		const ranges = [];
@@ -285,14 +285,14 @@ function removeNohost(hostname) {
 		exports.IPTools.sortRanges();
 		for (const range of exports.IPTools.ranges) {
 			const data = `RANGE,${exports.IPTools.numberToIP(range.minIP)},${exports.IPTools.numberToIP(range.maxIP)}${range.host ? `,${range.host}` : ``}\n`;
-			if (_optionalChain([range, 'access', _5 => _5.host, 'optionalAccess', _6 => _6.endsWith, 'call', _7 => _7('/proxy')])) {
+			if (_optionalChain([range, 'access', _6 => _6.host, 'optionalAccess', _7 => _7.endsWith, 'call', _8 => _8('/proxy')])) {
 				proxiesData += data;
 			} else {
 				hostsData += data;
 			}
 		}
-		void _fs.FS.call(void 0, HOSTS_FILE).write(hostsData);
-		void _fs.FS.call(void 0, PROXIES_FILE).write(proxiesData);
+		void _lib.FS.call(void 0, HOSTS_FILE).write(hostsData);
+		void _lib.FS.call(void 0, PROXIES_FILE).write(proxiesData);
 	}
 
 	addOpenProxies(ips) {
@@ -375,7 +375,7 @@ function removeNohost(hostname) {
 			}
 			if (insertion.minIP <= next.minIP && insertion.maxIP >= next.maxIP) {
 				if (widen) {
-					if (_optionalChain([sortedRanges, 'access', _8 => _8[iMin + 1], 'optionalAccess', _9 => _9.minIP]) <= insertion.maxIP) {
+					if (_optionalChain([sortedRanges, 'access', _9 => _9[iMin + 1], 'optionalAccess', _10 => _10.minIP]) <= insertion.maxIP) {
 						throw new Error("You can only widen one address range at a time.");
 					}
 					return iMin;
@@ -469,7 +469,7 @@ function removeNohost(hostname) {
 					resolve(`${ip.split('.').slice(0, 2).join('.')}?/unknown`);
 					return;
 				}
-				if (!hosts || !hosts[0]) {
+				if (!_optionalChain([hosts, 'optionalAccess', _11 => _11[0]])) {
 					if (ip.startsWith('50.')) {
 						resolve('comcast.net?/res');
 					} else if (ipNumber >= telstraRange.minIP && ipNumber <= telstraRange.maxIP) {
@@ -538,7 +538,7 @@ function removeNohost(hostname) {
 	}
 
 	shortenHost(host) {
-		if (_optionalChain([host, 'access', _10 => _10.split, 'call', _11 => _11('.'), 'access', _12 => _12.pop, 'call', _13 => _13(), 'optionalAccess', _14 => _14.includes, 'call', _15 => _15('/')])) return host; // It has a suffix, e.g. leaseweb.com?/proxy
+		if (_optionalChain([host, 'access', _12 => _12.split, 'call', _13 => _13('.'), 'access', _14 => _14.pop, 'call', _15 => _15(), 'optionalAccess', _16 => _16.includes, 'call', _17 => _17('/')])) return host; // It has a suffix, e.g. leaseweb.com?/proxy
 		let dotLoc = host.lastIndexOf('.');
 		const tld = host.slice(dotLoc);
 		if (tld === '.uk' || tld === '.au' || tld === '.br') dotLoc = host.lastIndexOf('.', dotLoc - 1);

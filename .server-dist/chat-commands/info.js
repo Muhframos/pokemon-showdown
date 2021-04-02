@@ -10,8 +10,7 @@
  */
 var _net = require('net'); var net = _net;
 var _youtube = require('../chat-plugins/youtube');
-var _utils = require('../../.lib-dist/utils');
-var _net2 = require('../../.lib-dist/net');
+var _lib = require('../../.lib-dist');
 
 const ONLINE_SYMBOL = ` \u25C9 `;
 const OFFLINE_SYMBOL = ` \u25CC `;
@@ -23,8 +22,8 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 	for (const curRoom of Rooms.rooms.values()) {
 		if (!curRoom.battle) continue;
 		if (
-			(_optionalChain([user1, 'optionalAccess', _ => _.inRoom, 'call', _2 => _2(curRoom)]) || curRoom.auth.get(userID1) === Users.PLAYER_SYMBOL) &&
-			(_optionalChain([user2, 'optionalAccess', _3 => _3.inRoom, 'call', _4 => _4(curRoom)]) || curRoom.auth.get(userID2) === Users.PLAYER_SYMBOL)
+			(_optionalChain([user1, 'optionalAccess', _ => _.inRooms, 'access', _2 => _2.has, 'call', _3 => _3(curRoom.roomid)]) || curRoom.auth.get(userID1) === Users.PLAYER_SYMBOL) &&
+			(_optionalChain([user2, 'optionalAccess', _4 => _4.inRooms, 'access', _5 => _5.has, 'call', _6 => _6(curRoom.roomid)]) || curRoom.auth.get(userID2) === Users.PLAYER_SYMBOL)
 		) {
 			if (connection) void curRoom.uploadReplay(connection.user, connection, "forpunishment");
 			battles.push(curRoom.roomid);
@@ -82,7 +81,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 	altsnorecurse: 'whois',
 	profile: 'whois',
 	whois(target, room, user, connection, cmd) {
-		if (_optionalChain([room, 'optionalAccess', _5 => _5.roomid]) === 'staff' && !this.runBroadcast()) return;
+		if (_optionalChain([room, 'optionalAccess', _7 => _7.roomid]) === 'staff' && !this.runBroadcast()) return;
 		const targetUser = this.targetUserOrSelf(target, user.tempGroup === ' ');
 		const showAll = (cmd === 'ip' || cmd === 'whoare' || cmd === 'alt' || cmd === 'alts' || cmd === 'altsnorecurse');
 		const showRecursiveAlts = showAll && (cmd !== 'altsnorecurse');
@@ -94,7 +93,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			return this.errorReply(`/${cmd} - Access denied.`);
 		}
 
-		let buf = _utils.Utils.html`<strong class="username"><small style="display:none">${targetUser.tempGroup}</small>${targetUser.name}</strong> `;
+		let buf = _lib.Utils.html`<strong class="username"><small style="display:none">${targetUser.tempGroup}</small>${targetUser.name}</strong> `;
 		const ac = targetUser.autoconfirmed;
 		if (ac && showAll) {
 			buf += ` <small style="color:gray">(ac${targetUser.id === ac ? `` : `: <span class="username">${ac}</span>`})</small>`;
@@ -104,12 +103,12 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			buf += ` <small style="color:gray">(trusted${targetUser.id === trusted ? `` : `: <span class="username">${trusted}</span>`})</small>`;
 		}
 		if (!targetUser.connected) buf += ` <em style="color:gray">(offline)</em>`;
-		const roomauth = _optionalChain([room, 'optionalAccess', _6 => _6.auth, 'access', _7 => _7.getDirect, 'call', _8 => _8(targetUser.id)]);
-		if (roomauth && _optionalChain([Config, 'access', _9 => _9.groups, 'access', _10 => _10[roomauth], 'optionalAccess', _11 => _11.name])) {
-			buf += _utils.Utils.html`<br />${Config.groups[roomauth].name} (${roomauth})`;
+		const roomauth = _optionalChain([room, 'optionalAccess', _8 => _8.auth, 'access', _9 => _9.getDirect, 'call', _10 => _10(targetUser.id)]);
+		if (roomauth && _optionalChain([Config, 'access', _11 => _11.groups, 'access', _12 => _12[roomauth], 'optionalAccess', _13 => _13.name])) {
+			buf += _lib.Utils.html`<br />${Config.groups[roomauth].name} (${roomauth})`;
 		}
-		if (_optionalChain([Config, 'access', _12 => _12.groups, 'access', _13 => _13[targetUser.tempGroup], 'optionalAccess', _14 => _14.name])) {
-			buf += _utils.Utils.html`<br />Global ${Config.groups[targetUser.tempGroup].name} (${targetUser.tempGroup})`;
+		if (_optionalChain([Config, 'access', _14 => _14.groups, 'access', _15 => _15[targetUser.tempGroup], 'optionalAccess', _16 => _16.name])) {
+			buf += _lib.Utils.html`<br />Global ${Config.groups[targetUser.tempGroup].name} (${targetUser.tempGroup})`;
 		}
 		if (targetUser.isSysop) {
 			buf += `<br />(Pok&eacute;mon Showdown System Operator)`;
@@ -120,10 +119,12 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		let publicrooms = ``;
 		let hiddenrooms = ``;
 		let privaterooms = ``;
-		for (const targetRoom of targetUser.getRooms()) {
+		for (const roomid of targetUser.inRooms) {
+			const targetRoom = Rooms.get(roomid);
+
 			const authSymbol = targetRoom.auth.getDirect(targetUser.id).trim();
 			const battleTitle = (targetRoom.battle ? ` title="${targetRoom.title}"` : '');
-			const output = `${authSymbol}<a href="/${targetRoom.roomid}"${battleTitle}>${targetRoom.roomid}</a>`;
+			const output = `${authSymbol}<a href="/${roomid}"${battleTitle}>${roomid}</a>`;
 			if (targetRoom.settings.isPrivate === true) {
 				if (targetRoom.settings.modjoin === '~') continue;
 				if (privaterooms) privaterooms += ` | `;
@@ -143,7 +144,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		}
 		const canViewAlts = (user === targetUser ? user.can('altsself') : user.can('alts', targetUser));
 		const canViewPunishments = canViewAlts ||
-			(room && room.settings.isPrivate !== true && user.can('mute', targetUser, room) && targetUser.inRoom(room));
+			(room && room.settings.isPrivate !== true && user.can('mute', targetUser, room) && targetUser.id in room.users);
 		const canViewSecretRooms = user === targetUser || (canViewAlts && targetUser.locked) || user.can('makeroom');
 		buf += `<br />`;
 
@@ -152,7 +153,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				const punishment = Punishments.userids.get(userid);
 				return `${userid}${punishment ? ` (${Punishments.punishmentTypes.get(punishment[0]) || `punished`}${punishment[1] !== targetUser.id ? ` as ${punishment[1]}` : ``})` : ``}`;
 			}).join(", ");
-			if (prevNames) buf += _utils.Utils.html`<br />Previous names: ${prevNames}`;
+			if (prevNames) buf += _lib.Utils.html`<br />Previous names: ${prevNames}`;
 
 			for (const targetAlt of targetUser.getAltUsers(true)) {
 				if (!targetAlt.named && !targetAlt.connected) continue;
@@ -161,7 +162,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				const punishment = Punishments.userids.get(targetAlt.id);
 				const punishMsg = punishment ? ` (${Punishments.punishmentTypes.get(punishment[0]) || 'punished'}` +
 					`${punishment[1] !== targetAlt.id ? ` as ${punishment[1]}` : ''})` : '';
-				buf += _utils.Utils.html`<br />Alt: <span class="username">${targetAlt.name}</span>${punishMsg}`;
+				buf += _lib.Utils.html`<br />Alt: <span class="username">${targetAlt.name}</span>${punishMsg}`;
 				if (!targetAlt.connected) buf += ` <em style="color:gray">(offline)</em>`;
 				prevNames = targetAlt.previousIDs.map(userid => {
 					const p = Punishments.userids.get(userid);
@@ -177,7 +178,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				if (punishment) {
 					const expiresIn = Punishments.checkLockExpiration(targetUser.locked);
 					if (expiresIn) buf += expiresIn;
-					if (punishment[3]) buf += _utils.Utils.html` (reason: ${punishment[3]})`;
+					if (punishment[3]) buf += _lib.Utils.html` (reason: ${punishment[3]})`;
 				}
 			} else if (targetUser.locked) {
 				buf += `<br />LOCKED: ${targetUser.locked}`;
@@ -193,7 +194,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				if (punishment) {
 					const expiresIn = Punishments.checkLockExpiration(targetUser.locked);
 					if (expiresIn) buf += expiresIn;
-					if (punishment[3]) buf += _utils.Utils.html` (reason: ${punishment[3]})`;
+					if (punishment[3]) buf += _lib.Utils.html` (reason: ${punishment[3]})`;
 				}
 			}
 
@@ -201,14 +202,14 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			if (battlebanned) {
 				buf += `<br />BATTLEBANNED: ${battlebanned[1]}`;
 				buf += ` (expires ${Punishments.checkPunishmentExpiration(battlebanned)})`;
-				if (battlebanned[3]) buf += _utils.Utils.html` (reason: ${battlebanned[3]})`;
+				if (battlebanned[3]) buf += _lib.Utils.html` (reason: ${battlebanned[3]})`;
 			}
 
 			const groupchatbanned = Punishments.isGroupchatBanned(targetUser);
 			if (groupchatbanned) {
 				buf += `<br />Banned from using groupchats${groupchatbanned[1] !== targetUser.id ? `: ${groupchatbanned[1]}` : ``}`;
 				buf += ` ${Punishments.checkPunishmentExpiration(groupchatbanned)}`;
-				if (groupchatbanned[3]) buf += _utils.Utils.html` (reason: ${groupchatbanned[3]})`;
+				if (groupchatbanned[3]) buf += _lib.Utils.html` (reason: ${groupchatbanned[3]})`;
 			}
 
 			if (targetUser.semilocked) {
@@ -236,7 +237,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			});
 			buf += `<br /> IP${Chat.plural(ips)}: ${ips.join(", ")}`;
 			if (user.tempGroup !== ' ' && targetUser.latestHost) {
-				buf += _utils.Utils.html`<br />Host: ${targetUser.latestHost} [${targetUser.latestHostType}]`;
+				buf += _lib.Utils.html`<br />Host: ${targetUser.latestHost} [${targetUser.latestHostType}]`;
 			}
 		} else if (user === targetUser) {
 			buf += `<br /> IP: <a href="https://whatismyipaddress.com/ip/${connection.ip}" target="_blank">${connection.ip}</a>`;
@@ -248,16 +249,21 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			buf += `<br />Secret rooms: ${privaterooms}`;
 		}
 
-		const gameRooms = [...Rooms.rooms.values()].filter(curRoom => {
-			const inPlayerTable = targetUser.inGame(curRoom);
+		const gameRooms = [];
+		for (const curRoom of Rooms.rooms.values()) {
+			if (!curRoom.game) continue;
+			const inPlayerTable = targetUser.id in curRoom.game.playerTable && !targetUser.inRooms.has(curRoom.roomid);
 			const hasPlayerSymbol = curRoom.auth.getDirect(targetUser.id) === Users.PLAYER_SYMBOL;
 			const canSeeRoom = canViewAlts || user === targetUser || !curRoom.settings.isPrivate;
-			return (inPlayerTable || hasPlayerSymbol) && canSeeRoom && !targetUser.inRoom(curRoom);
-		});
+
+			if ((inPlayerTable || hasPlayerSymbol) && canSeeRoom) {
+				gameRooms.push(curRoom.roomid);
+			}
+		}
 		if (gameRooms.length) {
-			buf += `<br />Recent games: ${gameRooms.map(curRoom => {
-				const shortId = curRoom.roomid.startsWith('battle-') ? curRoom.roomid.slice(7) : curRoom.roomid;
-				return _utils.Utils.html`<a href="/${curRoom.roomid}">${shortId}</a>`;
+			buf += `<br />Recent games: ${gameRooms.map(id => {
+				const shortId = id.startsWith('battle-') ? id.slice(7) : id;
+				return _lib.Utils.html`<a href="/${id}">${shortId}</a>`;
 			}).join(' | ')}`;
 		}
 
@@ -306,15 +312,15 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const userid = toID(target);
 		if (!userid) return this.errorReply("Please enter a valid username.");
 		const targetUser = Users.get(userid);
-		let buf = _utils.Utils.html`<strong class="username">${target}</strong>`;
-		if (!targetUser || !targetUser.connected) buf += ` <em style="color:gray">(offline)</em>`;
+		let buf = _lib.Utils.html`<strong class="username">${target}</strong>`;
+		if (!_optionalChain([targetUser, 'optionalAccess', _17 => _17.connected])) buf += ` <em style="color:gray">(offline)</em>`;
 
-		const roomauth = _optionalChain([room, 'optionalAccess', _15 => _15.auth, 'access', _16 => _16.getDirect, 'call', _17 => _17(userid)]);
-		if (roomauth && _optionalChain([Config, 'access', _18 => _18.groups, 'access', _19 => _19[roomauth], 'optionalAccess', _20 => _20.name])) {
+		const roomauth = _optionalChain([room, 'optionalAccess', _18 => _18.auth, 'access', _19 => _19.getDirect, 'call', _20 => _20(userid)]);
+		if (roomauth && _optionalChain([Config, 'access', _21 => _21.groups, 'access', _22 => _22[roomauth], 'optionalAccess', _23 => _23.name])) {
 			buf += `<br />${Config.groups[roomauth].name} (${roomauth})`;
 		}
 		const group = Users.globalAuth.get(userid);
-		if (_optionalChain([Config, 'access', _21 => _21.groups, 'access', _22 => _22[group], 'optionalAccess', _23 => _23.name])) {
+		if (_optionalChain([Config, 'access', _24 => _24.groups, 'access', _25 => _25[group], 'optionalAccess', _26 => _26.name])) {
 			buf += `<br />Global ${Config.groups[group].name} (${group})`;
 		}
 
@@ -328,7 +334,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			buf += `${punishName}: ${punishUserid}`;
 			const expiresIn = Punishments.checkLockExpiration(userid);
 			if (expiresIn) buf += expiresIn;
-			if (reason) buf += _utils.Utils.html` (reason: ${reason})`;
+			if (reason) buf += _lib.Utils.html` (reason: ${reason})`;
 			buf += '<br />';
 			atLeastOne = true;
 		}
@@ -342,7 +348,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 
 		const punishments = Punishments.getRoomPunishments(targetUser || {id: userid} );
 
-		if (_optionalChain([punishments, 'optionalAccess', _24 => _24.length])) {
+		if (_optionalChain([punishments, 'optionalAccess', _27 => _27.length])) {
 			buf += `<br />Room punishments: `;
 
 			buf += punishments.map(([curRoom, curPunishment]) => {
@@ -380,9 +386,9 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 
 		if (!battles.length) return this.sendReply(`${targetUsername1} and ${targetUsername2} have no common battles.`);
 
-		this.sendReplyBox(_utils.Utils.html`Common battles between ${targetUsername1} and ${targetUsername2}:<br />` + battles.map(id => {
+		this.sendReplyBox(_lib.Utils.html`Common battles between ${targetUsername1} and ${targetUsername2}:<br />` + battles.map(id => {
 			const shortId = id.startsWith('battle-') ? id.slice(7) : id;
-			return _utils.Utils.html`<a href="/${id}">${shortId}</a>`;
+			return _lib.Utils.html`<a href="/${id}">${shortId}</a>`;
 		}).join(' | '));
 	},
 	sharedbattleshelp: [`/sharedbattles [user1], [user2] - Finds recent battles common to [user1] and [user2]. Requires % @ &`],
@@ -406,7 +412,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 
 	async host(target, room, user, connection, cmd) {
 		if (!target) return this.parse('/help host');
-		this.checkCan('ip');
+		this.checkCan('alts');
 		target = target.trim();
 		if (!net.isIPv4(target)) return this.errorReply('You must pass a valid IPv4 IP to /host.');
 		const {dnsbl, host, hostType} = await IPTools.lookup(target);
@@ -430,26 +436,29 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const results = [];
 		const isAll = (cmd === 'ipsearchall');
 
+		// If the IP is a range ending with *, we remove the *, so we have to keep track of that now
+		// so that we can properly determine if a lack of users is caused by invalid input or if it's just an empty range.
+		const isValidRange = ip.endsWith('*') && IPTools.ipRangeRegex.test(ip);
 		if (/[a-z]/.test(ip)) {
 			// host
 			this.sendReply(`Users with host ${ip}${targetRoom ? ` in the room ${targetRoom.title}` : ``}:`);
 			for (const curUser of Users.users.values()) {
 				if (results.length > 100 && !isAll) continue;
-				if (!curUser.latestHost || !curUser.latestHost.endsWith(ip)) continue;
-				if (targetRoom && !curUser.inRoom(targetRoom)) continue;
+				if (!_optionalChain([curUser, 'access', _28 => _28.latestHost, 'optionalAccess', _29 => _29.endsWith, 'call', _30 => _30(ip)])) continue;
+				if (targetRoom && !curUser.inRooms.has(targetRoom.roomid)) continue;
 				results.push(`${curUser.connected ? ONLINE_SYMBOL : OFFLINE_SYMBOL} ${curUser.name}`);
 			}
 			if (results.length > 100 && !isAll) {
 				return this.sendReply(`More than 100 users match the specified IP range. Use /ipsearchall to retrieve the full list.`);
 			}
-		} else if (ip.endsWith('*')) {
+		} else if (isValidRange) {
 			// IP range
 			this.sendReply(`Users in IP range ${ip}${targetRoom ? ` in the room ${targetRoom.title}` : ``}:`);
 			ip = ip.slice(0, -1);
 			for (const curUser of Users.users.values()) {
 				if (results.length > 100 && !isAll) continue;
 				if (!curUser.latestIp.startsWith(ip)) continue;
-				if (targetRoom && !curUser.inRoom(targetRoom)) continue;
+				if (targetRoom && !curUser.inRooms.has(targetRoom.roomid)) continue;
 				results.push(`${curUser.connected ? ONLINE_SYMBOL : OFFLINE_SYMBOL} ${curUser.name}`);
 			}
 			if (results.length > 100 && !isAll) {
@@ -459,57 +468,17 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			this.sendReply(`Users with IP ${ip}${targetRoom ? ` in the room ${targetRoom.title}` : ``}:`);
 			for (const curUser of Users.users.values()) {
 				if (curUser.latestIp !== ip) continue;
-				if (targetRoom && !curUser.inRoom(targetRoom)) continue;
+				if (targetRoom && !curUser.inRooms.has(targetRoom.roomid)) continue;
 				results.push(`${curUser.connected ? ONLINE_SYMBOL : OFFLINE_SYMBOL} ${curUser.name}`);
 			}
 		}
 		if (!results.length) {
-			if (!IPTools.ipRangeRegex.test(ip)) return this.errorReply(`${ip} is not a valid IP or host.`);
-			return this.sendReply(`No results found.`);
+			if (!isValidRange && !IPTools.ipRegex.test(ip)) return this.errorReply(`${ip} is not a valid IP or host.`);
+			return this.sendReply(`No users found.`);
 		}
 		return this.sendReply(results.join('; '));
 	},
 	ipsearchhelp: [`/ipsearch [ip|range|host], (room) - Find all users with specified IP, IP range, or host. If a room is provided only users in the room will be shown. Requires: &`],
-
-	us: 'usersearch',
-	usersearch(target) {
-		this.checkCan('lock');
-		target = toID(target);
-		if (!target) {
-			return this.parse(`/help usersearch`);
-		}
-		if (target.length < 3) {
-			return this.errorReply(`That's too short of a term to search for.`);
-		}
-		const results = {
-			offline: [],
-			online: [],
-		};
-
-		for (const curUser of Users.users.values()) {
-			if (!curUser.id.includes(target) || curUser.id.startsWith('guest')) continue;
-			if (curUser.connected) {
-				results.online.push(_utils.Utils.html`${ONLINE_SYMBOL} ${curUser.name}`);
-			} else {
-				results.offline.push(_utils.Utils.html`${OFFLINE_SYMBOL} ${curUser.name}`);
-			}
-		}
-		for (const k in results) {
-			_utils.Utils.sortBy(results[k ], result => toID(result));
-		}
-		let resultString = `Users with a name matching '${target}':<br />`;
-		if (!results.offline.length && !results.online.length) {
-			resultString += `No users found.`;
-		} else {
-			resultString += results.online.join('; ');
-			if (results.offline.length) {
-				resultString += `<br /><br />`;
-				resultString += results.offline.join('; ');
-			}
-		}
-		return this.sendReplyBox(resultString);
-	},
-	usersearchhelp: [`/usersearch [pattern]: Looks for all names matching the [pattern]. Requires: % @ &`],
 
 	checkchallenges(target, room, user) {
 		room = this.requireRoom();
@@ -523,7 +492,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const user1 = this.targetUser;
 		const user2 = Users.get(target);
 		if (!user1 || !user2 || user1 === user2) return this.parse(`/help checkchallenges`);
-		if (!user1.inRoom(room) || !user2.inRoom(room)) {
+		if (!(user1.id in room.users) || !(user2.id in room.users)) {
 			return this.errorReply(`Both users must be in this room.`);
 		}
 		const challenges = [];
@@ -531,7 +500,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (user1Challs) {
 			for (const chall of user1Challs) {
 				if (chall.from === user1.id && Users.get(chall.to) === user2) {
-					challenges.push(_utils.Utils.html`${user1.name} is challenging ${user2.name} in ${Dex.getFormat(chall.formatid).name}.`);
+					challenges.push(_lib.Utils.html`${user1.name} is challenging ${user2.name} in ${Dex.getFormat(chall.formatid).name}.`);
 					break;
 				}
 			}
@@ -540,13 +509,13 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (user2Challs) {
 			for (const chall of user2Challs) {
 				if (chall.from === user2.id && Users.get(chall.to) === user1) {
-					challenges.push(_utils.Utils.html`${user2.name} is challenging ${user1.name} in ${Dex.getFormat(chall.formatid).name}.`);
+					challenges.push(_lib.Utils.html`${user2.name} is challenging ${user1.name} in ${Dex.getFormat(chall.formatid).name}.`);
 					break;
 				}
 			}
 		}
 		if (!challenges.length) {
-			return this.sendReplyBox(_utils.Utils.html`${user1.name} and ${user2.name} are not challenging each other.`);
+			return this.sendReplyBox(_lib.Utils.html`${user1.name} and ${user2.name} are not challenging each other.`);
 		}
 		this.sendReplyBox(challenges.join(`<br />`));
 	},
@@ -603,7 +572,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				return this.errorReply(`Unrecognized format or mod "${format.name}"`);
 			}
 			dex = Dex.mod(format.mod);
-		} else if (_optionalChain([room, 'optionalAccess', _25 => _25.battle])) {
+		} else if (_optionalChain([room, 'optionalAccess', _31 => _31.battle])) {
 			format = Dex.getFormat(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
@@ -633,11 +602,11 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				return this.sendReply(buffer);
 			case 'pokemon':
 				let pokemon = dex.getSpecies(newTarget.name);
-				if (_optionalChain([format, 'optionalAccess', _26 => _26.onModifySpecies])) {
-					pokemon = format.onModifySpecies.call({dex, clampIntRange: _utils.Utils.clampIntRange, toID} , pokemon) || pokemon;
+				if (_optionalChain([format, 'optionalAccess', _32 => _32.onModifySpecies])) {
+					pokemon = format.onModifySpecies.call({dex, clampIntRange: _lib.Utils.clampIntRange, toID} , pokemon) || pokemon;
 				}
-				let tierDisplay = _optionalChain([room, 'optionalAccess', _27 => _27.settings, 'access', _28 => _28.dataCommandTierDisplay]);
-				if (!tierDisplay && _optionalChain([room, 'optionalAccess', _29 => _29.battle])) {
+				let tierDisplay = _optionalChain([room, 'optionalAccess', _33 => _33.settings, 'access', _34 => _34.dataCommandTierDisplay]);
+				if (!tierDisplay && _optionalChain([room, 'optionalAccess', _35 => _35.battle])) {
 					if (room.battle.format.includes('doubles') || room.battle.format.includes('vgc')) {
 						tierDisplay = 'doubles tiers';
 					} else if (room.battle.format.includes('nationaldex')) {
@@ -773,9 +742,9 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 					if (dex.gen >= 7) {
 						if (move.gen >= 8 && move.isMax) {
 							// Don't display Z-Power for Max/G-Max moves
-						} else if (_optionalChain([move, 'access', _30 => _30.zMove, 'optionalAccess', _31 => _31.basePower])) {
+						} else if (_optionalChain([move, 'access', _36 => _36.zMove, 'optionalAccess', _37 => _37.basePower])) {
 							details["Z-Power"] = String(move.zMove.basePower);
-						} else if (_optionalChain([move, 'access', _32 => _32.zMove, 'optionalAccess', _33 => _33.effect])) {
+						} else if (_optionalChain([move, 'access', _38 => _38.zMove, 'optionalAccess', _39 => _39.effect])) {
 							const zEffects = {
 								clearnegativeboost: "Restores negative stat stages to 0",
 								crit2: "Crit ratio +2",
@@ -785,7 +754,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 								healreplacement: "Restores replacement's HP 100%",
 							};
 							details["Z-Effect"] = zEffects[move.zMove.effect];
-						} else if (_optionalChain([move, 'access', _34 => _34.zMove, 'optionalAccess', _35 => _35.boost])) {
+						} else if (_optionalChain([move, 'access', _40 => _40.zMove, 'optionalAccess', _41 => _41.boost])) {
 							details["Z-Effect"] = "";
 							const boost = move.zMove.boost;
 							const stats = {
@@ -812,7 +781,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 						if (move.isMax) {
 							details["&#10003; Max Move"] = "";
 							if (typeof move.isMax === "string") details["User"] = `${move.isMax}`;
-						} else if (_optionalChain([move, 'access', _36 => _36.maxMove, 'optionalAccess', _37 => _37.basePower])) {
+						} else if (_optionalChain([move, 'access', _42 => _42.maxMove, 'optionalAccess', _43 => _43.basePower])) {
 							details["Dynamax Power"] = String(move.maxMove.basePower);
 						}
 					}
@@ -915,7 +884,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (maybeMod && maybeMod in Dex.dexes) {
 			mod = Dex.mod(maybeMod);
 			targets.pop();
-		} else if (_optionalChain([room, 'optionalAccess', _38 => _38.battle])) {
+		} else if (_optionalChain([room, 'optionalAccess', _44 => _44.battle])) {
 			format = Dex.getFormat(room.battle.format);
 			mod = Dex.mod(format.mod);
 		}
@@ -943,7 +912,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			}
 
 			if (types.length === 0) {
-				return this.sendReplyBox(_utils.Utils.html`${target} isn't a recognized type or Pokemon${Dex.gen > mod.gen ? ` in Gen ${mod.gen}` : ""}.`);
+				return this.sendReplyBox(_lib.Utils.html`${target} isn't a recognized type or Pokemon${Dex.gen > mod.gen ? ` in Gen ${mod.gen}` : ""}.`);
 			}
 			species = {types: types};
 			target = types.join("/");
@@ -1070,7 +1039,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			if (source.effectType !== 'Move' || source.category !== 'Status' && (source.basePower || source.basePowerCallback)) {
 				for (const type of defender.types) {
 					const baseMod = Dex.getEffectiveness(source, type);
-					const moveMod = _optionalChain([source, 'access', _39 => _39.onEffectiveness, 'optionalAccess', _40 => _40.call, 'call', _41 => _41({dex: Dex} , baseMod, null, type, source)]);
+					const moveMod = _optionalChain([source, 'access', _45 => _45.onEffectiveness, 'optionalAccess', _46 => _46.call, 'call', _47 => _47({dex: Dex} , baseMod, null, type, source)]);
 					totalTypeMod += typeof moveMod === 'number' ? moveMod : baseMod;
 				}
 			}
@@ -1095,7 +1064,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const targets = target.split(/[,+/]/);
 		const sources = [];
 		let dex = Dex;
-		if (_optionalChain([room, 'optionalAccess', _42 => _42.battle])) {
+		if (_optionalChain([room, 'optionalAccess', _48 => _48.battle])) {
 			const format = Dex.getFormat(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
@@ -1154,7 +1123,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				} else {
 					if (!dex.getImmunity(move.type, type) && !move.ignoreImmunity) continue;
 					const baseMod = dex.getEffectiveness(move, type);
-					const moveMod = _optionalChain([move, 'access', _43 => _43.onEffectiveness, 'optionalAccess', _44 => _44.call, 'call', _45 => _45({dex} , baseMod, null, type, move )]);
+					const moveMod = _optionalChain([move, 'access', _49 => _49.onEffectiveness, 'optionalAccess', _50 => _50.call, 'call', _51 => _51({dex} , baseMod, null, type, move )]);
 					eff = typeof moveMod === 'number' ? moveMod : baseMod;
 				}
 				if (eff > bestCoverage[type]) bestCoverage[type] = eff;
@@ -1242,10 +1211,10 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 									continue;
 								}
 								let baseMod = dex.getEffectiveness(move.type, type1);
-								let moveMod = _optionalChain([move, 'access', _46 => _46.onEffectiveness, 'optionalAccess', _47 => _47.call, 'call', _48 => _48({dex} , baseMod, null, type1, move )]);
+								let moveMod = _optionalChain([move, 'access', _52 => _52.onEffectiveness, 'optionalAccess', _53 => _53.call, 'call', _54 => _54({dex} , baseMod, null, type1, move )]);
 								curEff += typeof moveMod === 'number' ? moveMod : baseMod;
 								baseMod = dex.getEffectiveness(move.type, type2);
-								moveMod = _optionalChain([move, 'access', _49 => _49.onEffectiveness, 'optionalAccess', _50 => _50.call, 'call', _51 => _51({dex} , baseMod, null, type2, move )]);
+								moveMod = _optionalChain([move, 'access', _55 => _55.onEffectiveness, 'optionalAccess', _56 => _56.call, 'call', _57 => _57({dex} , baseMod, null, type2, move )]);
 								curEff += typeof moveMod === 'number' ? moveMod : baseMod;
 							}
 
@@ -1392,7 +1361,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 					ivSet = true;
 
 					if (isNaN(iv)) {
-						return this.sendReplyBox('Invalid value for IVs: ' + _utils.Utils.escapeHTML(arg));
+						return this.sendReplyBox('Invalid value for IVs: ' + _lib.Utils.escapeHTML(arg));
 					}
 
 					continue;
@@ -1415,7 +1384,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 					evSet = true;
 
 					if (isNaN(ev)) {
-						return this.sendReplyBox('Invalid value for EVs: ' + _utils.Utils.escapeHTML(arg));
+						return this.sendReplyBox('Invalid value for EVs: ' + _lib.Utils.escapeHTML(arg));
 					}
 					if (ev > 255 || ev < 0) {
 						return this.sendReplyBox('The amount of EVs should be between 0 and 255.');
@@ -1448,7 +1417,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 					modSet = true;
 				}
 				if (isNaN(modifier)) {
-					return this.sendReplyBox('Invalid value for modifier: ' + _utils.Utils.escapeHTML(String(modifier)));
+					return this.sendReplyBox('Invalid value for modifier: ' + _lib.Utils.escapeHTML(String(modifier)));
 				}
 				if (modifier > 6) {
 					return this.sendReplyBox('Modifier should be a number between -6 and +6');
@@ -1473,7 +1442,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 					realSet = true;
 
 					if (isNaN(realStat)) {
-						return this.sendReplyBox('Invalid value for target real stat: ' + _utils.Utils.escapeHTML(arg));
+						return this.sendReplyBox('Invalid value for target real stat: ' + _lib.Utils.escapeHTML(arg));
 					}
 					if (realStat < 0) {
 						return this.sendReplyBox('The target real stat must be greater than 0.');
@@ -1644,7 +1613,6 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			`<strong>lock</strong> - Locks a user (makes them unable to talk in any rooms or PM non-staff) for 2 days.`,
 			`<strong>weeklock</strong> - Locks a user for a week.`,
 			`<strong>namelock</strong> - Locks a user and prevents them from having a username for 2 days.`,
-			`<strong>groupchatban</strong> — Bans a user from creating or joining groupchats for a week or a month.`,
 			`<strong>globalban</strong> - Globally bans (makes them unable to connect and play games) for a week.`,
 		];
 
@@ -1709,7 +1677,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 	bugreports: 'bugs',
 	bugs(target, room, user) {
 		if (!this.runBroadcast()) return;
-		if (_optionalChain([room, 'optionalAccess', _52 => _52.battle])) {
+		if (_optionalChain([room, 'optionalAccess', _58 => _58.battle])) {
 			this.sendReplyBox(`<center><button name="saveReplay"><i class="fa fa-upload"></i> Save Replay</button> &mdash; <a href="https://www.smogon.com/forums/threads/3520646/">Questions</a> &mdash; <a href="https://www.smogon.com/forums/threads/3663703/">Bug Reports</a></center>`);
 		} else {
 			this.sendReplyBox(
@@ -1750,7 +1718,8 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			`- <a href="https://www.smogon.com/dp/articles/intro_comp_pokemon">An introduction to competitive Pok&eacute;mon</a><br />` +
 			`- <a href="https://www.smogon.com/sm/articles/sm_tiers">What do 'OU', 'UU', etc mean?</a><br />` +
 			`- <a href="https://www.smogon.com/dex/ss/formats/">What are the rules for each format?</a><br />` +
-			`- <a href="https://www.smogon.com/ss/articles/clauses">What is 'Sleep Clause' and other clauses?</a>`
+			`- <a href="https://www.smogon.com/ss/articles/clauses">What is 'Sleep Clause' and other clauses?</a><br />` +
+			`- <a href="https://www.smogon.com/articles/getting-started">Next Steps for Competitive Battling</a>`
 		);
 	},
 	introhelp: [
@@ -1791,8 +1760,8 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const SUPPORTED_BATTLESPOT_FORMATS = [
 			'gen5gbusingles', 'gen5gbudoubles', 'gen6battlespotsingles', 'gen6battlespotdoubles', 'gen6battlespottriples', 'gen7battlespotsingles', 'gen7battlespotdoubles', 'gen7bssfactory',
 		];
-		const isRandomBattle = (_optionalChain([room, 'optionalAccess', _53 => _53.battle]) && SUPPORTED_RANDOM_FORMATS.includes(room.battle.format));
-		const isBattleSpotBattle = (_optionalChain([room, 'optionalAccess', _54 => _54.battle]) && (SUPPORTED_BATTLESPOT_FORMATS.includes(room.battle.format) ||
+		const isRandomBattle = (_optionalChain([room, 'optionalAccess', _59 => _59.battle]) && SUPPORTED_RANDOM_FORMATS.includes(room.battle.format));
+		const isBattleSpotBattle = (_optionalChain([room, 'optionalAccess', _60 => _60.battle]) && (SUPPORTED_BATTLESPOT_FORMATS.includes(room.battle.format) ||
 			room.battle.format.includes("battlespotspecial")));
 		if (RANDOMS_CALC_COMMANDS.includes(cmd) ||
 			(isRandomBattle && !DEFAULT_CALC_COMMANDS.includes(cmd) && !BATTLESPOT_CALC_COMMANDS.includes(cmd))) {
@@ -1825,6 +1794,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		this.sendReplyBox(
 			`An introduction to the Create-A-Pok&eacute;mon project:<br />` +
 			`- <a href="https://www.smogon.com/cap/">CAP project website and description</a><br />` +
+			`- <a href="https://www.smogon.com/forums/forums/66/">CAP project discussion forum</a><br />` +
 			`- <a href="https://www.smogon.com/forums/threads/48782/">What Pok&eacute;mon have been made?</a><br />` +
 			`- <a href="https://www.smogon.com/forums/forums/477">Talk about the metagame here</a><br />` +
 			`- <a href="https://www.smogon.com/forums/threads/3671157/">Sample SS CAP teams</a>`
@@ -1884,17 +1854,17 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			let rulesetHtml = '';
 			const subformat = Dex.getFormat(Object.values(sections)[0].formats[0]);
 			if (['Format', 'Rule', 'ValidatorRule'].includes(subformat.effectType)) {
-				if (_optionalChain([subformat, 'access', _55 => _55.ruleset, 'optionalAccess', _56 => _56.length])) {
-					rules.push(`<b>Ruleset</b> - ${_utils.Utils.escapeHTML(subformat.ruleset.join(", "))}`);
+				if (_optionalChain([subformat, 'access', _61 => _61.ruleset, 'optionalAccess', _62 => _62.length])) {
+					rules.push(`<b>Ruleset</b> - ${_lib.Utils.escapeHTML(subformat.ruleset.join(", "))}`);
 				}
-				if (_optionalChain([subformat, 'access', _57 => _57.banlist, 'optionalAccess', _58 => _58.length])) {
-					rules.push(`<b>Bans</b> - ${_utils.Utils.escapeHTML(subformat.banlist.join(", "))}`);
+				if (_optionalChain([subformat, 'access', _63 => _63.banlist, 'optionalAccess', _64 => _64.length])) {
+					rules.push(`<b>Bans</b> - ${_lib.Utils.escapeHTML(subformat.banlist.join(", "))}`);
 				}
-				if (_optionalChain([subformat, 'access', _59 => _59.unbanlist, 'optionalAccess', _60 => _60.length])) {
-					rules.push(`<b>Unbans</b> - ${_utils.Utils.escapeHTML(subformat.unbanlist.join(", "))}`);
+				if (_optionalChain([subformat, 'access', _65 => _65.unbanlist, 'optionalAccess', _66 => _66.length])) {
+					rules.push(`<b>Unbans</b> - ${_lib.Utils.escapeHTML(subformat.unbanlist.join(", "))}`);
 				}
-				if (_optionalChain([subformat, 'access', _61 => _61.restricted, 'optionalAccess', _62 => _62.length])) {
-					rules.push(`<b>Restricted</b> - ${_utils.Utils.escapeHTML(subformat.restricted.join(", "))}`);
+				if (_optionalChain([subformat, 'access', _67 => _67.restricted, 'optionalAccess', _68 => _68.length])) {
+					rules.push(`<b>Restricted</b> - ${_lib.Utils.escapeHTML(subformat.restricted.join(", "))}`);
 				}
 				if (rules.length > 0) {
 					rulesetHtml = `<details><summary>Banlist/Ruleset</summary>${rules.join("<br />")}</details>`;
@@ -1925,10 +1895,10 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const buf = [`<table style="${tableStyle}" cellspacing="0" cellpadding="5">`];
 		for (const sectionId in sections) {
 			if (exactMatch && sectionId !== exactMatch) continue;
-			buf.push(_utils.Utils.html`<th style="border:1px solid gray" colspan="2">${sections[sectionId].name}</th>`);
+			buf.push(_lib.Utils.html`<th style="border:1px solid gray" colspan="2">${sections[sectionId].name}</th>`);
 			for (const section of sections[sectionId].formats) {
 				const subformat = Dex.getFormat(section);
-				const nameHTML = _utils.Utils.escapeHTML(subformat.name);
+				const nameHTML = _lib.Utils.escapeHTML(subformat.name);
 				const desc = [...(subformat.desc ? [subformat.desc] : []), ...(subformat.threads || [])];
 				const descHTML = desc.length ? desc.join("<br />") : "&mdash;";
 				buf.push(`<tr><td style="border:1px solid gray">${nameHTML}</td><td style="border: 1px solid gray; margin-left:10px">${descHTML}</td></tr>`);
@@ -2018,7 +1988,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			if (!this.runBroadcast()) return;
 			this.sendReplyBox(
 				`${room ? this.tr`Please follow the rules:` + '<br />' : ``}` +
-				`${_optionalChain([room, 'optionalAccess', _63 => _63.settings, 'access', _64 => _64.rulesLink]) ? _utils.Utils.html`- <a href="${room.settings.rulesLink}">${this.tr`${room.title} room rules`}</a><br />` : ``}` +
+				`${_optionalChain([room, 'optionalAccess', _69 => _69.settings, 'access', _70 => _70.rulesLink]) ? _lib.Utils.html`- <a href="${room.settings.rulesLink}">${this.tr`${room.title} room rules`}</a><br />` : ``}` +
 				`- <a href="https://${Config.routes.root}${this.tr`/rules`}">${this.tr`Global Rules`}</a>`
 			);
 			return;
@@ -2039,7 +2009,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			const rulesLink = possibleRoom.settings.rulesLink;
 			return this.sendReplyBox(
 				`${possibleRoom.title}'s rules:<br />` +
-				`${rulesLink ? _utils.Utils.html`- <a href="${rulesLink}">${this.tr`${possibleRoom.title} room rules`}</a><br />` : `None set.`}`
+				`${rulesLink ? _lib.Utils.html`- <a href="${rulesLink}">${this.tr`${possibleRoom.title} room rules`}</a><br />` : `None set.`}`
 			);
 		}
 
@@ -2104,6 +2074,9 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (showAll || ['tournaments', 'tournament', 'tours', 'tour'].includes(target)) {
 			buffer.push(this.tr`To join a room tournament, click the <strong>Join!</strong> button or type the command <code>/tour join</code> in the room's chat. You can check if your team is legal for the tournament by clicking the <strong>Validate</strong> button once you've joined and selected a team. To battle your opponent in the tournament, click the <strong>Ready!</strong> button when it appears. There are two different types of room tournaments: elimination (if a user loses more than a certain number of times, they are eliminated) and round robin (all users play against each other, and the user with the most wins is the winner).`);
 		}
+		if (showAll || ['vpn', 'proxy'].includes(target)) {
+			buffer.push(`<a href="https://pokemonshowdown.com/${this.tr`pages/proxyhelp`}">${this.tr`Proxy lock help`}</a>`);
+		}
 		if (!buffer.length && target) {
 			this.errorReply(`'${target}' is an invalid FAQ.`);
 			return this.parse(`/help faq`);
@@ -2114,8 +2087,8 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		this.sendReplyBox(buffer.join(`<br />`));
 	},
 	faqhelp: [
-		`/faq [theme] - Provides a link to the FAQ. Add autoconfirmed, badges, ladder, staff, or tiers for a link to these questions. Add all for all of them.`,
-		`!faq [theme] - Shows everyone a link to the FAQ. Add autoconfirmed, badges, ladder, staff, or tiers for a link to these questions. Add all for all of them. Requires: + % @ # &`,
+		`/faq [theme] - Provides a link to the FAQ. Add autoconfirmed, badges, proxy, ladder, staff, or tiers for a link to these questions. Add all for all of them.`,
+		`!faq [theme] - Shows everyone a link to the FAQ. Add autoconfirmed, badges, proxy, ladder, staff, or tiers for a link to these questions. Add all for all of them. Requires: + % @ # &`,
 	],
 
 	analysis: 'smogdex',
@@ -2212,20 +2185,20 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			// Special case for Meowstic-M
 			if (id === 'meowstic') id = 'meowsticm' ;
 			if (['ou', 'uu'].includes(formatId) && generation === 'sm' &&
-				_optionalChain([room, 'optionalAccess', _65 => _65.settings, 'access', _66 => _66.language]) && room.settings.language in supportedLanguages) {
+				_optionalChain([room, 'optionalAccess', _71 => _71.settings, 'access', _72 => _72.language]) && room.settings.language in supportedLanguages) {
 				// Limited support for translated analysis
 				// Translated analysis do not support automatic redirects from a id to the proper page
 				this.sendReplyBox(
-					_utils.Utils.html`<a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}/?lang=${supportedLanguages[room.settings.language]}">${generation.toUpperCase()} ${formatName} ${pokemon.name} analysis</a>, brought to you by <a href="https://www.smogon.com">Smogon University</a>`
+					_lib.Utils.html`<a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}/?lang=${supportedLanguages[room.settings.language]}">${generation.toUpperCase()} ${formatName} ${pokemon.name} analysis</a>, brought to you by <a href="https://www.smogon.com">Smogon University</a>`
 				);
 			} else if (['ou', 'uu'].includes(formatId) && generation === 'sm') {
 				this.sendReplyBox(
-					_utils.Utils.html`<a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}">${generation.toUpperCase()} ${formatName} ${pokemon.name} analysis</a>, brought to you by <a href="https://www.smogon.com">Smogon University</a><br />` +
+					_lib.Utils.html`<a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}">${generation.toUpperCase()} ${formatName} ${pokemon.name} analysis</a>, brought to you by <a href="https://www.smogon.com">Smogon University</a><br />` +
 					`Other languages: <a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}/?lang=es">Español</a>, <a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}/?lang=fr">Français</a>, <a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}/?lang=it">Italiano</a>, ` +
 					`<a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}/?lang=de">Deutsch</a>, <a href="https://www.smogon.com/dex/${generation}/pokemon/${id}/${formatId}/?lang=pt">Português</a>`
 				);
 			} else {
-				this.sendReplyBox(_utils.Utils.html`<a href="https://www.smogon.com/dex/${generation}/pokemon/${id}${(formatId ? '/' + formatId : '')}">${generation.toUpperCase()} ${formatName} ${pokemon.name} analysis</a>, brought to you by <a href="https://www.smogon.com">Smogon University</a>`);
+				this.sendReplyBox(_lib.Utils.html`<a href="https://www.smogon.com/dex/${generation}/pokemon/${id}${(formatId ? '/' + formatId : '')}">${generation.toUpperCase()} ${formatName} ${pokemon.name} analysis</a>, brought to you by <a href="https://www.smogon.com">Smogon University</a>`);
 			}
 		}
 
@@ -2274,7 +2247,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			}
 			if (formatName) {
 				atLeastOne = true;
-				this.sendReplyBox(_utils.Utils.html`<a href="https://www.smogon.com/dex/${generation}/formats/${formatId}">${generation.toUpperCase()} ${formatName} format analysis</a>, brought to you by <a href="https://www.smogon.com">Smogon University</a>`);
+				this.sendReplyBox(_lib.Utils.html`<a href="https://www.smogon.com/dex/${generation}/formats/${formatId}">${generation.toUpperCase()} ${formatName} format analysis</a>, brought to you by <a href="https://www.smogon.com">Smogon University</a>`);
 			}
 		}
 
@@ -2495,20 +2468,20 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (!target.includes(',')) return this.parse('/help pick');
 		if (!this.runBroadcast(true)) return false;
 		if (this.broadcasting) {
-			[, target] = _utils.Utils.splitFirst(this.message, ' ');
+			[, target] = _lib.Utils.splitFirst(this.message, ' ');
 		}
 		const options = target.split(',');
 		const pickedOption = options[Math.floor(Math.random() * options.length)].trim();
-		return this.sendReplyBox(_utils.Utils.html`<em>We randomly picked:</em> ${pickedOption}`);
+		return this.sendReplyBox(_lib.Utils.html`<em>We randomly picked:</em> ${pickedOption}`);
 	},
 	pickrandomhelp: [`/pick [option], [option], ... - Randomly selects an item from a list containing 2 or more elements.`],
 
 	shuffle(target, room, user) {
-		if (!target || !target.includes(',')) return this.parse('/help shuffle');
+		if (!_optionalChain([target, 'optionalAccess', _73 => _73.includes, 'call', _74 => _74(',')])) return this.parse('/help shuffle');
 		const args = target.split(',');
 		if (!this.runBroadcast(true)) return false;
-		const results = _utils.Utils.shuffle(args.map(arg => arg.trim()));
-		return this.sendReplyBox(_utils.Utils.html`<em>Shuffled:</em><br> ${results.join(', ')}`);
+		const results = _lib.Utils.shuffle(args.map(arg => arg.trim()));
+		return this.sendReplyBox(_lib.Utils.html`<em>Shuffled:</em><br> ${results.join(', ')}`);
 	},
 	shufflehelp: [
 		`/shuffle [option], [option], [option], ... - Randomly shuffles a list of 2 or more elements.`,
@@ -2525,7 +2498,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			return this.errorReply(`Media approvals are disabled in this room.`);
 		}
 		if (user.can('showmedia', null, room)) return this.errorReply(`Use !show instead.`);
-		if (_optionalChain([room, 'access', _67 => _67.pendingApprovals, 'optionalAccess', _68 => _68.has, 'call', _69 => _69(user.id)])) return this.errorReply('You have a request pending already.');
+		if (_optionalChain([room, 'access', _75 => _75.pendingApprovals, 'optionalAccess', _76 => _76.has, 'call', _77 => _77(user.id)])) return this.errorReply('You have a request pending already.');
 		if (!toID(target)) return this.parse(`/help requestshow`);
 
 		let [link, comment] = target.split(',');
@@ -2551,7 +2524,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			`|${user.name} has requested to show media in ${room.title}.|new media request`;
 		room.sendRankedUsers(message, '%');
 		room.sendMods(
-			_utils.Utils.html`|uhtml|request-${user.id}|<div class="infobox">${user.name} wants to show <a href="${link}">${link}</a><br>` +
+			_lib.Utils.html`|uhtml|request-${user.id}|<div class="infobox">${user.name} wants to show <a href="${link}">${link}</a><br>` +
 			`<button class="button" name="send" value="/approveshow ${user.id}">Approve</button><br>` +
 			`<button class="button" name="send" value="/denyshow ${user.id}">Deny</button></div>`
 		);
@@ -2566,7 +2539,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		}
 		const userid = toID(target);
 		if (!userid) return this.parse(`/help approveshow`);
-		const request = _optionalChain([room, 'access', _70 => _70.pendingApprovals, 'optionalAccess', _71 => _71.get, 'call', _72 => _72(userid)]);
+		const request = _optionalChain([room, 'access', _78 => _78.pendingApprovals, 'optionalAccess', _79 => _79.get, 'call', _80 => _80(userid)]);
 		if (!request) return this.errorReply(`${userid} has no pending request.`);
 		if (userid === user.id) {
 			return this.errorReply(`You can't approve your own /show request.`);
@@ -2578,16 +2551,16 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		let buf;
 		if (request.dimensions) { // image
 			const [width, height, resized] = request.dimensions;
-			buf = _utils.Utils.html`<img src="${request.link}" width="${width}" height="${height}" />`;
-			if (resized) buf += _utils.Utils.html`<br /><a href="${request.link}" target="_blank">full-size image</a>`;
+			buf = _lib.Utils.html`<img src="${request.link}" width="${width}" height="${height}" />`;
+			if (resized) buf += _lib.Utils.html`<br /><a href="${request.link}" target="_blank">full-size image</a>`;
 		} else {
 			const YouTube = new (0, _youtube.YoutubeInterface)();
 			buf = await YouTube.generateVideoDisplay(request.link);
 			if (!buf) return this.errorReply('Could not get YouTube video');
 		}
-		buf += _utils.Utils.html`<br /><div class="infobox"><small>(Requested by ${request.name})</small>`;
+		buf += _lib.Utils.html`<br /><div class="infobox"><small>(Requested by ${request.name})</small>`;
 		if (request.comment) {
-			buf += _utils.Utils.html`<br />${request.comment}</small></div>`;
+			buf += _lib.Utils.html`<br />${request.comment}</small></div>`;
 		} else {
 			buf += `</small></div>`;
 		}
@@ -2605,7 +2578,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		target = toID(target);
 		if (!target) return this.parse(`/help denyshow`);
 
-		const entry = _optionalChain([room, 'access', _73 => _73.pendingApprovals, 'optionalAccess', _74 => _74.get, 'call', _75 => _75(target)]);
+		const entry = _optionalChain([room, 'access', _81 => _81.pendingApprovals, 'optionalAccess', _82 => _82.get, 'call', _83 => _83(target)]);
 		if (!entry) return this.errorReply(`${target} has no pending request.`);
 
 		room.pendingApprovals.delete(target);
@@ -2626,13 +2599,13 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 	},
 
 	async show(target, room, user, connection) {
-		if (!_optionalChain([room, 'optionalAccess', _76 => _76.persist]) && !this.pmTarget) return this.errorReply(`/show cannot be used in temporary rooms.`);
+		if (!_optionalChain([room, 'optionalAccess', _84 => _84.persist]) && !this.pmTarget) return this.errorReply(`/show cannot be used in temporary rooms.`);
 		if (!toID(target).trim()) return this.parse(`/help show`);
 		if (Monitor.countNetRequests(connection.ip)) {
 			return this.errorReply(`You are using this command too quickly. Wait a bit and try again.`);
 		}
 
-		const [link, comment] = _utils.Utils.splitFirst(target, ',');
+		const [link, comment] = _lib.Utils.splitFirst(target, ',');
 
 		let buf;
 		const YouTube = new (0, _youtube.YoutubeInterface)();
@@ -2642,13 +2615,13 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		} else {
 			try {
 				const [width, height, resized] = await Chat.fitImage(link);
-				buf = _utils.Utils.html`<img src="${link}" width="${width}" height="${height}" />`;
-				if (resized) buf += _utils.Utils.html`<br /><a href="${link}" target="_blank">full-size image</a>`;
+				buf = _lib.Utils.html`<img src="${link}" width="${width}" height="${height}" />`;
+				if (resized) buf += _lib.Utils.html`<br /><a href="${link}" target="_blank">full-size image</a>`;
 			} catch (err) {
 				return this.errorReply('Invalid image');
 			}
 		}
-		if (comment) buf += _utils.Utils.html`<br>(${comment.trim()})</div>`;
+		if (comment) buf += _lib.Utils.html`<br>(${comment.trim()})</div>`;
 
 		this.checkBroadcast();
 		if (this.broadcastMessage) {
@@ -2678,7 +2651,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (!target) target = user.id;
 		let rawResult;
 		try {
-			rawResult = await _net2.Net.call(void 0, `https://${Config.routes.root}/users/${target}.json`).get();
+			rawResult = await _lib.Net.call(void 0, `https://${Config.routes.root}/users/${target}.json`).get();
 		} catch (e) {
 			if (e.message.includes('Not found')) throw new Chat.ErrorMessage(`User '${target}' is unregistered.`);
 			throw new Chat.ErrorMessage(e.message);
@@ -2688,7 +2661,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const date = new Date(result.registertime * 1000);
 		const regDate = Chat.toTimestamp(date, {human: true});
 		const regTimeAgo = Chat.toDurationString(Date.now() - date.getTime(), {precision: 1});
-		this.sendReplyBox(_utils.Utils.html`The user '${target}' registered ${regTimeAgo} ago, at ${regDate}.`);
+		this.sendReplyBox(_lib.Utils.html`The user '${target}' registered ${regTimeAgo} ago, at ${regDate}.`);
 	},
 	registertimehelp: [`/registertime OR /regtime [user] - Find out when [user] registered.`],
 
@@ -2715,7 +2688,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		this.checkBroadcast(true, '!code');
 		this.runBroadcast(true);
 
-		const isPMOrPersonalRoom = _optionalChain([this, 'access', _77 => _77.room, 'optionalAccess', _78 => _78.settings, 'access', _79 => _79.isPersonal]) !== false;
+		const isPMOrPersonalRoom = _optionalChain([this, 'access', _85 => _85.room, 'optionalAccess', _86 => _86.settings, 'access', _87 => _87.isPersonal]) !== false;
 
 		if (this.broadcasting) {
 			if (isPMOrPersonalRoom) {

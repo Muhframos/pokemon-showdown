@@ -37,6 +37,7 @@
 
 
 
+
  class Species extends _dexdata.BasicEffect  {
 	
 	/**
@@ -201,6 +202,7 @@
 	/**
 	 * Doubles Tier. The Pokemon's location in the Smogon doubles tier system.
 	 */
+	
 	
 	
 	
