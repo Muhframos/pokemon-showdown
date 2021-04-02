@@ -137,6 +137,15 @@ The column value will be ignored for repeat sections.
 		],
 	},
 	{
+		name: "[Gen 8] Adventures Free For All",
+
+		mod: 'adventures',
+		gameType: 'freeforall',
+		challengeShow: false,
+		rated: false,
+		ruleset: ['Obtainable', 'Species Clause', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod'],
+	},
+	{
 		name: "[Gen 8] Adventures Custom Game",
 
 		mod: 'adventures',
