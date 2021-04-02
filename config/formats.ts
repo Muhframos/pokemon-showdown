@@ -143,7 +143,7 @@ export const Formats: FormatList = [
 		gameType: 'freeforall',
 		challengeShow: false,
 		rated: false,
-		ruleset: ['Obtainable', 'Species Clause', 'HP Percentage Mod', 'Cancel Mod', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable', 'HP Percentage Mod', 'Sleep Clause Mod'],
 	},
 	{
 		name: "[Gen 8] Adventures Custom Game",
