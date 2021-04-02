@@ -15593,6 +15593,7 @@ export const Pokedex: {[speciesid: string]: SpeciesData} = {
 	zacian: {
 		num: 888,
 		name: "Zacian",
+		baseForme: "Hero",
 		types: ["Fairy"],
 		gender: "N",
 		baseStats: {hp: 92, atk: 130, def: 115, spa: 80, spd: 115, spe: 138},
@@ -15625,6 +15626,7 @@ export const Pokedex: {[speciesid: string]: SpeciesData} = {
 	zamazenta: {
 		num: 889,
 		name: "Zamazenta",
+		baseForme: "Hero",
 		types: ["Fighting"],
 		gender: "N",
 		baseStats: {hp: 92, atk: 130, def: 115, spa: 80, spd: 115, spe: 138},

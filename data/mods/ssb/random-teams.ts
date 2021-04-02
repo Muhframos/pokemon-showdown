@@ -17,6 +17,14 @@ export interface SSBSet {
 }
 interface SSBSets {[k: string]: SSBSet}
 
+const afdSSBSets: SSBSets = {
+	'Fox': {
+		species: 'Delphox', ability: 'No Ability', item: '', gender: '',
+		moves: [],
+		signatureMove: 'Super Metronome',
+	},
+};
+
 export const ssbSets: SSBSets = {
 	/*
 	// Example:
@@ -157,7 +165,7 @@ export const ssbSets: SSBSets = {
 		evs: {hp: 252, spa: 252, spd: 4}, ivs: {atk: 0}, nature: 'Modest', shiny: true,
 	},
 	Blaz: {
-		species: 'Carbink', ability: 'Why Worry', item: 'Leftovers', gender: 'N',
+		species: 'Carbink', ability: 'Solid Rock', item: 'Leftovers', gender: 'N',
 		moves: ['Cosmic Power', 'Body Press', 'Recover'],
 		signatureMove: 'Bleak December',
 		evs: {hp: 4, def: 252, spd: 252}, ivs: {atk: 0}, nature: 'Careful', shiny: true,
@@ -182,7 +190,7 @@ export const ssbSets: SSBSets = {
 	},
 	Cake: {
 		species: 'Dunsparce', ability: 'Wonder Guard', item: 'Shell Bell', gender: 'M',
-		moves: ['Haze', 'Life Dew', ['Poison Gas', 'Corrosive Gas', 'Magic Powder', 'Speed Swap', 'Spite', 'Refresh', 'Screech', 'Trick Room', 'Heal Block', 'Geomancy']],
+		moves: ['Haze', 'Jungle Healing', ['Poison Gas', 'Corrosive Gas', 'Magic Powder', 'Speed Swap', 'Spite', 'Screech', 'Trick Room', 'Heal Block', 'Geomancy']],
 		signatureMove: 'Kevin',
 		evs: {hp: 252, atk: 252, spd: 4}, nature: 'Adamant',
 	},
@@ -359,10 +367,10 @@ export const ssbSets: SSBSets = {
 		signatureMove: 'Paranoia',
 		evs: {atk: 252, def: 4, spe: 252}, nature: 'Jolly',
 	},
-	INStruct: {
-		species: 'Riolu', ability: 'Truant', item: 'Soda Pop', gender: '',
+	instruct: {
+		species: 'Riolu', ability: 'Truant', item: 'Heavy-Duty Boots', gender: '',
 		moves: ['Explosion', 'Lunar Dance', 'Memento'],
-		signatureMove: 'Fake Out',
+		signatureMove: 'Soda Break',
 		evs: {hp: 252, atk: 4, spe: 252}, nature: 'Jolly',
 	},
 	Iyarito: {
@@ -445,8 +453,8 @@ export const ssbSets: SSBSets = {
 		evs: {spa: 252, spd: 4, spe: 252}, ivs: {atk: 0}, nature: 'Timid',
 	},
 	Lamp: {
-		species: 'Lampent', ability: 'Candlewax', item: 'Eviolite', gender: 'M',
-		moves: ['Nasty Plot', 'Searing Shot', 'Strength Sap'],
+		species: 'Lampent', ability: 'Soul-Heart', item: 'Eviolite', gender: 'M',
+		moves: ['Nasty Plot', 'Searing Shot', 'Recover'],
 		signatureMove: 'Soul Swap',
 		evs: {def: 4, spa: 252, spe: 252}, ivs: {atk: 0}, nature: 'Timid',
 	},
@@ -470,7 +478,7 @@ export const ssbSets: SSBSets = {
 		species: 'Zekrom', ability: 'Petrichor', item: 'Damp Rock', gender: 'N',
 		moves: ['Bolt Strike', 'Dragon Claw', 'Liquidation'],
 		signatureMove: 'Ca-LLAMA-ty',
-		evs: {atk: 252, def: 4, spe: 252}, ivs: {def: 0}, nature: 'Jolly', shiny: true,
+		evs: {atk: 252, def: 4, spe: 252}, nature: 'Jolly', shiny: true,
 	},
 	MajorBowman: {
 		species: 'Weezing-Galar', ability: 'Neutralizing Gas', item: 'Black Sludge', gender: 'M',
@@ -510,7 +518,7 @@ export const ssbSets: SSBSets = {
 	},
 	Nol: {
 		species: 'Litwick', ability: 'Burning Soul', item: 'Spooky Plate', gender: 'F',
-		moves: ['Shadow Ball', 'Flamethrower', 'Trick Room'],
+		moves: ['Shadow Ball', 'Flamethrower', 'Giga Drain'],
 		signatureMove: 'Mad Hacks',
 		evs: {hp: 252, spa: 252, spd: 4}, ivs: {atk: 0, spe: 0}, nature: 'Quiet', shiny: true,
 	},
@@ -747,7 +755,7 @@ export const ssbSets: SSBSets = {
 	},
 	thewaffleman: {
 		species: 'Mr. Rime', ability: 'Prankster', item: 'Kasib Berry', gender: 'M',
-		moves: ['Iron Defense', 'Slack Off', 'Focus Blast'],
+		moves: ['Cotton Guard', 'Slack Off', 'Focus Blast'],
 		signatureMove: 'Ice Press',
 		evs: {hp: 252, def: 4, spd: 252}, ivs: {atk: 0}, nature: 'Calm',
 	},
@@ -870,7 +878,10 @@ export const ssbSets: SSBSets = {
 export class RandomStaffBrosTeams extends RandomTeams {
 	randomStaffBrosTeam(options: {inBattle?: boolean} = {}) {
 		const team: PokemonSet[] = [];
-		const debug: string[] = []; // Set this to a list of SSB sets to override the normal pool for debugging.
+		let debug: string[] = []; // Set this to a list of SSB sets to override the normal pool for debugging.
+		if (this.format.id.includes('wiiu')) {
+			debug = Array(6).fill('Fox');
+		}
 		const pool = debug.length ? debug : Object.keys(ssbSets);
 		const typePool: {[k: string]: number} = {};
 		let depth = 0;
@@ -878,16 +889,22 @@ export class RandomStaffBrosTeams extends RandomTeams {
 			if (depth >= 200) throw new Error(`Infinite loop in Super Staff Bros team generation.`);
 			depth++;
 			const name = this.sampleNoReplace(pool);
-			const ssbSet: SSBSet = this.dex.deepClone(ssbSets[name]);
+			const ssbSet: SSBSet = this.format.id.includes('wiiu') ? this.dex.deepClone(afdSSBSets[name]) :
+				this.dex.deepClone(ssbSets[name]);
 			if (ssbSet.skip) continue;
 
 			// Enforce typing limits
 			if (!debug.length) { // Type limits are ignored when debugging
 				const types = this.dex.getSpecies(ssbSet.species).types;
+				const weaknesses = [];
+				for (const type in this.dex.data.TypeChart) {
+					const typeMod = this.dex.getEffectiveness(type, types);
+					if (typeMod > 0) weaknesses.push(type);
+				}
 				let rejected = false;
-				for (const type of types) {
+				for (const type of weaknesses) {
 					if (typePool[type] === undefined) typePool[type] = 0;
-					if (typePool[type] >= 2) {
+					if (typePool[type] >= 3) {
 						// Reject
 						rejected = true;
 						break;
@@ -902,7 +919,7 @@ export class RandomStaffBrosTeams extends RandomTeams {
 				}
 				if (rejected) continue;
 				// Update type counts
-				for (const type of types) {
+				for (const type of weaknesses) {
 					typePool[type]++;
 				}
 			}
@@ -931,6 +948,20 @@ export class RandomStaffBrosTeams extends RandomTeams {
 
 			// Any set specific tweaks occur here.
 			if (set.name === 'Marshmallon' && !set.moves.includes('Head Charge')) set.moves[this.random(3)] = 'Head Charge';
+
+			if (this.format.id.includes('wiiu')) {
+				const egg = this.random(100);
+				if (egg === 69) {
+					set.name = 'Falco';
+					set.species = 'Swellow';
+				} else if (egg === 96) {
+					set.name = 'Captain Falcon';
+					set.species = 'Talonflame';
+				}
+				if (this.randomChance(1, 100)) {
+					set.item = 'Mail';
+				}
+			}
 
 			team.push(set);
 

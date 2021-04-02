@@ -11,8 +11,7 @@
  * @license MIT license
  */
 
-import {FS} from '../lib/fs';
-import {Utils} from '../lib/utils';
+import {FS, Utils} from '../lib';
 
 const PUNISHMENT_FILE = 'config/punishments.tsv';
 const ROOM_PUNISHMENT_FILE = 'config/room-punishments.tsv';
@@ -414,7 +413,8 @@ export const Punishments = new class {
 		for (const row of data.replace('\r', '').split("\n")) {
 			if (!row) continue;
 			const [ip, reason] = row.trim().split("\t");
-			if (!IPTools.ipRegex.test(ip)) continue;
+			// it can be an ip or a range
+			if (!IPTools.ipRegex.test(ip) || !IPTools.ipRangeRegex.test(ip)) continue;
 			if (!reason) continue;
 
 			Punishments.sharedIpBlacklist.set(ip, reason);
@@ -462,6 +462,7 @@ export const Punishments = new class {
 	 *********************************************************/
 
 	async punish(user: User | ID, punishment: Punishment, ignoreAlts: boolean, bypassPunishmentfilter = false) {
+		user = Users.get(user) || user;
 		if (typeof user === 'string') {
 			return Punishments.punishName(user, punishment);
 		}
@@ -955,15 +956,16 @@ export const Punishments = new class {
 		const punishment = ['BATTLEBAN', id, expireTime, ...reason] as Punishment;
 
 		// Handle tournaments the user was in before being battle banned
-		for (const room of Rooms.rooms.values()) {
-			const game = room.getGame(Tournaments.Tournament);
-			if (!game || !user.inGame(room)) continue;
+		for (const games of user.games.keys()) {
+			const game = Rooms.get(games)!.getGame(Tournaments.Tournament);
+			if (!game) continue; // this should never happen
 			if (game.isTournamentStarted) {
 				game.disqualifyUser(user.id, null, null);
 			} else if (!game.isTournamentStarted) {
 				game.removeUser(user.id);
 			}
 		}
+
 		return Punishments.roomPunish("battle", user, punishment);
 	}
 	unbattleban(userid: string) {
@@ -1006,7 +1008,8 @@ export const Punishments = new class {
 		const groupchatsCreated = [];
 		const targetUser = Users.get(user);
 		if (targetUser) {
-			for (const targetRoom of targetUser.getRooms()) {
+			for (const roomid of targetUser.inRooms || []) {
+				const targetRoom = Rooms.get(roomid);
 				if (!targetRoom?.roomid.startsWith('groupchat-')) continue;
 				if (targetRoom.game && targetRoom.game.removeBannedUser) {
 					targetRoom.game.removeBannedUser(targetUser);
@@ -1019,7 +1022,7 @@ export const Punishments = new class {
 					Punishments.bannedGroupchatParticipants[targetRoom.roomid] = new Set(
 						// Room#users is a UserTable where the keys are IDs,
 						// but typed as strings so that they can be used as object keys.
-						Object.keys(targetRoom.users) as ID[]
+						Object.keys(targetRoom.users).filter(u => !targetRoom.users[u].can('lock')) as ID[]
 					);
 				}
 			}
@@ -1349,8 +1352,8 @@ export const Punishments = new class {
 
 	checkName(user: User, userid: string, registered: boolean) {
 		if (userid.startsWith('guest')) return;
-		for (const room of user.getRooms()) {
-			Punishments.checkNewNameInRoom(user, userid, room.roomid);
+		for (const roomid of user.inRooms) {
+			Punishments.checkNewNameInRoom(user, userid, roomid);
 		}
 		let punishment = Punishments.userids.get(userid);
 		const battleban = Punishments.isBattleBanned(user);
@@ -1406,13 +1409,13 @@ export const Punishments = new class {
 			user.updateIdentity();
 			return;
 		}
-		if (registered && id === 'BAN') {
+		if (id === 'BAN') {
 			user.popup(
 				`Your username (${user.name}) is banned${bannedUnder}. Your ban will expire in a few days.${reason}` +
 				`${Config.appealurl ? `||||Or you can appeal at: ${Config.appealurl}` : ``}`
 			);
 			user.notified.punishment = true;
-			void Punishments.punish(user, punishment, false);
+			if (registered) void Punishments.punish(user, punishment, false);
 			user.disconnectAll();
 			return;
 		}
@@ -1501,7 +1504,6 @@ export const Punishments = new class {
 
 		return banned;
 	}
-
 	checkNameInRoom(user: User, roomid: RoomID): boolean {
 		let punishment = Punishments.roomUserids.nestedGet(roomid, user.id);
 		if (!punishment && user.autoconfirmed) {
