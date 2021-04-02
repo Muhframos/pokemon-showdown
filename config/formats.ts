@@ -150,6 +150,7 @@ export const Formats: FormatList = [
 
 		mod: 'adventures',
 		debug: true,
+		rated: false,
 		maxLevel: 9999,
 		battle: {trunc: Math.trunc},
 		defaultLevel: 100,
