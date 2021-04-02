@@ -1,13 +1,12 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _lib = require('../../.lib-dist');
 
  const ROOMFAQ_FILE = 'config/chat-plugins/faqs.json'; exports.ROOMFAQ_FILE = ROOMFAQ_FILE;
 const MAX_ROOMFAQ_LENGTH = 8192;
 
- const roomFaqs = JSON.parse(_fs.FS.call(void 0, exports.ROOMFAQ_FILE).readIfExistsSync() || "{}"); exports.roomFaqs = roomFaqs;
+ const roomFaqs = JSON.parse(_lib.FS.call(void 0, exports.ROOMFAQ_FILE).readIfExistsSync() || "{}"); exports.roomFaqs = roomFaqs;
 
 function saveRoomFaqs() {
-	_fs.FS.call(void 0, exports.ROOMFAQ_FILE).writeUpdate(() => JSON.stringify(exports.roomFaqs));
+	_lib.FS.call(void 0, exports.ROOMFAQ_FILE).writeUpdate(() => JSON.stringify(exports.roomFaqs));
 }
 
 /**
@@ -38,51 +37,49 @@ function saveRoomFaqs() {
 		if (!(topic && rest.length)) return this.parse('/help roomfaq');
 		let text = rest.join(',').trim();
 		if (topic.length > 25) return this.errorReply("FAQ topics should not exceed 25 characters.");
-		if (Chat.stripFormatting(text).length > MAX_ROOMFAQ_LENGTH) {
-			return this.errorReply(`FAQ entries should not exceed ${MAX_ROOMFAQ_LENGTH} characters.`);
+
+		const lengthWithoutFormatting = Chat.stripFormatting(text).length;
+		if (lengthWithoutFormatting > MAX_ROOMFAQ_LENGTH) {
+			return this.errorReply(`FAQ entries must not exceed ${MAX_ROOMFAQ_LENGTH} characters.`);
+		} else if (lengthWithoutFormatting < 1) {
+			return this.errorReply(`FAQ entries must include at least one character.`);
 		}
 
 		text = text.replace(/^>/, '&gt;');
 
 		if (!exports.roomFaqs[room.roomid]) exports.roomFaqs[room.roomid] = {};
+		const exists = topic in exports.roomFaqs[room.roomid];
 		exports.roomFaqs[room.roomid][topic] = text;
 		saveRoomFaqs();
 		this.sendReplyBox(Chat.formatText(text, true));
-		this.privateModAction(`${user.name} added a FAQ for '${topic}'`);
-		this.modlog('RFAQ', null, `added '${topic}'`);
+		this.privateModAction(`${user.name} ${exists ? 'edited' : 'added'} an FAQ for '${topic}'`);
+		this.modlog('RFAQ', null, `${exists ? 'edited' : 'added'} '${topic}'`);
 	},
 	removefaq(target, room, user) {
-		target = target.trim();
-		let [topic, roomid] = _utils.Utils.splitFirst(target, ',');
-		const targetRoom = roomid ? Rooms.search(roomid) : room;
-		if (!targetRoom) return this.errorReply(`Invalid room.`);
-		if (!targetRoom.persist) {
-			return this.errorReply("This command is unavailable in temporary rooms.");
-		}
-		this.room = targetRoom;
+		room = this.requireRoom();
 		this.checkChat();
-		this.checkCan('ban', null, targetRoom);
-		topic = toID(topic);
+		this.checkCan('ban', null, room);
+		const topic = toID(target);
 		if (!topic) return this.parse('/help roomfaq');
 
-		if (!(exports.roomFaqs[targetRoom.roomid] && exports.roomFaqs[targetRoom.roomid][topic])) return this.errorReply("Invalid topic.");
+		if (!(exports.roomFaqs[room.roomid] && exports.roomFaqs[room.roomid][topic])) return this.errorReply("Invalid topic.");
 		if (
-			_optionalChain([targetRoom, 'access', _ => _.settings, 'access', _2 => _2.repeats, 'optionalAccess', _3 => _3.length]) &&
-			targetRoom.settings.repeats.filter(x => x.faq && x.id === (getAlias(targetRoom.roomid, topic) || topic)).length
+			_optionalChain([room, 'access', _ => _.settings, 'access', _2 => _2.repeats, 'optionalAccess', _3 => _3.length]) &&
+			room.settings.repeats.filter(x => x.faq && x.id === (getAlias(room.roomid, topic) || topic)).length
 		) {
-			this.parse(`/removerepeat ${getAlias(targetRoom.roomid, topic) || topic},${targetRoom.roomid}`);
+			this.parse(`/msgroom ${room.roomid},/removerepeat ${getAlias(room.roomid, topic) || topic}`);
 		}
-		delete exports.roomFaqs[targetRoom.roomid][topic];
-		Object.keys(exports.roomFaqs[targetRoom.roomid]).filter(
-			val => getAlias(targetRoom.roomid, val) === topic
+		delete exports.roomFaqs[room.roomid][topic];
+		Object.keys(exports.roomFaqs[room.roomid]).filter(
+			val => getAlias(room.roomid, val) === topic
 		).map(
-			val => delete exports.roomFaqs[targetRoom.roomid][val]
+			val => delete exports.roomFaqs[room.roomid][val]
 		);
-		if (!Object.keys(exports.roomFaqs[targetRoom.roomid]).length) delete exports.roomFaqs[targetRoom.roomid];
+		if (!Object.keys(exports.roomFaqs[room.roomid]).length) delete exports.roomFaqs[room.roomid];
 		saveRoomFaqs();
 		this.privateModAction(`${user.name} removed the FAQ for '${topic}'`);
 		this.modlog('ROOMFAQ', null, `removed ${topic}`);
-		if (roomid) this.refreshPage(`roomfaqs-${targetRoom.roomid}`);
+		this.refreshPage(`roomfaqs-${room.roomid}`);
 	},
 	addalias(target, room, user) {
 		room = this.requireRoom();
@@ -121,7 +118,7 @@ function saveRoomFaqs() {
 		if (!this.runBroadcast()) return;
 		this.sendReplyBox(Chat.formatText(exports.roomFaqs[room.roomid][topic], true));
 		if (!this.broadcasting && user.can('ban', null, room, 'rfaq')) {
-			const code = _utils.Utils.escapeHTML(exports.roomFaqs[room.roomid][topic]).replace(/\n/g, '<br />');
+			const code = _lib.Utils.escapeHTML(exports.roomFaqs[room.roomid][topic]).replace(/\n/g, '<br />');
 			this.sendReplyBox(`<details><summary>Source</summary><code style="white-space: pre-wrap; display: table; tab-size: 3">/addfaq ${topic}, ${code}</code></details>`);
 		}
 	},
@@ -161,10 +158,10 @@ function saveRoomFaqs() {
 				buf += `<hr /><strong>Aliases:</strong> ${aliases.join(', ')}`;
 			}
 			if (user.can('ban', null, room, 'addfaq')) {
-				const src = _utils.Utils.escapeHTML(topic).replace(/\n/g, `<br />`);
+				const src = _lib.Utils.escapeHTML(topic).replace(/\n/g, `<br />`);
 				buf += `<hr /><details><summary>Raw text</summary>`;
 				buf += `<code style="white-space: pre-wrap; display: table; tab-size: 3;">/addfaq ${key}, ${src}</code></details>`;
-				buf += `<hr /><button class="button" name="send" value="/removefaq ${key},${room.roomid}">Delete FAQ</button>`;
+				buf += `<hr /><button class="button" name="send" value="/msgroom ${room.roomid},/removefaq ${key}">Delete FAQ</button>`;
 			}
 			buf += `</div>`;
 		}
@@ -172,6 +169,15 @@ function saveRoomFaqs() {
 		return buf;
 	},
 }; exports.pages = pages;
+
+ const onRenameRoom = (oldID, newID) => {
+	if (exports.roomFaqs[oldID]) {
+		if (!exports.roomFaqs[newID]) exports.roomFaqs[newID] = {};
+		Object.assign(exports.roomFaqs[newID], exports.roomFaqs[oldID]);
+		delete exports.roomFaqs[oldID];
+		saveRoomFaqs();
+	}
+}; exports.onRenameRoom = onRenameRoom;
 
 process.nextTick(() => {
 	Chat.multiLinePattern.register('/addfaq ');

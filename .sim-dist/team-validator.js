@@ -8,7 +8,7 @@
  */
 
 var _dex = require('./dex');
-var _utils = require('../.lib-dist/utils');
+var _lib = require('../.lib-dist');
 
 /**
  * Describes a possible way to get a pokemon. Is not exhaustive!
@@ -230,10 +230,22 @@ var _utils = require('../.lib-dist/utils');
 		let problems = [];
 		const ruleTable = this.ruleTable;
 		if (format.team) {
+			if (team) {
+				return [
+					`This format doesn't let you use your own team.`,
+					`If you're not using a custom client, please report this as a bug. If you are, remember to use \`/utm null\` before starting a game in this format.`,
+				];
+			}
 			return null;
 		}
-		if (!team || !Array.isArray(team)) {
-			return [`You sent invalid team data. If you're not using a custom client, please report this as a bug.`];
+		if (!team) {
+			return [
+				`This format requires you to use your own team.`,
+				`If you're not using a custom client, please report this as a bug.`,
+			];
+		}
+		if (!Array.isArray(team)) {
+			throw new Error(`Invalid team data`);
 		}
 
 		let [minSize, maxSize] = format.teamLength && format.teamLength.validate || [1, 6];
@@ -257,6 +269,7 @@ var _utils = require('../.lib-dist/utils');
 
 		const teamHas = {};
 		let lgpeStarterCount = 0;
+		let deoxysType;
 		for (const set of team) {
 			if (!set) return [`You sent invalid team data. If you're not using a custom client, please report this as a bug.`];
 
@@ -273,6 +286,16 @@ var _utils = require('../.lib-dist/utils');
 				lgpeStarterCount++;
 				if (lgpeStarterCount === 2 && ruleTable.isBanned('nonexistent')) {
 					problems.push(`You can only have one of Pikachu-Starter or Eevee-Starter on a team.`);
+				}
+			}
+			if (dex.gen === 3 && set.species.startsWith('Deoxys')) {
+				if (!deoxysType) {
+					deoxysType = set.species;
+				} else if (deoxysType !== set.species && ruleTable.isBanned('nonexistent')) {
+					return [
+						`You cannot have more than one type of Deoxys forme.`,
+						`(Each game in Gen 3 supports only one forme of Deoxys.)`,
+					];
 				}
 			}
 			if (setProblems) {
@@ -348,11 +371,11 @@ var _utils = require('../.lib-dist/utils');
 			}
 		}
 		set.name = dex.getName(set.name);
-		let item = dex.getItem(_utils.Utils.getString(set.item));
+		let item = dex.getItem(_lib.Utils.getString(set.item));
 		set.item = item.name;
-		let ability = dex.getAbility(_utils.Utils.getString(set.ability));
+		let ability = dex.getAbility(_lib.Utils.getString(set.ability));
 		set.ability = ability.name;
-		let nature = dex.getNature(_utils.Utils.getString(set.nature));
+		let nature = dex.getNature(_lib.Utils.getString(set.nature));
 		set.nature = nature.name;
 		if (!Array.isArray(set.moves)) set.moves = [];
 
@@ -430,7 +453,7 @@ var _utils = require('../.lib-dist/utils');
 		if (ability.id === 'owntempo' && species.id === 'rockruff') {
 			tierSpecies = outOfBattleSpecies = dex.getSpecies('rockruffdusk');
 		}
-		if (species.id === 'melmetal' && set.gigantamax) {
+		if (species.id === 'melmetal' && set.gigantamax && this.dex.getLearnsetData(species.id).eventData) {
 			setSources.sourcesBefore = 0;
 			setSources.sources = ['8S0 melmetal'];
 		}
@@ -556,7 +579,7 @@ var _utils = require('../.lib-dist/utils');
 		if (set.moves && Array.isArray(set.moves)) {
 			set.moves = set.moves.filter(val => val);
 		}
-		if (!set.moves || !set.moves.length) {
+		if (!_optionalChain([set, 'access', _ => _.moves, 'optionalAccess', _2 => _2.length])) {
 			problems.push(`${name} has no moves.`);
 			set.moves = [];
 		}
@@ -578,7 +601,7 @@ var _utils = require('../.lib-dist/utils');
 
 		for (const moveName of set.moves) {
 			if (!moveName) continue;
-			const move = dex.getMove(_utils.Utils.getString(moveName));
+			const move = dex.getMove(_lib.Utils.getString(moveName));
 			if (!move.exists) return [`"${move.name}" is an invalid move.`];
 
 			problem = this.checkMove(set, move, setHas);
@@ -788,7 +811,7 @@ var _utils = require('../.lib-dist/utils');
 		].includes(species.baseSpecies)) || [
 			'Manaphy', 'Cosmog', 'Cosmoem', 'Solgaleo', 'Lunala',
 		].includes(species.baseSpecies);
-		const diancieException = species.name === 'Diancie' && set.shiny;
+		const diancieException = species.name === 'Diancie' && !set.shiny;
 		const has3PerfectIVs = setSources.minSourceGen() >= 6 && isLegendary && !diancieException;
 
 		if (set.hpType === 'Fighting' && ruleTable.has('obtainablemisc')) {
@@ -974,7 +997,7 @@ var _utils = require('../.lib-dist/utils');
 			const dex = (this.dex.gen === 1 ? this.dex.mod('gen2') : this.dex);
 			eventSpecies = dex.getSpecies(splitSource[1]);
 			const eventLsetData = this.dex.getLearnsetData(eventSpecies.id);
-			eventData = _optionalChain([eventLsetData, 'access', _ => _.eventData, 'optionalAccess', _2 => _2[parseInt(splitSource[0])]]);
+			eventData = _optionalChain([eventLsetData, 'access', _3 => _3.eventData, 'optionalAccess', _4 => _4[parseInt(splitSource[0])]]);
 			if (!eventData) {
 				throw new Error(`${eventSpecies.name} from ${species.name} doesn't have data for event ${source}`);
 			}
@@ -1204,7 +1227,7 @@ var _utils = require('../.lib-dist/utils');
 					const baseSpecies = this.dex.getSpecies(species.changesFrom);
 					problems.push(
 						`${name} needs to hold ${species.requiredItems.join(' or ')} to be in its ${species.forme} forme.`,
-						`(It will revert to its ${baseSpecies.baseForme} forme if you remove the item or give it a different item.)`
+						`(It will revert to its ${baseSpecies.baseForme || 'base'} forme if you remove the item or give it a different item.)`
 					);
 				}
 			}
@@ -1547,7 +1570,7 @@ var _utils = require('../.lib-dist/utils');
 		const dex = this.dex;
 		let name = set.species;
 		const species = dex.getSpecies(set.species);
-		const maxSourceGen = this.ruleTable.has('allowtradeback') ? 2 : dex.gen;
+		const maxSourceGen = this.ruleTable.has('allowtradeback') ? _lib.Utils.clampIntRange(dex.gen + 1, 1, 8) : dex.gen;
 		if (!eventSpecies) eventSpecies = species;
 		if (set.name && set.species !== set.name && species.baseSpecies !== set.name) name = `${set.name} (${set.species})`;
 
@@ -1696,7 +1719,7 @@ var _utils = require('../.lib-dist/utils');
 		let minSourceGen = this.minSourceGen;
 		if (this.dex.gen >= 3 && minSourceGen < 3) minSourceGen = 3;
 		if (species) minSourceGen = Math.max(minSourceGen, species.gen);
-		const maxSourceGen = this.ruleTable.has('allowtradeback') ? 2 : this.dex.gen;
+		const maxSourceGen = this.ruleTable.has('allowtradeback') ? _lib.Utils.clampIntRange(this.dex.gen + 1, 1, 8) : this.dex.gen;
 		return new PokemonSources(maxSourceGen, minSourceGen);
 	}
 
@@ -1828,7 +1851,7 @@ var _utils = require('../.lib-dist/utils');
 		const noFutureGen = !ruleTable.has('allowtradeback');
 
 		let tradebackEligible = false;
-		while (_optionalChain([species, 'optionalAccess', _3 => _3.name]) && !alreadyChecked[species.id]) {
+		while (_optionalChain([species, 'optionalAccess', _5 => _5.name]) && !alreadyChecked[species.id]) {
 			alreadyChecked[species.id] = true;
 			if (dex.gen <= 2 && species.gen === 1) tradebackEligible = true;
 			const lsetData = dex.getLearnsetData(species.id);

@@ -121,8 +121,7 @@ const MAX_PARSE_RECURSION = 10;
 const VALID_COMMAND_TOKENS = '/!';
 const BROADCAST_TOKEN = '!';
 
-var _fs = require('../.lib-dist/fs');
-var _utils = require('../.lib-dist/utils');
+var _lib = require('../.lib-dist');
 var _chatformatter = require('./chat-formatter');
 
 // @ts-ignore no typedef available
@@ -472,7 +471,7 @@ class PatternTester {
 			this.handler = parsedCommand.handler;
 		}
 
-		if (this.room && !this.user.inRoom(this.room)) {
+		if (this.room && !(this.user.id in this.room.users)) {
 			if (this.room.roomid === 'lobby') {
 				this.room = null;
 			} else {
@@ -558,11 +557,12 @@ class PatternTester {
 			});
 		} else if (message && message !== true) {
 			this.sendChatMessage(message );
+			message = true;
 		}
 
 		this.update();
 
-		return message ;
+		return message;
 	}
 
 	sendChatMessage(message) {
@@ -631,7 +631,7 @@ class PatternTester {
 	}
 
 	checkSlowchat(room, user) {
-		if (!room || !room.settings.slowchat) return true;
+		if (!_optionalChain([room, 'optionalAccess', _18 => _18.settings, 'access', _19 => _19.slowchat])) return true;
 		if (user.can('show', null, room)) return true;
 		const lastActiveSeconds = (Date.now() - user.lastMessageTime) / 1000;
 		if (lastActiveSeconds < room.settings.slowchat) {
@@ -656,7 +656,7 @@ class PatternTester {
 		return this.checkBanwords(room.parent , message);
 	}
 	checkGameFilter() {
-		if (!this.room || !this.room.game || !this.room.game.onChatMessage) return;
+		if (!_optionalChain([this, 'access', _20 => _20.room, 'optionalAccess', _21 => _21.game]) || !this.room.game.onChatMessage) return;
 		return this.room.game.onChatMessage(this.message, this.user);
 	}
 	pmTransform(originalMessage) {
@@ -733,14 +733,14 @@ class PatternTester {
 	/** like privateModAction, but also notify Staff room */
 	privateGlobalModAction(msg) {
 		this.privateModAction(msg);
-		if (_optionalChain([this, 'access', _18 => _18.room, 'optionalAccess', _19 => _19.roomid]) !== 'staff') {
-			_optionalChain([Rooms, 'access', _20 => _20.get, 'call', _21 => _21('staff'), 'optionalAccess', _22 => _22.addByUser, 'call', _23 => _23(this.user, `${this.room ? `<<${this.room.roomid}>>` : `<PM:${this.pmTarget}>`} ${msg}`), 'access', _24 => _24.update, 'call', _25 => _25()]);
+		if (_optionalChain([this, 'access', _22 => _22.room, 'optionalAccess', _23 => _23.roomid]) !== 'staff') {
+			_optionalChain([Rooms, 'access', _24 => _24.get, 'call', _25 => _25('staff'), 'optionalAccess', _26 => _26.addByUser, 'call', _27 => _27(this.user, `${this.room ? `<<${this.room.roomid}>>` : `<PM:${this.pmTarget}>`} ${msg}`), 'access', _28 => _28.update, 'call', _29 => _29()]);
 		}
 	}
 	addGlobalModAction(msg) {
 		this.addModAction(msg);
-		if (_optionalChain([this, 'access', _26 => _26.room, 'optionalAccess', _27 => _27.roomid]) !== 'staff') {
-			_optionalChain([Rooms, 'access', _28 => _28.get, 'call', _29 => _29('staff'), 'optionalAccess', _30 => _30.addByUser, 'call', _31 => _31(this.user, `${this.room ? `<<${this.room.roomid}>>` : `<PM:${this.pmTarget}>`} ${msg}`), 'access', _32 => _32.update, 'call', _33 => _33()]);
+		if (_optionalChain([this, 'access', _30 => _30.room, 'optionalAccess', _31 => _31.roomid]) !== 'staff') {
+			_optionalChain([Rooms, 'access', _32 => _32.get, 'call', _33 => _33('staff'), 'optionalAccess', _34 => _34.addByUser, 'call', _35 => _35(this.user, `${this.room ? `<<${this.room.roomid}>>` : `<PM:${this.pmTarget}>`} ${msg}`), 'access', _36 => _36.update, 'call', _37 => _37()]);
 		}
 	}
 
@@ -765,7 +765,7 @@ class PatternTester {
 			action,
 			isGlobal: true,
 			loggedBy: this.user.id,
-			note: _optionalChain([note, 'optionalAccess', _34 => _34.replace, 'call', _35 => _35(/\n/gm, ' ')]) || '',
+			note: _optionalChain([note, 'optionalAccess', _38 => _38.replace, 'call', _39 => _39(/\n/gm, ' ')]) || '',
 		};
 		if (user) {
 			if (typeof user === 'string') {
@@ -795,7 +795,7 @@ class PatternTester {
 		const entry = {
 			action,
 			loggedBy: this.user.id,
-			note: _optionalChain([note, 'optionalAccess', _36 => _36.replace, 'call', _37 => _37(/\n/gm, ' ')]) || '',
+			note: _optionalChain([note, 'optionalAccess', _40 => _40.replace, 'call', _41 => _41(/\n/gm, ' ')]) || '',
 		};
 		if (user) {
 			if (typeof user === 'string') {
@@ -813,11 +813,25 @@ class PatternTester {
 		}
 		(this.room || Rooms.global).modlog(entry);
 	}
+	parseSpoiler(str) {
+		let privateReason = "";
+		if (!str) return {publicReason: "", privateReason};
+
+		let publicReason = str;
+		const targetLowercase = str.toLowerCase();
+		if (targetLowercase.includes('spoiler:') || targetLowercase.includes('spoilers:')) {
+			const proofIndex = targetLowercase.indexOf(targetLowercase.includes('spoilers:') ? 'spoilers:' : 'spoiler:');
+			const bump = (targetLowercase.includes('spoilers:') ? 9 : 8);
+			privateReason = `(PROOF: ${str.substr(proofIndex + bump, str.length).trim()}) `;
+			publicReason = str.substr(0, proofIndex).trim();
+		}
+		return {publicReason, privateReason};
+	}
 	roomlog(data) {
 		if (this.room) this.room.roomlog(data);
 	}
 	stafflog(data) {
-		_optionalChain([(Rooms.get('staff') || Rooms.lobby || this.room), 'optionalAccess', _38 => _38.roomlog, 'call', _39 => _39(data)]);
+		_optionalChain([(Rooms.get('staff') || Rooms.lobby || this.room), 'optionalAccess', _42 => _42.roomlog, 'call', _43 => _43(data)]);
 	}
 	addModAction(msg) {
 		if (this.room) {
@@ -974,7 +988,7 @@ class PatternTester {
 						this.tr`Because moderated chat is set, you must be of rank ${groupName} or higher to speak in this room.`
 					);
 				}
-				if (!user.inRoom(room)) {
+				if (!(user.id in room.users)) {
 					connection.popup(`You can't send a message to this room without being in it.`);
 					return null;
 				}
@@ -1036,14 +1050,14 @@ class PatternTester {
 			const allLinksWhitelisted = !links || links.every(link => {
 				link = link.toLowerCase();
 				const domainMatches = /^(?:http:\/\/|https:\/\/)?(?:[^/]*\.)?([^/.]*\.[^/.]*)\.?($|\/|:)/.exec(link);
-				const domain = _optionalChain([domainMatches, 'optionalAccess', _40 => _40[1]]);
+				const domain = _optionalChain([domainMatches, 'optionalAccess', _44 => _44[1]]);
 				const hostMatches = /^(?:http:\/\/|https:\/\/)?([^/]*[^/.])\.?($|\/|:)/.exec(link);
-				let host = _optionalChain([hostMatches, 'optionalAccess', _41 => _41[1]]);
-				if (_optionalChain([host, 'optionalAccess', _42 => _42.startsWith, 'call', _43 => _43('www.')])) host = host.slice(4);
+				let host = _optionalChain([hostMatches, 'optionalAccess', _45 => _45[1]]);
+				if (_optionalChain([host, 'optionalAccess', _46 => _46.startsWith, 'call', _47 => _47('www.')])) host = host.slice(4);
 				if (!domain || !host) return null;
 				return LINK_WHITELIST.includes(host) || LINK_WHITELIST.includes(`*.${domain}`);
 			});
-			if (!allLinksWhitelisted && !(_optionalChain([targetUser, 'optionalAccess', _44 => _44.can, 'call', _45 => _45('lock')]) || _optionalChain([room, 'optionalAccess', _46 => _46.settings, 'access', _47 => _47.isHelp]))) {
+			if (!allLinksWhitelisted && !(_optionalChain([targetUser, 'optionalAccess', _48 => _48.can, 'call', _49 => _49('lock')]) || _optionalChain([room, 'optionalAccess', _50 => _50.settings, 'access', _51 => _51.isHelp]))) {
 				throw new exports.Chat.ErrorMessage("Your account must be autoconfirmed to send links to other users, except for global staff.");
 			}
 		}
@@ -1074,7 +1088,7 @@ class PatternTester {
 			user.lastMessageTime = Date.now();
 		}
 
-		if (_optionalChain([room, 'optionalAccess', _48 => _48.settings, 'access', _49 => _49.highTraffic]) &&
+		if (_optionalChain([room, 'optionalAccess', _52 => _52.settings, 'access', _53 => _53.highTraffic]) &&
 			toID(message).replace(/[^a-z]+/, '').length < 2 &&
 			!user.can('show', null, room)) {
 			throw new exports.Chat.ErrorMessage(
@@ -1089,10 +1103,10 @@ class PatternTester {
 		return message;
 	}
 	checkPMHTML(targetUser) {
-		if (!targetUser || !targetUser.connected) {
+		if (!_optionalChain([targetUser, 'optionalAccess', _54 => _54.connected])) {
 			throw new exports.Chat.ErrorMessage(`User ${this.targetUsername} is not currently online.`);
 		}
-		if (!(this.room && targetUser.inRoom(this.room)) && !this.user.can('addhtml')) {
+		if (!(this.room && (targetUser.id in this.room.users)) && !this.user.can('addhtml')) {
 			throw new exports.Chat.ErrorMessage("You do not have permission to use PM HTML to users who are not in this room.");
 		}
 		if (targetUser.settings.blockPMs &&
@@ -1226,8 +1240,8 @@ class PatternTester {
 				}
 				if (tagName === 'button') {
 					if ((!this.room || this.room.settings.isPersonal || this.room.settings.isPrivate === true) && !this.user.can('lock')) {
-						const buttonName = _optionalChain([/ name ?= ?"([^"]*)"/i, 'access', _50 => _50.exec, 'call', _51 => _51(tagContent), 'optionalAccess', _52 => _52[1]]);
-						const buttonValue = _optionalChain([/ value ?= ?"([^"]*)"/i, 'access', _53 => _53.exec, 'call', _54 => _54(tagContent), 'optionalAccess', _55 => _55[1]]);
+						const buttonName = _optionalChain([/ name ?= ?"([^"]*)"/i, 'access', _55 => _55.exec, 'call', _56 => _56(tagContent), 'optionalAccess', _57 => _57[1]]);
+						const buttonValue = _optionalChain([/ value ?= ?"([^"]*)"/i, 'access', _58 => _58.exec, 'call', _59 => _59(tagContent), 'optionalAccess', _60 => _60[1]]);
 						const msgCommandRegex = /^\/(?:msg|pm|w|whisper) /i;
 						if (buttonName === 'send' && buttonValue && msgCommandRegex.test(buttonValue)) {
 							const [pmTarget] = buttonValue.replace(msgCommandRegex, '').split(',');
@@ -1334,14 +1348,14 @@ class PatternTester {
 		);
 	}
 	refreshPage(pageid) {
-		if (_optionalChain([this, 'access', _56 => _56.connection, 'access', _57 => _57.openPages, 'optionalAccess', _58 => _58.has, 'call', _59 => _59(pageid)])) {
+		if (_optionalChain([this, 'access', _61 => _61.connection, 'access', _62 => _62.openPages, 'optionalAccess', _63 => _63.has, 'call', _64 => _64(pageid)])) {
 			this.parse(`/join view-${pageid}`);
 		}
 	}
 } exports.CommandContext = CommandContext;
 
  const Chat = new (_class = class {
-	constructor() {;_class.prototype.__init.call(this);_class.prototype.__init2.call(this);_class.prototype.__init3.call(this);_class.prototype.__init4.call(this);_class.prototype.__init5.call(this);_class.prototype.__init6.call(this);_class.prototype.__init7.call(this);_class.prototype.__init8.call(this);_class.prototype.__init9.call(this);_class.prototype.__init10.call(this);_class.prototype.__init11.call(this);_class.prototype.__init12.call(this);_class.prototype.__init13.call(this);_class.prototype.__init14.call(this);_class.prototype.__init15.call(this);_class.prototype.__init16.call(this);_class.prototype.__init17.call(this);_class.prototype.__init18.call(this);_class.prototype.__init19.call(this);_class.prototype.__init20.call(this);_class.prototype.__init21.call(this);_class.prototype.__init22.call(this);_class.prototype.__init23.call(this);_class.prototype.__init24.call(this);_class.prototype.__init25.call(this);_class.prototype.__init26.call(this);_class.prototype.__init27.call(this);
+	constructor() {;_class.prototype.__init.call(this);_class.prototype.__init2.call(this);_class.prototype.__init3.call(this);_class.prototype.__init4.call(this);_class.prototype.__init5.call(this);_class.prototype.__init6.call(this);_class.prototype.__init7.call(this);_class.prototype.__init8.call(this);_class.prototype.__init9.call(this);_class.prototype.__init10.call(this);_class.prototype.__init11.call(this);_class.prototype.__init12.call(this);_class.prototype.__init13.call(this);_class.prototype.__init14.call(this);_class.prototype.__init15.call(this);_class.prototype.__init16.call(this);_class.prototype.__init17.call(this);_class.prototype.__init18.call(this);_class.prototype.__init19.call(this);_class.prototype.__init20.call(this);_class.prototype.__init21.call(this);_class.prototype.__init22.call(this);_class.prototype.__init23.call(this);_class.prototype.__init24.call(this);_class.prototype.__init25.call(this);_class.prototype.__init26.call(this);_class.prototype.__init27.call(this);_class.prototype.__init28.call(this);
 		void this.loadTranslations().then(() => {
 			exports.Chat.translationsLoaded = true;
 		});
@@ -1364,16 +1378,17 @@ class PatternTester {
 	
 	
 	 __init4() {this.destroyHandlers = []}
+	 __init5() {this.renameHandlers = []}
 	/** The key is the name of the plugin. */
-	 __init5() {this.plugins = {}}
+	 __init6() {this.plugins = {}}
 	/** Will be empty except during hotpatch */
-	__init6() {this.oldPlugins = {}}
-	__init7() {this.roomSettings = []}
+	__init7() {this.oldPlugins = {}}
+	__init8() {this.roomSettings = []}
 
 	/*********************************************************
 	 * Load chat filters
 	 *********************************************************/
-	 __init8() {this.filters = []}
+	 __init9() {this.filters = []}
 	filter(message, context) {
 		// Chat filters can choose to:
 		// 1. return false OR null - to not send a user's message
@@ -1398,7 +1413,7 @@ class PatternTester {
 		return message;
 	}
 
-	 __init9() {this.namefilters = []}
+	 __init10() {this.namefilters = []}
 	namefilter(name, user) {
 		if (!Config.disablebasicnamefilter) {
 			// whitelist
@@ -1453,28 +1468,28 @@ class PatternTester {
 		return name;
 	}
 
-	 __init10() {this.hostfilters = []}
+	 __init11() {this.hostfilters = []}
 	hostfilter(host, user, connection, hostType) {
 		for (const curFilter of exports.Chat.hostfilters) {
 			curFilter(host, user, connection, hostType);
 		}
 	}
 
-	 __init11() {this.loginfilters = []}
+	 __init12() {this.loginfilters = []}
 	loginfilter(user, oldUser, usertype) {
 		for (const curFilter of exports.Chat.loginfilters) {
 			curFilter(user, oldUser, usertype);
 		}
 	}
 
-	 __init12() {this.punishmentfilters = []}
+	 __init13() {this.punishmentfilters = []}
 	punishmentfilter(user, punishment) {
 		for (const curFilter of exports.Chat.punishmentfilters) {
 			curFilter(user, punishment);
 		}
 	}
 
-	 __init13() {this.nicknamefilters = []}
+	 __init14() {this.nicknamefilters = []}
 	nicknamefilter(nickname, user) {
 		for (const curFilter of exports.Chat.nicknamefilters) {
 			const filtered = curFilter(nickname, user);
@@ -1484,7 +1499,7 @@ class PatternTester {
 		return nickname;
 	}
 
-	 __init14() {this.statusfilters = []}
+	 __init15() {this.statusfilters = []}
 	statusfilter(status, user) {
 		status = status.replace(/\|/g, '');
 		for (const curFilter of exports.Chat.statusfilters) {
@@ -1497,19 +1512,19 @@ class PatternTester {
 	 * Translations
 	 *********************************************************/
 	/** language id -> language name */
-	 __init15() {this.languages = new Map()}
+	 __init16() {this.languages = new Map()}
 	/** language id -> (english string -> translated string) */
-	 __init16() {this.translations = new Map()}
+	 __init17() {this.translations = new Map()}
 
 	async loadTranslations() {
-		const directories = await _fs.FS.call(void 0, TRANSLATION_DIRECTORY).readdir();
+		const directories = await _lib.FS.call(void 0, TRANSLATION_DIRECTORY).readdir();
 
 		// ensure that english is the first entry when we iterate over Chat.languages
 		exports.Chat.languages.set('english' , 'English');
 		for (const dirname of directories) {
 			// translation dirs shouldn't have caps, but things like sourceMaps and the README will
 			if (/[^a-z0-9]/.test(dirname)) continue;
-			const dir = _fs.FS.call(void 0, `${TRANSLATION_DIRECTORY}/${dirname}`);
+			const dir = _lib.FS.call(void 0, `${TRANSLATION_DIRECTORY}/${dirname}`);
 
 			// For some reason, toID() isn't available as a global when this executes.
 			const languageID = Dex.toID(dirname);
@@ -1592,11 +1607,11 @@ class PatternTester {
 		return translated;
 	}
 
-	 __init17() {this.MessageContext = MessageContext};
-	 __init18() {this.CommandContext = exports.CommandContext = CommandContext};
-	 __init19() {this.PageContext = exports.PageContext = PageContext};
-	 __init20() {this.ErrorMessage = exports.ErrorMessage = ErrorMessage};
-	 __init21() {this.Interruption = exports.Interruption = Interruption};
+	 __init18() {this.MessageContext = MessageContext};
+	 __init19() {this.CommandContext = exports.CommandContext = CommandContext};
+	 __init20() {this.PageContext = exports.PageContext = PageContext};
+	 __init21() {this.ErrorMessage = exports.ErrorMessage = ErrorMessage};
+	 __init22() {this.Interruption = exports.Interruption = Interruption};
 	/**
 	 * Command parser
 	 *
@@ -1627,22 +1642,16 @@ class PatternTester {
 	parse(message, room, user, connection) {
 		exports.Chat.loadPlugins();
 
-		const initialRoomlogLength = _optionalChain([room, 'optionalAccess', _60 => _60.log, 'access', _61 => _61.getLineCount, 'call', _62 => _62()]);
+		const initialRoomlogLength = _optionalChain([room, 'optionalAccess', _65 => _65.log, 'access', _66 => _66.getLineCount, 'call', _67 => _67()]);
 		const context = new CommandContext({message, room, user, connection});
 		const start = Date.now();
 		const result = context.parse();
-		if (typeof _optionalChain([result, 'optionalAccess', _63 => _63.then]) === 'function') {
+		if (typeof _optionalChain([result, 'optionalAccess', _68 => _68.then]) === 'function') {
 			void result.then(() => {
-				const timeUsed = Date.now() - start;
-				if (timeUsed > 3000) {
-					this.logSlowMessage(timeUsed, context);
-				}
+				this.logSlowMessage(start, context);
 			});
 		} else {
-			const timeUsed = Date.now() - start;
-			if (timeUsed > 1000) {
-				this.logSlowMessage(timeUsed, context);
-			}
+			this.logSlowMessage(start, context);
 		}
 		if (room && room.log.getLineCount() !== initialRoomlogLength) {
 			room.messagesSent++;
@@ -1653,18 +1662,18 @@ class PatternTester {
 
 		return result;
 	}
-	logSlowMessage(timeUsed, context) {
-		const logRoom = Rooms.get('slowlog');
+	logSlowMessage(start, context) {
+		const timeUsed = Date.now() - start;
+		if (timeUsed < 1000) return;
+		if (context.cmd === 'search' || context.cmd === 'savereplay') return;
+
 		const logMessage = (
-			`[slow] ${timeUsed}ms - ${context.user.name} (${context.connection.ip}): ` +
-			`<${context.room ? context.room.roomid : context.pmTarget ? `PM:${_optionalChain([context, 'access', _64 => _64.pmTarget, 'optionalAccess', _65 => _65.name])}` : 'CMD'}> ` +
+			`[slow command] ${timeUsed}ms - ${context.user.name} (${context.connection.ip}): ` +
+			`<${context.room ? context.room.roomid : context.pmTarget ? `PM:${_optionalChain([context, 'access', _69 => _69.pmTarget, 'optionalAccess', _70 => _70.name])}` : 'CMD'}> ` +
 			`${context.message.replace(/\n/ig, ' ')}`
 		);
-		if (logRoom) {
-			logRoom.add(`|c|&|/log ` + logMessage).update();
-		} else {
-			Monitor.warn(logMessage);
-		}
+
+		Monitor.slow(logMessage);
 	}
 	sendPM(message, user, pmTarget, onlyRecipient = null) {
 		const buf = `|pm|${user.getIdentity()}|${pmTarget.getIdentity()}|${message}`;
@@ -1675,7 +1684,7 @@ class PatternTester {
 		user.lastPM = pmTarget.id;
 	}
 
-	__init22() {this.packageData = {}};
+	__init23() {this.packageData = {}};
 
 	loadPlugin(file) {
 		let plugin;
@@ -1687,7 +1696,7 @@ class PatternTester {
 		} else {
 			return;
 		}
-		this.loadPluginData(plugin, _optionalChain([file, 'access', _66 => _66.split, 'call', _67 => _67('/'), 'access', _68 => _68.pop, 'call', _69 => _69(), 'optionalAccess', _70 => _70.slice, 'call', _71 => _71(0, -3)]) || file);
+		this.loadPluginData(plugin, _optionalChain([file, 'access', _71 => _71.split, 'call', _72 => _72('/'), 'access', _73 => _73.pop, 'call', _74 => _74(), 'optionalAccess', _75 => _75.slice, 'call', _76 => _76(0, -3)]) || file);
 	}
 	annotateCommands(commandTable, namespace = '') {
 		for (const cmd in commandTable) {
@@ -1705,7 +1714,7 @@ class PatternTester {
 			if (typeof entry !== 'function') continue;
 
 			const handlerCode = entry.toString();
-			entry.requiresRoom = _optionalChain([/requireRoom\((?:'|"|`)(.*?)(?:'|"|`)/, 'access', _72 => _72.exec, 'call', _73 => _73(handlerCode), 'optionalAccess', _74 => _74[1]])  || /this\.requireRoom\(/.test(handlerCode);
+			entry.requiresRoom = _optionalChain([/requireRoom\((?:'|"|`)(.*?)(?:'|"|`)/, 'access', _77 => _77.exec, 'call', _78 => _78(handlerCode), 'optionalAccess', _79 => _79[1]])  || /this\.requireRoom\(/.test(handlerCode);
 			entry.hasRoomPermissions = /\bthis\.(checkCan|can)\([^,)\n]*, [^,)\n]*,/.test(handlerCode);
 			entry.broadcastable = cmd.endsWith('help') || /\bthis\.(?:(check|can|run)Broadcast)\(/.test(handlerCode);
 			entry.isPrivate = /\bthis\.(?:privately(Check)?Can|commandDoesNotExist)\(/.test(handlerCode);
@@ -1723,7 +1732,6 @@ class PatternTester {
 					if (baseEntry.isPrivate) entry.isPrivate = baseEntry.isPrivate;
 				}
 			}
-
 			// This is usually the same as `entry.name`, but some weirdness like
 			// `commands.a = b` could screw it up. This should make it consistent.
 			entry.cmd = cmd;
@@ -1749,13 +1757,14 @@ class PatternTester {
 		if (plugin.punishmentfilter) exports.Chat.punishmentfilters.push(plugin.punishmentfilter);
 		if (plugin.nicknamefilter) exports.Chat.nicknamefilters.push(plugin.nicknamefilter);
 		if (plugin.statusfilter) exports.Chat.statusfilters.push(plugin.statusfilter);
+		if (plugin.onRenameRoom) exports.Chat.renameHandlers.push(plugin.onRenameRoom);
 		exports.Chat.plugins[name] = plugin;
 	}
 	loadPlugins(oldPlugins) {
 		if (exports.Chat.commands) return;
 		if (oldPlugins) exports.Chat.oldPlugins = oldPlugins;
 
-		void _fs.FS.call(void 0, 'package.json').readIfExists().then(data => {
+		void _lib.FS.call(void 0, 'package.json').readIfExists().then(data => {
 			if (data) exports.Chat.packageData = JSON.parse(data);
 		});
 
@@ -1763,11 +1772,11 @@ class PatternTester {
 
 		// All resulting filenames will be relative to basePath
 		const getFiles = (basePath, path) => {
-			const filesInThisDir = _fs.FS.call(void 0, `${basePath}/${path}`).readdirSync();
+			const filesInThisDir = _lib.FS.call(void 0, `${basePath}/${path}`).readdirSync();
 			let allFiles = [];
 			for (const file of filesInThisDir) {
 				const fileWithPath = path + (path ? '/' : '') + file;
-				if (_fs.FS.call(void 0, `${basePath}/${fileWithPath}`).isDirectorySync()) {
+				if (_lib.FS.call(void 0, `${basePath}/${fileWithPath}`).isDirectorySync()) {
 					if (file.startsWith('.')) continue;
 					allFiles = allFiles.concat(getFiles(basePath, fileWithPath));
 				} else {
@@ -1779,7 +1788,7 @@ class PatternTester {
 
 		exports.Chat.commands = Object.create(null);
 		exports.Chat.pages = Object.create(null);
-		const coreFiles = _fs.FS.call(void 0, 'server/chat-commands').readdirSync();
+		const coreFiles = _lib.FS.call(void 0, 'server/chat-commands').readdirSync();
 		for (const file of coreFiles) {
 			this.loadPlugin(`chat-commands/${file}`);
 		}
@@ -1792,9 +1801,9 @@ class PatternTester {
 		this.loadPluginData(Config, 'config');
 		this.loadPluginData(Tournaments, 'tournaments');
 
-		let files = _fs.FS.call(void 0, 'server/chat-plugins').readdirSync();
+		let files = _lib.FS.call(void 0, 'server/chat-plugins').readdirSync();
 		try {
-			if (_fs.FS.call(void 0, 'server/chat-plugins/private').isDirectorySync()) {
+			if (_lib.FS.call(void 0, 'server/chat-plugins/private').isDirectorySync()) {
 				files = files.concat(getFiles('server/chat-plugins', 'private'));
 			}
 		} catch (err) {
@@ -1806,11 +1815,17 @@ class PatternTester {
 		}
 		exports.Chat.oldPlugins = {};
 		// lower priority should run later
-		_utils.Utils.sortBy(exports.Chat.filters, filter => -(filter.priority || 0));
+		_lib.Utils.sortBy(exports.Chat.filters, filter => -(filter.priority || 0));
 	}
 	destroy() {
 		for (const handler of exports.Chat.destroyHandlers) {
 			handler();
+		}
+	}
+
+	handleRoomRename(oldID, newID, room) {
+		for (const handler of exports.Chat.renameHandlers) {
+			handler(oldID, newID, room);
 		}
 	}
 
@@ -1843,7 +1858,7 @@ class PatternTester {
 		if (cmdToken === message.charAt(1)) return null;
 		if (cmdToken === BROADCAST_TOKEN && /[^A-Za-z0-9]/.test(message.charAt(1))) return null;
 
-		let [cmd, target] = _utils.Utils.splitFirst(message.slice(1), ' ');
+		let [cmd, target] = _lib.Utils.splitFirst(message.slice(1), ' ');
 		cmd = cmd.toLowerCase();
 
 		if (cmd.endsWith(',')) cmd = cmd.slice(0, -1);
@@ -1865,7 +1880,7 @@ class PatternTester {
 				return this.parseCommand(cmdToken + 'help ' + fullCmd.slice(0, -4), true);
 			}
 			if (commandHandler && typeof commandHandler === 'object') {
-				[cmd, target] = _utils.Utils.splitFirst(target, ' ');
+				[cmd, target] = _lib.Utils.splitFirst(target, ' ');
 				cmd = cmd.toLowerCase();
 
 				fullCmd += ' ' + cmd;
@@ -2032,8 +2047,8 @@ class PatternTester {
 		const roundingBoundaries = [6, 15, 12, 30, 30];
 		const unitNames = ["second", "minute", "hour", "day", "month", "year"];
 		const positiveIndex = parts.findIndex(elem => elem > 0);
-		let precision = (_optionalChain([options, 'optionalAccess', _75 => _75.precision]) ? options.precision : 3);
-		if (_optionalChain([options, 'optionalAccess', _76 => _76.hhmmss])) {
+		let precision = (_optionalChain([options, 'optionalAccess', _80 => _80.precision]) ? options.precision : 3);
+		if (_optionalChain([options, 'optionalAccess', _81 => _81.hhmmss])) {
 			const str = parts.slice(positiveIndex).map(value => value < 10 ? "0" + value : "" + value).join(":");
 			return str.length === 2 ? "00:" + str : str;
 		}
@@ -2105,7 +2120,7 @@ class PatternTester {
 		const output = [];
 		for (const param of params) {
 			if (output.length < cutoff && param.length > 80 && cutoff > 2) cutoff--;
-			output.push(_utils.Utils.escapeHTML(isCode ? _utils.Utils.forceWrap(param) : param));
+			output.push(_lib.Utils[isCode ? 'escapeHTMLForceWrap' : 'escapeHTML'](param));
 		}
 
 		if (output.length > cutoff) {
@@ -2252,27 +2267,27 @@ class PatternTester {
 		const options = 'or change it in the <button name="openOptions" class="subtle">Options</button> menu in the upper right.';
 		if (blocked === 'pm') {
 			if (!targetUser.notified.blockPMs) {
-				targetUser.send(`${prefix}The user '${_utils.Utils.escapeHTML(user.name)}' attempted to PM you but was blocked. To enable PMs, use /unblockpms ${options}`);
+				targetUser.send(`${prefix}The user '${_lib.Utils.escapeHTML(user.name)}' attempted to PM you but was blocked. To enable PMs, use /unblockpms ${options}`);
 				targetUser.notified.blockPMs = true;
 			}
 		} else if (blocked === 'challenge') {
 			if (!targetUser.notified.blockChallenges) {
-				targetUser.send(`${prefix}The user '${_utils.Utils.escapeHTML(user.name)}' attempted to challenge you to a battle but was blocked. To enable challenges, use /unblockchallenges ${options}`);
+				targetUser.send(`${prefix}The user '${_lib.Utils.escapeHTML(user.name)}' attempted to challenge you to a battle but was blocked. To enable challenges, use /unblockchallenges ${options}`);
 				targetUser.notified.blockChallenges = true;
 			}
 		} else if (blocked === 'invite') {
 			if (!targetUser.notified.blockInvites) {
-				targetUser.send(`${prefix}The user '${_utils.Utils.escapeHTML(user.name)}' attempted to invite you to a room but was blocked. To enable invites, use /unblockinvites.`);
+				targetUser.send(`${prefix}The user '${_lib.Utils.escapeHTML(user.name)}' attempted to invite you to a room but was blocked. To enable invites, use /unblockinvites.`);
 				targetUser.notified.blockInvites = true;
 			}
 		}
 	}
-	 __init23() {this.formatText = _chatformatter.formatText};
-	 __init24() {this.linkRegex = _chatformatter.linkRegex};
-	 __init25() {this.stripFormatting = _chatformatter.stripFormatting};
+	 __init24() {this.formatText = _chatformatter.formatText};
+	 __init25() {this.linkRegex = _chatformatter.linkRegex};
+	 __init26() {this.stripFormatting = _chatformatter.stripFormatting};
 
-	 __init26() {this.filterWords = {}};
-	 __init27() {this.monitors = {}};
+	 __init27() {this.filterWords = {}};
+	 __init28() {this.monitors = {}};
 
 	registerMonitor(id, entry) {
 		if (!exports.Chat.filterWords[id]) exports.Chat.filterWords[id] = [];
@@ -2286,9 +2301,9 @@ class PatternTester {
 
 // backwards compatibility; don't actually use these
 // they're just there so forks have time to slowly transition
-(exports.Chat ).escapeHTML = _utils.Utils.escapeHTML;
-(exports.Chat ).html = _utils.Utils.html;
-(exports.Chat ).splitFirst = _utils.Utils.splitFirst;
+(exports.Chat ).escapeHTML = _lib.Utils.escapeHTML;
+(exports.Chat ).html = _lib.Utils.html;
+(exports.Chat ).splitFirst = _lib.Utils.splitFirst;
 // @ts-ignore
 CommandContext.prototype.can = CommandContext.prototype.checkCan;
 // @ts-ignore

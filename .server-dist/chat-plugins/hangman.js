@@ -2,15 +2,35 @@
 * Hangman chat plugin
 * By bumbadadabum and Zarel. Art by crobat.
 */
-var _utils = require('../../.lib-dist/utils');
-var _fs = require('../../.lib-dist/fs');
+var _lib = require('../../.lib-dist');
 
 const HANGMAN_FILE = 'config/chat-plugins/hangman.json';
+
+const DIACRITICS_AFTER_UNDERSCORE = /_[\u0300-\u036f\u0483-\u0489\u0610-\u0615\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06ED\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]+/g;
+
+
+
+
+
 
  let hangmanData = {}; exports.hangmanData = hangmanData;
 
 try {
-	exports.hangmanData = JSON.parse(_fs.FS.call(void 0, HANGMAN_FILE).readSync());
+	exports.hangmanData = JSON.parse(_lib.FS.call(void 0, HANGMAN_FILE).readSync());
+	let save = false;
+	for (const roomid in exports.hangmanData) {
+		const roomData = exports.hangmanData[roomid] || {};
+		const roomKeys = Object.keys(roomData);
+		if (roomKeys.length && !roomData[roomKeys[0]].hints) {
+			save = true;
+			for (const key of roomKeys) {
+				roomData[key] = {hints: roomData[key] };
+			}
+		}
+	}
+	if (save) {
+		_lib.FS.call(void 0, HANGMAN_FILE).writeUpdate(() => JSON.stringify(exports.hangmanData));
+	}
 } catch (e) {}
 
 const maxMistakes = 6;
@@ -112,8 +132,8 @@ const maxMistakes = 6;
 	}
 
 	guessWord(word, guesser) {
-		const ourWord = toID(this.word);
-		const guessedWord = toID(word);
+		const ourWord = toID(this.word.replace(/[0-9]+/g, ''));
+		const guessedWord = toID(word.replace(/[0-9]+/g, ''));
 		if (ourWord === guessedWord) {
 			for (const [i, letter] of this.wordSoFar.entries()) {
 				if (letter === '_') {
@@ -162,22 +182,23 @@ const maxMistakes = 6;
 				(match, offset) => `<font color="#7af87a">${word.substr(offset, match.length)}</font>`
 			);
 		}
+		wordString = wordString.replace(DIACRITICS_AFTER_UNDERSCORE, '_');
 
-		if (this.hint) output += _utils.Utils.html`<div>(Hint: ${this.hint})</div>`;
+		if (this.hint) output += _lib.Utils.html`<div>(Hint: ${this.hint})</div>`;
 		output += `<p style="font-weight:bold;font-size:12pt;letter-spacing:3pt">${wordString}</p>`;
 		if (this.guesses.length) {
 			if (this.letterGuesses.length) {
 				output += 'Letters: ' + this.letterGuesses.map(
-					g => `<strong${g[1] === '1' ? '' : ' style="color: #DBA"'}>${_utils.Utils.escapeHTML(g[0])}</strong>`
+					g => `<strong${g[1] === '1' ? '' : ' style="color: #DBA"'}>${_lib.Utils.escapeHTML(g[0])}</strong>`
 				).join(', ');
 			}
 			if (result === 2) {
-				output += _utils.Utils.html`<br />Winner: ${this.lastGuesser}`;
+				output += _lib.Utils.html`<br />Winner: ${this.lastGuesser}`;
 			} else if (this.guesses[this.guesses.length - 1].length === 1) {
 				// last guess was a letter
-				output += _utils.Utils.html` <small>&ndash; ${this.lastGuesser}</small>`;
+				output += _lib.Utils.html` <small>&ndash; ${this.lastGuesser}</small>`;
 			} else {
-				output += _utils.Utils.html`<br />Guessed: ${this.guesses[this.guesses.length - 1]} ` +
+				output += _lib.Utils.html`<br />Guessed: ${this.guesses[this.guesses.length - 1]} ` +
 					`<small>&ndash; ${this.lastGuesser}</small>`;
 			}
 		}
@@ -215,27 +236,39 @@ const maxMistakes = 6;
 		this.room.game = null;
 	}
 	static save() {
-		_fs.FS.call(void 0, HANGMAN_FILE).writeUpdate(() => JSON.stringify(exports.hangmanData));
+		_lib.FS.call(void 0, HANGMAN_FILE).writeUpdate(() => JSON.stringify(exports.hangmanData));
 	}
-	static getRandom(room) {
+	static getRandom(room, tag) {
 		if (!exports.hangmanData[room]) {
 			exports.hangmanData[room] = {};
 			this.save();
-			throw new Chat.ErrorMessage(`The room ${room} has no saved hangman words.`);
 		}
-		const shuffled = _utils.Utils.randomElement(Object.keys(exports.hangmanData[room]));
-		const hints = exports.hangmanData[room][shuffled];
+		let phrases = Object.keys(exports.hangmanData[room]);
+		if (!phrases.length) throw new Chat.ErrorMessage(`The room ${room} has no saved hangman words.`);
+		if (tag) {
+			tag = toID(tag);
+			phrases = phrases.filter(key => _optionalChain([exports.hangmanData, 'access', _ => _[room], 'access', _2 => _2[key], 'access', _3 => _3.tags, 'optionalAccess', _4 => _4.map, 'call', _5 => _5(toID), 'access', _6 => _6.includes, 'call', _7 => _7(tag )]));
+			if (!phrases.length) {
+				throw new Chat.ErrorMessage(`No terms found with tag ${tag}`);
+			}
+		}
+
+		const shuffled = _lib.Utils.randomElement(phrases);
+		const entry = exports.hangmanData[room][shuffled];
 		return {
 			question: shuffled,
-			hint: _utils.Utils.randomElement(hints),
+			hint: _lib.Utils.randomElement(entry.hints),
 		};
 	}
 	static validateParams(params) {
-		const phrase = params[0].replace(/[^A-Za-z '-]/g, '');
-		if (phrase.replace(/ /g, '').length < 1) throw new Chat.ErrorMessage("Enter a valid word");
-		if (phrase.length > 30) throw new Chat.ErrorMessage("Phrase must be less than 30 characters.");
+		// NFD splits diacritics apart from letters, allowing the letters to be guessed
+		// underscore is used to signal "letter hasn't been guessed yet", so replace it with Japanese underscore as a workaround
+		const phrase = params[0].normalize('NFD').trim().replace(/_/g, '\uFF3F');
+
+		if (!phrase.length) throw new Chat.ErrorMessage("Enter a valid word");
+		if (phrase.length > 30) throw new Chat.ErrorMessage("Phrase must be less than 30 characters long.");
 		if (phrase.split(' ').some(w => w.length > 20)) {
-			throw new Chat.ErrorMessage("Each word in the phrase must be less than 20 characters.");
+			throw new Chat.ErrorMessage("Each word in the phrase must be less than 20 characters long.");
 		}
 		if (!/[a-zA-Z]/.test(phrase)) throw new Chat.ErrorMessage("Word must contain at least one letter.");
 		let hint;
@@ -252,6 +285,7 @@ const maxMistakes = 6;
 		create: 'new',
 		new(target, room, user, connection) {
 			room = this.requireRoom();
+			target = target.trim();
 			const text = this.filter(target);
 			if (target !== text) return this.errorReply("You are not allowed to use filtered words in hangmans.");
 			const params = text.split(',');
@@ -334,12 +368,13 @@ const maxMistakes = 6;
 			if (room.game) {
 				throw new Chat.ErrorMessage(`There is already a game of ${room.game.title} running.`);
 			}
-			const {question, hint} = Hangman.getRandom(room.roomid);
+			target = toID(target);
+			const {question, hint} = Hangman.getRandom(room.roomid, target);
 			const game = new Hangman(room, user, question, hint);
 			room.game = game;
 			this.addModAction(`${user.name} started a random game of hangman - use /guess to play!`);
 			game.display(user, true);
-			this.modlog(`HANGMAN RANDOM`);
+			this.modlog(`HANGMAN RANDOM`, null, target ? `tag: ${target}` : '');
 		},
 		addrandom(target, room, user) {
 			room = this.requireRoom();
@@ -349,9 +384,9 @@ const maxMistakes = 6;
 			// validation
 			const args = target.split(target.includes('|') ? '|' : ',');
 			const {phrase} = Hangman.validateParams(args);
-			if (!exports.hangmanData[room.roomid][phrase]) exports.hangmanData[room.roomid][phrase] = [];
+			if (!exports.hangmanData[room.roomid][phrase]) exports.hangmanData[room.roomid][phrase] = {hints: []};
 			args.shift();
-			exports.hangmanData[room.roomid][phrase].push(...args);
+			exports.hangmanData[room.roomid][phrase].hints.push(...args);
 			Hangman.save();
 			this.privateModAction(`${user.name} added a random hangman with ${Chat.count(args.length, 'hints')}.`);
 			this.modlog(`HANGMAN ADDRANDOM`, null, `${phrase}: ${args.join(', ')}`);
@@ -391,18 +426,87 @@ const maxMistakes = 6;
 				this.privateModAction(`${user.name} deleted the hangman entry for '${word}'`);
 				this.modlog(`HANGMAN REMOVERANDOM`, null, word);
 			} else {
-				exports.hangmanData[room.roomid][word] = exports.hangmanData[room.roomid][word].filter(item => !hints.includes(toID(item)));
-				if (!exports.hangmanData[room.roomid][word].length) {
+				exports.hangmanData[room.roomid][word].hints = exports.hangmanData[room.roomid][word].hints.filter(item => !hints.includes(toID(item)));
+				if (!exports.hangmanData[room.roomid][word].hints.length) {
 					delete exports.hangmanData[room.roomid][word];
 				}
 				this.privateModAction(`${user.name} deleted ${Chat.count(hints, 'hints')} for the hangman term '${word}'`);
 				this.modlog(`HANGMAN REMOVERANDOM`, null, `${word}: ${hints.join(', ')}`);
 			}
-			if (_optionalChain([this, 'access', _ => _.connection, 'access', _2 => _2.openPages, 'optionalAccess', _3 => _3.has, 'call', _4 => _4(`hangman-${room.roomid}`)])) {
-				this.parse(`/hangman terms ${room.roomid}`);
-			}
+			this.refreshPage(`hangman-${room.roomid}`);
 			Hangman.save();
 		},
+		addtag(target, room, user) {
+			room = this.requireRoom();
+			this.checkCan('mute', null, room);
+			let [term, ...tags] = target.split(',');
+			// only a .trim() because toID will make it unable to find the term if it has caps
+			term = term.trim();
+			tags = tags.map(i => toID(i)).filter(Boolean);
+			if (!term || !tags || !tags.length) {
+				return this.parse('/help hangman');
+			}
+			if (!exports.hangmanData[room.roomid]) {
+				exports.hangmanData[room.roomid] = {};
+			}
+			if (!exports.hangmanData[room.roomid][term]) {
+				return this.errorReply(`Term ${term} not found.`);
+			}
+			if (!exports.hangmanData[room.roomid][term].tags) exports.hangmanData[room.roomid][term].tags = [];
+			for (const [i, tag] of tags.entries()) {
+				if (exports.hangmanData[room.roomid][term].tags.includes(tag)) {
+					this.errorReply(`The tag ${tag} is already on the term ${term} and has been skipped.`);
+					tags.splice(i, 1);
+				}
+			}
+			if (!tags.length) {
+				this.errorReply(`Specify at least one valid tag.`);
+				return this.parse(`/help hangman`);
+			}
+			exports.hangmanData[room.roomid][term].tags.push(...tags);
+			Hangman.save();
+			this.privateModAction(`${user.name} added ${Chat.count(tags, "tags")} to the hangman term ${term}`);
+			this.modlog(`HANGMAN ADDTAG`, null, `${term}: ${tags.map(_lib.Utils.escapeHTML).join(', ')}`);
+			this.refreshPage(`hangman-${room.roomid}`);
+		},
+		untag(target, room, user) {
+			room = this.requireRoom();
+			this.checkCan('mute', null, room);
+			if (!toID(target)) {
+				return this.parse(`/help hangman`);
+			}
+			let [term, ...tags] = target.split(',');
+			term = toID(term);
+			tags = tags.map(i => toID(i)).filter(Boolean);
+			if (!term || !tags) {
+				return this.parse('/help hangman');
+			}
+			if (!exports.hangmanData[room.roomid]) {
+				return this.errorReply(`This room has no hangman terms.`);
+			}
+			if (!exports.hangmanData[room.roomid][term]) {
+				return this.errorReply(`That term was not found.`);
+			}
+			if (!exports.hangmanData[room.roomid][term].tags) {
+				return this.errorReply(`That term has no tags.`);
+			}
+			if (tags.length) {
+				this.privateModAction(`${user.name} removed ${Chat.count(tags, "tags")} from the hangman term ${term}`);
+				this.modlog(`HANGMAN UNTAG`, null, `${term}: ${tags.map(_lib.Utils.escapeHTML).join(', ')}`);
+				exports.hangmanData[room.roomid][term].tags = _optionalChain([exports.hangmanData, 'access', _8 => _8[room.roomid], 'access', _9 => _9[term], 'access', _10 => _10.tags, 'optionalAccess', _11 => _11.filter, 'call', _12 => _12(t => !tags.includes(t))]);
+			} else {
+				this.privateModAction(`${user.name} removed all tags from the hangman term ${term}`);
+				this.modlog(`HANGMAN UNTAG`, null, `${term}`);
+				exports.hangmanData[room.roomid][term].tags = [];
+			}
+
+			if (!exports.hangmanData[room.roomid][term].tags.length) {
+				delete exports.hangmanData[room.roomid][term].tags;
+			}
+			Hangman.save();
+			this.refreshPage(`hangman-${room.roomid}`);
+		},
+		view: 'terms',
 		terms(target, room, user) {
 			room = this.requireRoom();
 			return this.parse(`/j view-hangman-${target || room.roomid}`);
@@ -418,28 +522,45 @@ const maxMistakes = 6;
 		`/hangman display - Displays the game.`,
 		`/hangman end - Ends the game of hangman before the man is hanged or word is guessed. Requires: % @ # &`,
 		`/hangman [enable/disable] - Enables or disables hangman from being started in a room. Requires: # &`,
-		`/hangman random - Runs a random hangman, if the room has any added. Requires: % @ # &`,
+		`/hangman random [tag]- Runs a random hangman, if the room has any added. `,
+		`If a tag is given, randomizes from only terms with those tags. Requires: % @ # &`,
 		`/hangman addrandom [word], [...hints] - Adds an entry for [word] with the [hints] provided to the room's hangman pool. Requires: % @ # &`,
 		`/hangman removerandom [word][, hints] - Removes data from the hangman entry for [word]. If hints are given, removes only those hints.` +
-		` Otherwise it removes the entire entry. Requires: % @ # &`,
+		` Otherwise it removes the entire entry. Requires: % @ & #`,
+		`/hangman addtag [word], [...tags] - Adds tags to the hangman term matching [word]. Requires: % @ & #`,
+		`/hangman untag [term][, ...tags] - Removes tags from the hangman [term]. If tags are given, removes only those tags. Requires: % @ # * `,
+		`/hangman terms - Displays all random hangman in a room. Requires: % @ # &`,
 	],
 }; exports.commands = commands;
 
  const pages = {
 	hangman(args, user) {
 		const room = this.requireRoom();
+		this.title = `[Hangman]`;
 		this.checkCan('mute', null, room);
-		let buf = `<div class="pad"><h2>Hangman entries on ${room.title}</h2>`;
+		let buf = `<div class="pad"><button style="float:right;" class="button" name="send" value="/join view-hangman-${room.roomid}"><i class="fa fa-refresh"></i> Refresh</button>`;
+		buf += `<div class="pad"><h2>Hangman entries on ${room.title}</h2>`;
 		const roomTerms = exports.hangmanData[room.roomid];
 		if (!roomTerms) {
 			return this.errorReply(`No hangman terms found for ${room.title}.`);
 		}
 		for (const t in roomTerms) {
 			buf += `<div class="infobox">`;
-			buf += `<strong>${t}</strong>:<br />`;
-			buf += roomTerms[t].map(
-				hint => `<button class="button" name="send" value="/hangman rr ${t},${hint},room:${room.roomid}">${hint}</button>`
-			);
+			buf += `<h3>${t}</h3><hr />`;
+			if (user.can('mute', null, room, 'hangman addrandom')) {
+				buf += `<strong>Hints:</strong> `;
+				buf += roomTerms[t].hints.map(
+					hint => `${hint} <button class="button" name="send" value="/msgroom ${room.roomid}, /hangman rr ${t},${hint}" aria-label="Delete"><i class="fa fa-trash"></i></button>`
+				).join(', ');
+				buf += `<button style="float:right;" class="button" name="send" value="/msgroom ${room.roomid}, /hangman rr ${t}"><i class="fa fa-trash"></i> Delete all terms</button>`;
+				if (roomTerms[t].tags) {
+					buf += `<br /><strong>Tags: </strong> `;
+					buf += _optionalChain([roomTerms, 'access', _13 => _13[t], 'access', _14 => _14.tags, 'optionalAccess', _15 => _15.map, 'call', _16 => _16(
+						tag => `${tag} <button class="button" name="send" value="/msgroom ${room.roomid}, /hangman untag ${t},${tag}" aria-label="Delete"><i class="fa fa-trash"></i></button>`
+					), 'access', _17 => _17.join, 'call', _18 => _18(', ')]);
+					buf += `<button style="float:right;" class="button" name="send" value="/msgroom ${room.roomid}, /hangman untag ${t}"><i class="fa fa-trash"></i> Delete all tags</button>`;
+				}
+			}
 			buf += `</div><br />`;
 		}
 		buf += `</div>`;

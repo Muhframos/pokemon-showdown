@@ -7,7 +7,7 @@
  *
  * @license MIT license
  */
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 
@@ -126,7 +126,7 @@ var _utils = require('../../.lib-dist/utils');
 		const change = this.uhtmlChange;
 		const players = Object.keys(this.playerTable);
 		const playerList = [];
-		for (const player of players) playerList.push(_utils.Utils.escapeHTML(this.playerTable[player].name));
+		for (const player of players) playerList.push(_lib.Utils.escapeHTML(this.playerTable[player].name));
 		this.room.send(`|uhtml${change}|blackjack-${this.gameNumber}|<div class="infobox${this.infoboxLimited}">${this.createdBy} has created a game of Blackjack. ${this.button}<br /><strong>Players (${players.length}):</strong> ${!players.length ? '(None)' : playerList.join(', ')}</div>`);
 		this.uhtmlChange = 'change';
 	}
@@ -141,7 +141,11 @@ var _utils = require('../../.lib-dist/utils');
 	joinGame(user) {
 		if (!user.named) return this.errorMessage(user, `You must first choose a name to play Blackjack.`);
 		if (this.state === 'started') return this.errorMessage(user, `Blackjack has already started.`);
-		this.addPlayer(user);
+		const joined = this.addPlayer(user);
+		if (!joined) {
+			this.errorMessage(user, `You are already in this game.`);
+			return false;
+		}
 
 		this.sendInvite();
 
@@ -153,13 +157,13 @@ var _utils = require('../../.lib-dist/utils');
 	}
 	leaveGame(user) {
 		if (this.state === 'started') return this.errorMessage(user, `You cannot leave this game; it has already started.`);
-		if (!user.inGame(this.room)) return this.errorMessage(user, "You are not in this game to leave.");
+		if (!this.playerTable[user.id]) return this.errorMessage(user, "You are not in this game to leave.");
 		this.removePlayer(user);
 		this.sendInvite();
 	}
 	spectate(user) {
 		if (this.spectators[user.id]) return this.errorMessage(user, `You are already spectating this game.`);
-		if (user.inGame(this.room)) {
+		if (this.playerTable[user.id]) {
 			return this.errorMessage(user, `You don't need to spectate the game; you're playing the game.`);
 		}
 		this.spectators[user.id] = user.id;
@@ -186,7 +190,7 @@ var _utils = require('../../.lib-dist/utils');
 	 * getWinners - returns an array of the winners and their cards
 	 */
 	errorMessage(user, message) {
-		user.sendTo(this.room, _utils.Utils.html`|html|<div class="message-error">${message}</div>`);
+		user.sendTo(this.room, _lib.Utils.html`|html|<div class="message-error">${message}</div>`);
 	}
 	send(message, clean = false) {
 		const change = this.uhtmlChange;
@@ -274,7 +278,7 @@ var _utils = require('../../.lib-dist/utils');
 			for (const card of player.cards) cards += `[${card}] `;
 			player.status = 'stand';
 			this.display(
-				_utils.Utils.html`<br /><strong>${player.name}</strong> stands with ${cards}` +
+				_lib.Utils.html`<br /><strong>${player.name}</strong> stands with ${cards}` +
 				` (${player.points}) (Auto-stand: took too long to move)`,
 				false,
 				this.playerTable[this.curUsername].name
@@ -311,7 +315,7 @@ var _utils = require('../../.lib-dist/utils');
 			for (const player of Object.keys(this.playerTable)) {
 				if (this.playerTable[player].status === 'bust') continue;
 				winners.push(
-					_utils.Utils.html`<strong>${this.playerTable[player].name}</strong> ` +
+					_lib.Utils.html`<strong>${this.playerTable[player].name}</strong> ` +
 					`[${this.playerTable[player].cards.join(', ')}]`
 				);
 			}
@@ -319,7 +323,7 @@ var _utils = require('../../.lib-dist/utils');
 			for (const player of Object.keys(this.playerTable)) {
 				if (this.playerTable[player].status === 'bust' || this.playerTable[player].points <= this.dealer.points) continue;
 				winners.push(
-					_utils.Utils.html`<strong>${this.playerTable[player].name}</strong> ` +
+					_lib.Utils.html`<strong>${this.playerTable[player].name}</strong> ` +
 					`[${this.playerTable[player].cards.join(', ')}]`
 				);
 			}
@@ -346,7 +350,7 @@ var _utils = require('../../.lib-dist/utils');
 			this.destroy();
 			return;
 		}
-		if (user) this.startedBy = _utils.Utils.escapeHTML(user.name);
+		if (user) this.startedBy = _lib.Utils.escapeHTML(user.name);
 		this.infoboxLimited = (numberOfPlayers >= this.playerScrollWheel ? ' infobox-limited' : '');
 		this.send(`[Blackjack has started. ${this.spectateButton}]`, true);
 
@@ -362,7 +366,7 @@ var _utils = require('../../.lib-dist/utils');
 		for (const player of Object.keys(this.playerTable)) {
 			this.giveCard(this.playerTable[player].user.id);
 			this.giveCard(this.playerTable[player].user.id);
-			this.turnLog += _utils.Utils.html`<br /><strong>${this.playerTable[player].name}</strong>: ` +
+			this.turnLog += _lib.Utils.html`<br /><strong>${this.playerTable[player].name}</strong>: ` +
 				`[${this.playerTable[player].cards[0]}] [${this.playerTable[player].cards[1]}] (${this.playerTable[player].points})`;
 		}
 
@@ -385,7 +389,7 @@ var _utils = require('../../.lib-dist/utils');
 		let winners = this.getWinners();
 		if (force) {
 			winners = this.getWinners(true);
-			this.endedBy = _utils.Utils.escapeHTML(user.name);
+			this.endedBy = _lib.Utils.escapeHTML(user.name);
 			if (this.curUsername) {
 				this.playerTable[this.curUsername].send(`|uhtmlchange|user-blackjack-${this.gameNumber}|`);
 			}
@@ -404,7 +408,7 @@ var _utils = require('../../.lib-dist/utils');
 			}
 		} else if (this.state === 'signups') {
 			this.send(
-				_utils.Utils.html`The game of blackjack has been ended by ${user.name}, ` +
+				_lib.Utils.html`The game of blackjack has been ended by ${user.name}, ` +
 				`and there are no winners because the game never started.`,
 				true
 			);
@@ -435,7 +439,7 @@ var _utils = require('../../.lib-dist/utils');
 	 */
 	hit(user) {
 		if (this.state !== 'started') return this.errorMessage(user, `Blackjack hasn't started yet.`);
-		if (!user.inGame(this.room)) return this.errorMessage(user, `You aren't a player in this game.`);
+		if (!this.playerTable[user.id]) return this.errorMessage(user, `You aren't a player in this game.`);
 		if (this.curUsername !== user.id) return this.errorMessage(user, `It's not your turn.`);
 		this.playerTable[user.id].selfUhtml = 'change';
 		this.playerTable[user.id].resetTimerTicks();
@@ -450,7 +454,7 @@ var _utils = require('../../.lib-dist/utils');
 		player.status = 'stand';
 		let cards = '';
 		for (const card of player.cards) cards += `[${card}] `;
-		const turnLine = _utils.Utils.html`<br /><strong>${player.name}</strong> stands with ${cards} ` +
+		const turnLine = _lib.Utils.html`<br /><strong>${player.name}</strong> stands with ${cards} ` +
 			`(${player.points}${player.points === 21 ? ' - blackjack!' : ''})`;
 
 		this.turnLog += turnLine;
@@ -476,7 +480,7 @@ var _utils = require('../../.lib-dist/utils');
 
 		if (player.cards.length < 3) return;
 
-		let turnLine = _utils.Utils.html`<br /><strong>${player.name}</strong> hit and received ` +
+		let turnLine = _lib.Utils.html`<br /><strong>${player.name}</strong> hit and received ` +
 			`[${player.cards[player.cards.length - 1]}] (${player.points})`;
 		this.turnLog += turnLine;
 		if (player.cards.length > 2) this.display(turnLine, false, player.name);
@@ -487,13 +491,13 @@ var _utils = require('../../.lib-dist/utils');
 				for (const card of player.cards) {
 					cards += `[${card}] `;
 				}
-				turnLine = _utils.Utils.html`<br /><strong>${this.dealer.name}</strong> has busted with ${cards} (${player.points})`;
+				turnLine = _lib.Utils.html`<br /><strong>${this.dealer.name}</strong> has busted with ${cards} (${player.points})`;
 				this.turnLog += turnLine;
 				this.display(turnLine);
 				this.end(true);
 				return;
 			} else if (player.points === 21) {
-				turnLine = _utils.Utils.html`<br /><strong>${this.dealer.name}</strong> has blackjack!`;
+				turnLine = _lib.Utils.html`<br /><strong>${this.dealer.name}</strong> has blackjack!`;
 				this.turnLog += turnLine;
 				this.display(turnLine);
 				this.end(true);
@@ -505,13 +509,13 @@ var _utils = require('../../.lib-dist/utils');
 			for (const card of player.cards) {
 				cards += `[${card}] `;
 			}
-			turnLine = _utils.Utils.html`<br /><strong>${player.name}</strong> has busted with ${cards} (${player.points})`;
+			turnLine = _lib.Utils.html`<br /><strong>${player.name}</strong> has busted with ${cards} (${player.points})`;
 			this.turnLog += turnLine;
 			this.display(turnLine, false, player.name);
 			this.clear();
 		} else if (player.points === 21) {
 			(player ).status = 'stand';
-			turnLine = _utils.Utils.html`<br /><strong>${player.name}</strong> has blackjack!`;
+			turnLine = _lib.Utils.html`<br /><strong>${player.name}</strong> has blackjack!`;
 			this.turnLog += turnLine;
 			this.display(turnLine, false, player.name);
 			this.clear();
@@ -646,7 +650,7 @@ class BlackjackDeck {
 		];
 	}
 	shuffle() {
-		return _utils.Utils.shuffle(this.deck);
+		return _lib.Utils.shuffle(this.deck);
 	}
 }
 

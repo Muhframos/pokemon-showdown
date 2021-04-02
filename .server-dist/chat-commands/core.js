@@ -14,7 +14,7 @@
  */
 
 /* eslint no-else-return: "error" */
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 const avatarTable = new Set([
@@ -354,8 +354,8 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 
 		for (const id in room.users) {
 			const curUser = Users.get(room.users[id]);
-			if (!curUser || !curUser.named) continue;
-			userList.push(_utils.Utils.escapeHTML(curUser.getIdentity(room.roomid)));
+			if (!_optionalChain([curUser, 'optionalAccess', _ => _.named])) continue;
+			userList.push(_lib.Utils.escapeHTML(curUser.getIdentity(room.roomid)));
 		}
 
 		let output = `There ${Chat.plural(userList, "are", "is")} <strong style="color:#24678d">${Chat.count(userList, "</strong> users")} in this room:<br />`;
@@ -373,7 +373,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		target = this.checkChat(`/${this.cmd} ${target || ''}`);
 
 		if (this.message.startsWith(`/ME`)) {
-			const uppercaseIdentity = user.getIdentity(_optionalChain([room, 'optionalAccess', _ => _.roomid])).toUpperCase();
+			const uppercaseIdentity = user.getIdentity(_optionalChain([room, 'optionalAccess', _2 => _2.roomid])).toUpperCase();
 			if (this.pmTarget) {
 				const msg = `|pm|${uppercaseIdentity}|${this.pmTarget.getIdentity()}|${target}`;
 				user.send(msg);
@@ -485,6 +485,21 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 	},
 	noreplyhelp: [`/noreply [command] - Runs the command without displaying the response.`],
 
+	async msgroom(target, room, user, connection) {
+		const [targetId, message] = _lib.Utils.splitFirst(target, ',').map(i => i.trim());
+		if (!targetId || !message) {
+			return this.parse(`/help msgroom`);
+		}
+		const targetRoom = Rooms.search(targetId.trim());
+		if (!targetRoom) return this.errorReply(`Room not found.`);
+		if (message.trim().startsWith('/msgroom ')) {
+			return this.errorReply(`Please do not nest /msgroom inside itself.`);
+		}
+		const subcontext = new Chat.CommandContext({room: targetRoom, message, user, connection});
+		await subcontext.parse();
+	},
+	msgroomhelp: [`/msgroom [room], [command] - Runs the [command] in the given [room].`],
+
 	r: 'reply',
 	reply(target, room, user) {
 		if (!target) return this.parse('/help reply');
@@ -524,7 +539,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			return this.errorReply(this.tr`User ${targetUsername} is offline.`);
 		}
 
-		this.parse(target);
+		return this.parse(target);
 	},
 	msghelp: [`/msg OR /whisper OR /w [username], [message] - Send a private message.`],
 
@@ -568,7 +583,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 				return this.errorReply(this.tr`You do not have permission to invite people into this room.`);
 			}
 		}
-		if (targetUser.inRoom(targetRoom)) {
+		if (targetUser.id in targetRoom.users) {
 			return this.errorReply(this.tr`This user is already in "${targetRoom.title}".`);
 		}
 		return this.checkChat(`/invite ${targetRoom.roomid}`);
@@ -755,7 +770,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 
 		const values = await Ladders.visualizeAll(target);
 		let buffer = `<div class="ladder"><table>`;
-		buffer += _utils.Utils.html`<tr><td colspan="8">User: <strong>${target}</strong></td></tr>`;
+		buffer += _lib.Utils.html`<tr><td colspan="8">User: <strong>${target}</strong></td></tr>`;
 
 		const ratings = values.join(``);
 		if (!ratings) {
@@ -857,7 +872,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		if (!targetUser) {
 			return this.errorReply(this.tr`User ${target} not found.`);
 		}
-		if (!user.inGame(room)) {
+		if (!battle.playerTable[user.id]) {
 			return this.errorReply(this.tr`Must be a player in this battle.`);
 		}
 		if (!battle.allowExtraction[targetUser.id]) {
@@ -871,7 +886,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		if (!battle.inputLog) return this.errorReply(this.tr`No input log found.`);
 		if (Object.keys(battle.playerTable).length === battle.allowExtraction[targetUser.id].size) {
 			this.addModAction(room.tr`${targetUser.name} has extracted the battle input log.`);
-			const inputLog = battle.inputLog.map(_utils.Utils.escapeHTML).join(`<br />`);
+			const inputLog = battle.inputLog.map(_lib.Utils.escapeHTML).join(`<br />`);
 			targetUser.sendTo(
 				room,
 				`|html|<div class="chat"><code style="white-space: pre-wrap; overflow-wrap: break-word; display: block">${inputLog}</code></div>`,
@@ -895,7 +910,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		if (user.can('forcewin')) {
 			if (!battle.inputLog) return this.errorReply(this.tr`No input log found.`);
 			this.addModAction(room.tr`${user.name} has extracted the battle input log.`);
-			const inputLog = battle.inputLog.map(_utils.Utils.escapeHTML).join(`<br />`);
+			const inputLog = battle.inputLog.map(_lib.Utils.escapeHTML).join(`<br />`);
 			user.sendTo(
 				room,
 				`|html|<div class="chat"><code style="white-space: pre-wrap; overflow-wrap: break-word; display: block">${inputLog}</code></div>`,
@@ -910,7 +925,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 				} else {
 					playerUser.sendTo(
 						room,
-						_utils.Utils.html`|html|${user.name} wants to extract the battle input log. <button name="send" value="/allowexportinputlog ${user.id}">Share your team and choices with "${user.name}"</button>`
+						_lib.Utils.html`|html|${user.name} wants to extract the battle input log. <button name="send" value="/allowexportinputlog ${user.id}">Share your team and choices with "${user.name}"</button>`
 					);
 				}
 			}
@@ -924,7 +939,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 				logExported = false;
 				playerUser.sendTo(
 					room,
-					_utils.Utils.html`|html|${user.name} wants to extract the battle input log. <button name="send" value="/allowexportinputlog ${user.id}">Share your team and choices with "${user.name}"</button>`
+					_lib.Utils.html`|html|${user.name} wants to extract the battle input log. <button name="send" value="/allowexportinputlog ${user.id}">Share your team and choices with "${user.name}"</button>`
 				);
 			}
 			if (logExported) return this.errorReply(this.tr`You already extracted the battle input log.`);
@@ -944,7 +959,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		}
 
 		const formatid = target.slice(formatIndex + 12, nextQuoteIndex);
-		const battleRoom = Rooms.createBattle(formatid, {inputLog: target});
+		const battleRoom = Rooms.createBattle({format: formatid, inputLog: target});
 		if (!battleRoom) return; // createBattle will inform the user if creating the battle failed
 
 		const nameIndex1 = target.indexOf(`"name":"`);
@@ -1038,7 +1053,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			for (const otherPlayer of battle.players) {
 				if (otherPlayer !== player) {
 					otherPlayer.sendRoom(
-						_utils.Utils.html`|uhtml|offertie|<button class="button" name="send" value="/accepttie"><strong>${this.tr`Accept tie`}</strong></button> <button class="button" name="send" value="/rejecttie">${this.tr`Reject`}</button>`
+						_lib.Utils.html`|uhtml|offertie|<button class="button" name="send" value="/accepttie"><strong>${this.tr`Accept tie`}</strong></button> <button class="button" name="send" value="/rejecttie">${this.tr`Reject`}</button>`
 					);
 				} else {
 					player.wantsTie = true;
@@ -1053,7 +1068,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			} else {
 				return this.errorReply(this.tr`You have already agreed to a tie.`);
 			}
-			player.sendRoom(_utils.Utils.html`|uhtmlchange|offertie|`);
+			player.sendRoom(_lib.Utils.html`|uhtmlchange|offertie|`);
 			this.add(this.tr`${user.name} accepted the tie.`);
 			if (battle.players.every(curPlayer => curPlayer.wantsTie)) {
 				if (battle.players.length > 2) {
@@ -1079,7 +1094,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		}
 		if (player.wantsTie) player.wantsTie = false;
 		for (const otherPlayer of battle.players) {
-			otherPlayer.sendRoom(_utils.Utils.html`|uhtmlchange|offertie|`);
+			otherPlayer.sendRoom(_lib.Utils.html`|uhtmlchange|offertie|`);
 		}
 		return this.add(this.tr`${user.name} rejected the tie.`);
 	},
@@ -1140,7 +1155,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 
 	uploadreplay: 'savereplay',
 	async savereplay(target, room, user, connection) {
-		if (!room || !room.battle) {
+		if (!_optionalChain([room, 'optionalAccess', _3 => _3.battle])) {
 			return this.errorReply(this.tr`You can only save replays for battles.`);
 		}
 
@@ -1149,9 +1164,9 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 	},
 
 	hidereplay(target, room, user, connection) {
-		if (!room || !room.battle) return this.errorReply(`Must be used in a battle.`);
+		if (!_optionalChain([room, 'optionalAccess', _4 => _4.battle])) return this.errorReply(`Must be used in a battle.`);
 		this.checkCan('joinbattle', null, room);
-		if (_optionalChain([room, 'access', _2 => _2.tour, 'optionalAccess', _3 => _3.forcePublic])) {
+		if (_optionalChain([room, 'access', _5 => _5.tour, 'optionalAccess', _6 => _6.forcePublic])) {
 			return this.errorReply(this.tr`This battle can't have hidden replays, because the tournament is set to be forced public.`);
 		}
 		if (room.hideReplay) return this.errorReply(this.tr`The replay for this battle is already set to hidden.`);
@@ -1177,14 +1192,14 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		const name = this.targetUsername;
 
 		if (!targetUser) return this.errorReply(this.tr`User ${name} not found.`);
-		if (!targetUser.inRoom(room)) {
+		if (!targetUser.inRooms.has(room.roomid)) {
 			return this.errorReply(this.tr`User ${name} must be in the battle room already.`);
 		}
 		this.checkCan('joinbattle', null, room);
 		if (room.battle[target].id) {
 			return this.errorReply(this.tr`This room already has a player in slot ${target}.`);
 		}
-		if (targetUser.inGame(room)) {
+		if (targetUser.id in room.battle.playerTable) {
 			return this.errorReply(this.tr`${targetUser.name} is already a player in this battle.`);
 		}
 
@@ -1254,7 +1269,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		}
 		target = this.splitTarget(target);
 		const targetUser = this.targetUser;
-		if (!targetUser || !targetUser.connected) {
+		if (!_optionalChain([targetUser, 'optionalAccess', _7 => _7.connected])) {
 			const targetUsername = this.targetUsername;
 			return this.errorReply(this.tr`User ${targetUsername} not found.`);
 		}
@@ -1276,7 +1291,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 	timer(target, room, user) {
 		target = toID(target);
 		room = this.requireRoom();
-		if (!room.game || !room.game.timer) {
+		if (!_optionalChain([room, 'access', _8 => _8.game, 'optionalAccess', _9 => _9.timer])) {
 			return this.errorReply(this.tr`You can only set the timer from inside a battle room.`);
 		}
 		const timer = room.game.timer ;
@@ -1291,7 +1306,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			return this.sendReply(this.tr`The game timer is ON (requested by ${requester})`);
 		}
 		const force = user.can('timer', null, room);
-		if (!force && !user.inGame(room)) {
+		if (!force && !room.game.playerTable[user.id]) {
 			return this.errorReply(this.tr`Access denied.`);
 		}
 		if (this.meansNo(target) || target === 'stop') {
@@ -1366,7 +1381,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			const ladder = Ladders(target);
 			if (!user.registered && Config.forceregisterelo && await ladder.getRating(user.id) >= Config.forceregisterelo) {
 				user.send(
-					_utils.Utils.html`|popup||html|${this.tr`Since you have reached ${Config.forceregisterelo} ELO in ${target}, you must register your account to continue playing that format on ladder.`}<p style="text-align: center"><button name="register" value="${user.id}"><b>${this.tr`Register`}</b></button></p>`
+					_lib.Utils.html`|popup||html|${this.tr`Since you have reached ${Config.forceregisterelo} ELO in ${target}, you must register your account to continue playing that format on ladder.`}<p style="text-align: center"><button name="register" value="${user.id}"><b>${this.tr`Register`}</b></button></p>`
 				);
 				return false;
 			}
@@ -1387,7 +1402,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 	challenge(target, room, user, connection) {
 		target = this.splitTarget(target);
 		const targetUser = this.targetUser;
-		if (!targetUser || !targetUser.connected) {
+		if (!_optionalChain([targetUser, 'optionalAccess', _10 => _10.connected])) {
 			const targetUsername = this.targetUsername;
 			return this.popupReply(this.tr`The user '${targetUsername}' was not found.`);
 		}
@@ -1474,7 +1489,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 
 		return TeamValidatorAsync.get(format.id).validateTeam(user.battleSettings.team).then(result => {
 			const matchMessage = (originalFormat === format ? "" : this.tr`The format '${originalFormat.name}' was not found.`);
-			if (result.charAt(0) === '1') {
+			if (result.startsWith('1')) {
 				connection.popup(`${(matchMessage ? matchMessage + "\n\n" : "")}${this.tr`Your team is valid for ${format.name}.`}`);
 			} else {
 				connection.popup(`${(matchMessage ? matchMessage + "\n\n" : "")}${this.tr`Your team was rejected for the following reasons:`}\n\n- ${result.slice(1).replace(/\n/g, '\n- ')}`);
@@ -1512,7 +1527,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 		// In emergency mode, clamp down on data returned from crq's
 		const trustable = (!Config.emergency || (user.named && user.registered));
 		let cmd;
-		[cmd, target] = _utils.Utils.splitFirst(target, ' ');
+		[cmd, target] = _lib.Utils.splitFirst(target, ' ');
 
 		if (cmd === 'userdetails') {
 			if (target.length > 18) {
@@ -1532,11 +1547,12 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			}
 			
 			let roomList = {};
-			for (const targetRoom of targetUser.getRooms()) {
-				const roomid = targetRoom.roomid;
+			for (const roomid of targetUser.inRooms) {
+				const targetRoom = Rooms.get(roomid);
+				if (!targetRoom) continue; // shouldn't happen
 				const roomData = {};
 				if (targetRoom.settings.isPrivate) {
-					if (!user.inRoom(targetRoom) && !targetUser.inGame(targetRoom)) continue;
+					if (!user.inRooms.has(roomid) && !user.games.has(roomid)) continue;
 					roomData.isPrivate = true;
 				}
 				if (targetRoom.battle) {
@@ -1553,8 +1569,8 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			}
 			if (!targetUser.connected) roomList = false;
 			let group = targetUser.tempGroup;
-			if (targetUser.locked) group = _nullishCoalesce(_optionalChain([Config, 'access', _4 => _4.punishgroups, 'optionalAccess', _5 => _5.locked, 'optionalAccess', _6 => _6.symbol]), () => ( '\u203d'));
-			if (targetUser.namelocked) group = _nullishCoalesce(_optionalChain([Config, 'access', _7 => _7.punishgroups, 'optionalAccess', _8 => _8.namelocked, 'optionalAccess', _9 => _9.symbol]), () => ( '✖'));
+			if (targetUser.locked) group = _nullishCoalesce(_optionalChain([Config, 'access', _11 => _11.punishgroups, 'optionalAccess', _12 => _12.locked, 'optionalAccess', _13 => _13.symbol]), () => ( '\u203d'));
+			if (targetUser.namelocked) group = _nullishCoalesce(_optionalChain([Config, 'access', _14 => _14.punishgroups, 'optionalAccess', _15 => _15.namelocked, 'optionalAccess', _16 => _16.symbol]), () => ( '✖'));
 			const userdetails = {
 				id: target,
 				userid: targetUser.id,
@@ -1592,7 +1608,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 
 			const targetRoom = Rooms.get(target);
 			if (!targetRoom || (
-				targetRoom.settings.isPrivate && !user.inRoom(targetRoom) && !user.inGame(targetRoom)
+				targetRoom.settings.isPrivate && !user.inRooms.has(targetRoom.roomid) && !user.games.has(targetRoom.roomid)
 			)) {
 				const roominfo = {id: target, error: 'not found or access denied'};
 				connection.send(`|queryresponse|roominfo|${JSON.stringify(roominfo)}`);
@@ -1640,7 +1656,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 	trn(target, room, user, connection) {
 		if (target === user.name) return false;
 
-		const [name, registeredString, token] = _utils.Utils.splitFirst(target, ',', 2);
+		const [name, registeredString, token] = _lib.Utils.splitFirst(target, ',', 2);
 		const registered = !!parseInt(registeredString);
 
 		return user.rename(name, token || '', registered, connection);
@@ -1670,7 +1686,7 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			if (user.tempGroup !== Users.Auth.defaultSymbol()) {
 				this.sendReply(`${this.tr`DRIVER COMMANDS`}: /warn, /mute, /hourmute, /unmute, /alts, /forcerename, /modlog, /modnote, /modchat, /lock, /weeklock, /unlock, /announce`);
 				this.sendReply(`${this.tr`MODERATOR COMMANDS`}: /globalban, /unglobalban, /ip, /markshared, /unlockip`);
-				this.sendReply(`${this.tr`ADMIN COMMANDS`}: /declare, /forcetie, /forcewin, /promote, /demote, /banip, /host, /unbanall, /ipsearch`);
+				this.sendReply(`${this.tr`ADMIN COMMANDS`}: /declare, /forcetie, /forcewin, /promote, /demote, /banip, /host, /ipsearch`);
 			}
 			this.sendReply(this.tr`For an overview of room commands, use /roomhelp`);
 			this.sendReply(this.tr`For details of a specific command, use something like: /help data`);
@@ -1735,8 +1751,8 @@ for (const avatar of avatarTableGnomowladny) avatarTable.add(avatar);
 			this.errorReply(this.tr`Could not find help for '/${target}' - displaying help for '/${closestHelp}' instead`);
 		}
 
-		const curHandler = _optionalChain([Chat, 'access', _10 => _10.parseCommand, 'call', _11 => _11(`/${closestHelp}`), 'optionalAccess', _12 => _12.handler]);
-		if (_optionalChain([curHandler, 'optionalAccess', _13 => _13.isPrivate]) && !user.can('lock')) {
+		const curHandler = _optionalChain([Chat, 'access', _17 => _17.parseCommand, 'call', _18 => _18(`/${closestHelp}`), 'optionalAccess', _19 => _19.handler]);
+		if (_optionalChain([curHandler, 'optionalAccess', _20 => _20.isPrivate]) && !user.can('lock')) {
 			return this.errorReply(this.tr`The command '/${target}' does not exist.`);
 		}
 

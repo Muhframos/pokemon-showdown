@@ -61,11 +61,11 @@ Ratings and how they work:
 		},
 		onBasePowerPriority: 23,
 		onBasePower(basePower, pokemon, target, move) {
-			if (move.aerilateBoosted) return this.chainModify([0x1333, 0x1000]);
+			if (move.aerilateBoosted) return this.chainModify([4915, 4096]);
 		},
 		name: "Aerilate",
 		rating: 4,
-		num: 185,
+		num: 184,
 	},
 	aftermath: {
 		name: "Aftermath",
@@ -106,7 +106,7 @@ Ratings and how they work:
 			}
 			if (boosted) {
 				this.debug('Analytic boost');
-				return this.chainModify([0x14CD, 0x1000]);
+				return this.chainModify([5325, 4096]);
 			}
 		},
 		name: "Analytic",
@@ -127,8 +127,7 @@ Ratings and how they work:
 	},
 	anticipation: {
 		onStart(pokemon) {
-			for (const target of pokemon.side.foe.active) {
-				if (!target || target.fainted) continue;
+			for (const target of pokemon.foes()) {
 				for (const moveSlot of target.moveSlots) {
 					const move = this.dex.getMove(moveSlot.move);
 					if (move.category === 'Status') continue;
@@ -149,14 +148,14 @@ Ratings and how they work:
 	},
 	arenatrap: {
 		onFoeTrapPokemon(pokemon) {
-			if (!this.isAdjacent(pokemon, this.effectData.target)) return;
+			if (!pokemon.isAdjacent(this.effectData.target)) return;
 			if (pokemon.isGrounded()) {
 				pokemon.tryTrap(true);
 			}
 		},
 		onFoeMaybeTrapPokemon(pokemon, source) {
 			if (!source) source = this.effectData.target;
-			if (!source || !this.isAdjacent(pokemon, source)) return;
+			if (!source || !pokemon.isAdjacent(source)) return;
 			if (pokemon.isGrounded(!pokemon.knownType)) { // Negate immunity if the type is unknown
 				pokemon.maybeTrapped = true;
 			}
@@ -182,9 +181,15 @@ Ratings and how they work:
 	asoneglastrier: {
 		onPreStart(pokemon) {
 			this.add('-ability', pokemon, 'As One');
-			this.add('-ability', pokemon, 'Unnerve', pokemon.side.foe);
+			this.add('-ability', pokemon, 'Unnerve');
+			this.effectData.unnerved = true;
 		},
-		onFoeTryEatItem: false,
+		onEnd() {
+			this.effectData.unnerved = false;
+		},
+		onFoeTryEatItem() {
+			return !this.effectData.unnerved;
+		},
 		onSourceAfterFaint(length, target, source, effect) {
 			if (effect && effect.effectType === 'Move') {
 				this.boost({atk: length}, source, source, this.dex.getAbility('chillingneigh'));
@@ -198,9 +203,15 @@ Ratings and how they work:
 	asonespectrier: {
 		onPreStart(pokemon) {
 			this.add('-ability', pokemon, 'As One');
-			this.add('-ability', pokemon, 'Unnerve', pokemon.side.foe);
+			this.add('-ability', pokemon, 'Unnerve');
+			this.effectData.unnerved = true;
 		},
-		onFoeTryEatItem: false,
+		onEnd() {
+			this.effectData.unnerved = false;
+		},
+		onFoeTryEatItem() {
+			return !this.effectData.unnerved;
+		},
 		onSourceAfterFaint(length, target, source, effect) {
 			if (effect && effect.effectType === 'Move') {
 				this.boost({spa: length}, source, source, this.dex.getAbility('grimneigh'));
@@ -228,8 +239,7 @@ Ratings and how they work:
 		onResidualSubOrder: 1,
 		onResidual(pokemon) {
 			if (!pokemon.hp) return;
-			for (const target of pokemon.side.foe.active) {
-				if (!target || !target.hp) continue;
+			for (const target of pokemon.foes()) {
 				if (target.status === 'slp' || target.hasAbility('comatose')) {
 					this.damage(target.baseMaxhp / 8, target, pokemon);
 				}
@@ -249,7 +259,7 @@ Ratings and how they work:
 		onAllyBasePower(basePower, attacker, defender, move) {
 			if (attacker !== this.effectData.target && move.category === 'Special') {
 				this.debug('Battery boost');
-				return this.chainModify([0x14CD, 0x1000]);
+				return this.chainModify([5325, 4096]);
 			}
 		},
 		name: "Battery",
@@ -267,7 +277,7 @@ Ratings and how they work:
 			if (_optionalChain([effect, 'optionalAccess', _2 => _2.effectType]) !== 'Move') {
 				return;
 			}
-			if (source.species.id === 'greninja' && source.hp && !source.transformed && source.side.foe.pokemonLeft) {
+			if (source.species.id === 'greninja' && source.hp && !source.transformed && source.side.foePokemonLeft()) {
 				this.add('-activate', source, 'ability: Battle Bond');
 				source.formeChange('Greninja-Ash', this.effect, true);
 			}
@@ -465,7 +475,7 @@ Ratings and how they work:
 	},
 	competitive: {
 		onAfterEachBoost(boost, target, source, effect) {
-			if (!source || target.side === source.side) {
+			if (!source || target.isAlly(source)) {
 				if (effect.id === 'stickyweb') {
 					this.hint("Court Change Sticky Web counts as lowering your own Speed, and Competitive only affects stats lowered by foes.", true, source.side);
 				}
@@ -492,7 +502,7 @@ Ratings and how they work:
 		onSourceModifyAccuracy(accuracy) {
 			if (typeof accuracy !== 'number') return;
 			this.debug('compoundeyes - enhancing accuracy');
-			return this.chainModify([0x14CD, 0x1000]);
+			return this.chainModify([5325, 4096]);
 		},
 		name: "Compound Eyes",
 		rating: 3,
@@ -534,11 +544,9 @@ Ratings and how they work:
 	},
 	curiousmedicine: {
 		onStart(pokemon) {
-			for (const ally of pokemon.side.active) {
-				if (ally !== pokemon) {
-					ally.clearBoosts();
-					this.add('-clearboost', ally, '[from] ability: Curious Medicine', '[of] ' + pokemon);
-				}
+			for (const ally of pokemon.adjacentAllies()) {
+				ally.clearBoosts();
+				this.add('-clearboost', ally, '[from] ability: Curious Medicine', '[of] ' + pokemon);
 			}
 		},
 		name: "Curious Medicine",
@@ -602,7 +610,7 @@ Ratings and how they work:
 			if (target === source || move.category === 'Status' || move.type !== 'Dark') return;
 			if (!move.auraBooster) move.auraBooster = this.effectData.target;
 			if (move.auraBooster !== this.effectData.target) return;
-			return this.chainModify([move.hasAuraBreak ? 0x0C00 : 0x1547, 0x1000]);
+			return this.chainModify([move.hasAuraBreak ? 3072 : 5448, 4096]);
 		},
 		isUnbreakable: true,
 		name: "Dark Aura",
@@ -625,7 +633,7 @@ Ratings and how they work:
 			}
 
 			const dazzlingHolder = this.effectData.target;
-			if ((source.side === dazzlingHolder.side || move.target === 'all') && move.priority > 0.1) {
+			if ((source.isAlly(dazzlingHolder) || move.target === 'all') && move.priority > 0.1) {
 				this.attrLastMove('[still]');
 				this.add('cant', dazzlingHolder, 'ability: Dazzling', move, '[of] ' + target);
 				return false;
@@ -654,7 +662,7 @@ Ratings and how they work:
 	},
 	defiant: {
 		onAfterEachBoost(boost, target, source, effect) {
-			if (!source || target.side === source.side) {
+			if (!source || target.isAlly(source)) {
 				if (effect.id === 'stickyweb') {
 					this.hint("Court Change Sticky Web counts as lowering your own Speed, and Defiant only affects stats lowered by foes.", true, source.side);
 				}
@@ -772,8 +780,7 @@ Ratings and how they work:
 		onStart(pokemon) {
 			let totaldef = 0;
 			let totalspd = 0;
-			for (const target of pokemon.side.foe.active) {
-				if (!target || target.fainted) continue;
+			for (const target of pokemon.foes()) {
 				totaldef += target.getStat('def', false, true);
 				totalspd += target.getStat('spd', false, true);
 			}
@@ -913,7 +920,7 @@ Ratings and how they work:
 			if (target === source || move.category === 'Status' || move.type !== 'Fairy') return;
 			if (!move.auraBooster) move.auraBooster = this.effectData.target;
 			if (move.auraBooster !== this.effectData.target) return;
-			return this.chainModify([move.hasAuraBreak ? 0x0C00 : 0x1547, 0x1000]);
+			return this.chainModify([move.hasAuraBreak ? 3072 : 5448, 4096]);
 		},
 		isUnbreakable: true,
 		name: "Fairy Aura",
@@ -1110,8 +1117,7 @@ Ratings and how they work:
 		onStart(pokemon) {
 			let warnMoves = [];
 			let warnBp = 1;
-			for (const target of pokemon.side.foe.active) {
-				if (target.fainted) continue;
+			for (const target of pokemon.foes()) {
 				for (const moveSlot of target.moveSlots) {
 					const move = this.dex.getMove(moveSlot.move);
 					let bp = move.basePower;
@@ -1138,7 +1144,7 @@ Ratings and how they work:
 	friendguard: {
 		name: "Friend Guard",
 		onAnyModifyDamage(damage, source, target, move) {
-			if (target !== this.effectData.target && target.side === this.effectData.target.side) {
+			if (target !== this.effectData.target && target.isAlly(this.effectData.target)) {
 				this.debug('Friend Guard weaken');
 				return this.chainModify(0.75);
 			}
@@ -1148,8 +1154,7 @@ Ratings and how they work:
 	},
 	frisk: {
 		onStart(pokemon) {
-			for (const target of pokemon.side.foe.active) {
-				if (!target || !target.hp) continue;
+			for (const target of pokemon.foes()) {
 				if (target.item) {
 					this.add('-item', target, target.getItem().name, '[from] ability: Frisk', '[of] ' + pokemon, '[identify]');
 				}
@@ -1209,7 +1214,7 @@ Ratings and how they work:
 		},
 		onBasePowerPriority: 23,
 		onBasePower(basePower, pokemon, target, move) {
-			if (move.galvanizeBoosted) return this.chainModify([0x1333, 0x1000]);
+			if (move.galvanizeBoosted) return this.chainModify([4915, 4096]);
 		},
 		name: "Galvanize",
 		rating: 4,
@@ -1302,7 +1307,7 @@ Ratings and how they work:
 	},
 	gulpmissile: {
 		onDamagingHit(damage, target, source, move) {
-			if (target.transformed || target.isSemiInvulnerable()) return;
+			if (!source.hp || !source.isActive || target.transformed || target.isSemiInvulnerable()) return;
 			if (['cramorantgulping', 'cramorantgorging'].includes(target.species.id)) {
 				this.damage(source.baseMaxhp / 4, source, target);
 				if (target.species.id === 'cramorantgulping') {
@@ -1360,14 +1365,8 @@ Ratings and how they work:
 		onResidualOrder: 5,
 		onResidualSubOrder: 4,
 		onResidual(pokemon) {
-			if (pokemon.side.active.length === 1) {
-				return;
-			}
-			for (const allyActive of pokemon.side.active) {
-				if (
-					allyActive &&
-					(allyActive.hp && this.isAdjacent(pokemon, allyActive) && allyActive.status) && this.randomChance(3, 10)
-				) {
+			for (const allyActive of pokemon.adjacentAllies()) {
+				if (allyActive.status && this.randomChance(3, 10)) {
 					this.add('-activate', pokemon, 'ability: Healer');
 					allyActive.cureStatus();
 				}
@@ -1434,7 +1433,7 @@ Ratings and how they work:
 		onSourceModifyAccuracyPriority: -1,
 		onSourceModifyAccuracy(accuracy, target, source, move) {
 			if (move.category === 'Physical' && typeof accuracy === 'number') {
-				return this.chainModify([0x0CCD, 0x1000]);
+				return this.chainModify([3277, 4096]);
 			}
 		},
 		name: "Hustle",
@@ -1552,14 +1551,14 @@ Ratings and how they work:
 	illusion: {
 		onBeforeSwitchIn(pokemon) {
 			pokemon.illusion = null;
-			let i;
-			for (i = pokemon.side.pokemon.length - 1; i > pokemon.position; i--) {
-				if (!pokemon.side.pokemon[i]) continue;
-				if (!pokemon.side.pokemon[i].fainted) break;
+			// yes, you can Illusion an active pokemon but only if it's to your right
+			for (let i = pokemon.side.pokemon.length - 1; i > pokemon.position; i--) {
+				const possibleTarget = pokemon.side.pokemon[i];
+				if (!possibleTarget.fainted) {
+					pokemon.illusion = possibleTarget;
+					break;
+				}
 			}
-			if (!pokemon.side.pokemon[i]) return;
-			if (pokemon === pokemon.side.pokemon[i]) return;
-			pokemon.illusion = pokemon.side.pokemon[i];
 		},
 		onDamagingHit(damage, target, source, move) {
 			if (target.illusion) {
@@ -1609,6 +1608,8 @@ Ratings and how they work:
 		onStart(pokemon) {
 			// Imposter does not activate when Skill Swapped or when Neutralizing Gas leaves the field
 			if (!this.effectData.switchingIn) return;
+			// copies across in multibattle and diagonally in free-for-all
+			// fortunately, side.foe already takes care of all that
 			const target = pokemon.side.foe.active[pokemon.side.foe.active.length - 1 - pokemon.position];
 			if (target) {
 				pokemon.transformInto(target, this.dex.getAbility('imposter'));
@@ -1673,8 +1674,7 @@ Ratings and how they work:
 	intimidate: {
 		onStart(pokemon) {
 			let activated = false;
-			for (const target of pokemon.side.foe.active) {
-				if (!target || !this.isAdjacent(target, pokemon)) continue;
+			for (const target of pokemon.adjacentFoes()) {
 				if (!activated) {
 					this.add('-ability', pokemon, 'Intimidate', 'boost');
 					activated = true;
@@ -1714,7 +1714,7 @@ Ratings and how they work:
 		onBasePower(basePower, attacker, defender, move) {
 			if (move.flags['punch']) {
 				this.debug('Iron Fist boost');
-				return this.chainModify([0x1333, 0x1000]);
+				return this.chainModify([4915, 4096]);
 			}
 		},
 		name: "Iron Fist",
@@ -1884,17 +1884,17 @@ Ratings and how they work:
 			const newMove = this.dex.getActiveMove(move.id);
 			newMove.hasBounced = true;
 			newMove.pranksterBoosted = false;
-			this.useMove(newMove, target, source);
+			this.actions.useMove(newMove, target, source);
 			return null;
 		},
 		onAllyTryHitSide(target, source, move) {
-			if (target.side === source.side || move.hasBounced || !move.flags['reflectable']) {
+			if (target.isAlly(source) || move.hasBounced || !move.flags['reflectable']) {
 				return;
 			}
 			const newMove = this.dex.getActiveMove(move.id);
 			newMove.hasBounced = true;
 			newMove.pranksterBoosted = false;
-			this.useMove(newMove, this.effectData.target, source);
+			this.actions.useMove(newMove, this.effectData.target, source);
 			return null;
 		},
 		condition: {
@@ -1948,13 +1948,13 @@ Ratings and how they work:
 	},
 	magnetpull: {
 		onFoeTrapPokemon(pokemon) {
-			if (pokemon.hasType('Steel') && this.isAdjacent(pokemon, this.effectData.target)) {
+			if (pokemon.hasType('Steel') && pokemon.isAdjacent(this.effectData.target)) {
 				pokemon.tryTrap(true);
 			}
 		},
 		onFoeMaybeTrapPokemon(pokemon, source) {
 			if (!source) source = this.effectData.target;
-			if (!source || !this.isAdjacent(pokemon, source)) return;
+			if (!source || !pokemon.isAdjacent(source)) return;
 			if (!pokemon.knownType || pokemon.hasType('Steel')) {
 				pokemon.maybeTrapped = true;
 			}
@@ -2049,14 +2049,8 @@ Ratings and how they work:
 	minus: {
 		onModifySpAPriority: 5,
 		onModifySpA(spa, pokemon) {
-			if (pokemon.side.active.length === 1) {
-				return;
-			}
-			for (const allyActive of pokemon.side.active) {
-				if (
-					allyActive && allyActive.position !== pokemon.position &&
-					!allyActive.fainted && allyActive.hasAbility(['minus', 'plus'])
-				) {
+			for (const allyActive of pokemon.allies()) {
+				if (allyActive.hasAbility(['minus', 'plus'])) {
 					return this.chainModify(1.5);
 				}
 			}
@@ -2212,7 +2206,7 @@ Ratings and how they work:
 			let noCureCount = 0;
 			for (const curPoke of pokemon.side.active) {
 				// pokemon not statused
-				if (!curPoke || !curPoke.status) {
+				if (!_optionalChain([curPoke, 'optionalAccess', _9 => _9.status])) {
 					// this.add('-message', "" + curPoke + " skipped: not statused or doesn't exist");
 					continue;
 				}
@@ -2283,7 +2277,7 @@ Ratings and how they work:
 	neuroforce: {
 		onModifyDamage(damage, source, target, move) {
 			if (move && target.getMoveHitData(move).typeMod > 0) {
-				return this.chainModify([0x1400, 0x1000]);
+				return this.chainModify([5120, 4096]);
 			}
 		},
 		name: "Neuroforce",
@@ -2357,7 +2351,7 @@ Ratings and how they work:
 		},
 		onBasePowerPriority: 23,
 		onBasePower(basePower, pokemon, target, move) {
-			if (move.normalizeBoosted) return this.chainModify([0x1333, 0x1000]);
+			if (move.normalizeBoosted) return this.chainModify([4915, 4096]);
 		},
 		name: "Normalize",
 		rating: 0,
@@ -2440,7 +2434,7 @@ Ratings and how they work:
 			if (status.id === 'confusion') return null;
 		},
 		onHit(target, source, move) {
-			if (_optionalChain([move, 'optionalAccess', _9 => _9.volatileStatus]) === 'confusion') {
+			if (_optionalChain([move, 'optionalAccess', _10 => _10.volatileStatus]) === 'confusion') {
 				this.add('-immune', target, 'confusion', '[from] ability: Own Tempo');
 			}
 		},
@@ -2475,11 +2469,11 @@ Ratings and how they work:
 		},
 		name: "Parental Bond",
 		rating: 4.5,
-		num: 184,
+		num: 185,
 	},
 	pastelveil: {
 		onStart(pokemon) {
-			for (const ally of pokemon.allies()) {
+			for (const ally of pokemon.alliesAndSelf()) {
 				if (['psn', 'tox'].includes(ally.status)) {
 					this.add('-activate', pokemon, 'ability: Pastel Veil');
 					ally.cureStatus();
@@ -2500,14 +2494,14 @@ Ratings and how they work:
 		},
 		onSetStatus(status, target, source, effect) {
 			if (!['psn', 'tox'].includes(status.id)) return;
-			if (_optionalChain([(effect ), 'optionalAccess', _10 => _10.status])) {
+			if (_optionalChain([(effect ), 'optionalAccess', _11 => _11.status])) {
 				this.add('-immune', target, '[from] ability: Pastel Veil');
 			}
 			return false;
 		},
 		onAllySetStatus(status, target, source, effect) {
 			if (!['psn', 'tox'].includes(status.id)) return;
-			if (_optionalChain([(effect ), 'optionalAccess', _11 => _11.status])) {
+			if (_optionalChain([(effect ), 'optionalAccess', _12 => _12.status])) {
 				const effectHolder = this.effectData.target;
 				this.add('-block', target, 'ability: Pastel Veil', '[of] ' + effectHolder);
 			}
@@ -2537,7 +2531,7 @@ Ratings and how they work:
 	},
 	pickpocket: {
 		onAfterMoveSecondary(target, source, move) {
-			if (source && source !== target && _optionalChain([move, 'optionalAccess', _12 => _12.flags, 'access', _13 => _13['contact']])) {
+			if (source && source !== target && _optionalChain([move, 'optionalAccess', _13 => _13.flags, 'access', _14 => _14['contact']])) {
 				if (target.item || target.switchFlag || target.forceSwitchFlag || source.switchFlag === true) {
 					return;
 				}
@@ -2562,12 +2556,9 @@ Ratings and how they work:
 		onResidualSubOrder: 1,
 		onResidual(pokemon) {
 			if (pokemon.item) return;
-			const pickupTargets = [];
-			for (const target of this.getAllActive()) {
-				if (target.lastItem && target.usedItemThisTurn && this.isAdjacent(pokemon, target)) {
-					pickupTargets.push(target);
-				}
-			}
+			const pickupTargets = this.getAllActive().filter(target => (
+				target.lastItem && target.usedItemThisTurn && pokemon.isAdjacent(target)
+			));
 			if (!pickupTargets.length) return;
 			const randomTarget = this.sample(pickupTargets);
 			const item = randomTarget.lastItem;
@@ -2592,7 +2583,7 @@ Ratings and how they work:
 		},
 		onBasePowerPriority: 23,
 		onBasePower(basePower, pokemon, target, move) {
-			if (move.pixilateBoosted) return this.chainModify([0x1333, 0x1000]);
+			if (move.pixilateBoosted) return this.chainModify([4915, 4096]);
 		},
 		name: "Pixilate",
 		rating: 4,
@@ -2601,14 +2592,8 @@ Ratings and how they work:
 	plus: {
 		onModifySpAPriority: 5,
 		onModifySpA(spa, pokemon) {
-			if (pokemon.side.active.length === 1) {
-				return;
-			}
-			for (const allyActive of pokemon.side.active) {
-				if (
-					allyActive && allyActive.position !== pokemon.position &&
-					!allyActive.fainted && allyActive.hasAbility(['minus', 'plus'])
-				) {
+			for (const allyActive of pokemon.allies()) {
+				if (allyActive.hasAbility(['minus', 'plus'])) {
 					return this.chainModify(1.5);
 				}
 			}
@@ -2644,7 +2629,7 @@ Ratings and how they work:
 	poisontouch: {
 		// upokecenter says this is implemented as an added secondary effect
 		onModifyMove(move) {
-			if (!move || !move.flags['contact'] || move.target === 'self') return;
+			if (!_optionalChain([move, 'optionalAccess', _15 => _15.flags, 'access', _16 => _16['contact']]) || move.target === 'self') return;
 			if (!move.secondaries) {
 				move.secondaries = [];
 			}
@@ -2698,7 +2683,7 @@ Ratings and how they work:
 		onAllyBasePower(basePower, attacker, defender, move) {
 			if (attacker !== this.effectData.target) {
 				this.debug('Power Spot boost');
-				return this.chainModify([0x14CD, 0x1000]);
+				return this.chainModify([5325, 4096]);
 			}
 		},
 		name: "Power Spot",
@@ -2707,7 +2692,7 @@ Ratings and how they work:
 	},
 	prankster: {
 		onModifyPriority(priority, pokemon, target, move) {
-			if (_optionalChain([move, 'optionalAccess', _14 => _14.category]) === 'Status') {
+			if (_optionalChain([move, 'optionalAccess', _17 => _17.category]) === 'Status') {
 				move.pranksterBoosted = true;
 				return priority + 1;
 			}
@@ -2721,7 +2706,7 @@ Ratings and how they work:
 			this.add('-ability', pokemon, 'Pressure');
 		},
 		onDeductPP(target, source) {
-			if (target.side === source.side) return;
+			if (target.isAlly(source)) return;
 			return 1;
 		},
 		name: "Pressure",
@@ -2799,7 +2784,7 @@ Ratings and how they work:
 		onBasePower(basePower, attacker, defender, move) {
 			if (move.flags['sound']) {
 				this.debug('Punk Rock boost');
-				return this.chainModify([0x14CD, 0x1000]);
+				return this.chainModify([5325, 4096]);
 			}
 		},
 		onSourceModifyDamage(damage, source, target, move) {
@@ -2829,7 +2814,7 @@ Ratings and how they work:
 			}
 
 			const dazzlingHolder = this.effectData.target;
-			if ((source.side === dazzlingHolder.side || move.target === 'all') && move.priority > 0.1) {
+			if ((source.isAlly(dazzlingHolder) || move.target === 'all') && move.priority > 0.1) {
 				this.attrLastMove('[still]');
 				this.add('cant', dazzlingHolder, 'ability: Queenly Majesty', move, '[of] ' + target);
 				return false;
@@ -2907,7 +2892,7 @@ Ratings and how they work:
 		onBasePower(basePower, attacker, defender, move) {
 			if (move.recoil || move.hasCrashDamage) {
 				this.debug('Reckless boost');
-				return this.chainModify([0x1333, 0x1000]);
+				return this.chainModify([4915, 4096]);
 			}
 		},
 		name: "Reckless",
@@ -2927,7 +2912,7 @@ Ratings and how they work:
 		},
 		onBasePowerPriority: 23,
 		onBasePower(basePower, pokemon, target, move) {
-			if (move.refrigerateBoosted) return this.chainModify([0x1333, 0x1000]);
+			if (move.refrigerateBoosted) return this.chainModify([4915, 4096]);
 		},
 		name: "Refrigerate",
 		rating: 4,
@@ -3035,7 +3020,7 @@ Ratings and how they work:
 			if (this.field.isWeather('sandstorm')) {
 				if (move.type === 'Rock' || move.type === 'Ground' || move.type === 'Steel') {
 					this.debug('Sand Force boost');
-					return this.chainModify([0x14CD, 0x1000]);
+					return this.chainModify([5325, 4096]);
 				}
 			}
 		},
@@ -3086,7 +3071,7 @@ Ratings and how they work:
 			if (typeof accuracy !== 'number') return;
 			if (this.field.isWeather('sandstorm')) {
 				this.debug('Sand Veil - decreasing accuracy');
-				return this.chainModify([0x0CCD, 0x1000]);
+				return this.chainModify([3277, 4096]);
 			}
 		},
 		name: "Sand Veil",
@@ -3104,7 +3089,7 @@ Ratings and how they work:
 			}
 		},
 		onAllyTryHitSide(target, source, move) {
-			if (target === this.effectData.target || target.side !== source.side) return;
+			if (target === this.effectData.target || !target.isAlly(source)) return;
 			if (move.type === 'Grass') {
 				this.boost({atk: 1}, this.effectData.target);
 			}
@@ -3170,19 +3155,14 @@ Ratings and how they work:
 		onStart(pokemon) {
 			let activated = false;
 			for (const sideCondition of ['reflect', 'lightscreen', 'auroraveil']) {
-				if (pokemon.side.getSideCondition(sideCondition)) {
-					if (!activated) {
-						this.add('-activate', pokemon, 'ability: Screen Cleaner');
-						activated = true;
+				for (const side of [pokemon.side, ...pokemon.side.foeSidesWithConditions()]) {
+					if (side.getSideCondition(sideCondition)) {
+						if (!activated) {
+							this.add('-activate', pokemon, 'ability: Screen Cleaner');
+							activated = true;
+						}
+						side.removeSideCondition(sideCondition);
 					}
-					pokemon.side.removeSideCondition(sideCondition);
-				}
-				if (pokemon.side.foe.getSideCondition(sideCondition)) {
-					if (!activated) {
-						this.add('-activate', pokemon, 'ability: Screen Cleaner');
-						activated = true;
-					}
-					pokemon.side.foe.removeSideCondition(sideCondition);
 				}
 			}
 		},
@@ -3199,7 +3179,7 @@ Ratings and how they work:
 					if (secondary.chance) secondary.chance *= 2;
 				}
 			}
-			if (_optionalChain([move, 'access', _15 => _15.self, 'optionalAccess', _16 => _16.chance])) move.self.chance *= 2;
+			if (_optionalChain([move, 'access', _18 => _18.self, 'optionalAccess', _19 => _19.chance])) move.self.chance *= 2;
 		},
 		name: "Serene Grace",
 		rating: 3.5,
@@ -3219,13 +3199,13 @@ Ratings and how they work:
 	},
 	shadowtag: {
 		onFoeTrapPokemon(pokemon) {
-			if (!pokemon.hasAbility('shadowtag') && this.isAdjacent(pokemon, this.effectData.target)) {
+			if (!pokemon.hasAbility('shadowtag') && pokemon.isAdjacent(this.effectData.target)) {
 				pokemon.tryTrap(true);
 			}
 		},
 		onFoeMaybeTrapPokemon(pokemon, source) {
 			if (!source) source = this.effectData.target;
-			if (!source || !this.isAdjacent(pokemon, source)) return;
+			if (!source || !pokemon.isAdjacent(source)) return;
 			if (!pokemon.hasAbility('shadowtag')) {
 				pokemon.maybeTrapped = true;
 			}
@@ -3238,7 +3218,7 @@ Ratings and how they work:
 		onResidualOrder: 5,
 		onResidualSubOrder: 4,
 		onResidual(pokemon) {
-			if (pokemon.hp && pokemon.status && this.randomChance(1, 3)) {
+			if (pokemon.hp && pokemon.status && this.randomChance(33, 100)) {
 				this.debug('shed skin');
 				this.add('-activate', pokemon, 'ability: Shed Skin');
 				pokemon.cureStatus();
@@ -3261,7 +3241,7 @@ Ratings and how they work:
 		},
 		onBasePowerPriority: 21,
 		onBasePower(basePower, pokemon, target, move) {
-			if (move.hasSheerForce) return this.chainModify([0x14CD, 0x1000]);
+			if (move.hasSheerForce) return this.chainModify([5325, 4096]);
 		},
 		name: "Sheer Force",
 		rating: 3.5,
@@ -3310,7 +3290,7 @@ Ratings and how they work:
 		},
 		onSetStatus(status, target, source, effect) {
 			if (target.species.id !== 'miniormeteor' || target.transformed) return;
-			if (_optionalChain([(effect ), 'optionalAccess', _17 => _17.status])) {
+			if (_optionalChain([(effect ), 'optionalAccess', _20 => _20.status])) {
 				this.add('-immune', target, '[from] ability: Shields Down');
 			}
 			return false;
@@ -3410,7 +3390,7 @@ Ratings and how they work:
 			if (typeof accuracy !== 'number') return;
 			if (this.field.isWeather('hail')) {
 				this.debug('Snow Cloak - decreasing accuracy');
-				return this.chainModify([0x0CCD, 0x1000]);
+				return this.chainModify([3277, 4096]);
 			}
 		},
 		name: "Snow Cloak",
@@ -3807,7 +3787,7 @@ Ratings and how they work:
 		onModifyAccuracyPriority: -1,
 		onModifyAccuracy(accuracy, target) {
 			if (typeof accuracy !== 'number') return;
-			if (_optionalChain([target, 'optionalAccess', _18 => _18.volatiles, 'access', _19 => _19['confusion']])) {
+			if (_optionalChain([target, 'optionalAccess', _21 => _21.volatiles, 'access', _22 => _22['confusion']])) {
 				this.debug('Tangled Feet - decreasing accuracy');
 				return this.chainModify(0.5);
 			}
@@ -3843,7 +3823,7 @@ Ratings and how they work:
 	},
 	telepathy: {
 		onTryHit(target, source, move) {
-			if (target !== source && target.side === source.side && move.category !== 'Status') {
+			if (target !== source && target.isAlly(source) && move.category !== 'Status') {
 				this.add('-activate', target, 'ability: Telepathy');
 				return null;
 			}
@@ -3916,7 +3896,7 @@ Ratings and how they work:
 		onBasePowerPriority: 21,
 		onBasePower(basePower, attacker, defender, move) {
 			if (move.flags['contact']) {
-				return this.chainModify([0x14CD, 0x1000]);
+				return this.chainModify([5325, 4096]);
 			}
 		},
 		name: "Tough Claws",
@@ -3936,32 +3916,28 @@ Ratings and how they work:
 	},
 	trace: {
 		onStart(pokemon) {
-			if (pokemon.side.foe.active.some(
-				foeActive => foeActive && this.isAdjacent(pokemon, foeActive) && foeActive.ability === 'noability'
-			)) {
+			// n.b. only affects Hackmons
+			// interaction with No Ability is complicated: https://www.smogon.com/forums/threads/pokemon-sun-moon-battle-mechanics-research.3586701/page-76#post-7790209
+			if (pokemon.adjacentFoes().some(foeActive => foeActive.ability === 'noability')) {
 				this.effectData.gaveUp = true;
 			}
 		},
 		onUpdate(pokemon) {
 			if (!pokemon.isStarted || this.effectData.gaveUp) return;
-			const possibleTargets = pokemon.side.foe.active.filter(foeActive => foeActive && this.isAdjacent(pokemon, foeActive));
-			while (possibleTargets.length) {
-				let rand = 0;
-				if (possibleTargets.length > 1) rand = this.random(possibleTargets.length);
-				const target = possibleTargets[rand];
-				const ability = target.getAbility();
-				const additionalBannedAbilities = [
-					// Zen Mode included here for compatability with Gen 5-6
-					'noability', 'flowergift', 'forecast', 'hungerswitch', 'illusion', 'imposter', 'neutralizinggas', 'powerofalchemy', 'receiver', 'trace', 'zenmode',
-				];
-				if (target.getAbility().isPermanent || additionalBannedAbilities.includes(target.ability)) {
-					possibleTargets.splice(rand, 1);
-					continue;
-				}
-				this.add('-ability', pokemon, ability, '[from] ability: Trace', '[of] ' + target);
-				pokemon.setAbility(ability);
-				return;
-			}
+
+			const additionalBannedAbilities = [
+				// Zen Mode included here for compatability with Gen 5-6
+				'noability', 'flowergift', 'forecast', 'hungerswitch', 'illusion', 'imposter', 'neutralizinggas', 'powerofalchemy', 'receiver', 'trace', 'zenmode',
+			];
+			const possibleTargets = pokemon.adjacentFoes().filter(target => (
+				!target.getAbility().isPermanent && !additionalBannedAbilities.includes(target.ability)
+			));
+			if (!possibleTargets.length) return;
+
+			const target = this.sample(possibleTargets);
+			const ability = target.getAbility();
+			this.add('-ability', pokemon, ability, '[from] ability: Trace', '[of] ' + target);
+			pokemon.setAbility(ability);
 		},
 		name: "Trace",
 		rating: 2.5,
@@ -3988,7 +3964,7 @@ Ratings and how they work:
 	},
 	triage: {
 		onModifyPriority(priority, pokemon, target, move) {
-			if (_optionalChain([move, 'optionalAccess', _20 => _20.flags, 'access', _21 => _21['heal']])) return priority + 3;
+			if (_optionalChain([move, 'optionalAccess', _23 => _23.flags, 'access', _24 => _24['heal']])) return priority + 3;
 		},
 		name: "Triage",
 		rating: 3.5,
@@ -4069,15 +4045,20 @@ Ratings and how they work:
 	},
 	unnerve: {
 		onPreStart(pokemon) {
-			this.add('-ability', pokemon, 'Unnerve', pokemon.side.foe);
+			this.add('-ability', pokemon, 'Unnerve');
 			this.effectData.unnerved = true;
 		},
 		onStart(pokemon) {
 			if (this.effectData.unnerved) return;
-			this.add('-ability', pokemon, 'Unnerve', pokemon.side.foe);
+			this.add('-ability', pokemon, 'Unnerve');
 			this.effectData.unnerved = true;
 		},
-		onFoeTryEatItem: false,
+		onEnd() {
+			this.effectData.unnerved = false;
+		},
+		onFoeTryEatItem() {
+			return !this.effectData.unnerved;
+		},
 		name: "Unnerve",
 		rating: 1.5,
 		num: 127,
@@ -4093,8 +4074,8 @@ Ratings and how they work:
 	victorystar: {
 		onAnyModifyAccuracyPriority: -1,
 		onAnyModifyAccuracy(accuracy, target, source) {
-			if (source.side === this.effectData.target.side && typeof accuracy === 'number') {
-				return this.chainModify([0x119A, 0x1000]);
+			if (source.isAlly(this.effectData.target) && typeof accuracy === 'number') {
+				return this.chainModify([4506, 4096]);
 			}
 		},
 		name: "Victory Star",
@@ -4110,7 +4091,7 @@ Ratings and how they work:
 		},
 		onSetStatus(status, target, source, effect) {
 			if (status.id !== 'slp') return;
-			if (_optionalChain([(effect ), 'optionalAccess', _22 => _22.status])) {
+			if (_optionalChain([(effect ), 'optionalAccess', _25 => _25.status])) {
 				this.add('-immune', target, '[from] ability: Vital Spirit');
 			}
 			return false;
@@ -4144,7 +4125,7 @@ Ratings and how they work:
 			if (move.flags['contact']) {
 				const sourceAbility = source.setAbility('wanderingspirit', target);
 				if (!sourceAbility) return;
-				if (target.side === source.side) {
+				if (target.isAlly(source)) {
 					this.add('-activate', target, 'Skill Swap', '', '', '[of] ' + source);
 				} else {
 					this.add('-activate', target, 'ability: Wandering Spirit', this.dex.getAbility(sourceAbility).name, 'Wandering Spirit', '[of] ' + source);
@@ -4200,7 +4181,7 @@ Ratings and how they work:
 		},
 		onSetStatus(status, target, source, effect) {
 			if (status.id !== 'brn') return;
-			if (_optionalChain([(effect ), 'optionalAccess', _23 => _23.status])) {
+			if (_optionalChain([(effect ), 'optionalAccess', _26 => _26.status])) {
 				this.add('-immune', target, '[from] ability: Water Bubble');
 			}
 			return false;
@@ -4228,7 +4209,7 @@ Ratings and how they work:
 		},
 		onSetStatus(status, target, source, effect) {
 			if (status.id !== 'brn') return;
-			if (_optionalChain([(effect ), 'optionalAccess', _24 => _24.status])) {
+			if (_optionalChain([(effect ), 'optionalAccess', _27 => _27.status])) {
 				this.add('-immune', target, '[from] ability: Water Veil');
 			}
 			return false;
@@ -4382,18 +4363,18 @@ Ratings and how they work:
 			}
 			const newMove = this.dex.getActiveMove(move.id);
 			newMove.hasBounced = true;
-			this.useMove(newMove, target, source);
+			this.actions.useMove(newMove, target, source);
 			return null;
 		},
 		onAllyTryHitSide(target, source, move) {
 			if (this.effectData.target.activeTurns) return;
 
-			if (target.side === source.side || move.hasBounced || !move.flags['reflectable']) {
+			if (target.isAlly(source) || move.hasBounced || !move.flags['reflectable']) {
 				return;
 			}
 			const newMove = this.dex.getActiveMove(move.id);
 			newMove.hasBounced = true;
-			this.useMove(newMove, this.effectData.target, source);
+			this.actions.useMove(newMove, this.effectData.target, source);
 			return null;
 		},
 		condition: {

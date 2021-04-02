@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _utils = require('../../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _lib = require('../../.lib-dist');
 
 
 
@@ -190,7 +190,7 @@ const nameMap = [
 		// build the winner's bracket
 		let tree = null;
 
-		for (const user of _utils.Utils.shuffle(players)) {
+		for (const user of _lib.Utils.shuffle(players)) {
 			if (!tree) {
 				tree = {
 					root: new ElimNode({user}),

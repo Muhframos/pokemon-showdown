@@ -1,5 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _utils = require('../../.lib-dist/utils');
-var _fs = require('../../.lib-dist/fs');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _lib = require('../../.lib-dist');
 
 const STORAGE_PATH = 'config/chat-plugins/quotes.json';
 const MAX_QUOTES = 200;
@@ -10,7 +9,7 @@ const MAX_QUOTES = 200;
 
 
 
-const quotes = JSON.parse(_fs.FS.call(void 0, STORAGE_PATH).readIfExistsSync() || "{}");
+const quotes = JSON.parse(_lib.FS.call(void 0, STORAGE_PATH).readIfExistsSync() || "{}");
 
 // migrate quotes out of roomsettings
 function convertOldQuotes() {
@@ -28,7 +27,7 @@ function convertOldQuotes() {
 }
 
 function saveQuotes() {
-	_fs.FS.call(void 0, STORAGE_PATH).writeUpdate(() => JSON.stringify(quotes));
+	_lib.FS.call(void 0, STORAGE_PATH).writeUpdate(() => JSON.stringify(quotes));
 }
 
 convertOldQuotes();
@@ -81,21 +80,14 @@ convertOldQuotes();
 	quotehelp: [`/quote [quote] - Adds [quote] to the room's quotes. Requires: % @ # &`],
 
 	removequote(target, room, user) {
-		target = target.trim();
-		const [idx, roomid] = _utils.Utils.splitFirst(target, ',');
-		const targetRoom = roomid ? Rooms.search(roomid) : room;
-		if (!targetRoom) return this.errorReply(`Invalid room.`);
-		if (!targetRoom.persist) {
-			return this.errorReply("This command is unavailable in temporary rooms.");
-		}
-		this.room = targetRoom;
-		this.checkCan('mute', null, targetRoom);
-		if (!_optionalChain([quotes, 'access', _2 => _2[targetRoom.roomid], 'optionalAccess', _3 => _3.length])) return this.errorReply(`This room has no quotes.`);
-		const index = parseInt(idx);
+		room = this.requireRoom();
+		this.checkCan('mute', null, room);
+		if (!_optionalChain([quotes, 'access', _2 => _2[room.roomid], 'optionalAccess', _3 => _3.length])) return this.errorReply(`This room has no quotes.`);
+		const index = parseInt(target.trim());
 		if (isNaN(index)) {
 			return this.errorReply(`Invalid index.`);
 		}
-		const roomQuotes = quotes[targetRoom.roomid];
+		const roomQuotes = quotes[room.roomid];
 		if (!roomQuotes[index - 1]) {
 			return this.errorReply(`Quote not found.`);
 		}
@@ -104,7 +96,7 @@ convertOldQuotes();
 		this.privateModAction(`${user.name} removed quote indexed at ${index}: "${collapsedQuote}" (originally added by ${removed.userid}).`);
 		this.modlog(`REMOVEQUOTE`, null, collapsedQuote);
 		saveQuotes();
-		this.refreshPage(`quotes-${targetRoom.roomid}`);
+		this.refreshPage(`quotes-${room.roomid}`);
 	},
 	removequotehelp: [`/removequote [index] - Removes the quote from the room's quotes. Requires: % @ # &`],
 
@@ -112,7 +104,7 @@ convertOldQuotes();
 	quotes(target, room) {
 		const targetRoom = target ? Rooms.search(target) : room;
 		if (!targetRoom) return this.errorReply(`Invalid room.`);
-		return this.parse(`/join view-quotes-${targetRoom.roomid}`);
+		this.parse(`/join view-quotes-${targetRoom.roomid}`);
 	},
 	quoteshelp: [`/quotes [room] - Shows all quotes for [room]. Defaults the room the command is used in.`],
 }; exports.commands = commands;
@@ -133,14 +125,14 @@ convertOldQuotes();
 			return `${buffer}<h2>This room has no quotes.</h2></div>`;
 		}
 
-		buffer += _utils.Utils.html`<h2>Quotes for ${room.title} (${roomQuotes.length}):</h2>`;
+		buffer += _lib.Utils.html`<h2>Quotes for ${room.title} (${roomQuotes.length}):</h2>`;
 		for (const [i, quoteObj] of roomQuotes.entries()) {
 			const index = i + 1;
 			const {quote, userid, date} = quoteObj;
 			buffer += `<div class="infobox">${Chat.formatText(quote, false, true)}`;
 			buffer += `<br /><hr /><small>Added by ${userid} on ${Chat.toTimestamp(new Date(date), {human: true})}</small>`;
 			if (user.can('mute', null, room)) {
-				buffer += ` <button class="button" name="send" value="/removequote ${index},${room.roomid}">Remove</button>`;
+				buffer += ` <button class="button" name="send" value="/msgroom ${room.roomid},/removequote ${index}">Remove</button>`;
 			}
 			buffer += `</div>`;
 		}
@@ -148,5 +140,14 @@ convertOldQuotes();
 		return buffer;
 	},
 }; exports.pages = pages;
+
+ const onRenameRoom = (oldID, newID) => {
+	if (quotes[oldID]) {
+		if (!quotes[newID]) quotes[newID] = [];
+		quotes[newID].push(...quotes[oldID]);
+		delete quotes[oldID];
+		saveQuotes();
+	}
+}; exports.onRenameRoom = onRenameRoom;
 
  //# sourceMappingURL=sourceMaps/quotes.js.map

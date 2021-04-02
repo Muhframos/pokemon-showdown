@@ -1,13 +1,10 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _fs = require('../../../.lib-dist/fs');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _lib = require('../../../.lib-dist');
 var _dexdata = require('../../../.sim-dist/dex-data');
-
-// Used in many abilities, placed here to reduce the number of updates needed and to reduce the chance of errors
-const STRONG_WEATHERS = ['desolateland', 'primordialsea', 'deltastream', 'heavyhailstorm', 'winterhail'];
 
 // Similar to User.usergroups. Cannot import here due to users.ts requiring Chat
 // This also acts as a cache, meaning ranks will only update when a hotpatch/restart occurs
 const usergroups = {};
-const usergroupData = _fs.FS.call(void 0, 'config/usergroups.csv').readIfExistsSync().split('\n');
+const usergroupData = _lib.FS.call(void 0, 'config/usergroups.csv').readIfExistsSync().split('\n');
 for (const row of usergroupData) {
 	if (!_dexdata.toID.call(void 0, row)) continue;
 
@@ -669,6 +666,20 @@ for (const row of usergroupData) {
 		onFaint() {
 			this.add(`c|${getName('Gimmick')}|I did nothing wrong (but I got on the blacklist)`);
 		},
+		// Unburden Innate
+		onAfterUseItem(item, pokemon) {
+			if (pokemon !== this.effectData.target) return;
+			pokemon.addVolatile('unburden');
+		},
+		onTakeItem(item, pokemon) {
+			pokemon.addVolatile('unburden');
+		},
+		onEnd(pokemon) {
+			pokemon.removeVolatile('unburden');
+		},
+		innateName: "Unburden",
+		desc: "If this Pokemon loses its held item for any reason, its Speed is doubled. This boost is lost if it switches out or gains a new item.",
+		shortDesc: "Speed is doubled on held item loss; boost is lost if it switches or gets new item.",
 	},
 	gmars: {
 		noCopy: true,
@@ -744,22 +755,27 @@ for (const row of usergroupData) {
 	instructuser: {
 		noCopy: true,
 		onStart() {
-			this.add(`c|${getName('INStruct')}|lets drink to a great time!`);
+			this.add(`c|${getName('instruct')}|lets drink to a great time!`);
 		},
 		onSwitchOut() {
-			this.add(`c|${getName('Swagn')}|Hey, Instruct. Here's those 15,000 walls of text you ordered. :3`);
-			this.add(`c|${getName('INStruct')}|ya know, why __do__ you always flood my dms?`);
-			this.add(`c|${getName('INStruct')}|whatever im just gonna go get some more coke`);
+			this.add(`c|${getName('Swagn')}|Hey, instruct. Here's those 15,000 walls of text you ordered. :3`);
+			this.add(`c|${getName('instruct')}|ya know, why __do__ you always flood my dms?`);
+			this.add(`c|${getName('instruct')}|whatever im just gonna go get some more coke`);
 		},
 		onFaint() {
-			this.add(`c|${getName('INStruct')}|wait did we run out of coca-cola?`);
-			this.add(`c|${getName('INStruct')}|laaaaaaaaaaame`);
-			this.add(`c|${getName('INStruct')}|yall suck im going home`);
+			this.add(`c|${getName('instruct')}|wait did we run out of coca-cola?`);
+			this.add(`c|${getName('instruct')}|laaaaaaaaaaame`);
+			this.add(`c|${getName('instruct')}|yall suck im going home`);
 		},
 		innateName: "Last Laugh",
-		desc: "Upon fainting to an opponent's direct attack, this Pokemon deals damage to all Pokemon that have made contact with it equal to 50% of their max HP. This damage cannot KO Pokemon.",
-		shortDesc: "Upon foe KOing user, deal 50% of their max HP to all foes that this Pokemon contacted.",
-		// Extinction Level Event Innate
+		desc: "Upon fainting to an opponent's direct attack, this Pokemon deals damage to all Pokemon that have made contact with it equal to 50% of their max HP. This damage cannot KO Pokemon. Moves deal 10x more if already made contact through this ability.",
+		shortDesc: "50% of their max HP to all who contacted the user upon KO. Do 10x more if contacted.",
+		// Innate
+		onBasePower(basePower, pokemon, target) {
+			if (_optionalChain([target, 'optionalAccess', _ => _.m, 'access', _2 => _2.marked])) {
+				return this.chainModify(10);
+			}
+		},
 		onSourceHit(target, source, move) {
 			if (source.illusion) return;
 			if (!move || !target) return;
@@ -1154,7 +1170,7 @@ for (const row of usergroupData) {
 		shortDesc: "+1 priority to status moves. 1.5x Defense and Special Defense.",
 		// Innate Prankster and Eviolite
 		onModifyPriority(priority, pokemon, target, move) {
-			if (_optionalChain([move, 'optionalAccess', _ => _.category]) === 'Status') {
+			if (_optionalChain([move, 'optionalAccess', _3 => _3.category]) === 'Status') {
 				move.pranksterBoosted = true;
 				return priority + 1;
 			}
@@ -1315,16 +1331,6 @@ for (const row of usergroupData) {
 		noCopy: true,
 		onStart(source) {
 			this.add(`c|${getName('PiraTe Princess')}|Ahoy! o/`);
-
-			// Easter Egg
-			const activeMon = this.toID(
-				source.side.foe.active[0].illusion ? source.side.foe.active[0].illusion.name : source.side.foe.active[0].name
-			);
-			if (activeMon === 'kaijubunny') {
-				this.add(`c|${getName('PiraTe Princess')}|~shame`);
-				this.add(`raw|<img src="https://i.imgur.com/pxsDOuK.gif" height="165" width="220">`);
-				this.add(`c|${getName('Kaiju Bunny')}|WHY MUST YOU DO THIS TO ME`);
-			}
 		},
 		onSwitchOut() {
 			this.add(`c|${getName('PiraTe Princess')}|brb making tea`);
@@ -1333,7 +1339,7 @@ for (const row of usergroupData) {
 			this.add(`c|${getName('PiraTe Princess')}|I failed my death save`);
 		},
 		onHit(target, source, move) {
-			if (_optionalChain([move, 'optionalAccess', _2 => _2.effectType]) === 'Move' && target.getMoveHitData(move).crit) {
+			if (_optionalChain([move, 'optionalAccess', _4 => _4.effectType]) === 'Move' && target.getMoveHitData(move).crit) {
 				this.add(`c|${getName('PiraTe Princess')}|NATURAL 20!!!`);
 			}
 		},
@@ -1707,7 +1713,7 @@ for (const row of usergroupData) {
 			this.add(`c|${getName('Volco')}|/me controller clicking fades`);
 		},
 		onFaint(source, target, effect) {
-			if (_optionalChain([effect, 'optionalAccess', _3 => _3.id]) === 'glitchexploiting') {
+			if (_optionalChain([effect, 'optionalAccess', _5 => _5.id]) === 'glitchexploiting') {
 				this.add(`c|${getName('Volco')}|Dammit, time for a reset.`);
 				return;
 			}
@@ -1810,7 +1816,7 @@ for (const row of usergroupData) {
 	heavyhailstorm: {
 		name: 'HeavyHailstorm',
 		effectType: 'Weather',
-		duration: 3,
+		duration: 0,
 		onTryMovePriority: 1,
 		onTryMove(attacker, defender, move) {
 			if (move.type === 'Steel' && move.category !== 'Status') {
@@ -1828,8 +1834,7 @@ for (const row of usergroupData) {
 			}
 		},
 		onStart(battle, source, effect) {
-			this.add('-weather', 'Heavy Hailstorm');
-			this.effectData.source = source;
+			this.add('-weather', 'Hail', '[from] ability: ' + effect, '[of] ' + source);
 			this.add('-message', 'The hail became extremely chilling!');
 		},
 		onModifyMove(move, pokemon, target) {
@@ -1846,23 +1851,18 @@ for (const row of usergroupData) {
 				});
 			}
 		},
-		onAnySetWeather(target, source, weather) {
-			if (this.field.getWeather().id === 'heavyhailstorm' && !STRONG_WEATHERS.includes(weather.id)) return false;
-		},
 		onResidualOrder: 1,
 		onResidual() {
-			this.add('-weather', 'Heavy Hailstorm', '[upkeep]');
-			this.add('-message', 'Hail is crashing down.');
+			this.add('-weather', 'Hail', '[upkeep]');
 			if (this.field.isWeather('heavyhailstorm')) this.eachEvent('Weather');
 		},
 		onWeather(target, source, effect) {
-			if (target.side === this.effectData.source.side) return;
+			if (target.isAlly(this.effectData.source)) return;
 			// Hail is stronger from Heavy Hailstorm
 			if (!target.hasType('Ice')) this.damage(target.baseMaxhp / 8);
 		},
 		onEnd() {
 			this.add('-weather', 'none');
-			this.add('-message', 'The Hail ended.');
 		},
 	},
 	// Forever Winter Hail support for piloswine gripado
@@ -1871,11 +1871,7 @@ for (const row of usergroupData) {
 		effectType: 'Weather',
 		duration: 0,
 		onStart(battle, source, effect) {
-			if (_optionalChain([effect, 'optionalAccess', _4 => _4.effectType]) === 'Ability') {
-				this.add('-weather', 'Winter Hail', '[from] ability: ' + effect, '[of] ' + source);
-			} else {
-				this.add('-weather', 'Winter Hail');
-			}
+			this.add('-weather', 'Hail', '[from] ability: ' + effect, '[of] ' + source);
 			this.add('-message', 'It became winter!');
 		},
 		onModifySpe(spe, pokemon) {
@@ -1883,8 +1879,7 @@ for (const row of usergroupData) {
 		},
 		onResidualOrder: 1,
 		onResidual() {
-			this.add('-weather', 'Winter Hail', '[upkeep]');
-			this.add('-message', 'Hail is crashing down.');
+			this.add('-weather', 'Hail', '[upkeep]');
 			if (this.field.isWeather('winterhail')) this.eachEvent('Weather');
 		},
 		onWeather(target) {
@@ -1893,7 +1888,6 @@ for (const row of usergroupData) {
 		},
 		onEnd() {
 			this.add('-weather', 'none');
-			this.add('-message', 'The Hail ended.');
 		},
 	},
 	raindrop: {
@@ -1993,7 +1987,7 @@ for (const row of usergroupData) {
 			this.add('-message', 'The Storm Surge receded.');
 		},
 		onModifySpe() {
-			return this.chainModify(0.5);
+			return this.chainModify(0.75);
 		},
 	},
 	// Kipkluif, needs to end in mod to not trigger aelita/andrew's effect
@@ -2084,7 +2078,7 @@ for (const row of usergroupData) {
 				}
 			}
 			if (showMsg && !(effect ).secondaries && effect.id !== 'octolock') {
-				this.add("-fail", target, "unboost", "[from] ability: Minior-Blue", "[of] " + target);
+				this.add('message', 'Minior is translucent!');
 			}
 		},
 		onFoeTryMove(target, source, move) {
@@ -2106,7 +2100,7 @@ for (const row of usergroupData) {
 				return;
 			}
 
-			if ((source.side === dazzlingHolder.side || move.target === 'all') && move.priority > 0.1) {
+			if ((source.isAlly(dazzlingHolder) || move.target === 'all') && move.priority > 0.1) {
 				this.attrLastMove('[still]');
 				this.add('message', 'Minior dazzles!');
 				this.add('cant', target, move, '[of] ' + dazzlingHolder);
@@ -2144,7 +2138,7 @@ for (const row of usergroupData) {
 		name: "Big Storm Coming Mod",
 		duration: 1,
 		onBasePower() {
-			return this.chainModify([0x4CC, 0x1000]);
+			return this.chainModify([1229, 4096]);
 		},
 	},
 
@@ -2153,12 +2147,6 @@ for (const row of usergroupData) {
 		name: 'Turbulence',
 		effectType: 'Weather',
 		duration: 0,
-		onModifyDefPriority: 10,
-		onModifyDef(def, pokemon) {
-			if (pokemon.hasType('Flying') && this.field.isWeather('turbulence')) {
-				return this.modify(def, 1.5);
-			}
-		},
 		onStart(battle, source, effect) {
 			this.add('-weather', 'DeltaStream', '[from] ability: ' + effect, '[of] ' + source);
 		},
@@ -2179,6 +2167,7 @@ for (const row of usergroupData) {
 			for (const side of this.sides) {
 				const keys = Object.keys(side.sideConditions);
 				for (const key of keys) {
+					if (key.endsWith('mod') || key.endsWith('clause')) continue;
 					side.removeSideCondition(key);
 					if (!silentRemove.includes(key)) {
 						this.add('-sideend', side, this.dex.getEffect(key).name, '[from] ability: Turbulence');
@@ -2199,10 +2188,10 @@ for (const row of usergroupData) {
 		durationCallback(source) {
 			let newDuration = 5;
 			let boostNum = 0;
-			if (_optionalChain([source, 'optionalAccess', _5 => _5.hasItem, 'call', _6 => _6('damprock')])) {
+			if (_optionalChain([source, 'optionalAccess', _6 => _6.hasItem, 'call', _7 => _7('damprock')])) {
 				newDuration = 8;
 			}
-			if (_optionalChain([source, 'optionalAccess', _7 => _7.hasAbility, 'call', _8 => _8('kingofatlantis')])) {
+			if (_optionalChain([source, 'optionalAccess', _8 => _8.hasAbility, 'call', _9 => _9('kingofatlantis')])) {
 				for (const teammate of source.side.pokemon) {
 					if (teammate.hasType('Water') && teammate !== source) {
 						boostNum++;
@@ -2223,7 +2212,7 @@ for (const row of usergroupData) {
 			}
 		},
 		onStart(battle, source, effect) {
-			if (_optionalChain([effect, 'optionalAccess', _9 => _9.effectType]) === 'Ability') {
+			if (_optionalChain([effect, 'optionalAccess', _10 => _10.effectType]) === 'Ability') {
 				if (this.gen <= 5) this.effectData.duration = 0;
 				this.add('-weather', 'RainDance', '[from] ability: ' + effect, '[of] ' + source);
 			} else {
@@ -2244,20 +2233,20 @@ for (const row of usergroupData) {
 		name: "Aurora Veil",
 		duration: 5,
 		durationCallback(target, source) {
-			if (_optionalChain([source, 'optionalAccess', _10 => _10.hasItem, 'call', _11 => _11('lightclay')])) {
+			if (_optionalChain([source, 'optionalAccess', _11 => _11.hasItem, 'call', _12 => _12('lightclay')])) {
 				return 8;
 			}
 			return 5;
 		},
 		onAnyModifyDamage(damage, source, target, move) {
-			if (target !== source && target.side === this.effectData.target) {
+			if (target !== source && this.effectData.target.hasAlly(target)) {
 				if ((target.side.getSideCondition('reflect') && this.getCategory(move) === 'Physical') ||
 						(target.side.getSideCondition('lightscreen') && this.getCategory(move) === 'Special')) {
 					return;
 				}
 				if (!target.getMoveHitData(move).crit && !move.infiltrates) {
 					this.debug('Aurora Veil weaken');
-					if (target.side.active.length > 1) return this.chainModify([0xAAC, 0x1000]);
+					if (this.activePerHalf > 1) return this.chainModify([2732, 4096]);
 					return this.chainModify(0.5);
 				}
 			}
@@ -2279,16 +2268,16 @@ for (const row of usergroupData) {
 		name: "Light Screen",
 		duration: 5,
 		durationCallback(target, source) {
-			if (_optionalChain([source, 'optionalAccess', _12 => _12.hasItem, 'call', _13 => _13('lightclay')])) {
+			if (_optionalChain([source, 'optionalAccess', _13 => _13.hasItem, 'call', _14 => _14('lightclay')])) {
 				return 8;
 			}
 			return 5;
 		},
 		onAnyModifyDamage(damage, source, target, move) {
-			if (target !== source && target.side === this.effectData.target && this.getCategory(move) === 'Special') {
+			if (target !== source && this.effectData.target.hasAlly(target) && this.getCategory(move) === 'Special') {
 				if (!target.getMoveHitData(move).crit && !move.infiltrates) {
 					this.debug('Light Screen weaken');
-					if (target.side.active.length > 1) return this.chainModify([0xAAC, 0x1000]);
+					if (this.activePerHalf > 1) return this.chainModify([2732, 4096]);
 					return this.chainModify(0.5);
 				}
 			}
@@ -2310,7 +2299,7 @@ for (const row of usergroupData) {
 		name: "Mist",
 		duration: 5,
 		onBoost(boost, target, source, effect) {
-			if (effect.effectType === 'Move' && effect.infiltrates && target.side !== source.side) return;
+			if (effect.effectType === 'Move' && effect.infiltrates && !target.isAlly(source)) return;
 			if (source && target !== source) {
 				let showMsg = false;
 				let i;
@@ -2342,16 +2331,16 @@ for (const row of usergroupData) {
 		name: "Reflect",
 		duration: 5,
 		durationCallback(target, source) {
-			if (_optionalChain([source, 'optionalAccess', _14 => _14.hasItem, 'call', _15 => _15('lightclay')])) {
+			if (_optionalChain([source, 'optionalAccess', _15 => _15.hasItem, 'call', _16 => _16('lightclay')])) {
 				return 8;
 			}
 			return 5;
 		},
 		onAnyModifyDamage(damage, source, target, move) {
-			if (target !== source && target.side === this.effectData.target && this.getCategory(move) === 'Physical') {
+			if (target !== source && this.effectData.target.hasAlly(target) && this.getCategory(move) === 'Physical') {
 				if (!target.getMoveHitData(move).crit && !move.infiltrates) {
 					this.debug('Reflect weaken');
-					if (target.side.active.length > 1) return this.chainModify([0xAAC, 0x1000]);
+					if (this.activePerHalf > 1) return this.chainModify([2732, 4096]);
 					return this.chainModify(0.5);
 				}
 			}
@@ -2372,7 +2361,7 @@ for (const row of usergroupData) {
 		name: "Safeguard",
 		duration: 5,
 		durationCallback(target, source, effect) {
-			if (_optionalChain([source, 'optionalAccess', _16 => _16.hasAbility, 'call', _17 => _17('persistent')])) {
+			if (_optionalChain([source, 'optionalAccess', _17 => _17.hasAbility, 'call', _18 => _18('persistent')])) {
 				this.add('-activate', source, 'ability: Persistent', effect);
 				return 7;
 			}
@@ -2380,7 +2369,7 @@ for (const row of usergroupData) {
 		},
 		onSetStatus(status, target, source, effect) {
 			if (!effect || !source) return;
-			if (effect.effectType === 'Move' && effect.infiltrates && target.side !== source.side) return;
+			if (effect.effectType === 'Move' && effect.infiltrates && !target.isAlly(source)) return;
 			if (target !== source) {
 				this.debug('interrupting setStatus');
 				if (effect.id === 'synchronize' || (effect.effectType === 'Move' && !effect.secondaries)) {
@@ -2391,7 +2380,7 @@ for (const row of usergroupData) {
 		},
 		onTryAddVolatile(status, target, source, effect) {
 			if (!effect || !source) return;
-			if (effect.effectType === 'Move' && effect.infiltrates && target.side !== source.side) return;
+			if (effect.effectType === 'Move' && effect.infiltrates && !target.isAlly(source)) return;
 			if ((status.id === 'confusion' || status.id === 'yawn') && target !== source) {
 				if (effect.effectType === 'Move' && !effect.secondaries) this.add('-activate', target, 'move: Safeguard');
 				return null;
@@ -2552,6 +2541,20 @@ for (const row of usergroupData) {
 			this.queue.cancelMove(pokemon);
 			// Actually its to prvent the user from using a Max Move in case of a crash. But this is funnier.
 			this.hint(`Your move was aborted due to dynamax. Cheater.`);
+		},
+	},
+	echoedvoiceclone: {
+		duration: 2,
+		onStart() {
+			this.effectData.multiplier = 1;
+		},
+		onRestart() {
+			if (this.effectData.duration !== 2) {
+				this.effectData.duration = 2;
+				if (this.effectData.multiplier < 5) {
+					this.effectData.multiplier++;
+				}
+			}
 		},
 	},
 }; exports.Conditions = Conditions;

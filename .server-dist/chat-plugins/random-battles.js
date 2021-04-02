@@ -3,10 +3,8 @@
  * Written by Kris with inspiration from sirDonovan and The Immortal
  */
 
-var _fs = require('../../.lib-dist/fs');
+var _lib = require('../../.lib-dist');
 var _randomteams = require('../../.data-dist/mods/ssb/random-teams');
-var _utils = require('../../.lib-dist/utils');
-
 const GEN_NAMES = {
 	gen1: '[Gen 1]', gen2: '[Gen 2]', gen3: '[Gen 3]', gen4: '[Gen 4]', gen5: '[Gen 5]', gen6: '[Gen 6]', gen7: '[Gen 7]',
 };
@@ -83,7 +81,7 @@ function getLetsGoMoves(species) {
 		(!species.forme || ['Alola', 'Mega', 'Mega-X', 'Mega-Y', 'Starter'].includes(species.forme))
 	);
 	if (!isLetsGoLegal) return false;
-	if (!species.randomBattleMoves || !species.randomBattleMoves.length) return false;
+	if (!_optionalChain([species, 'access', _ => _.randomBattleMoves, 'optionalAccess', _2 => _2.length])) return false;
 	return species.randomBattleMoves.map(formatMove).sort().join(`, `);
 }
 
@@ -96,7 +94,7 @@ function battleFactorySets(species, tier, gen = 'gen7', isBSS = false) {
 	const genNum = parseInt(gen[3]);
 	if (isNaN(genNum) || genNum < 6 || (isBSS && genNum < 7)) return null;
 	const statsFile = JSON.parse(
-		_fs.FS.call(void 0, `data${gen === 'gen8' ? '/' : `/mods/${gen}`}/${isBSS ? `bss-` : ``}factory-sets.json`).readIfExistsSync() ||
+		_lib.FS.call(void 0, `data${gen === 'gen8' ? '/' : `/mods/${gen}`}/${isBSS ? `bss-` : ``}factory-sets.json`).readIfExistsSync() ||
 		"{}"
 	);
 	if (!Object.keys(statsFile).length) return null;
@@ -104,6 +102,9 @@ function battleFactorySets(species, tier, gen = 'gen7', isBSS = false) {
 	if (!isBSS) {
 		if (!tier) return {e: `Please provide a valid tier.`};
 		if (!(toID(tier) in TIERS)) return {e: `That tier isn't supported.`};
+		if (['Mono', 'LC'].includes(TIERS[toID(tier)]) && genNum < 7) {
+			return {e: `${TIERS[toID(tier)]} is not included in [Gen ${genNum}] Battle Factory.`};
+		}
 		const t = statsFile[TIERS[toID(tier)]];
 		if (!(species.id in t)) {
 			const formatName = Dex.getFormat(`${gen}battlefactory`).name;
@@ -193,7 +194,7 @@ function battleFactorySets(species, tier, gen = 'gen7', isBSS = false) {
 function CAP1v1Sets(species) {
 	species = Dex.getSpecies(species);
 	const statsFile = JSON.parse(
-		_fs.FS.call(void 0, `data/cap-1v1-sets.json`).readIfExistsSync() ||
+		_lib.FS.call(void 0, `data/cap-1v1-sets.json`).readIfExistsSync() ||
 		"{}"
 	);
 	if (!Object.keys(statsFile).length) return null;
@@ -314,9 +315,9 @@ function generateSSBMoveInfo(sigMove, dex) {
 		if (sigMove.flags['gravity']) details["&#10007; Suppressed by Gravity"] = "";
 		if (sigMove.flags['dance']) details["&#10003; Dance move"] = "";
 
-		if (_optionalChain([sigMove, 'access', _ => _.zMove, 'optionalAccess', _2 => _2.basePower])) {
+		if (_optionalChain([sigMove, 'access', _3 => _3.zMove, 'optionalAccess', _4 => _4.basePower])) {
 			details["Z-Power"] = String(sigMove.zMove.basePower);
-		} else if (_optionalChain([sigMove, 'access', _3 => _3.zMove, 'optionalAccess', _4 => _4.effect])) {
+		} else if (_optionalChain([sigMove, 'access', _5 => _5.zMove, 'optionalAccess', _6 => _6.effect])) {
 			const zEffects = {
 				clearnegativeboost: "Restores negative stat stages to 0",
 				crit2: "Crit ratio +2",
@@ -326,7 +327,7 @@ function generateSSBMoveInfo(sigMove, dex) {
 				healreplacement: "Restores replacement's HP 100%",
 			};
 			details["Z-Effect"] = zEffects[sigMove.zMove.effect];
-		} else if (_optionalChain([sigMove, 'access', _5 => _5.zMove, 'optionalAccess', _6 => _6.boost])) {
+		} else if (_optionalChain([sigMove, 'access', _7 => _7.zMove, 'optionalAccess', _8 => _8.boost])) {
 			details["Z-Effect"] = "";
 			const boost = sigMove.zMove.boost;
 			const stats = {
@@ -583,7 +584,7 @@ function SSBSets(target) {
 		const set = _randomteams.ssbSets[name];
 		const mutatedSpecies = dex.getSpecies(set.species);
 		if (!set.skip) {
-			buf += _utils.Utils.html`<h1><psicon pokemon="${mutatedSpecies.id}">${displayName === 'yuki' ? name : displayName}</h1>`;
+			buf += _lib.Utils.html`<h1><psicon pokemon="${mutatedSpecies.id}">${displayName === 'yuki' ? name : displayName}</h1>`;
 		} else {
 			buf += `<details><summary><psicon pokemon="${set.species}"><strong>${name.split('-').slice(1).join('-') + ' forme'}</strong></summary>`;
 		}
@@ -624,47 +625,47 @@ function SSBSets(target) {
 		if (args[1] && toID(args[1]) in Dex.dexes) {
 			dex = Dex.dexes[toID(args[1])];
 			if (toID(args[1]) === 'letsgo') isLetsGo = true;
-		} else if (_optionalChain([room, 'optionalAccess', _7 => _7.battle])) {
+		} else if (_optionalChain([room, 'optionalAccess', _9 => _9.battle])) {
 			const format = Dex.getFormat(room.battle.format);
 			dex = Dex.mod(format.mod);
 			if (format.mod === 'letsgo') isLetsGo = true;
 		}
-		let species = dex.getSpecies(args[0]);
+		const species = dex.getSpecies(args[0]);
 		if (!species.exists) {
 			return this.errorReply(`Error: Pok\u00e9mon '${args[0].trim()}' does not exist.`);
 		}
 		let formatName = dex.getFormat(`gen${dex.gen}randombattle`).name;
+
+		const movesets = [];
 		if (dex.gen === 1) {
 			const rbyMoves = getRBYMoves(species);
 			if (!rbyMoves) {
 				return this.errorReply(`Error: ${species.name} has no Random Battle data in ${GEN_NAMES[toID(args[1])]}`);
 			}
-			return this.sendReplyBox(`<span style="color:#999999;">Moves for ${species.name} in ${formatName}:</span><br />${rbyMoves}`);
-		}
-		if (isLetsGo) {
+			movesets.push(`<span style="color:#999999;">Moves for ${species.name} in ${formatName}:</span><br />${rbyMoves}`);
+		} else if (isLetsGo) {
 			formatName = `[Gen 7 Let's Go] Random Battle`;
 			const lgpeMoves = getLetsGoMoves(species);
 			if (!lgpeMoves) {
 				return this.errorReply(`Error: ${species.name} has no Random Battle data in [Gen 7 Let's Go]`);
 			}
-			return this.sendReplyBox(`<span style="color:#999999;">Moves for ${species.name} in ${formatName}:</span><br />${lgpeMoves}`);
-		}
-		let randomMoves = species.randomBattleMoves;
-		if (!randomMoves) {
-			const gmaxSpecies = dex.getSpecies(`${args[0]}gmax`);
-			if (!gmaxSpecies.exists || !gmaxSpecies.randomBattleMoves) {
-				return this.errorReply(`Error: No moves data found for ${species.name}${`gen${dex.gen}` in GEN_NAMES ? ` in ${GEN_NAMES[`gen${dex.gen}`]}` : ``}.`);
+			movesets.push(`<span style="color:#999999;">Moves for ${species.name} in ${formatName}:</span><br />${lgpeMoves}`);
+		} else {
+			const setsToCheck = [species];
+			if (dex.gen > 7) setsToCheck.push(dex.getSpecies(`${args[0]}gmax`));
+
+			for (const pokemon of setsToCheck) {
+				if (!pokemon.randomBattleMoves) continue;
+				const randomMoves = pokemon.randomBattleMoves.slice();
+				const m = randomMoves.sort().map(formatMove);
+				movesets.push(`<span style="color:#999999;">Moves for ${pokemon.name} in ${formatName}:</span><br />${m.join(`, `)}`);
 			}
-			species = gmaxSpecies;
-			randomMoves = gmaxSpecies.randomBattleMoves;
 		}
-		const moves = [];
-		// Done because species.randomBattleMoves is readonly
-		for (const move of randomMoves) {
-			moves.push(move);
+
+		if (!movesets.length) {
+			return this.errorReply(`Error: ${species.name} has no Random Battle data in ${formatName}`);
 		}
-		const m = moves.sort().map(formatMove);
-		this.sendReplyBox(`<span style="color:#999999;">Moves for ${species.name} in ${formatName}:</span><br />${m.join(`, `)}`);
+		this.sendReplyBox(movesets.join('<hr />'));
 	},
 	randombattleshelp: [
 		`/randombattles OR /randbats [pokemon], [gen] - Displays a Pok\u00e9mon's Random Battle Moves. Defaults to Gen 8. If used in a battle, defaults to the gen of that battle.`,
@@ -678,12 +679,12 @@ function SSBSets(target) {
 		let dex = Dex;
 		if (args[1] && toID(args[1]) in Dex.dexes) {
 			dex = Dex.dexes[toID(args[1])];
-		} else if (_optionalChain([room, 'optionalAccess', _8 => _8.battle])) {
+		} else if (_optionalChain([room, 'optionalAccess', _10 => _10.battle])) {
 			const format = Dex.getFormat(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
 		if (parseInt(toID(args[1])[3]) < 4) {
-			if (_optionalChain([room, 'optionalAccess', _9 => _9.battle])) {
+			if (_optionalChain([room, 'optionalAccess', _11 => _11.battle])) {
 				const format = Dex.getFormat(room.battle.format);
 				dex = Dex.mod(format.mod);
 			} else {
@@ -716,6 +717,35 @@ function SSBSets(target) {
 	},
 	randomdoublesbattlehelp: [
 		`/randomdoublesbattle OR /randdubs [pokemon], [gen] - Displays a Pok\u00e9mon's Random Doubles Battle Moves. Supports Gens 4-8. Defaults to Gen 8. If used in a battle, defaults to that gen.`,
+	],
+
+	randsnodmax: 'randombattlenodmax',
+	randombattlenodmax(target, room, user) {
+		if (!this.runBroadcast()) return;
+		if (!target) return this.parse(`/help randombattlenodynamax`);
+
+		const dex = Dex.forFormat('gen8randombattlenodmax');
+		let species = dex.getSpecies(target);
+
+		if (!species.exists) {
+			throw new Chat.ErrorMessage(`Error: Pok\u00e9mon '${target.trim()}' does not exist.`);
+		}
+
+		let randomMoves = species.randomBattleNoDynamaxMoves || species.randomBattleMoves;
+		if (!randomMoves) {
+			const gmaxSpecies = dex.getSpecies(`${target}gmax`);
+			if (!gmaxSpecies.exists || !gmaxSpecies.randomBattleMoves) {
+				return this.errorReply(`Error: No move data found for ${species.name} in [Gen 8] Random Battle (No Dmax).`);
+			}
+			species = gmaxSpecies;
+			randomMoves = gmaxSpecies.randomBattleNoDynamaxMoves || gmaxSpecies.randomBattleMoves;
+		}
+
+		const m = [...randomMoves].sort().map(formatMove);
+		this.sendReplyBox(`<span style="color:#999999;">Moves for ${species.name} in [Gen 8] Random Battle (No Dmax):</span><br />${m.join(`, `)}`);
+	},
+	randombattlenodmaxhelp: [
+		`/randombattlenodmax OR /randsnodmax [pokemon] - Displays a Pok\u00e9mon's Random Battle (No Dmax) moves.`,
 	],
 
 	bssfactory: 'battlefactory',

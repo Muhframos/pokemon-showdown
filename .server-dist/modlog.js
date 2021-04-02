@@ -8,9 +8,7 @@
  * @license MIT
  */
 
-var _fs = require('../.lib-dist/fs');
-var _processmanager = require('../.lib-dist/process-manager');
-var _repl = require('../.lib-dist/repl');
+var _lib = require('../.lib-dist');
 
 var _configloader = require('./config-loader');
 
@@ -141,7 +139,7 @@ class SortedLimitedLengthList {
 		this.logPath = flatFilePath;
 
 		if (Config.usesqlite) {
-			const dbExists = _fs.FS.call(void 0, databasePath).existsSync();
+			const dbExists = _lib.FS.call(void 0, databasePath).existsSync();
 			const SQL = require('better-sqlite3');
 			this.database = new SQL(databasePath);
 			this.database.exec("PRAGMA foreign_keys = ON;");
@@ -149,7 +147,7 @@ class SortedLimitedLengthList {
 			// Set up tables, etc
 
 			if (!dbExists) {
-				this.database.exec(_fs.FS.call(void 0, MODLOG_SCHEMA_PATH).readIfExistsSync());
+				this.database.exec(_lib.FS.call(void 0, MODLOG_SCHEMA_PATH).readIfExistsSync());
 			}
 
 			let insertionQuerySource = `INSERT INTO modlog (timestamp, roomid, visual_roomid, action, userid, autoconfirmed_userid, ip, action_taker_userid, note)`;
@@ -212,12 +210,12 @@ class SortedLimitedLengthList {
 		if (this.streams.get(roomid)) return;
 		const sharedStreamId = this.getSharedID(roomid);
 		if (!sharedStreamId) {
-			return this.streams.set(roomid, _fs.FS.call(void 0, `${this.logPath}/modlog_${roomid}.txt`).createAppendStream());
+			return this.streams.set(roomid, _lib.FS.call(void 0, `${this.logPath}/modlog_${roomid}.txt`).createAppendStream());
 		}
 
 		let stream = this.sharedStreams.get(sharedStreamId);
 		if (!stream) {
-			stream = _fs.FS.call(void 0, `${this.logPath}/modlog_${sharedStreamId}.txt`).createAppendStream();
+			stream = _lib.FS.call(void 0, `${this.logPath}/modlog_${sharedStreamId}.txt`).createAppendStream();
 			this.sharedStreams.set(sharedStreamId, stream);
 		}
 		this.streams.set(roomid, stream);
@@ -305,7 +303,7 @@ class SortedLimitedLengthList {
 		const streamExists = this.streams.has(oldID);
 		if (streamExists) await this.destroy(oldID);
 		if (!this.getSharedID(oldID)) {
-			await _fs.FS.call(void 0, `${this.logPath}/modlog_${oldID}.txt`).rename(`${this.logPath}/modlog_${newID}.txt`);
+			await _lib.FS.call(void 0, `${this.logPath}/modlog_${oldID}.txt`).rename(`${this.logPath}/modlog_${newID}.txt`);
 		}
 		if (streamExists) this.initialize(newID);
 
@@ -329,7 +327,7 @@ class SortedLimitedLengthList {
 		for (const roomid of rooms) {
 			if (roomid === 'all') {
 				checkAllRooms = true;
-				const fileList = await _fs.FS.call(void 0, this.logPath).readdir();
+				const fileList = await _lib.FS.call(void 0, this.logPath).readdir();
 				for (const file of fileList) {
 					if (file !== 'README.md' && file !== 'modlog_global.txt') fileNameList.push(file);
 				}
@@ -369,7 +367,7 @@ class SortedLimitedLengthList {
 				...paths,
 				'-g', '!modlog_global.txt', '-g', '!README.md',
 			];
-			output = await _processmanager.exec.call(void 0, ['rg', ...options], {cwd: `${__dirname}/../`});
+			output = await _lib.ProcessManager.exec(['rg', ...options], {cwd: `${__dirname}/../`});
 		} catch (error) {
 			return results;
 		}
@@ -399,6 +397,7 @@ class SortedLimitedLengthList {
 		maxLines = 20,
 		onlyPunishments = false,
 	) {
+		const startTime = Date.now();
 		const rooms = (roomid === 'public' ?
 			[...Rooms.rooms.values()]
 				.filter(room => !room.settings.isPrivate && !room.settings.isPersonal)
@@ -406,12 +405,13 @@ class SortedLimitedLengthList {
 			[roomid]);
 
 		const query = this.prepareSearch(rooms, maxLines, onlyPunishments, search);
-		const response = await exports.PM.query(query);
+		const results = await exports.PM.query(query);
 
-		if (response.duration > LONG_QUERY_DURATION) {
-			Monitor.log(`Long modlog query took ${response.duration} ms to complete: ${JSON.stringify(query)}`);
+		const duration = Date.now() - startTime;
+		if (duration > LONG_QUERY_DURATION) {
+			Monitor.slow(`[slow modlog] ${duration}ms - ${JSON.stringify(query)}`);
 		}
-		return {results: response, duration: response.duration};
+		return {results, duration};
 	}
 
 	prepareSearch(rooms, maxLines, onlyPunishments, search) {
@@ -454,7 +454,7 @@ class SortedLimitedLengthList {
 	}
 
 	 async readRoomModlog(path, results, regex) {
-		const fileStream = _fs.FS.call(void 0, path).createReadStream();
+		const fileStream = _lib.FS.call(void 0, path).createReadStream();
 		for await (const line of fileStream.byLine()) {
 			if (!regex || regex.test(line)) {
 				results.insert(line);
@@ -465,23 +465,23 @@ class SortedLimitedLengthList {
 	}
 } exports.Modlog = Modlog;
 
-// if I don't do this TypeScript thinks that (ModlogResult | undefined)[] is a function
-// and complains about an "nexpected newline between function name and paren"
-// even though it's a type not a function...
-
-
  const mainModlog = new Modlog(exports.MODLOG_PATH, exports.MODLOG_DB_PATH); exports.mainModlog = mainModlog;
 
 // the ProcessManager only accepts text queries at this time
 // SQL support is to be determined
- const PM = new _processmanager.QueryProcessManager(module, async data => {
+ const PM = new _lib.ProcessManager.QueryProcessManager(module, async data => {
 	const {rooms, regexString, maxLines, onlyPunishments} = data;
 	try {
 		if (Config.debugmodlogprocesses && process.send) {
 			process.send('DEBUG\n' + JSON.stringify(data));
 		}
-		const results = await exports.mainModlog.runTextSearch(rooms, regexString, maxLines, onlyPunishments);
-		return results.map((line, index) => _converter.parseModlog.call(void 0, line, results[index + 1]));
+		const lines = await exports.mainModlog.runTextSearch(rooms, regexString, maxLines, onlyPunishments);
+		const results = [];
+		for (const [i, line] of lines.entries()) {
+			const result = _converter.parseModlog.call(void 0, line, lines[i + 1]);
+			if (result) results.push(result);
+		}
+		return results;
 	} catch (err) {
 		Monitor.crashlog(err, 'A modlog query', data);
 		return [];
@@ -506,7 +506,7 @@ if (!exports.PM.isParentProcess) {
 	});
 
 	// eslint-disable-next-line no-eval
-	_repl.Repl.start('modlog', cmd => eval(cmd));
+	_lib.Repl.start('modlog', cmd => eval(cmd));
 } else {
 	exports.PM.spawn(MAX_PROCESSES);
 }

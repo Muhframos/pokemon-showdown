@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _utils = require('../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _lib = require('../.lib-dist');
 var _dexdata = require('./dex-data');
 
 
@@ -212,6 +212,7 @@ var _dexdata = require('./dex-data');
 	
 	
 	
+	
 
 
 	
@@ -219,6 +220,7 @@ var _dexdata = require('./dex-data');
 	
 
 
+	
 	
 
 
@@ -242,8 +244,8 @@ var _dexdata = require('./dex-data');
 		super(data, ...moreData);
 		data = this;
 
-		this.mod = _utils.Utils.getString(data.mod) || 'gen8';
-		this.effectType = _utils.Utils.getString(data.effectType)  || 'Format';
+		this.mod = _lib.Utils.getString(data.mod) || 'gen8';
+		this.effectType = _lib.Utils.getString(data.effectType)  || 'Format';
 		this.debug = !!data.debug;
 		this.rated = (typeof data.rated === 'string' ? data.rated : data.rated !== false);
 		this.gameType = data.gameType || 'singles';

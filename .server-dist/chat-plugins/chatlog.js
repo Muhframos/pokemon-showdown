@@ -5,11 +5,7 @@
  * @license MIT
  */
 
-var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
-var _dashycode = require('../../.lib-dist/dashycode'); var Dashycode = _dashycode;
-var _processmanager = require('../../.lib-dist/process-manager');
-var _repl = require('../../.lib-dist/repl');
+var _lib = require('../../.lib-dist');
 var _configloader = require('../config-loader');
 var _dex = require('../../.sim-dist/dex');
 var _chat = require('../chat');
@@ -22,7 +18,7 @@ const MAX_TOPUSERS = 100;
 
 const CHATLOG_PM_TIMEOUT = 1 * 60 * 60 * 1000; // 1 hour
 
-const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
+const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog', 'slowlog'];
 
 
 
@@ -41,7 +37,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 
 	async listMonths() {
 		try {
-			const listing = await _fs.FS.call(void 0, `logs/chat/${this.roomid}`).readdir();
+			const listing = await _lib.FS.call(void 0, `logs/chat/${this.roomid}`).readdir();
 			return listing.filter(file => /^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/.test(file));
 		} catch (err) {
 			return [];
@@ -50,7 +46,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 
 	async listDays(month) {
 		try {
-			const listing = await _fs.FS.call(void 0, `logs/chat/${this.roomid}/${month}`).readdir();
+			const listing = await _lib.FS.call(void 0, `logs/chat/${this.roomid}/${month}`).readdir();
 			return listing.filter(file => file.endsWith(".txt")).map(file => file.slice(0, -4));
 		} catch (err) {
 			return [];
@@ -59,7 +55,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 
 	async getLog(day) {
 		const month = exports.LogReader.getMonth(day);
-		const log = _fs.FS.call(void 0, `logs/chat/${this.roomid}/${month}/${day}.txt`);
+		const log = _lib.FS.call(void 0, `logs/chat/${this.roomid}/${month}/${day}.txt`);
 		if (!await log.exists()) return null;
 		return log.createReadStream();
 	}
@@ -67,12 +63,12 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 
  const LogReader = new class {
 	async get(roomid) {
-		if (!await _fs.FS.call(void 0, `logs/chat/${roomid}`).exists()) return null;
+		if (!await _lib.FS.call(void 0, `logs/chat/${roomid}`).exists()) return null;
 		return new LogReaderRoom(roomid);
 	}
 
 	async list() {
-		const listing = await _fs.FS.call(void 0, `logs/chat`).readdir();
+		const listing = await _lib.FS.call(void 0, `logs/chat`).readdir();
 		return listing.filter(file => /^[a-z0-9-]+$/.test(file)) ;
 	}
 
@@ -96,7 +92,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 				// you are authed in the room
 				(room.auth.has(user.id) && user.can('mute', null, room)) ||
 				// you are staff and currently in the room
-				(isStaff && user.inRoom(room))
+				(isStaff && user.inRooms.has(room.roomid))
 			);
 			if (!isUpperStaff && !forceShow) {
 				if (!isStaff) continue;
@@ -178,7 +174,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 	}
 	async findBattleLog(tier, number) {
 		// binary search!
-		const months = (await _fs.FS.call(void 0, 'logs').readdir()).filter(this.isMonth).sort();
+		const months = (await _lib.FS.call(void 0, 'logs').readdir()).filter(this.isMonth).sort();
 		if (!months.length) return null;
 
 		// find first day
@@ -186,7 +182,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		while (months.length) {
 			const month = months[0];
 			try {
-				const days = (await _fs.FS.call(void 0, `logs/${month}/${tier}/`).readdir()).filter(this.isDay).sort();
+				const days = (await _lib.FS.call(void 0, `logs/${month}/${tier}/`).readdir()).filter(this.isDay).sort();
 				firstDay = days[0];
 				break;
 			} catch (err) {}
@@ -199,7 +195,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		while (months.length) {
 			const month = months[months.length - 1];
 			try {
-				const days = (await _fs.FS.call(void 0, `logs/${month}/${tier}/`).readdir()).filter(this.isDay).sort();
+				const days = (await _lib.FS.call(void 0, `logs/${month}/${tier}/`).readdir()).filter(this.isDay).sort();
 				lastDay = days[days.length - 1];
 				break;
 			} catch (err) {}
@@ -213,10 +209,10 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 			const month = day.slice(0, 7);
 
 			try {
-				const battles = (await _fs.FS.call(void 0, `logs/${month}/${tier}/${day}`).readdir()).filter(
+				const battles = (await _lib.FS.call(void 0, `logs/${month}/${tier}/${day}`).readdir()).filter(
 					b => b.endsWith('.log.json')
 				);
-				_utils.Utils.sortBy(battles, getBattleNum);
+				_lib.Utils.sortBy(battles, getBattleNum);
 
 				return [getBattleNum(battles[0]), getBattleNum(battles[battles.length - 1])];
 			} catch (err) {
@@ -224,7 +220,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 			}
 		};
 
-		const dayExists = (day) => _fs.FS.call(void 0, `logs/${day.slice(0, 7)}/${tier}/${day}`).exists();
+		const dayExists = (day) => _lib.FS.call(void 0, `logs/${day.slice(0, 7)}/${tier}/${day}`).exists();
 
 		const nextExistingDay = async (day) => {
 			for (let i = 0; i < 3650; i++) {
@@ -277,7 +273,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 			} else {
 				// during currentDay
 				const month = currentDay.slice(0, 7);
-				const path = _fs.FS.call(void 0, `logs/${month}/${tier}/${currentDay}/${tier}-${number}.log.json`);
+				const path = _lib.FS.call(void 0, `logs/${month}/${tier}/${currentDay}/${tier}-${number}.log.json`);
 				if (await path.exists()) {
 					return JSON.parse(path.readSync()).log;
 				}
@@ -350,7 +346,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 
 	renderLine(fullLine, opts) {
 		if (!fullLine) return ``;
-		if (opts === 'txt') return _utils.Utils.html`<div class="chat">${fullLine}</div>`;
+		if (opts === 'txt') return _lib.Utils.html`<div class="chat">${fullLine}</div>`;
 		let timestamp = fullLine.slice(0, opts ? 8 : 5);
 		let line;
 		if (/^[0-9:]+$/.test(timestamp)) {
@@ -367,11 +363,11 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		const cmd = line.slice(0, line.indexOf('|'));
 		if (_optionalChain([opts, 'optionalAccess', _ => _.includes, 'call', _2 => _2('onlychat')])) {
 			if (cmd !== 'c') return '';
-			if (opts.includes('txt')) return `<div class="chat">${_utils.Utils.escapeHTML(fullLine)}</div>`;
+			if (opts.includes('txt')) return `<div class="chat">${_lib.Utils.escapeHTML(fullLine)}</div>`;
 		}
 		switch (cmd) {
 		case 'c': {
-			const [, name, message] = _utils.Utils.splitFirst(line, '|', 2);
+			const [, name, message] = _lib.Utils.splitFirst(line, '|', 2);
 			if (name.length <= 1) {
 				return `<div class="chat"><small>[${timestamp}] </small><q>${_chat.Chat.formatText(message)}</q></div>`;
 			}
@@ -388,25 +384,25 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 			}
 			const group = !name.startsWith(' ') ? name.charAt(0) : ``;
 			return `<div class="chat">` +
-				_utils.Utils.html`<small>[${timestamp}] ${group}</small><username>${name.slice(1)}:</username> ` +
+				_lib.Utils.html`<small>[${timestamp}] ${group}</small><username>${name.slice(1)}:</username> ` +
 				`<q>${_chat.Chat.formatText(message)}</q>` +
 				`</div>`;
 		}
 		case 'html': case 'raw': {
-			const [, html] = _utils.Utils.splitFirst(line, '|', 1);
+			const [, html] = _lib.Utils.splitFirst(line, '|', 1);
 			return `<div class="notice">${html}</div>`;
 		}
 		case 'uhtml': case 'uhtmlchange': {
 			if (cmd !== 'uhtml') return ``;
-			const [, , html] = _utils.Utils.splitFirst(line, '|', 2);
+			const [, , html] = _lib.Utils.splitFirst(line, '|', 2);
 			return `<div class="notice">${html}</div>`;
 		}
 		case '!NT':
-			return `<div class="chat">${_utils.Utils.escapeHTML(fullLine)}</div>`;
+			return `<div class="chat">${_lib.Utils.escapeHTML(fullLine)}</div>`;
 		case '':
-			return `<div class="chat"><small>[${timestamp}] </small>${_utils.Utils.escapeHTML(line.slice(1))}</div>`;
+			return `<div class="chat"><small>[${timestamp}] </small>${_lib.Utils.escapeHTML(line.slice(1))}</div>`;
 		default:
-			return `<div class="chat"><small>[${timestamp}] </small><code>${'|' + _utils.Utils.escapeHTML(line)}</code></div>`;
+			return `<div class="chat"><small>[${timestamp}] </small><code>${'|' + _lib.Utils.escapeHTML(line)}</code></div>`;
 		}
 	}
 
@@ -543,19 +539,29 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		results,
 		roomid, month, user
 	) {
-		let buf = _utils.Utils.html`<div class="pad"><h2>Linecounts on `;
+		let buf = _lib.Utils.html`<div class="pad"><h2>Linecounts on `;
 		buf += `${roomid}${user ? ` for the user ${user}` : ` (top ${MAX_TOPUSERS})`}</h2>`;
 		buf += `<strong>Month: ${month}:</strong><br />`;
 		const nextMonth = exports.LogReader.nextMonth(month);
 		const prevMonth = exports.LogReader.prevMonth(month);
-		if (_fs.FS.call(void 0, `logs/chat/${roomid}/${prevMonth}`).existsSync()) {
+		if (_lib.FS.call(void 0, `logs/chat/${roomid}/${prevMonth}`).existsSync()) {
 			buf += `<small><a roomid="view-roomstats-${roomid}--${prevMonth}${user ? `--${user}` : ''}">Previous month</a></small>`;
 		}
-		if (_fs.FS.call(void 0, `logs/chat/${roomid}/${nextMonth}`).existsSync()) {
+		if (_lib.FS.call(void 0, `logs/chat/${roomid}/${nextMonth}`).existsSync()) {
 			buf += ` <small><a roomid="view-roomstats-${roomid}--${nextMonth}${user ? `--${user}` : ''}">Next month</a></small>`;
 		}
-		buf += `<hr /><ol>`;
-		if (user) {
+		if (!results) {
+			buf += '<hr />';
+			buf += exports.LogViewer.error(`Logs for month '${month}' do not exist on room ${roomid}.`);
+			return buf;
+		} else if (user) {
+			let total = 0;
+			for (const day in results) {
+				if (isNaN(results[day][user])) continue;
+				total += results[day][user];
+			}
+			buf += `<br />Total linecount: ${total}<hr />`;
+			buf += '<ol>';
 			const sortedDays = Object.keys(results).sort((a, b) => (
 				new Date(b).getTime() - new Date(a).getTime()
 			));
@@ -566,6 +572,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 				buf += `${_chat.Chat.count(dayResults, 'lines')}</li>`;
 			}
 		} else {
+			buf += '<hr /><ol>';
 			// squish the results together
 			const totalResults = {};
 			for (const date in results) {
@@ -630,15 +637,15 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		this.results = 0;
 	}
 	async searchLinecounts(roomid, month, user) {
-		const directory = _fs.FS.call(void 0, `logs/chat/${roomid}/${month}`);
+		const directory = _lib.FS.call(void 0, `logs/chat/${roomid}/${month}`);
 		if (!directory.existsSync()) {
-			throw new _chat.Chat.ErrorMessage(`Logs for month '${month}' do not exist on room ${roomid}.`);
+			return this.renderLinecountResults(null, roomid, month, user);
 		}
 		const files = await directory.readdir();
 		const results = {};
 		for (const file of files) {
 			const day = file.slice(0, -4);
-			const stream = _fs.FS.call(void 0, `logs/chat/${roomid}/${month}/${file}`).createReadStream();
+			const stream = _lib.FS.call(void 0, `logs/chat/${roomid}/${month}/${file}`).createReadStream();
 			for await (const line of stream.byLine()) {
 				const parts = line.split('|').map(toID);
 				const id = parts[2];
@@ -820,16 +827,16 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		return buf;
 	}
 	async getSharedBattles(userids) {
-		const months = _fs.FS.call(void 0, "logs/").readdirSync().filter(f => !isNaN(new Date(f).getTime()));
+		const months = _lib.FS.call(void 0, "logs/").readdirSync().filter(f => !isNaN(new Date(f).getTime()));
 		const results = [];
 		for (const month of months) {
-			const tiers = await _fs.FS.call(void 0, `logs/${month}`).readdir();
+			const tiers = await _lib.FS.call(void 0, `logs/${month}`).readdir();
 			for (const tier of tiers) {
-				const days = await _fs.FS.call(void 0, `logs/${month}/${tier}/`).readdir();
+				const days = await _lib.FS.call(void 0, `logs/${month}/${tier}/`).readdir();
 				for (const day of days) {
-					const battles = await _fs.FS.call(void 0, `logs/${month}/${tier}/${day}`).readdir();
+					const battles = await _lib.FS.call(void 0, `logs/${month}/${tier}/${day}`).readdir();
 					for (const battle of battles) {
-						const content = JSON.parse(_fs.FS.call(void 0, `logs/${month}/${tier}/${day}/${battle}`).readSync());
+						const content = JSON.parse(_lib.FS.call(void 0, `logs/${month}/${tier}/${day}/${battle}`).readSync());
 						const players = [content.p1, content.p2].map(toID);
 						if (players.every(p => userids.includes(p))) {
 							const battleName = battle.slice(0, -9);
@@ -861,7 +868,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 			if (args) {
 				options.push(...args);
 			}
-			const {stdout} = await _processmanager.exec.call(void 0, ['rg', ...options], {
+			const {stdout} = await _lib.ProcessManager.exec(['rg', ...options], {
 				maxBuffer: MAX_MEMORY,
 				cwd: `${__dirname}/../../`,
 			});
@@ -905,7 +912,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 			const rest = search.replace(userRegex, '')
 				.split('-')
 				.filter(Boolean)
-				.map(str => `.*${_utils.Utils.escapeRegex(str)}`)
+				.map(str => `.*${_lib.Utils.escapeRegex(str)}`)
 				.join('');
 			search = `\\|c\\|${this.constructUserRegex(id)}\\|${rest}`;
 		}
@@ -984,7 +991,6 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		const {results: rawResults} = await this.ripgrepSearchMonth({
 			search: regexString, raw: true, date: month, room, args,
 		});
-		if (!rawResults.length) return exports.LogViewer.error(`No results found.`);
 		const results = {};
 		for (const fullLine of rawResults) {
 			const [data, line] = fullLine.split('.txt:');
@@ -1010,7 +1016,7 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		const regexString = userids.map(id => `(?=.*?("p(1|2)":"${[...id].join('[^a-zA-Z0-9]*')}[^a-zA-Z0-9]*"))`).join('');
 		const results = [];
 		try {
-			const {stdout} = await _processmanager.exec.call(void 0, ['rg', '-e', regexString, '-i', '-tjson', 'logs/', '-P']);
+			const {stdout} = await _lib.ProcessManager.exec(['rg', '-e', regexString, '-i', '-tjson', 'logs/', '-P']);
 			for (const line of stdout.split('\n')) {
 				const [name] = line.split(':');
 				const battleName = name.split('/').pop();
@@ -1025,21 +1031,32 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 
  const LogSearcher = new (_configloader.Config.chatlogreader === 'ripgrep' ? RipgrepLogSearcher : FSLogSearcher)(); exports.LogSearcher = LogSearcher;
 
- const PM = new _processmanager.QueryProcessManager(module, async data => {
+ const PM = new _lib.ProcessManager.QueryProcessManager(module, async data => {
+	const start = Date.now();
 	try {
+		let result;
 		const {date, search, roomid, limit, queryType} = data;
 		switch (queryType) {
 		case 'linecount':
-			return exports.LogSearcher.searchLinecounts(roomid, date, search);
+			result = await exports.LogSearcher.searchLinecounts(roomid, date, search);
+			break;
 		case 'search':
-			return exports.LogSearcher.searchLogs(roomid, search, limit, date);
+			result = await exports.LogSearcher.searchLogs(roomid, search, limit, date);
+			break;
 		case 'sharedsearch':
-			return exports.LogSearcher.getSharedBattles(search);
+			result = await exports.LogSearcher.getSharedBattles(search);
+			break;
 		case 'battlesearch':
-			return exports.LogReader.findBattleLog(roomid, search);
+			result = await exports.LogReader.findBattleLog(roomid, search);
+			break;
 		default:
 			return exports.LogViewer.error(`Config.chatlogreader is not configured.`);
 		}
+		const elapsedTime = Date.now() - start;
+		if (elapsedTime > 3000) {
+			Monitor.slow(`[Slow chatlog query]: ${elapsedTime}ms: ${JSON.stringify(data)}`);
+		}
+		return result;
 	} catch (e) {
 		if (_optionalChain([e, 'access', _14 => _14.name, 'optionalAccess', _15 => _15.endsWith, 'call', _16 => _16('ErrorMessage')])) {
 			return exports.LogViewer.error(e.message);
@@ -1047,7 +1064,11 @@ const UPPER_STAFF_ROOMS = ['upperstaff', 'adminlog'];
 		Monitor.crashlog(e, 'A chatlog search query', data);
 		return exports.LogViewer.error(`Sorry! Your chatlog search crashed. We've been notified and will fix this.`);
 	}
-}, CHATLOG_PM_TIMEOUT); exports.PM = PM;
+}, CHATLOG_PM_TIMEOUT, message => {
+	if (message.startsWith(`SLOW\n`)) {
+		Monitor.slow(message.slice(5));
+	}
+}); exports.PM = PM;
 
 if (!exports.PM.isParentProcess) {
 	// This is a child process!
@@ -1056,6 +1077,9 @@ if (!exports.PM.isParentProcess) {
 		crashlog(error, source = 'A chatlog search process', details = null) {
 			const repr = JSON.stringify([error.name, error.message, source, details]);
 			process.send(`THROW\n@!!@${repr}\n${error.stack}`);
+		},
+		slow(text) {
+			process.send(`CALLBACK\nSLOW\n${text}`);
 		},
 	};
 	global.Dex = _dex.Dex;
@@ -1067,17 +1091,17 @@ if (!exports.PM.isParentProcess) {
 		}
 	});
 	// eslint-disable-next-line no-eval
-	_repl.Repl.start('chatlog', cmd => eval(cmd));
+	_lib.Repl.start('chatlog', cmd => eval(cmd));
 } else {
 	exports.PM.spawn(MAX_PROCESSES);
 }
 
-const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStream();
+const accessLog = _lib.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStream();
 
  const pages = {
 	async chatlog(args, user, connection) {
 		if (!user.named) return Rooms.RETRY_AFTER_LOGIN;
-		let [roomid, date, opts] = _utils.Utils.splitFirst(args.join('-'), '--', 2) 
+		let [roomid, date, opts] = _lib.Utils.splitFirst(args.join('-'), '--', 2) 
 ;
 		if (date) date = date.trim();
 		if (!roomid || roomid.startsWith('-')) {
@@ -1103,7 +1127,7 @@ const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStr
 			if (roomid.startsWith('wcop')) {
 				return this.errorReply("WCOP team discussions are super secret.");
 			}
-			if (UPPER_STAFF_ROOMS.includes(roomid)) {
+			if (UPPER_STAFF_ROOMS.includes(roomid) && !user.inRooms.has(roomid)) {
 				return this.errorReply("Upper staff rooms are super secret.");
 			}
 		}
@@ -1124,7 +1148,7 @@ const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStr
 		if (_optionalChain([opts, 'optionalAccess', _19 => _19.startsWith, 'call', _20 => _20('search-')])) {
 			let [input, limitString] = opts.split('--limit-');
 			input = input.slice(7);
-			search = Dashycode.decode(input);
+			search = _lib.Dashycode.decode(input);
 			if (search.length < 3) return this.errorReply(`That's too short of a search query.`);
 			if (limitString) {
 				limit = parseInt(limitString) || null;
@@ -1165,7 +1189,7 @@ const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStr
 				return this.errorReply(`You cannot view logs for rooms that no longer exist.`);
 			}
 		}
-		const [, date, target] = _utils.Utils.splitFirst(args.join('-'), '--', 3).map(item => item.trim());
+		const [, date, target] = _lib.Utils.splitFirst(args.join('-'), '--', 3).map(item => item.trim());
 		if (isNaN(new Date(date).getTime())) {
 			return this.errorReply(`Invalid date.`);
 		}
@@ -1202,9 +1226,9 @@ const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStr
 		let buf = `<div class="pad"><h2>${title}`;
 		if (userid) buf += ` for ${userid}`;
 		buf += `</h2><hr /><ol>`;
-		const accessStream = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createReadStream();
+		const accessStream = _lib.FS.call(void 0, `logs/chatlog-access.txt`).createReadStream();
 		for await (const line of accessStream.byLine()) {
-			const [id, rest] = _utils.Utils.splitFirst(line, ': ');
+			const [id, rest] = _lib.Utils.splitFirst(line, ': ');
 			if (userid && id !== userid) continue;
 			if (type === 'battle' && !line.includes('battle-')) continue;
 			if (userid) {
@@ -1250,13 +1274,14 @@ const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStr
 		let date = 'all';
 		const searches = [];
 		let limit = '500';
+		let targetRoom = _optionalChain([room, 'optionalAccess', _21 => _21.roomid]);
 		for (const arg of args) {
 			if (arg.startsWith('room:')) {
-				const id = arg.slice(5);
-				room = Rooms.search(id ) ;
-				if (!room) {
+				const id = arg.slice(5).trim().toLowerCase() ;
+				if (!_lib.FS.call(void 0, `logs/chat/${id}`).existsSync()) {
 					return this.errorReply(`Room "${id}" not found.`);
 				}
+				targetRoom = id;
 			} else if (arg.startsWith('limit:')) {
 				limit = arg.slice(6);
 			} else if (arg.startsWith('date:')) {
@@ -1267,12 +1292,12 @@ const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStr
 				searches.push(arg);
 			}
 		}
-		if (!room) {
+		if (!targetRoom) {
 			return this.parse(`/help searchlogs`);
 		}
 		return this.parse(
-			`/join view-chatlog-${room.roomid}--${date}--search-` +
-			`${Dashycode.encode(searches.join('+'))}--limit-${limit}`
+			`/join view-chatlog-${targetRoom}--${date}--search-` +
+			`${_lib.Dashycode.encode(searches.join('+'))}--limit-${limit}`
 		);
 	},
 	searchlogshelp() {
@@ -1304,12 +1329,13 @@ const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStr
 	slb: 'sharedloggedbattles',
 	async sharedloggedbattles(target, room, user) {
 		this.checkCan('lock');
+		if (_configloader.Config.nobattlesearch) return this.errorReply(`/${this.cmd} has been temporarily disabled due to load issues.`);
 		const targets = target.split(',').map(toID).filter(Boolean);
 		if (targets.length < 2 || targets.length > 2) {
 			return this.errorReply(`Specify two users.`);
 		}
 		const results = await exports.LogSearcher.sharedBattles(targets);
-		if (_optionalChain([room, 'optionalAccess', _21 => _21.settings, 'access', _22 => _22.staffRoom]) || _optionalChain([this, 'access', _23 => _23.pmTarget, 'optionalAccess', _24 => _24.isStaff])) {
+		if (_optionalChain([room, 'optionalAccess', _22 => _22.settings, 'access', _23 => _23.staffRoom]) || _optionalChain([this, 'access', _24 => _24.pmTarget, 'optionalAccess', _25 => _25.isStaff])) {
 			this.runBroadcast();
 		}
 		return this.sendReplyBox(results);
@@ -1341,14 +1367,14 @@ const accessLog = _fs.FS.call(void 0, `logs/chatlog-access.txt`).createAppendStr
 		if (target.length < 3) {
 			return this.errorReply(`Too short of a search term.`);
 		}
-		const files = await _fs.FS.call(void 0, `logs/chat`).readdir();
+		const files = await _lib.FS.call(void 0, `logs/chat`).readdir();
 		const buffer = [];
 		for (const roomid of files) {
 			if (roomid.startsWith('groupchat-') && roomid.includes(target)) {
 				buffer.push(roomid);
 			}
 		}
-		_utils.Utils.sortBy(buffer, roomid => !!Rooms.get(roomid));
+		_lib.Utils.sortBy(buffer, roomid => !!Rooms.get(roomid));
 		return this.sendReplyBox(
 			`Groupchats with a roomid matching '${target}': ` +
 			(buffer.length ? buffer.map(id => `<a href="/view-chatlog-${id}">${id}</a>`).join('; ') : 'None found.')

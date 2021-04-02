@@ -15,11 +15,9 @@ var _fs = require('fs'); var fs = _fs;
 var _http = require('http'); var http = _http;
 var _https = require('https'); var https = _https;
 var _path = require('path'); var path = _path;
-var _crashlogger = require('../.lib-dist/crashlogger');
-var _processmanager = require('../.lib-dist/process-manager');
+var _lib = require('../.lib-dist');
 var _iptools = require('./ip-tools');
-var _repl = require('../.lib-dist/repl');
-var _streams = require('./../.lib-dist/streams'); var Streams = _streams;
+
 
 
 
@@ -133,7 +131,7 @@ var _streams = require('./../.lib-dist/streams'); var Streams = _streams;
 	}
 }; exports.Sockets = Sockets;
 
- class ServerStream extends Streams.ObjectReadWriteStream {
+ class ServerStream extends _lib.Streams.ObjectReadWriteStream {
 	/** socketid:Connection */
 	__init() {this.sockets = new Map()}
 	/** roomid:socketid:Connection */
@@ -178,7 +176,7 @@ var _streams = require('./../.lib-dist/streams'); var Streams = _streams;
 				try {
 					key = fs.readFileSync(key);
 				} catch (e) {
-					_crashlogger.crashlogger.call(void 0, 
+					_lib.crashlogger.call(void 0, 
 						new Error(`Failed to read the configured SSL private key PEM file:\n${e.stack}`),
 						`Socket process ${process.pid}`
 					);
@@ -195,7 +193,7 @@ var _streams = require('./../.lib-dist/streams'); var Streams = _streams;
 				try {
 					cert = fs.readFileSync(cert);
 				} catch (e) {
-					_crashlogger.crashlogger.call(void 0, 
+					_lib.crashlogger.call(void 0, 
 						new Error(`Failed to read the configured SSL certificate PEM file:\n${e.stack}`),
 						`Socket process ${process.pid}`
 					);
@@ -210,7 +208,7 @@ var _streams = require('./../.lib-dist/streams'); var Streams = _streams;
 					// In case there are additional SSL config settings besides the key and cert...
 					this.serverSsl = https.createServer({...config.ssl.options, key, cert});
 				} catch (e) {
-					_crashlogger.crashlogger.call(void 0, new Error(`The SSL settings are misconfigured:\n${e.stack}`), `Socket process ${process.pid}`);
+					_lib.crashlogger.call(void 0, new Error(`The SSL settings are misconfigured:\n${e.stack}`), `Socket process ${process.pid}`);
 				}
 			}
 		}
@@ -281,7 +279,7 @@ var _streams = require('./../.lib-dist/streams'); var Streams = _streams;
 				const deflate = (require )('permessage-deflate').configure(config.wsdeflate);
 				options.faye_server_options = {extensions: [deflate]};
 			} catch (e) {
-				_crashlogger.crashlogger.call(void 0, 
+				_lib.crashlogger.call(void 0, 
 					new Error("Dependency permessage-deflate is not installed or is otherwise unaccessable. No message compression will take place until server restart."),
 					"Sockets"
 				);
@@ -548,7 +546,7 @@ var _streams = require('./../.lib-dist/streams'); var Streams = _streams;
  * Process manager
  *********************************************************/
 
- const PM = new (0, _processmanager.RawProcessManager)({
+ const PM = new _lib.ProcessManager.RawProcessManager({
 	module,
 	setupChild: () => new ServerStream(Config),
 	isCluster: true,
@@ -561,10 +559,10 @@ if (!exports.PM.isParentProcess) {
 	if (Config.crashguard) {
 		// graceful crash - allow current battles to finish before restarting
 		process.on('uncaughtException', err => {
-			_crashlogger.crashlogger.call(void 0, err, `Socket process ${exports.PM.workerid} (${process.pid})`);
+			_lib.crashlogger.call(void 0, err, `Socket process ${exports.PM.workerid} (${process.pid})`);
 		});
 		process.on('unhandledRejection', err => {
-			_crashlogger.crashlogger.call(void 0, err  || {}, `Socket process ${exports.PM.workerid} (${process.pid}) Promise`);
+			_lib.crashlogger.call(void 0, err  || {}, `Socket process ${exports.PM.workerid} (${process.pid}) Promise`);
 		});
 	}
 
@@ -591,7 +589,7 @@ if (!exports.PM.isParentProcess) {
 	if (process.env.PSNOSSL && parseInt(process.env.PSNOSSL)) Config.ssl = null;
 
 	// eslint-disable-next-line no-eval
-	_repl.Repl.start(`sockets-${exports.PM.workerid}-${process.pid}`, cmd => eval(cmd));
+	_lib.Repl.start(`sockets-${exports.PM.workerid}-${process.pid}`, cmd => eval(cmd));
 }
 
  //# sourceMappingURL=sourceMaps/sockets.js.map

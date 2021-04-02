@@ -20,7 +20,7 @@ if (!global.Config) {
 }
 
 
-var _fs = require('../../.lib-dist/fs');
+var _lib = require('../../.lib-dist');
 var _modlog = require('../../.server-dist/modlog');
 var _iptools = require('../../.server-dist/ip-tools');
 
@@ -435,11 +435,11 @@ function toID(text) {
 		}
 	}
 
-	let regex = /by .*:/;
+	let regex = /\bby .*:/;
 	let actionTakerIndex = _optionalChain([regex, 'access', _6 => _6.exec, 'call', _7 => _7(line), 'optionalAccess', _8 => _8.index]);
 	if (actionTakerIndex === undefined) {
 		actionTakerIndex = line.indexOf('by ');
-		regex = /by .*/;
+		regex = /\bby .*/;
 	}
 	if (actionTakerIndex !== -1) {
 		const colonIndex = line.indexOf(': ');
@@ -447,7 +447,7 @@ function toID(text) {
 		if (toID(actionTaker).length < 19) {
 			log.loggedBy = toID(actionTaker) || null;
 			if (colonIndex > actionTakerIndex) line = line.slice(colonIndex);
-			line = line.replace(regex, '');
+			line = line.replace(regex, ' ');
 		}
 	}
 	if (line) log.note = line.replace(/^\s?:\s?/, '').trim();
@@ -543,7 +543,7 @@ function toID(text) {
 			const old = this.isTesting.files.get(path);
 			return this.isTesting.files.set(path, `${old || ''}${text}`);
 		}
-		return _fs.FS.call(void 0, path).append(text);
+		return _lib.FS.call(void 0, path).append(text);
 	}
 } exports.ModlogConverterSQLite = ModlogConverterSQLite;
 
@@ -566,7 +566,7 @@ function toID(text) {
 	}
 
 	async toSQLite() {
-		const files = this.isTesting ? [...this.isTesting.files.keys()] : await _fs.FS.call(void 0, this.textLogDir).readdir();
+		const files = this.isTesting ? [...this.isTesting.files.keys()] : await _lib.FS.call(void 0, this.textLogDir).readdir();
 		// Read global modlog last to avoid inserting duplicate data to database
 		if (files.includes('modlog_global.txt')) {
 			files.splice(files.indexOf('modlog_global.txt'), 1);
@@ -580,7 +580,7 @@ function toID(text) {
 			const roomid = file.slice(7, -4);
 			const lines = this.isTesting ?
 				_optionalChain([this, 'access', _20 => _20.isTesting, 'access', _21 => _21.files, 'access', _22 => _22.get, 'call', _23 => _23(file), 'optionalAccess', _24 => _24.split, 'call', _25 => _25('\n')]) || [] :
-				_fs.FS.call(void 0, `${this.textLogDir}/${file}`).createReadStream().byLine();
+				_lib.FS.call(void 0, `${this.textLogDir}/${file}`).createReadStream().byLine();
 
 			let entriesLogged = 0;
 			let lastLine = undefined;
@@ -629,7 +629,7 @@ function toID(text) {
 	}
 
 	async toTxt() {
-		const files = await _fs.FS.call(void 0, this.inputDir).readdir();
+		const files = await _lib.FS.call(void 0, this.inputDir).readdir();
 		// Read global modlog last to avoid inserting duplicate data to database
 		if (files.includes('modlog_global.txt')) {
 			files.splice(files.indexOf('modlog_global.txt'), 1);
@@ -654,11 +654,11 @@ function toID(text) {
 					process.stdout.cursorTo(0);
 					process.stdout.write(`Wrote ${entriesLogged} entries from '${roomid}'`);
 				}
-				await _fs.FS.call(void 0, `${this.outputDir}/modlog_${roomid}.txt`).append(entries.join(''));
+				await _lib.FS.call(void 0, `${this.outputDir}/modlog_${roomid}.txt`).append(entries.join(''));
 				entries = [];
 			};
 
-			const readStream = _fs.FS.call(void 0, `${this.inputDir}/${file}`).createReadStream();
+			const readStream = _lib.FS.call(void 0, `${this.inputDir}/${file}`).createReadStream();
 			for await (const line of readStream.byLine()) {
 				const entry = parseModlog(line, lastLine, roomid === 'global');
 				lastLine = line;
@@ -675,7 +675,7 @@ function toID(text) {
 		}
 
 		if (!Config.nofswriting) console.log(`Writing the global modlog...`);
-		await _fs.FS.call(void 0, `${this.outputDir}/modlog_global.txt`).append(globalEntries.join(''));
+		await _lib.FS.call(void 0, `${this.outputDir}/modlog_global.txt`).append(globalEntries.join(''));
 	}
 } exports.ModlogConverterTest = ModlogConverterTest;
 

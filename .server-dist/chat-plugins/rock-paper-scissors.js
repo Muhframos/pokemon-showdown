@@ -2,7 +2,7 @@
  * Rock Paper Scissors plugin by Mia
  * @author mia-pi-git
  */
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 const MAX_ROUNDS = 500;
 const TIMEOUT = 10 * 1000;
@@ -78,7 +78,7 @@ const ICONS = {
 				continue;
 			}
 			const {name, choice} = entry;
-			buf += _utils.Utils.html`<div class="broadcast-green">${name} won round ${i + 1} with ${choice}!</div>`;
+			buf += _lib.Utils.html`<div class="broadcast-green">${name} won round ${i + 1} with ${choice}!</div>`;
 		}
 		this.room.add(buf).update();
 	}
@@ -94,8 +94,8 @@ const ICONS = {
 		buf += `<tr style="background-color: #6688AA"><th>Username</th><th>Points</th></tr>`;
 		for (const id in this.playerTable) {
 			const player = this.playerTable[id];
-			buf += _utils.Utils.html`<tr style="background-color: #6688AA"><td>${player.name}</td>`;
-			buf += _utils.Utils.html`<td style="text-align: center">${player.points}</td></tr>`;
+			buf += _lib.Utils.html`<tr style="background-color: #6688AA"><td>${player.name}</td>`;
+			buf += _lib.Utils.html`<td style="text-align: center">${player.points}</td></tr>`;
 		}
 		buf += `</table></div>`;
 		if (this.wins.length) {
@@ -111,7 +111,7 @@ const ICONS = {
 					continue;
 				}
 				const {name, choice} = entry;
-				buf += _utils.Utils.html`<div class="broadcast-green">${name} won round ${i + 1} with ${choice}!</div>`;
+				buf += _lib.Utils.html`<div class="broadcast-green">${name} won round ${i + 1} with ${choice}!</div>`;
 			}
 		}
 		return buf;
@@ -124,7 +124,7 @@ const ICONS = {
 		this.addControls(`<h2>The game is over!</h2>`);
 		const winner = p1.points > p2.points ? p1 : p2;
 		const points = winner.points;
-		const message = _utils.Utils.html`<strong>${winner.name} won the game with ${Chat.count(points, 'points')}!</strong>`;
+		const message = _lib.Utils.html`<strong>${winner.name} won the game with ${Chat.count(points, 'points')}!</strong>`;
 		this.addField(message);
 		this.add(message);
 		this.sendFullLog();
@@ -153,7 +153,7 @@ const ICONS = {
 			this.add(`The players have tied! Nobody wins this round....`);
 			this.wins.push(null);
 		} else {
-			this.add(_utils.Utils.html`${winner.name} wins the round! They gain a point.`);
+			this.add(_lib.Utils.html`${winner.name} wins the round! They gain a point.`);
 			winner.points++;
 			this.wins.push({
 				name: winner.name,
@@ -177,7 +177,7 @@ const ICONS = {
 			return;
 		}
 		this.addField(`The Rock Paper Scissors match has begun!`);
-		this.add(_utils.Utils.html`(Use /rps end to end the game)`);
+		this.add(_lib.Utils.html`(Use /rps end to end the game)`);
 		this.startNextRound();
 	}
 	getPlayer(user) {
@@ -188,7 +188,7 @@ const ICONS = {
 	pause(user) {
 		const player = this.getPlayer(user);
 		if (!this.roundTimer) throw new Chat.ErrorMessage(`The game is not running, and cannot be paused.`);
-		this.room.add(_utils.Utils.html`|html|<h2>The game has been paused by ${player.name}.</h2>`).update();
+		this.room.add(_lib.Utils.html`|html|<h2>The game has been paused by ${player.name}.</h2>`).update();
 		clearTimeout(this.roundTimer);
 		this.addControls(`The game is paused.`);
 		this.add(`The game is paused.`);
@@ -196,7 +196,7 @@ const ICONS = {
 	unpause(user) {
 		const player = this.getPlayer(user);
 		if (this.roundTimer) throw new Chat.ErrorMessage(`The game is not paused.`);
-		this.room.add(_utils.Utils.html`|html|${player.name} unpaused the game.`).update();
+		this.room.add(_lib.Utils.html`|html|${player.name} unpaused the game.`).update();
 		this.startNextRound();
 	}
 	startNextRound() {
@@ -233,7 +233,7 @@ const ICONS = {
 		const player = this.getPlayer(user);
 		if (player.currentChoice) throw new Chat.ErrorMessage("You have already made your choice!");
 		player.currentChoice = option;
-		this.add(_utils.Utils.html`${user.name} has made their choice.`);
+		this.add(_lib.Utils.html`${user.name} has made their choice.`);
 		this.resetOptions(user);
 		if (this.players.filter(item => item.currentChoice).length > 1) {
 			clearTimeout(this.roundTimer);
@@ -247,12 +247,13 @@ const ICONS = {
 		delete this.playerTable[user.id];
 		this.end();
 	}
-	makePlayer(user = null) {
-		if (user && typeof user !== 'string') {
-			this.room.auth.set(user.id, Users.PLAYER_SYMBOL);
-			user.sendTo(this.room, `You have successfully joined the Rock Paper Scissors game.`);
-		}
-		return new RPSPlayer(user, this);
+	addPlayer(user) {
+		if (this.playerTable[user.id]) throw new Chat.ErrorMessage(`You are already a player in this game.`);
+		this.playerTable[user.id] = new RPSPlayer(user, this);
+		this.players.push(this.playerTable[user.id]);
+		this.room.auth.set(user.id, Users.PLAYER_SYMBOL);
+		user.sendTo(this.room, `You have successfully joined the Rock Paper Scissors game.`);
+		return this.playerTable[user.id];
 	}
 } exports.RPSGame = RPSGame;
 
@@ -295,13 +296,12 @@ function findExisting(user1, user2) {
 			const targetUser = Users.get(id);
 			if (!targetUser) return this.errorReply(`The user who challenged you to Rock Paper Scissors is offline.`);
 			const existingRoom = findExisting(user.id, targetUser.id);
-			const options = {
-				modchat: '+',
-				isPrivate: true,
-			};
 			const roomid = `rps-${targetUser.id}-${user.id}`;
-			const gameRoom = existingRoom ? existingRoom : Rooms.createGameRoom(
-				roomid , `[RPS] ${user.name} vs ${targetUser.name}`, options
+			const gameRoom = existingRoom || Rooms.createGameRoom(
+				roomid , `[RPS] ${user.name} vs ${targetUser.name}`, {
+					modchat: '+',
+					isPrivate: true,
+				}
 			);
 			gameRoom.game = new RPSGame(gameRoom);
 			gameRoom.add(

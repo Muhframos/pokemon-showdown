@@ -1,6 +1,7 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true});var _fs = require('../../.lib-dist/fs');
 
 const SUSPECTS_FILE = 'config/suspects.json';
+const WHITELIST = ["kris"];
 
 
 
@@ -13,6 +14,12 @@ const SUSPECTS_FILE = 'config/suspects.json';
 
 function saveSuspectTests() {
 	_fs.FS.call(void 0, SUSPECTS_FILE).writeUpdate(() => JSON.stringify(exports.suspectTests));
+}
+
+function checkPermissions(context) {
+	const user = context.user;
+	if (WHITELIST.includes(user.id)) return true;
+	context.checkCan('gdeclare');
 }
 
  const commands = {
@@ -35,7 +42,7 @@ function saveSuspectTests() {
 
 		edit: 'add',
 		add(target, room, user) {
-			this.checkCan('gdeclare');
+			checkPermissions(this);
 
 			const [tier, suspect, date, url] = target.split(',');
 			if (!(tier && suspect && date && url)) {
@@ -71,7 +78,7 @@ function saveSuspectTests() {
 
 		delete: 'remove',
 		remove(target, room, user) {
-			this.checkCan('gdeclare');
+			checkPermissions(this);
 
 			const format = toID(target);
 			const test = exports.suspectTests[format];

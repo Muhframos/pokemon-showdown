@@ -11,8 +11,7 @@
  * @license MIT license
  */
 
-var _fs = require('../.lib-dist/fs');
-var _utils = require('../.lib-dist/utils');
+var _lib = require('../.lib-dist');
 
 const PUNISHMENT_FILE = 'config/punishments.tsv';
 const ROOM_PUNISHMENT_FILE = 'config/room-punishments.tsv';
@@ -229,7 +228,7 @@ class NestedPunishmentMap extends Map {
 	// room-punishments.tsv is in the format:
 	// punishType, roomid:userid, ips/usernames, expiration time, reason
 	async loadPunishments() {
-		const data = await _fs.FS.call(void 0, PUNISHMENT_FILE).readIfExists();
+		const data = await _lib.FS.call(void 0, PUNISHMENT_FILE).readIfExists();
 		if (!data) return;
 		for (const row of data.split("\n")) {
 			if (!row || row === '\r') continue;
@@ -253,7 +252,7 @@ class NestedPunishmentMap extends Map {
 	}
 
 	async loadRoomPunishments() {
-		const data = await _fs.FS.call(void 0, ROOM_PUNISHMENT_FILE).readIfExists();
+		const data = await _lib.FS.call(void 0, ROOM_PUNISHMENT_FILE).readIfExists();
 		if (!data) return;
 		for (const row of data.split("\n")) {
 			if (!row || row === '\r') continue;
@@ -279,7 +278,7 @@ class NestedPunishmentMap extends Map {
 	}
 
 	savePunishments() {
-		_fs.FS.call(void 0, PUNISHMENT_FILE).writeUpdate(() => {
+		_lib.FS.call(void 0, PUNISHMENT_FILE).writeUpdate(() => {
 			const saveTable = exports.Punishments.getPunishments();
 			let buf = 'Punishment\tUser ID\tIPs and alts\tExpires\tReason\r\n';
 			for (const [id, entry] of saveTable) {
@@ -290,7 +289,7 @@ class NestedPunishmentMap extends Map {
 	}
 
 	saveRoomPunishments() {
-		_fs.FS.call(void 0, ROOM_PUNISHMENT_FILE).writeUpdate(() => {
+		_lib.FS.call(void 0, ROOM_PUNISHMENT_FILE).writeUpdate(() => {
 			const saveTable = new Map();
 			for (const roomid of exports.Punishments.roomIps.keys()) {
 				for (const [userid, punishment] of exports.Punishments.getPunishments(roomid, true)) {
@@ -348,7 +347,7 @@ class NestedPunishmentMap extends Map {
 	appendPunishment(entry, id, filename, allowNonUserIDs) {
 		if (!allowNonUserIDs && id.startsWith('#')) return;
 		const buf = exports.Punishments.renderEntry(entry, id);
-		return _fs.FS.call(void 0, filename).append(buf);
+		return _lib.FS.call(void 0, filename).append(buf);
 	}
 
 	renderEntry(entry, id) {
@@ -358,7 +357,7 @@ class NestedPunishmentMap extends Map {
 	}
 
 	async loadBanlist() {
-		const data = await _fs.FS.call(void 0, 'config/ipbans.txt').readIfExists();
+		const data = await _lib.FS.call(void 0, 'config/ipbans.txt').readIfExists();
 		if (!data) return;
 		const rangebans = [];
 		for (const row of data.split("\n")) {
@@ -378,7 +377,7 @@ class NestedPunishmentMap extends Map {
 	 * IP, type (in this case always SHARED), note
 	 */
 	async loadSharedIps() {
-		const data = await _fs.FS.call(void 0, SHAREDIPS_FILE).readIfExists();
+		const data = await _lib.FS.call(void 0, SHAREDIPS_FILE).readIfExists();
 		if (!data) return;
 		for (const row of data.replace('\r', '').split("\n")) {
 			if (!row) continue;
@@ -392,7 +391,7 @@ class NestedPunishmentMap extends Map {
 
 	appendSharedIp(ip, note) {
 		const buf = `${ip}\tSHARED\t${note}\r\n`;
-		return _fs.FS.call(void 0, SHAREDIPS_FILE).append(buf);
+		return _lib.FS.call(void 0, SHAREDIPS_FILE).append(buf);
 	}
 
 	saveSharedIps() {
@@ -401,7 +400,7 @@ class NestedPunishmentMap extends Map {
 			buf += `${ip}\tSHARED\t${note}\r\n`;
 		});
 
-		return _fs.FS.call(void 0, SHAREDIPS_FILE).write(buf);
+		return _lib.FS.call(void 0, SHAREDIPS_FILE).write(buf);
 	}
 
 	/**
@@ -409,12 +408,13 @@ class NestedPunishmentMap extends Map {
 	 * IP, type (in this case always SHARED), note
 	 */
 	async loadSharedIpBlacklist() {
-		const data = await _fs.FS.call(void 0, SHAREDIPS_BLACKLIST_FILE).readIfExists();
+		const data = await _lib.FS.call(void 0, SHAREDIPS_BLACKLIST_FILE).readIfExists();
 		if (!data) return;
 		for (const row of data.replace('\r', '').split("\n")) {
 			if (!row) continue;
 			const [ip, reason] = row.trim().split("\t");
-			if (!IPTools.ipRegex.test(ip)) continue;
+			// it can be an ip or a range
+			if (!IPTools.ipRegex.test(ip) || !IPTools.ipRangeRegex.test(ip)) continue;
 			if (!reason) continue;
 
 			exports.Punishments.sharedIpBlacklist.set(ip, reason);
@@ -423,7 +423,7 @@ class NestedPunishmentMap extends Map {
 
 	appendSharedIpBlacklist(ip, reason) {
 		const buf = `${ip}\t${reason}\r\n`;
-		return _fs.FS.call(void 0, SHAREDIPS_BLACKLIST_FILE).append(buf);
+		return _lib.FS.call(void 0, SHAREDIPS_BLACKLIST_FILE).append(buf);
 	}
 
 	saveSharedIpBlacklist() {
@@ -431,11 +431,11 @@ class NestedPunishmentMap extends Map {
 		exports.Punishments.sharedIpBlacklist.forEach((reason, ip) => {
 			buf += `${ip}\t${reason}\r\n`;
 		});
-		return _fs.FS.call(void 0, SHAREDIPS_BLACKLIST_FILE).write(buf);
+		return _lib.FS.call(void 0, SHAREDIPS_BLACKLIST_FILE).write(buf);
 	}
 
 	async loadWhitelistedNames() {
-		const data = await _fs.FS.call(void 0, WHITELISTED_NAMES_FILE).readIfExists();
+		const data = await _lib.FS.call(void 0, WHITELISTED_NAMES_FILE).readIfExists();
 		if (!data) return;
 		const lines = data.split('\n');
 		lines.shift();
@@ -446,7 +446,7 @@ class NestedPunishmentMap extends Map {
 	}
 
 	appendWhitelistedName(name, whitelister) {
-		return _fs.FS.call(void 0, WHITELISTED_NAMES_FILE).append(`${toID(name)}\t${toID(whitelister)}\r\n`);
+		return _lib.FS.call(void 0, WHITELISTED_NAMES_FILE).append(`${toID(name)}\t${toID(whitelister)}\r\n`);
 	}
 
 	saveNameWhitelist() {
@@ -454,7 +454,7 @@ class NestedPunishmentMap extends Map {
 		exports.Punishments.namefilterwhitelist.forEach((userid, whitelister) => {
 			buf += `${userid}\t${whitelister}\r\n`;
 		});
-		return _fs.FS.call(void 0, WHITELISTED_NAMES_FILE).write(buf);
+		return _lib.FS.call(void 0, WHITELISTED_NAMES_FILE).write(buf);
 	}
 
 	/*********************************************************
@@ -462,6 +462,7 @@ class NestedPunishmentMap extends Map {
 	 *********************************************************/
 
 	async punish(user, punishment, ignoreAlts, bypassPunishmentfilter = false) {
+		user = Users.get(user) || user;
 		if (typeof user === 'string') {
 			return exports.Punishments.punishName(user, punishment);
 		}
@@ -955,15 +956,16 @@ class NestedPunishmentMap extends Map {
 		const punishment = ['BATTLEBAN', id, expireTime, ...reason] ;
 
 		// Handle tournaments the user was in before being battle banned
-		for (const room of Rooms.rooms.values()) {
-			const game = room.getGame(Tournaments.Tournament);
-			if (!game || !user.inGame(room)) continue;
+		for (const games of user.games.keys()) {
+			const game = Rooms.get(games).getGame(Tournaments.Tournament);
+			if (!game) continue; // this should never happen
 			if (game.isTournamentStarted) {
 				game.disqualifyUser(user.id, null, null);
 			} else if (!game.isTournamentStarted) {
 				game.removeUser(user.id);
 			}
 		}
+
 		return exports.Punishments.roomPunish("battle", user, punishment);
 	}
 	unbattleban(userid) {
@@ -1006,7 +1008,8 @@ class NestedPunishmentMap extends Map {
 		const groupchatsCreated = [];
 		const targetUser = Users.get(user);
 		if (targetUser) {
-			for (const targetRoom of targetUser.getRooms()) {
+			for (const roomid of targetUser.inRooms || []) {
+				const targetRoom = Rooms.get(roomid);
 				if (!_optionalChain([targetRoom, 'optionalAccess', _8 => _8.roomid, 'access', _9 => _9.startsWith, 'call', _10 => _10('groupchat-')])) continue;
 				if (targetRoom.game && targetRoom.game.removeBannedUser) {
 					targetRoom.game.removeBannedUser(targetUser);
@@ -1019,7 +1022,7 @@ class NestedPunishmentMap extends Map {
 					exports.Punishments.bannedGroupchatParticipants[targetRoom.roomid] = new Set(
 						// Room#users is a UserTable where the keys are IDs,
 						// but typed as strings so that they can be used as object keys.
-						Object.keys(targetRoom.users) 
+						Object.keys(targetRoom.users).filter(u => !targetRoom.users[u].can('lock')) 
 					);
 				}
 			}
@@ -1349,8 +1352,8 @@ class NestedPunishmentMap extends Map {
 
 	checkName(user, userid, registered) {
 		if (userid.startsWith('guest')) return;
-		for (const room of user.getRooms()) {
-			exports.Punishments.checkNewNameInRoom(user, userid, room.roomid);
+		for (const roomid of user.inRooms) {
+			exports.Punishments.checkNewNameInRoom(user, userid, roomid);
 		}
 		let punishment = exports.Punishments.userids.get(userid);
 		const battleban = exports.Punishments.isBattleBanned(user);
@@ -1375,7 +1378,7 @@ class NestedPunishmentMap extends Map {
 				if (!punishment) {
 					const appealLink = ticket || (Config.appealurl ? `appeal at: ${Config.appealurl}` : ``);
 					// Prioritize popups for other global punishments
-					user.send(`|popup||html|You are banned from battling${battleban[1] !== userid ? ` because you have the same IP as banned user: ${battleban[1]}` : ''}. Your battle ban will expire in a few days.${battleban[3] ? _utils.Utils.html `\n\nReason: ${battleban[3]}` : ``}${appealLink ? `\n\nOr you can ${appealLink}.` : ``}`);
+					user.send(`|popup||html|You are banned from battling${battleban[1] !== userid ? ` because you have the same IP as banned user: ${battleban[1]}` : ''}. Your battle ban will expire in a few days.${battleban[3] ? _lib.Utils.html `\n\nReason: ${battleban[3]}` : ``}${appealLink ? `\n\nOr you can ${appealLink}.` : ``}`);
 					user.notified.punishment = true;
 					return;
 				}
@@ -1385,7 +1388,7 @@ class NestedPunishmentMap extends Map {
 
 		const id = punishment[0];
 		const punishUserid = punishment[1];
-		const reason = punishment[3] ? _utils.Utils.html`\n\nReason: ${punishment[3]}` : '';
+		const reason = punishment[3] ? _lib.Utils.html`\n\nReason: ${punishment[3]}` : '';
 		let appeal = ``;
 		if (user.permalocked && Config.appealurl) {
 			appeal += `\n\nPermanent punishments can be appealed: <a href="${Config.appealurl}">${Config.appealurl}</a>`;
@@ -1406,13 +1409,13 @@ class NestedPunishmentMap extends Map {
 			user.updateIdentity();
 			return;
 		}
-		if (registered && id === 'BAN') {
+		if (id === 'BAN') {
 			user.popup(
 				`Your username (${user.name}) is banned${bannedUnder}. Your ban will expire in a few days.${reason}` +
 				`${Config.appealurl ? `||||Or you can appeal at: ${Config.appealurl}` : ``}`
 			);
 			user.notified.punishment = true;
-			void exports.Punishments.punish(user, punishment, false);
+			if (registered) void exports.Punishments.punish(user, punishment, false);
 			user.disconnectAll();
 			return;
 		}
@@ -1501,7 +1504,6 @@ class NestedPunishmentMap extends Map {
 
 		return banned;
 	}
-
 	checkNameInRoom(user, roomid) {
 		let punishment = exports.Punishments.roomUserids.nestedGet(roomid, user.id);
 		if (!punishment && user.autoconfirmed) {

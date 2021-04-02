@@ -505,7 +505,7 @@ function getFs(path) {
 }
 
  const FS = Object.assign(getFs, {
-	FileReadStream,
+	FileReadStream, FSPath,
 }); exports.FS = FS;
 
  //# sourceMappingURL=sourceMaps/fs.js.map

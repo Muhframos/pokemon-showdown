@@ -97,7 +97,7 @@
 						effectType: 'Move',
 						type: 'Normal',
 					} ;
-					this.tryMoveHit(target, pokemon, moveData);
+					this.actions.tryMoveHit(target, pokemon, moveData);
 					return false;
 				}
 				this.add('-activate', pokemon, 'move: Bide');
@@ -119,10 +119,10 @@
 		inherit: true,
 		damageCallback(pokemon, target) {
 			const lastAttackedBy = pokemon.getLastAttackedBy();
-			if (!lastAttackedBy || !lastAttackedBy.move || !lastAttackedBy.thisTurn) return false;
+			if (!_optionalChain([lastAttackedBy, 'optionalAccess', _ => _.move]) || !lastAttackedBy.thisTurn) return false;
 
 			// Hidden Power counts as physical
-			if (this.getCategory(lastAttackedBy.move) === 'Physical' && _optionalChain([target, 'access', _ => _.lastMove, 'optionalAccess', _2 => _2.id]) !== 'sleeptalk') {
+			if (this.getCategory(lastAttackedBy.move) === 'Physical' && _optionalChain([target, 'access', _2 => _2.lastMove, 'optionalAccess', _3 => _3.id]) !== 'sleeptalk') {
 				return 2 * lastAttackedBy.damage;
 			}
 			return false;
@@ -195,7 +195,7 @@
 			},
 			onStart(target) {
 				const noEncore = ['encore', 'metronome', 'mimic', 'mirrormove', 'sketch', 'sleeptalk', 'struggle', 'transform'];
-				const lockedMove = _optionalChain([target, 'access', _3 => _3.lastMove, 'optionalAccess', _4 => _4.id]) || '';
+				const lockedMove = _optionalChain([target, 'access', _4 => _4.lastMove, 'optionalAccess', _5 => _5.id]) || '';
 				const moveIndex = lockedMove ? target.moves.indexOf(lockedMove) : -1;
 				if (moveIndex < 0 || noEncore.includes(lockedMove) || target.moveSlots[moveIndex].pp <= 0) {
 					// it failed
@@ -319,7 +319,7 @@
 		inherit: true,
 		onMoveFail(target, source, move) {
 			if (target.runImmunity('Fighting')) {
-				const damage = this.getDamage(source, target, move, true);
+				const damage = this.actions.getDamage(source, target, move, true);
 				if (typeof damage !== 'number') throw new Error("Couldn't get High Jump Kick recoil");
 				this.damage(this.clampIntRange(damage / 8, 1), source, source, move);
 			}
@@ -329,7 +329,7 @@
 		inherit: true,
 		onMoveFail(target, source, move) {
 			if (target.runImmunity('Fighting')) {
-				const damage = this.getDamage(source, target, move, true);
+				const damage = this.actions.getDamage(source, target, move, true);
 				if (typeof damage !== 'number') throw new Error("Couldn't get Jump Kick recoil");
 				this.damage(this.clampIntRange(damage / 8, 1), source, source, move);
 			}
@@ -349,7 +349,7 @@
 			onAfterMoveSelfPriority: 2,
 			onAfterMoveSelf(pokemon) {
 				if (!pokemon.hp) return;
-				const leecher = pokemon.side.foe.active[pokemon.volatiles['leechseed'].sourcePosition];
+				const leecher = this.getAtSlot(pokemon.volatiles['leechseed'].sourceSlot);
 				if (!leecher || leecher.fainted || leecher.hp <= 0) {
 					return;
 				}
@@ -404,6 +404,7 @@
 		inherit: true,
 		accuracy: true,
 		ignoreAccuracy: false,
+		flags: {reflectable: 1, mirror: 1},
 	},
 	metronome: {
 		inherit: true,
@@ -429,10 +430,10 @@
 		inherit: true,
 		damageCallback(pokemon, target) {
 			const lastAttackedBy = pokemon.getLastAttackedBy();
-			if (!lastAttackedBy || !lastAttackedBy.move || !lastAttackedBy.thisTurn) return false;
+			if (!_optionalChain([lastAttackedBy, 'optionalAccess', _6 => _6.move]) || !lastAttackedBy.thisTurn) return false;
 
 			// Hidden Power counts as physical
-			if (this.getCategory(lastAttackedBy.move) === 'Special' && _optionalChain([target, 'access', _5 => _5.lastMove, 'optionalAccess', _6 => _6.id]) !== 'sleeptalk') {
+			if (this.getCategory(lastAttackedBy.move) === 'Special' && _optionalChain([target, 'access', _7 => _7.lastMove, 'optionalAccess', _8 => _8.id]) !== 'sleeptalk') {
 				return 2 * lastAttackedBy.damage;
 			}
 			return false;
@@ -447,14 +448,14 @@
 		onHit(pokemon) {
 			const noMirror = ['metronome', 'mimic', 'mirrormove', 'sketch', 'sleeptalk', 'transform'];
 			const target = pokemon.side.foe.active[0];
-			const lastMove = _optionalChain([target, 'optionalAccess', _7 => _7.lastMove]) && _optionalChain([target, 'optionalAccess', _8 => _8.lastMove, 'access', _9 => _9.id]);
+			const lastMove = _optionalChain([target, 'optionalAccess', _9 => _9.lastMove]) && _optionalChain([target, 'optionalAccess', _10 => _10.lastMove, 'access', _11 => _11.id]);
 			if (!lastMove || (!pokemon.activeTurns && !target.moveThisTurn)) {
 				return false;
 			}
 			if (noMirror.includes(lastMove) || pokemon.moves.includes(lastMove)) {
 				return false;
 			}
-			this.useMove(lastMove, pokemon);
+			this.actions.useMove(lastMove, pokemon);
 		},
 		noSketch: true,
 	},
@@ -647,7 +648,7 @@
 			let randomMove = '';
 			if (moves.length) randomMove = this.sample(moves);
 			if (!randomMove) return false;
-			this.useMove(randomMove, pokemon);
+			this.actions.useMove(randomMove, pokemon);
 		},
 		noSketch: true,
 	},
@@ -663,6 +664,7 @@
 		inherit: true,
 		accuracy: true,
 		ignoreAccuracy: false,
+		flags: {reflectable: 1, mirror: 1},
 	},
 	spikes: {
 		inherit: true,
@@ -724,7 +726,7 @@
 					}
 					return;
 				}
-				let damage = this.getDamage(source, target, move);
+				let damage = this.actions.getDamage(source, target, move);
 				if (!damage) {
 					return null;
 				}

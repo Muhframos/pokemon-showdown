@@ -8,7 +8,7 @@
  *
  * @license MIT
  */
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 /* eslint no-else-return: "error" */
 
@@ -253,6 +253,9 @@ const REQUIRE_REASONS = true;
 						targetUser.updateIdentity(subRoom.roomid);
 					}
 				}
+				if (targetUser.trusted && !Users.isTrusted(targetUser.id)) {
+					targetUser.trusted = '';
+				}
 			}
 		}
 		room.saveSettings();
@@ -282,13 +285,13 @@ const REQUIRE_REASONS = true;
 			rankLists[symbol].push(Users.globalAuth.usernames.get(id) || id);
 		}
 
-		const buffer = _utils.Utils.sortBy(
+		const buffer = _lib.Utils.sortBy(
 			Object.entries(rankLists) ,
 			([symbol]) => -Users.Auth.getGroup(symbol).rank
 		).map(
 			([symbol, names]) => (
 				`${(Config.groups[symbol] ? `**${Config.groups[symbol].name}s** (${symbol})` : symbol)}:\n` +
-				_utils.Utils.sortBy(names, name => toID(name)).join(", ")
+				_lib.Utils.sortBy(names, name => toID(name)).join(", ")
 			)
 		);
 		if (!showAll) buffer.push(`(Use \`\`/auth +\`\` to show global voice users.)`);
@@ -310,7 +313,7 @@ const REQUIRE_REASONS = true;
 		if (cmd === 'roomauth1') userLookup = `\n\nTo look up auth for a user, use /userauth ${target}`;
 		let targetRoom = room;
 		if (target) targetRoom = Rooms.search(target);
-		if (!targetRoom || !targetRoom.checkModjoin(user)) {
+		if (!_optionalChain([targetRoom, 'optionalAccess', _22 => _22.checkModjoin, 'call', _23 => _23(user)])) {
 			return this.errorReply(`The room "${target}" does not exist.`);
 		}
 		const showAll = user.can('mute', null, targetRoom);
@@ -322,15 +325,15 @@ const REQUIRE_REASONS = true;
 			rankLists[rank].push(id);
 		}
 
-		const buffer = _utils.Utils.sortBy(
+		const buffer = _lib.Utils.sortBy(
 			Object.entries(rankLists) ,
 			([symbol]) => -Users.Auth.getGroup(symbol).rank
 		).map(([symbol, names]) => {
 			let group = Config.groups[symbol] ? `${Config.groups[symbol].name}s (${symbol})` : symbol;
 			if (symbol === ' ') group = 'Whitelisted (this list is only visible to staff)';
 			return `${group}:\n` +
-				_utils.Utils.sortBy(names).map(userid => {
-					const isOnline = _optionalChain([Users, 'access', _22 => _22.get, 'call', _23 => _23(userid), 'optionalAccess', _24 => _24.statusType]) === 'online';
+				_lib.Utils.sortBy(names).map(userid => {
+					const isOnline = _optionalChain([Users, 'access', _24 => _24.get, 'call', _25 => _25(userid), 'optionalAccess', _26 => _26.statusType]) === 'online';
 					// targetRoom guaranteed to exist above
 					return userid in targetRoom.users && isOnline ? `**${userid}**` : userid;
 				}).join(', ');
@@ -363,7 +366,7 @@ const REQUIRE_REASONS = true;
 	userauth(target, room, user, connection) {
 		const targetId = toID(target) || user.id;
 		const targetUser = Users.getExact(targetId);
-		const targetUsername = _optionalChain([targetUser, 'optionalAccess', _25 => _25.name]) || target;
+		const targetUsername = _optionalChain([targetUser, 'optionalAccess', _27 => _27.name]) || target;
 
 		const buffer = [];
 		let innerBuffer = [];
@@ -461,8 +464,8 @@ const REQUIRE_REASONS = true;
 		const targetRoom = target ? Rooms.search(target) : room;
 		if (!targetRoom) {
 			if (target.startsWith('view-')) {
-				_optionalChain([connection, 'access', _26 => _26.openPages, 'optionalAccess', _27 => _27.delete, 'call', _28 => _28(target.slice(5))]);
-				if (!_optionalChain([connection, 'access', _29 => _29.openPages, 'optionalAccess', _30 => _30.size])) connection.openPages = null;
+				_optionalChain([connection, 'access', _28 => _28.openPages, 'optionalAccess', _29 => _29.delete, 'call', _30 => _30(target.slice(5))]);
+				if (!_optionalChain([connection, 'access', _31 => _31.openPages, 'optionalAccess', _32 => _32.size])) connection.openPages = null;
 				return;
 			}
 			return this.errorReply(`The room '${target}' does not exist.`);
@@ -488,19 +491,11 @@ const REQUIRE_REASONS = true;
 
 		target = this.splitTarget(target);
 		const targetID = toID(this.targetUsername);
-		let privateReason = '';
-		let publicReason = target;
-		const targetLowercase = target.toLowerCase();
-		if (target && (targetLowercase.includes('spoiler:') || targetLowercase.includes('spoilers:'))) {
-			const privateIndex = targetLowercase.indexOf(targetLowercase.includes('spoilers:') ? 'spoilers:' : 'spoiler:');
-			const bump = (targetLowercase.includes('spoilers:') ? 9 : 8);
-			privateReason = `(PROOF: ${target.substr(privateIndex + bump, target.length).trim()}) `;
-			publicReason = target.substr(0, privateIndex).trim();
-		}
+		const {privateReason, publicReason} = this.parseSpoiler(target);
 
 		const targetUser = this.targetUser;
 		const saveReplay = globalWarn && room.battle;
-		if (!targetUser || !targetUser.connected) {
+		if (!_optionalChain([targetUser, 'optionalAccess', _33 => _33.connected])) {
 			if (!targetUser || !globalWarn) return this.errorReply(`User '${this.targetUsername}' not found.`);
 			this.checkCan('warn', null, room);
 
@@ -510,7 +505,7 @@ const REQUIRE_REASONS = true;
 			if (saveReplay) this.parse('/savereplay forpunishment');
 			return;
 		}
-		if (!targetUser.inRoom(room) && !globalWarn) {
+		if (!(targetUser.id in room.users) && !globalWarn) {
 			return this.errorReply(`User ${this.targetUsername} is not in the room ${room.roomid}.`);
 		}
 		if (publicReason.length > MAX_REASON_LENGTH) {
@@ -571,17 +566,17 @@ const REQUIRE_REASONS = true;
 			return;
 		}
 
-		if (!targetUser || !targetUser.connected) {
+		if (!_optionalChain([targetUser, 'optionalAccess', _34 => _34.connected])) {
 			return this.errorReply(`User ${this.targetUsername} not found.`);
 		}
 		if (targetRoom.roomid === "global") return this.errorReply(`Users cannot be redirected to the global room.`);
 		if (targetRoom.settings.isPrivate || targetRoom.settings.isPersonal) {
 			return this.errorReply(`The room "${target}" is not public.`);
 		}
-		if (targetUser.inRoom(targetRoom)) {
+		if (targetUser.inRooms.has(targetRoom.roomid)) {
 			return this.errorReply(`User ${targetUser.name} is already in the room ${targetRoom.title}!`);
 		}
-		if (!targetUser.inRoom(targetRoom)) {
+		if (!targetUser.inRooms.has(room.roomid)) {
 			return this.errorReply(`User ${this.targetUsername} is not in the room ${room.roomid}.`);
 		}
 		targetUser.leaveRoom(room.roomid);
@@ -607,6 +602,7 @@ const REQUIRE_REASONS = true;
 		if (target.length > MAX_REASON_LENGTH) {
 			return this.errorReply(`The reason is too long. It cannot exceed ${MAX_REASON_LENGTH} characters.`);
 		}
+		const {publicReason, privateReason} = this.parseSpoiler(target);
 
 		const muteDuration = ((cmd === 'hm' || cmd === 'hourmute') ? HOURMUTE_LENGTH : MUTE_LENGTH);
 		this.checkCan('mute', targetUser, room);
@@ -620,14 +616,14 @@ const REQUIRE_REASONS = true;
 			if (!target) {
 				return this.privateModAction(`${targetUser.name} would be muted by ${user.name} ${problem}.`);
 			}
-			return this.addModAction(`${targetUser.name} would be muted by ${user.name} ${problem}. (${target})`);
+			return this.addModAction(`${targetUser.name} would be muted by ${user.name} ${problem}. (${publicReason})`);
 		}
 
-		if (targetUser.inRoom(room)) {
-			targetUser.popup(`|modal|${user.name} has muted you in ${room.roomid} for ${Chat.toDurationString(muteDuration)}. ${target}`);
+		if (targetUser.id in room.users) {
+			targetUser.popup(`|modal|${user.name} has muted you in ${room.roomid} for ${Chat.toDurationString(muteDuration)}. ${publicReason}`);
 		}
-		this.addModAction(`${targetUser.name} was muted by ${user.name} for ${Chat.toDurationString(muteDuration)}.${(target ? ` (${target})` : ``)}`);
-		this.modlog(`${cmd.includes('h') ? 'HOUR' : ''}MUTE`, targetUser, target);
+		this.addModAction(`${targetUser.name} was muted by ${user.name} for ${Chat.toDurationString(muteDuration)}.${(publicReason ? ` (${publicReason})` : ``)}`);
+		this.modlog(`${cmd.includes('h') ? 'HOUR' : ''}MUTE`, targetUser, `${publicReason} ${privateReason}`);
 		if (targetUser.autoconfirmed && targetUser.autoconfirmed !== targetUser.id) {
 			const displayMessage = `${targetUser.name}'s ac account: ${targetUser.autoconfirmed}`;
 			this.privateModAction(displayMessage);
@@ -658,7 +654,7 @@ const REQUIRE_REASONS = true;
 
 		const targetUser = this.targetUser;
 		const successfullyUnmuted = room.unmute(
-			_optionalChain([targetUser, 'optionalAccess', _31 => _31.id]) || toID(this.targetUsername), `Your mute in '${room.title}' has been lifted.`
+			_optionalChain([targetUser, 'optionalAccess', _35 => _35.id]) || toID(this.targetUsername), `Your mute in '${room.title}' has been lifted.`
 		);
 
 		if (successfullyUnmuted) {
@@ -686,6 +682,7 @@ const REQUIRE_REASONS = true;
 		const week = ['wrb', 'wb', 'forceweekban', 'weekban'].includes(cmd);
 
 		target = this.splitTarget(target);
+		const {publicReason, privateReason} = this.parseSpoiler(target);
 		const targetUser = this.targetUser;
 		if (!targetUser) return this.errorReply(`User '${this.targetUsername}' not found.`);
 		if (target.length > MAX_REASON_LENGTH) {
@@ -717,21 +714,20 @@ const REQUIRE_REASONS = true;
 			Monitor.log(`[CrisisMonitor] Trusted user ${targetUser.name} ${(targetUser.trusted !== targetUser.id ? ` (${targetUser.trusted})` : ``)} was roombanned from ${room.roomid} by ${user.name}, and should probably be demoted.`);
 		}
 
-		if (targetUser.inRoom(room) || user.can('lock')) {
+		if (targetUser.id in room.users || user.can('lock')) {
 			targetUser.popup(
-				`|modal||html|<p>${_utils.Utils.escapeHTML(user.name)} has banned you from the room ${room.roomid} ` +
+				`|modal||html|<p>${_lib.Utils.escapeHTML(user.name)} has banned you from the room ${room.roomid} ` +
 				`${(room.subRooms ? ` and its subrooms` : ``)}${week ? ' for a week' : ''}.` +
-				`</p>${(target ? `<p>Reason: ${_utils.Utils.escapeHTML(target)}</p>` : ``)}` +
+				`</p>${(publicReason ? `<p>Reason: ${_lib.Utils.escapeHTML(publicReason)}</p>` : ``)}` +
 				`<p>To appeal the ban, PM the staff member that banned you${room.persist ? ` or a room owner. ` +
 				`</p><p><button name="send" value="/roomauth ${room.roomid}">List Room Staff</button></p>` : `.</p>`}`
 			);
 		}
 
-		const reason = (target ? ` (${target})` : ``);
-		this.addModAction(`${name} was banned ${week ? ' for a week' : ''} from ${room.title} by ${user.name}.${reason}`);
+		this.addModAction(`${name} was banned ${week ? ' for a week' : ''} from ${room.title} by ${user.name}.${publicReason ? ` (${publicReason})` : ``}`);
 
 		const time = week ? Date.now() + 7 * 24 * 60 * 60 * 1000 : null;
-		const affected = Punishments.roomBan(room, targetUser, time, null, target);
+		const affected = Punishments.roomBan(room, targetUser, time, null, `${publicReason} ${privateReason}`);
 
 		if (!room.settings.isPrivate && room.persist) {
 			const acAccount = (targetUser.autoconfirmed !== userid && targetUser.autoconfirmed);
@@ -747,9 +743,9 @@ const REQUIRE_REASONS = true;
 		room.hideText([userid, toID(this.inputUsername)]);
 
 		if (room.settings.isPrivate !== true && room.persist) {
-			this.globalModlog(`${week ? 'WEEK' : ''}ROOMBAN`, targetUser, target);
+			this.globalModlog(`${week ? 'WEEK' : ''}ROOMBAN`, targetUser, `${publicReason} ${privateReason}`);
 		} else {
-			this.modlog(`${week ? 'WEEK' : ''}ROOMBAN`, targetUser, target);
+			this.modlog(`${week ? 'WEEK' : ''}ROOMBAN`, targetUser, `${publicReason} ${privateReason}`);
 		}
 		return true;
 	},
@@ -836,15 +832,7 @@ const REQUIRE_REASONS = true;
 			return this.errorReply(`Use /lock; ${name} is not a trusted user and is online.`);
 		}
 
-		let proof = '';
-		let userReason = target;
-		const targetLowercase = target.toLowerCase();
-		if (target && (targetLowercase.includes('spoiler:') || targetLowercase.includes('spoilers:'))) {
-			const proofIndex = targetLowercase.indexOf(targetLowercase.includes('spoilers:') ? 'spoilers:' : 'spoiler:');
-			const bump = (targetLowercase.includes('spoilers:') ? 9 : 8);
-			proof = `(PROOF: ${target.substr(proofIndex + bump, target.length).trim()}) `;
-			userReason = target.substr(0, proofIndex).trim();
-		}
+		const {privateReason, publicReason} = this.parseSpoiler(target);
 
 
 		// Use default time for locks.
@@ -853,20 +841,22 @@ const REQUIRE_REASONS = true;
 
 		if (targetUser) {
 			const ignoreAlts = Punishments.sharedIps.has(targetUser.latestIp);
-			affected = await Punishments.lock(targetUser, duration, null, ignoreAlts, userReason);
+			affected = await Punishments.lock(targetUser, duration, null, ignoreAlts, publicReason);
 		} else {
-			affected = await Punishments.lock(userid, duration, null, false, userReason);
+			affected = await Punishments.lock(userid, duration, null, false, publicReason);
 		}
 
-		const globalReason = (target ? `${userReason} ${proof}` : '');
+		const globalReason = (target ? `${publicReason} ${privateReason}` : '');
 		this.globalModlog(
 			(week ? "WEEKLOCK" : (month ? "MONTHLOCK" : "LOCK")), targetUser || userid, globalReason
 		);
 
 		const durationMsg = week ? ' for a week' : (month ? ' for a month' : '');
-		this.addGlobalModAction(`${name} was locked from talking${durationMsg} by ${user.name}.` + (userReason ? ` (${userReason})` : ""));
+		this.addGlobalModAction(`${name} was locked from talking${durationMsg} by ${user.name}.` + (publicReason ? ` (${publicReason})` : ""));
 
-		_optionalChain([room, 'optionalAccess', _32 => _32.hideText, 'call', _33 => _33([userid, toID(this.inputUsername)])]);
+		if (room && !room.settings.isHelp) {
+			room.hideText([userid, toID(this.inputUsername)]);
+		}
 		const acAccount = (targetUser && targetUser.autoconfirmed !== userid && targetUser.autoconfirmed);
 		let displayMessage = '';
 		if (affected.length > 1) {
@@ -879,7 +869,7 @@ const REQUIRE_REASONS = true;
 
 		if (targetUser) {
 			let message = `|popup||html|${user.name} has locked you from talking in chats, battles, and PMing regular users${durationMsg}`;
-			if (userReason) message += `\n\nReason: ${userReason}`;
+			if (publicReason) message += `\n\nReason: ${publicReason}`;
 
 			let appeal = '';
 			if (Chat.pages.help) {
@@ -899,7 +889,7 @@ const REQUIRE_REASONS = true;
 		}
 
 		// Automatically upload replays as evidence/reference to the punishment
-		if (_optionalChain([room, 'optionalAccess', _34 => _34.battle])) this.parse('/savereplay forpunishment');
+		if (_optionalChain([room, 'optionalAccess', _36 => _36.battle])) this.parse('/savereplay forpunishment');
 		return true;
 	},
 	lockhelp: [
@@ -913,11 +903,11 @@ const REQUIRE_REASONS = true;
 		this.checkCan('lock');
 
 		const targetUser = Users.get(target);
-		if (_optionalChain([targetUser, 'optionalAccess', _35 => _35.namelocked])) {
+		if (_optionalChain([targetUser, 'optionalAccess', _37 => _37.namelocked])) {
 			return this.errorReply(`User ${targetUser.name} is namelocked, not locked. Use /unnamelock to unnamelock them.`);
 		}
 		let reason = '';
-		if (_optionalChain([targetUser, 'optionalAccess', _36 => _36.locked]) && targetUser.locked.startsWith('#')) {
+		if (_optionalChain([targetUser, 'optionalAccess', _38 => _38.locked]) && targetUser.locked.startsWith('#')) {
 			reason = ` (${targetUser.locked})`;
 		}
 
@@ -977,7 +967,7 @@ const REQUIRE_REASONS = true;
 
 		for (const curUser of Users.findUsers([], [target])) {
 			if (
-				(range ? curUser.locked === '#rangelock' : !_optionalChain([curUser, 'access', _37 => _37.locked, 'optionalAccess', _38 => _38.startsWith, 'call', _39 => _39('#')])) &&
+				(range ? curUser.locked === '#rangelock' : !_optionalChain([curUser, 'access', _39 => _39.locked, 'optionalAccess', _40 => _40.startsWith, 'call', _41 => _41('#')])) &&
 				!Punishments.getPunishType(curUser.id)
 			) {
 				curUser.locked = null;
@@ -1033,8 +1023,8 @@ const REQUIRE_REASONS = true;
 		if (Users.isTrusted(userid)) {
 			if (force) {
 				const from = runCrisisDemote(userid);
-				Monitor.log(`[CrisisMonitor] ${name} was globally banned by ${user.name} and demoted from ${_optionalChain([from, 'optionalAccess', _40 => _40.join, 'call', _41 => _41(", ")])}.`);
-				this.globalModlog("CRISISDEMOTE", targetUser, ` from ${_optionalChain([from, 'optionalAccess', _42 => _42.join, 'call', _43 => _43(", ")])}`);
+				Monitor.log(`[CrisisMonitor] ${name} was globally banned by ${user.name} and demoted from ${_optionalChain([from, 'optionalAccess', _42 => _42.join, 'call', _43 => _43(", ")])}.`);
+				this.globalModlog("CRISISDEMOTE", targetUser, ` from ${_optionalChain([from, 'optionalAccess', _44 => _44.join, 'call', _45 => _45(", ")])}`);
 			} else {
 				return this.sendReply(`${name} is a trusted user. If you are sure you would like to ban them use /forceglobalban.`);
 			}
@@ -1046,25 +1036,16 @@ const REQUIRE_REASONS = true;
 		if (roomauth.length) {
 			Monitor.log(`[CrisisMonitor] Globally banned user ${name} has public roomauth (${roomauth.join(', ')}), and should probably be demoted.`);
 		}
-		let proof = '';
-		let userReason = target;
-		const targetLowercase = target.toLowerCase();
-		if (target && (targetLowercase.includes('spoiler:') || targetLowercase.includes('spoilers:'))) {
-			const proofIndex = targetLowercase.indexOf(targetLowercase.includes('spoilers:') ? 'spoilers:' : 'spoiler:');
-			const bump = (targetLowercase.includes('spoilers:') ? 9 : 8);
-			proof = `(PROOF: ${target.substr(proofIndex + bump, target.length).trim()}) `;
-			userReason = target.substr(0, proofIndex).trim();
-		}
-
-		_optionalChain([targetUser, 'optionalAccess', _44 => _44.popup, 'call', _45 => _45(
-			`|modal|${user.name} has globally banned you.${(userReason ? `\n\nReason: ${userReason}` : ``)} ` +
+		const {privateReason, publicReason} = this.parseSpoiler(target);
+		_optionalChain([targetUser, 'optionalAccess', _46 => _46.popup, 'call', _47 => _47(
+			`|modal|${user.name} has globally banned you.${(publicReason ? `\n\nReason: ${publicReason}` : ``)} ` +
 			`${(Config.appealurl ? `\n\nIf you feel that your ban was unjustified, you can appeal:\n${Config.appealurl}` : ``)}` +
 			`\n\nYour ban will expire in a few days.`
 		)]);
 
-		this.addGlobalModAction(`${name} was globally banned by ${user.name}.${(userReason ? ` (${userReason})` : ``)}`);
+		this.addGlobalModAction(`${name} was globally banned by ${user.name}.${(publicReason ? ` (${publicReason})` : ``)}`);
 
-		const affected = await Punishments.ban(userid, null, null, false, userReason);
+		const affected = await Punishments.ban(userid, null, null, false, publicReason);
 		const acAccount = (targetUser && targetUser.autoconfirmed !== userid && targetUser.autoconfirmed);
 		let displayMessage = '';
 		if (affected.length > 1) {
@@ -1083,9 +1064,9 @@ const REQUIRE_REASONS = true;
 			this.privateModAction(displayMessage);
 		}
 
-		_optionalChain([room, 'optionalAccess', _46 => _46.hideText, 'call', _47 => _47([userid, toID(this.inputUsername)])]);
+		_optionalChain([room, 'optionalAccess', _48 => _48.hideText, 'call', _49 => _49([userid, toID(this.inputUsername)])]);
 
-		const globalReason = (target ? `${userReason} ${proof}` : '');
+		const globalReason = (target ? `${publicReason} ${privateReason}` : '');
 		this.globalModlog("BAN", targetUser, globalReason);
 		return true;
 	},
@@ -1109,27 +1090,6 @@ const REQUIRE_REASONS = true;
 		this.globalModlog("UNBAN", target);
 	},
 	unglobalbanhelp: [`/unglobalban [username] - Unban a user. Requires: @ &`],
-
-	unbanall(target, room, user) {
-		this.checkCan('rangeban');
-		if (!target) {
-			user.lastCommand = '/unbanall';
-			this.errorReply("THIS WILL UNBAN AND UNLOCK ALL USERS.");
-			this.errorReply("To confirm, use: /unbanall confirm");
-			return;
-		}
-		if (user.lastCommand !== '/unbanall' || target !== 'confirm') {
-			return this.parse('/help unbanall');
-		}
-		user.lastCommand = '';
-		Punishments.userids.clear();
-		Punishments.ips.clear();
-		Punishments.savePunishments();
-
-		this.addGlobalModAction(`All bans and locks have been lifted by ${user.name}.`);
-		this.modlog('UNBANALL');
-	},
-	unbanallhelp: [`/unbanall - Unban all IP addresses. Requires: &`],
 
 	deroomvoiceall(target, room, user) {
 		room = this.requireRoom();
@@ -1275,7 +1235,7 @@ const REQUIRE_REASONS = true;
 
 		if (!userid) return this.parse('/help promote');
 
-		const currentGroup = _optionalChain([targetUser, 'optionalAccess', _48 => _48.tempGroup]) || Users.globalAuth.get(userid);
+		const currentGroup = _optionalChain([targetUser, 'optionalAccess', _50 => _50.tempGroup]) || Users.globalAuth.get(userid);
 		let nextGroup = target ;
 		if (target === 'deauth') nextGroup = Users.Auth.defaultSymbol();
 		if (!nextGroup) {
@@ -1331,7 +1291,13 @@ const REQUIRE_REASONS = true;
 			if (targetUser) targetUser.popup(`You were promoted to ${groupName} by ${user.name}.`);
 		}
 
-		if (targetUser) targetUser.updateIdentity();
+		if (targetUser) {
+			targetUser.updateIdentity();
+			Rooms.global.checkAutojoin(targetUser);
+			if (targetUser.trusted && !Users.isTrusted(targetUser.id)) {
+				targetUser.trusted = '';
+			}
+		}
 	},
 	promotehelp: [`/promote [username], [group] - Promotes the user to the specified group. Requires: &`],
 
@@ -1456,7 +1422,7 @@ const REQUIRE_REASONS = true;
 		for (const id in room.users) {
 			room.users[id].sendTo(room, `|notify|${room.title} announcement!|${target}`);
 		}
-		this.add(_utils.Utils.html`|raw|<div class="broadcast-blue"><b>${target}</b></div>`);
+		this.add(_lib.Utils.html`|raw|<div class="broadcast-blue"><b>${target}</b></div>`);
 		this.modlog('DECLARE', null, target);
 	},
 	declarehelp: [`/declare [message] - Anonymously announces a message. Requires: # * &`],
@@ -1469,9 +1435,9 @@ const REQUIRE_REASONS = true;
 		this.checkHTML(target);
 
 		for (const u in room.users) {
-			_optionalChain([Users, 'access', _49 => _49.get, 'call', _50 => _50(u), 'optionalAccess', _51 => _51.sendTo, 'call', _52 => _52(
+			_optionalChain([Users, 'access', _51 => _51.get, 'call', _52 => _52(u), 'optionalAccess', _53 => _53.sendTo, 'call', _54 => _54(
 				room,
-				`|notify|${room.title} announcement!|${_utils.Utils.stripHTML(target)}`
+				`|notify|${room.title} announcement!|${_lib.Utils.stripHTML(target)}`
 			)]);
 		}
 		this.add(`|raw|<div class="broadcast-blue"><b>${target}</b></div>`);
@@ -1490,7 +1456,7 @@ const REQUIRE_REASONS = true;
 		}
 		this.globalModlog(`GLOBALDECLARE`, null, target);
 	},
-	globaldeclarehelp: [`/globaldeclare [message] - Anonymously announces a message to all rooms on the site. Requires: &`],
+	globaldeclarehelp: [`/globaldeclare [message] - Anonymously sends a private message to all the users on the site. Requires: &`],
 
 	cdeclare: 'chatdeclare',
 	chatdeclare(target, room, user) {
@@ -1558,48 +1524,53 @@ const REQUIRE_REASONS = true;
 	],
 
 	fr: 'forcerename',
+	ofr: 'forcerename',
+	offlineforcerename: 'forcerename',
 	forcerename(target, room, user) {
 		if (!target) return this.parse('/help forcerename');
 
 		const reason = this.splitTarget(target, true);
+		const offline = this.cmd.startsWith('o');
 		const targetUser = this.targetUser;
-		const targetID = toID(this.targetUsername);
-		if (!targetUser) {
+		const targetID = _optionalChain([this, 'access', _55 => _55.targetUser, 'optionalAccess', _56 => _56.id]) || toID(this.targetUsername);
+		// && !offline because maybe we're trying to disallow the name after they namechanged
+		if (!targetUser && !offline) {
 			this.splitTarget(target);
 			if (this.targetUser) {
 				return this.errorReply(`User has already changed their name to '${this.targetUser.name}'.`);
 			}
-			return this.errorReply(`User '${target}' not found.`);
+			return this.errorReply(`User '${target}' not found. (use /offlineforcerename to rename anyway.)`);
 		}
 		this.checkCan('forcerename', targetID);
+		const {publicReason, privateReason} = this.parseSpoiler(reason);
 
-		Monitor.forceRenames.set(targetUser.id, (Monitor.forceRenames.get(targetUser.id) || 0) + 1);
+		Monitor.forceRenames.set(targetID, (Monitor.forceRenames.get(targetID) || 0) + 1);
 
 		let forceRenameMessage;
-		if (targetUser.connected) {
-			forceRenameMessage = `was forced to choose a new name by ${user.name}${(reason ? `: ${reason}` : ``)}`;
+		if (_optionalChain([targetUser, 'optionalAccess', _57 => _57.connected])) {
+			forceRenameMessage = `was forced to choose a new name by ${user.name}${(publicReason ? `: ${publicReason}` : ``)}`;
 			this.globalModlog('FORCERENAME', targetUser, reason);
 			Ladders.cancelSearches(targetUser);
-			targetUser.send(`|nametaken||${user.name} considers your name inappropriate${(reason ? `: ${reason}` : ".")}`);
+			targetUser.send(`|nametaken||${user.name} considers your name inappropriate${(publicReason ? `: ${publicReason}` : ``)}`);
 		} else {
-			forceRenameMessage = `would be forced to choose a new name by ${user.name} but is offline${(reason ? `: ${reason}` : ``)}`;
-			this.globalModlog('FORCERENAME OFFLINE', targetUser, reason);
+			forceRenameMessage = `was forced to choose a new name by ${user.name} while offline${(publicReason ? `: ${publicReason}` : ``)}`;
+			this.globalModlog('FORCERENAME OFFLINE', targetUser, `${publicReason} ${privateReason}`);
 		}
 		Monitor.forceRenames.set(targetID, (Monitor.forceRenames.get(targetID) || 0) + 1);
 
-		if (_optionalChain([room, 'optionalAccess', _53 => _53.roomid]) !== 'staff') this.privateModAction(`${targetUser.name} ${forceRenameMessage}`);
+		if (_optionalChain([room, 'optionalAccess', _58 => _58.roomid]) !== 'staff') this.privateModAction(`${_optionalChain([targetUser, 'optionalAccess', _59 => _59.name]) || targetID} ${forceRenameMessage}`);
 		const roomMessage = this.pmTarget ? `<PM:${this.pmTarget.id}>` :
 			room && room.roomid !== 'staff' ? `«<a href="/${room.roomid}" target="_blank">${room.roomid}</a>» ` :
 			'';
-		const rankMessage = targetUser.getAccountStatusString();
+		const rankMessage = _optionalChain([targetUser, 'optionalAccess', _60 => _60.getAccountStatusString, 'call', _61 => _61()]) || "";
 		Rooms.global.notifyRooms(
 			['staff'],
-			`|html|${roomMessage}` + _utils.Utils.html`<span class="username">${targetUser.name}</span> ${rankMessage} ${forceRenameMessage}`
+			`|html|${roomMessage}` + _lib.Utils.html`<span class="username">${_optionalChain([targetUser, 'optionalAccess', _62 => _62.name]) || targetID}</span> ${rankMessage} ${forceRenameMessage}`
 		);
 
-		targetUser.resetName(true);
-		if (Punishments.namefilterwhitelist.has(targetUser.id)) {
-			Punishments.unwhitelistName(targetUser.id);
+		_optionalChain([targetUser, 'optionalAccess', _63 => _63.resetName, 'call', _64 => _64(true)]);
+		if (Punishments.namefilterwhitelist.has(targetID)) {
+			Punishments.unwhitelistName(targetID);
 		}
 		return true;
 	},
@@ -1618,7 +1589,7 @@ const REQUIRE_REASONS = true;
 		const week = cmd.includes('w');
 		const force = cmd.includes('force');
 
-		const reason = this.splitTarget(target);
+		target = this.splitTarget(target);
 		const userid = toID(this.targetUsername);
 		const targetUser = this.targetUser;
 
@@ -1629,18 +1600,10 @@ const REQUIRE_REASONS = true;
 			return this.errorReply(`${this.inputUsername} has already changed their name to ${targetUser.name}. To namelock anyway, use /forcenamelock.`);
 		}
 		this.checkCan('forcerename', userid);
-		if (_optionalChain([targetUser, 'optionalAccess', _54 => _54.namelocked])) return this.errorReply(`User '${targetUser.name}' is already namelocked.`);
-		let privateReason = '';
-		let publicReason = reason;
-		const targetLowercase = target.toLowerCase();
-		if (target && (targetLowercase.includes('spoiler:') || targetLowercase.includes('spoilers:'))) {
-			const privateIndex = targetLowercase.indexOf(targetLowercase.includes('spoilers:') ? 'spoilers:' : 'spoiler:');
-			const bump = (targetLowercase.includes('spoilers:') ? 9 : 8);
-			privateReason = `(PROOF: ${target.substr(privateIndex + bump, target.length).trim()}) `;
-			publicReason = target.substr(0, privateIndex).trim();
-		}
+		if (_optionalChain([targetUser, 'optionalAccess', _65 => _65.namelocked])) return this.errorReply(`User '${targetUser.name}' is already namelocked.`);
+		const {privateReason, publicReason} = this.parseSpoiler(target);
 		const reasonText = publicReason ? ` (${publicReason})` : `.`;
-		this.privateGlobalModAction(`${_optionalChain([targetUser, 'optionalAccess', _55 => _55.name]) || userid} was ${week ? 'week' : ''}namelocked by ${user.name}${reasonText}`);
+		this.privateGlobalModAction(`${_optionalChain([targetUser, 'optionalAccess', _66 => _66.name]) || userid} was ${week ? 'week' : ''}namelocked by ${user.name}${reasonText}`);
 		this.globalModlog(`${week ? 'WEEK' : ""}NAMELOCK`, targetUser || userid, target ? `${publicReason} ${privateReason}` : ``);
 
 		const roomauth = Rooms.global.destroyPersonalRooms(userid);
@@ -1654,7 +1617,7 @@ const REQUIRE_REASONS = true;
 		const duration = week ? 7 * 24 * 60 * 60 * 1000 : 48 * 60 * 60 * 1000;
 		await Punishments.namelock(userid, Date.now() + duration, null, false, publicReason);
 		// Automatically upload replays as evidence/reference to the punishment
-		if (_optionalChain([room, 'optionalAccess', _56 => _56.battle])) this.parse('/savereplay forpunishment');
+		if (_optionalChain([room, 'optionalAccess', _67 => _67.battle])) this.parse('/savereplay forpunishment');
 
 		return true;
 	},
@@ -1667,7 +1630,7 @@ const REQUIRE_REASONS = true;
 
 		const targetUser = Users.get(target);
 		let reason = '';
-		if (_optionalChain([targetUser, 'optionalAccess', _57 => _57.namelocked])) {
+		if (_optionalChain([targetUser, 'optionalAccess', _68 => _68.namelocked])) {
 			reason = ` (${targetUser.namelocked})`;
 		}
 
@@ -1705,7 +1668,7 @@ const REQUIRE_REASONS = true;
 		if (/^[0-9]+\s*(,|$)/.test(target)) {
 			if (hasLineCount) {
 				let lineCountString;
-				[lineCountString, target] = _utils.Utils.splitFirst(target, ',');
+				[lineCountString, target] = _lib.Utils.splitFirst(target, ',');
 				lineCount = parseInt(lineCountString);
 			} else if (!cmd.includes('force')) {
 				return this.errorReply(`Your reason was a number; use /hidelines if you wanted to clear a specific number of lines, or /forcehidetext if you really wanted your reason to be a number.`);
@@ -1814,9 +1777,9 @@ const REQUIRE_REASONS = true;
 			Monitor.log(`[CrisisMonitor] Trusted user ${targetUser.name}${targetUser.trusted !== targetUser.id ? ` (${targetUser.trusted})` : ''} was blacklisted from ${room.roomid} by ${user.name}, and should probably be demoted.`);
 		}
 
-		if (targetUser.inRoom(room) || user.can('lock')) {
+		if (targetUser.id in room.users || user.can('lock')) {
 			targetUser.popup(
-				`|modal||html|<p>${_utils.Utils.escapeHTML(user.name)} has blacklisted you from the room ${room.roomid}${(room.subRooms ? ` and its subrooms` : '')}. Reason: ${_utils.Utils.escapeHTML(target)}</p>` +
+				`|modal||html|<p>${_lib.Utils.escapeHTML(user.name)} has blacklisted you from the room ${room.roomid}${(room.subRooms ? ` and its subrooms` : '')}. Reason: ${_lib.Utils.escapeHTML(target)}</p>` +
 				`<p>To appeal the ban, PM the staff member that blacklisted you${room.persist ? ` or a room owner. </p><p><button name="send" value="/roomauth ${room.roomid}">List Room Staff</button></p>` : `.</p>`}`
 			);
 		}
@@ -1927,7 +1890,12 @@ const REQUIRE_REASONS = true;
 	groupchatban(target, room, user, connection, cmd) {
 		room = this.requireRoom();
 		if (!target) return this.parse(`/help groupchatban`);
-		this.checkCan('lock');
+		if (!user.can('rangeban')) {
+			return this.errorReply(
+				`/groupchatban has been deprecated.\n` +
+				`For future groupchat misuse, lock the creator, it will take away their trusted status and their ability to make groupchats.`
+			);
+		}
 
 		const reason = this.splitTarget(target);
 		const targetUser = this.targetUser;
@@ -1956,7 +1924,7 @@ const REQUIRE_REASONS = true;
 		for (const roomid of createdGroupchats) {
 			const targetRoom = Rooms.get(roomid);
 			if (!targetRoom) continue;
-			const participants = _optionalChain([targetRoom, 'access', _58 => _58.warnParticipants, 'optionalCall', _59 => _59(
+			const participants = _optionalChain([targetRoom, 'access', _69 => _69.warnParticipants, 'optionalCall', _70 => _70(
 				`This groupchat (${targetRoom.title}) has been deleted due to inappropriate conduct by its creator, ${targetUser.name}.` +
 				` Do not attempt to recreate it, or you may be punished.${reason ? ` (reason: ${reason})` : ``}`
 			)]);
@@ -2019,7 +1987,7 @@ const REQUIRE_REASONS = true;
 
 		const duplicates = targets.filter(userid => (
 			// can be asserted, room should always exist
-			_optionalChain([Punishments, 'access', _60 => _60.roomUserids, 'access', _61 => _61.nestedGet, 'call', _62 => _62(room.roomid, userid), 'optionalAccess', _63 => _63[0]]) === 'BLACKLIST'
+			_optionalChain([Punishments, 'access', _71 => _71.roomUserids, 'access', _72 => _72.nestedGet, 'call', _73 => _73(room.roomid, userid), 'optionalAccess', _74 => _74[0]]) === 'BLACKLIST'
 		));
 		if (duplicates.length) {
 			return this.errorReply(`[${duplicates.join(', ')}] ${Chat.plural(duplicates, "are", "is")} already blacklisted.`);
@@ -2135,7 +2103,7 @@ const REQUIRE_REASONS = true;
 		}
 
 		const soonExpiring = (cmd === 'expiringblacklists' || cmd === 'expiringbls');
-		let buf = _utils.Utils.html`Blacklist for ${room.title}${soonExpiring ? ` (expiring within 3 months)` : ''}:<br />`;
+		let buf = _lib.Utils.html`Blacklist for ${room.title}${soonExpiring ? ` (expiring within 3 months)` : ''}:<br />`;
 
 		for (const [userid, data] of blMap) {
 			const [expireTime, ...alts] = data;

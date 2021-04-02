@@ -6,7 +6,7 @@
  *
  * @license MIT
  */
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 const RANKS = Config.groupsranking;
@@ -29,7 +29,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			uhtml = 'uhtmlchange';
 		}
 
-		let output = _utils.Utils.html`<div class="infobox">Room Settings for ${room.title}<br />`;
+		let output = _lib.Utils.html`<div class="infobox">Room Settings for ${room.title}<br />`;
 		for (const handler of Chat.roomSettings) {
 			const setting = handler(room, user, connection);
 			if (typeof setting.permission === 'string') setting.permission = user.can(setting.permission, null, room);
@@ -39,13 +39,13 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			for (const option of setting.options) {
 				// disabled button
 				if (option[1] === true) {
-					output += _utils.Utils.html`<button class="button disabled" style="font-weight:bold;color:#575757;` +
+					output += _lib.Utils.html`<button class="button disabled" style="font-weight:bold;color:#575757;` +
 						`background:#d3d3d3;">${option[0]}</button> `;
 				} else {
 					// only show proper buttons if we have the permissions to use them
 					if (!setting.permission) continue;
 
-					output += _utils.Utils.html`<button class="button" name="send" value="/roomsetting ${option[1]}">${option[0]}</button> `;
+					output += _lib.Utils.html`<button class="button" name="send" value="/roomsetting ${option[1]}">${option[0]}</button> `;
 				}
 			}
 			output += `<br />`;
@@ -65,7 +65,9 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 
 		if (
 			room.settings.modchat && room.settings.modchat.length <= 1 &&
-			!Users.Auth.hasPermission(user, 'modchat', room.settings.modchat , room)
+			!room.auth.atLeast(user, room.settings.modchat) &&
+			// Upper Staff should probably be able to set /modchat & in secret rooms
+			!user.can('bypassall')
 		) {
 			return this.errorReply(`/modchat - Access denied for changing a setting currently at ${room.settings.modchat}.`);
 		}
@@ -98,7 +100,9 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 				this.errorReply(`The rank '${target}' was unrecognized as a modchat level.`);
 				return this.parse('/help modchat');
 			}
-			if (!Users.Auth.hasPermission(user, 'modchat', target , room)) {
+			// Users shouldn't be able to set modchat above their own rank (except for ROs who are also Upper Staff)
+			const modchatLevelHigherThanUserRank = !room.auth.atLeast(user, target) && !user.can('bypassall');
+			if (modchatLevelHigherThanUserRank || !Users.Auth.hasPermission(user, 'modchat', target , room)) {
 				return this.errorReply(`/modchat - Access denied for setting to ${target}.`);
 			}
 			room.settings.modchat = target;
@@ -110,7 +114,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 		if (!room.settings.modchat) {
 			this.add("|raw|<div class=\"broadcast-blue\"><strong>Moderated chat was disabled!</strong><br />Anyone may talk now.</div>");
 		} else {
-			const modchatSetting = _utils.Utils.escapeHTML(room.settings.modchat);
+			const modchatSetting = _lib.Utils.escapeHTML(room.settings.modchat);
 			this.add(`|raw|<div class="broadcast-red"><strong>Moderated chat was set to ${modchatSetting}!</strong><br />Only users of rank ${modchatSetting} and higher can talk.</div>`);
 		}
 		if ((room ).requestModchat && !room.settings.modchat) (room ).requestModchat(null);
@@ -139,7 +143,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			this.privateModAction(`${user.name} turned off automatic modchat.`);
 			return this.modlog(`AUTOMODCHAT`, null, 'OFF');
 		}
-		let [rawTime, rank] = _utils.Utils.splitFirst(target, ',').map(i => i.trim()) ;
+		let [rawTime, rank] = _lib.Utils.splitFirst(target, ',').map(i => i.trim()) ;
 		if (!rawTime) {
 			return this.parse(`/help automodchat`);
 		}
@@ -165,9 +169,21 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 		this.modlog(`AUTOMODCHAT`, null, `${rank}: ${time} minutes`);
 		room.saveSettings();
 	},
+	automodchathelp: [
+		`/automodchat [number], [rank] - Sets modchat [rank] to automatically turn on after [number] minutes. [number] must be between 5 and 480. Requires: # &`,
+		`/automodchat off - Turns off automodchat.`,
+	],
 
-	inviteonlynext: 'ionext',
-	ionext(target, room, user) {
+	ionext() {
+		this.errorReply(`"ionext" is an outdated feature. Hidden battles now have password-protected URLs, making them fully secure against eavesdroppers.`);
+		this.errorReply(`You probably want to switch from /ionext to /hidenext, and from /ioo to /hideroom`);
+	},
+	ioo() {
+		this.errorReply(`"ioo" is an outdated feature. Hidden battles now have password-protected URLs, making them fully secure against eavesdroppers.`);
+		this.errorReply(`You probably want to switch from /ioo to /hideroom`);
+	},
+
+	inviteonlynext(target, room, user) {
 		const groupConfig = Config.groups[Users.PLAYER_SYMBOL];
 		if (!_optionalChain([groupConfig, 'optionalAccess', _ => _.editprivacy])) return this.errorReply(`/ionext - Access denied.`);
 		if (this.meansNo(target)) {
@@ -180,15 +196,13 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			this.sendReply(`Your next battle will be invite-only${user.battlesForcedPublic() ? `, unless it is rated` : ``}.`);
 		}
 	},
-	ionexthelp: [
-		`/ionext - Sets your next battle to be invite-only.`,
-		`/ionext off - Sets your next battle to be publicly visible.`,
+	inviteonlynexthelp: [
+		`/inviteonlynext - Sets your next battle to be invite-only.`,
+		`/inviteonlynext off - Sets your next battle to be publicly visible.`,
 	],
 
-	ioo: 'inviteonly',
 	inviteonly(target, room, user, connection, cmd) {
 		room = this.requireRoom();
-		if (cmd === 'ioo') target = 'on';
 		if (!target) return this.parse('/help inviteonly');
 		if (this.meansYes(target)) {
 			return this.parse("/modjoin %");
@@ -336,13 +350,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 	permissions: {
 		clear: 'set',
 		set(target, room, user) {
-			let [perm, rank, roomid] = target.split(',').map(item => item.trim().toLowerCase());
-			if (roomid) {
-				const tarRoom = Rooms.search(roomid);
-				if (!tarRoom) return this.errorReply(`Room not found.`);
-				room = tarRoom;
-				this.room = room;
-			}
+			let [perm, rank] = this.splitOne(target);
 			room = this.requireRoom();
 			if (rank === 'default') rank = '';
 			if (!room.persist) return this.errorReply(`This room does not allow customizing permissions.`);
@@ -618,7 +626,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			room = this.requireRoom();
 			this.checkCan('mute', null, room);
 
-			if (!room.settings.banwords || !room.settings.banwords.length) {
+			if (!_optionalChain([room, 'access', _13 => _13.settings, 'access', _14 => _14.banwords, 'optionalAccess', _15 => _15.length])) {
 				return this.sendReply("This room has no banned phrases.");
 			}
 			return this.sendReply(`Banned phrases in room ${room.roomid}: ${room.settings.banwords.join(', ')}`);
@@ -713,17 +721,17 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			targetRoom.setPrivate(true);
 			const upperStaffRoom = Rooms.get('upperstaff');
 			if (upperStaffRoom) {
-				upperStaffRoom.add(`|raw|<div class="broadcast-green">Private chat room created: <b>${_utils.Utils.escapeHTML(target)}</b></div>`).update();
+				upperStaffRoom.add(`|raw|<div class="broadcast-green">Private chat room created: <b>${_lib.Utils.escapeHTML(target)}</b></div>`).update();
 			}
 			this.sendReply(`The private chat room '${target}' was created.`);
 		} else {
 			const staffRoom = Rooms.get('staff');
 			if (staffRoom) {
-				staffRoom.add(`|raw|<div class="broadcast-green">Public chat room created: <b>${_utils.Utils.escapeHTML(target)}</b></div>`).update();
+				staffRoom.add(`|raw|<div class="broadcast-green">Public chat room created: <b>${_lib.Utils.escapeHTML(target)}</b></div>`).update();
 			}
 			const upperStaffRoom = Rooms.get('upperstaff');
 			if (upperStaffRoom) {
-				upperStaffRoom.add(`|raw|<div class="broadcast-green">Public chat room created: <b>${_utils.Utils.escapeHTML(target)}</b></div>`).update();
+				upperStaffRoom.add(`|raw|<div class="broadcast-green">Public chat room created: <b>${_lib.Utils.escapeHTML(target)}</b></div>`).update();
 			}
 			this.sendReply(`The chat room '${target}' was created.`);
 		}
@@ -797,8 +805,8 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			return;
 		}
 
-		const titleMsg = _utils.Utils.html`Welcome to ${parent ? room.title : user.name}'s` +
-			_utils.Utils.html`${!/^[0-9]+$/.test(title) ? ` ${title}` : ''}${parent ? ' subroom' : ''} groupchat!`;
+		const titleMsg = _lib.Utils.html`Welcome to ${parent ? room.title : user.name}'s` +
+			_lib.Utils.html`${!/^[0-9]+$/.test(title) ? ` ${title}` : ''}${parent ? ' subroom' : ''} groupchat!`;
 		const targetRoom = Rooms.createChatRoom(roomid, `[G] ${title}`, {
 			isPersonal: true,
 			isPrivate: 'hidden',
@@ -852,7 +860,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 		if (Rooms.global.deregisterChatRoom(id)) {
 			this.sendReply(`The room '${target}' was deregistered.`);
 			this.sendReply("It will be deleted as of the next server restart.");
-			target = _utils.Utils.escapeHTML(target);
+			target = _lib.Utils.escapeHTML(target);
 			if (isPrivate) {
 				if (upperStaffRoom) {
 					upperStaffRoom.add(`|raw|<div class="broadcast-red">Private chat room deregistered by ${user.id}: <b>${target}</b></div>`).update();
@@ -904,19 +912,19 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 				const upperStaffRoom = Rooms.get('upperstaff');
 				if (upperStaffRoom) {
 					upperStaffRoom.add(
-						_utils.Utils.html`|raw|<div class="broadcast-red">Private chat room ` +
+						_lib.Utils.html`|raw|<div class="broadcast-red">Private chat room ` +
 						`deleted by ${user.id}: <b>${title}</b></div>`
 					).update();
 				}
 			} else {
 				const staffRoom = Rooms.get('staff');
 				if (staffRoom) {
-					staffRoom.add(_utils.Utils.html`|raw|<div class="broadcast-red">Public chat room deleted: <b>${title}</b></div>`).update();
+					staffRoom.add(_lib.Utils.html`|raw|<div class="broadcast-red">Public chat room deleted: <b>${title}</b></div>`).update();
 				}
 				const upperStaffRoom = Rooms.get('upperstaff');
 				if (upperStaffRoom) {
 					upperStaffRoom.add(
-						_utils.Utils.html`|raw|<div class="broadcast-red">Public chat ` +
+						_lib.Utils.html`|raw|<div class="broadcast-red">Public chat ` +
 						`room deleted by ${user.id}: <b>${title}</b></div>`
 					).update();
 				}
@@ -971,7 +979,12 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 		}
 		const creatorID = room.roomid.split('-')[1];
 		const id = isGroupchat ? `groupchat-${creatorID}-${toID(target)}`  : undefined;
+		const oldID = room.roomid;
+
 		room.rename(target, id);
+
+		Chat.handleRoomRename(oldID, id || toID(target) , room);
+
 		this.modlog(`RENAME${isGroupchat ? 'GROUPCHAT' : 'ROOM'}`, null, `from ${oldTitle}`);
 		const privacy = room.settings.isPrivate === true ? "Private" :
 			!room.settings.isPrivate ? "Public" :
@@ -979,10 +992,10 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 		if (!isGroupchat) {
 			Rooms.global.notifyRooms(
 				room.settings.isPrivate === true ? ['upperstaff'] : ['upperstaff', 'staff'],
-				_utils.Utils.html`|raw|<div class="broadcast-green">${privacy} chat room <b>${oldTitle}</b> renamed to <b>${target}</b></div>`
+				_lib.Utils.html`|raw|<div class="broadcast-green">${privacy} chat room <b>${oldTitle}</b> renamed to <b>${target}</b></div>`
 		  );
 		}
-		room.add(_utils.Utils.html`|raw|<div class="broadcast-green">The room has been renamed to <b>${target}</b></div>`).update();
+		room.add(_lib.Utils.html`|raw|<div class="broadcast-green">The room has been renamed to <b>${target}</b></div>`).update();
 	},
 	renameroomhelp: [`/renameroom [new title] - Renames the current room to [new title]. Case-sensitive. Requires &`],
 
@@ -997,7 +1010,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			if (room.battle.forcePublic) {
 				return this.errorReply(`This battle is required to be public because a player has a name prefixed by '${room.battle.forcePublic}'.`);
 			}
-			if (_optionalChain([room, 'access', _13 => _13.tour, 'optionalAccess', _14 => _14.forcePublic])) {
+			if (_optionalChain([room, 'access', _16 => _16.tour, 'optionalAccess', _17 => _17.forcePublic])) {
 				return this.errorReply(`This battle can't be hidden, because the tournament is set to be forced public.`);
 			}
 		} else if (room.settings.isPersonal) {
@@ -1084,7 +1097,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 
 	hidenext(target, room, user) {
 		const groupConfig = Config.groups[Users.PLAYER_SYMBOL];
-		if (!_optionalChain([groupConfig, 'optionalAccess', _15 => _15.editprivacy])) return this.errorReply(`/hidenext - Access denied.`);
+		if (!_optionalChain([groupConfig, 'optionalAccess', _18 => _18.editprivacy])) return this.errorReply(`/hidenext - Access denied.`);
 		if (this.meansNo(target)) {
 			user.battleSettings.hidden = false;
 			user.update();
@@ -1223,10 +1236,10 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 
 		const subRoomText = subRooms.map(
 			subRoom =>
-				_utils.Utils.html`<a href="/${subRoom.roomid}">${subRoom.title}</a><br/><small>${subRoom.settings.desc}</small>`
+				_lib.Utils.html`<a href="/${subRoom.roomid}">${subRoom.title}</a><br/><small>${subRoom.settings.desc}</small>`
 		);
 
-		return this.sendReplyBox(`<p style="font-weight:bold;">${_utils.Utils.escapeHTML(room.title)}'s subroom${Chat.plural(subRooms)}:</p><ul><li>${subRoomText.join('</li><br/><li>')}</li></ul></strong>`);
+		return this.sendReplyBox(`<p style="font-weight:bold;">${_lib.Utils.escapeHTML(room.title)}'s subroom${Chat.plural(subRooms)}:</p><ul><li>${subRoomText.join('</li><br/><li>')}</li></ul></strong>`);
 	},
 
 	subroomhelp: [
@@ -1241,7 +1254,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 		if (!target) {
 			if (!this.runBroadcast()) return;
 			if (!room.settings.desc) return this.sendReply(`This room does not have a description set.`);
-			this.sendReplyBox(_utils.Utils.html`The room description is: ${room.settings.desc}`);
+			this.sendReplyBox(_lib.Utils.html`The room description is: ${room.settings.desc}`);
 			return;
 		}
 		this.checkCan('makeroom');
@@ -1276,7 +1289,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			if (!room.settings.introMessage) return this.sendReply("This room does not have an introduction set.");
 			this.sendReply('|raw|<div class="infobox infobox-limited">' + room.settings.introMessage.replace(/\n/g, '') + '</div>');
 			if (!this.broadcasting && user.can('declare', null, room, 'roomintro') && cmd !== 'topic') {
-				const code = _utils.Utils.escapeHTML(room.settings.introMessage).replace(/\n/g, '<br />');
+				const code = _lib.Utils.escapeHTML(room.settings.introMessage).replace(/\n/g, '<br />');
 				this.sendReplyBox(`<details open><summary>Source:</summary><code style="white-space: pre-wrap; display: table; tab-size: 3">/roomintro ${code}</code></details>`);
 			}
 			return;
@@ -1323,7 +1336,7 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			if (!room.settings.staffMessage) return this.sendReply("This room does not have a staff introduction set.");
 			this.sendReply(`|raw|<div class="infobox">${room.settings.staffMessage.replace(/\n/g, ``)}</div>`);
 			if (user.can('ban', null, room, 'staffintro') && cmd !== 'stafftopic') {
-				const code = _utils.Utils.escapeHTML(room.settings.staffMessage).replace(/\n/g, '<br />');
+				const code = _lib.Utils.escapeHTML(room.settings.staffMessage).replace(/\n/g, '<br />');
 				this.sendReplyBox(`<details open><summary>Source:</summary><code style="white-space: pre-wrap; display: table; tab-size: 3">/staffintro ${code}</code></details>`);
 			}
 			return;
@@ -1575,11 +1588,11 @@ const SLOWCHAT_USER_REQUIREMENT = 10;
 			if (room.auth.atLeast(user, '#')) {
 				buf += roomGroups.map(group => (
 					requiredRank === group ?
-						_utils.Utils.html`<button class="button disabled" style="font-weight:bold;color:#575757;background:#d3d3d3">${group}</button>` :
-						_utils.Utils.html`<button class="button" name="send" value="/permissions set ${permission}, ${group}, ${room.roomid}">${group}</button>`
+						_lib.Utils.html`<button class="button disabled" style="font-weight:bold;color:#575757;background:#d3d3d3">${group}</button>` :
+						_lib.Utils.html`<button class="button" name="send" value="/msgroom ${room.roomid},/permissions set ${permission}, ${group}">${group}</button>`
 				)).join(' ');
 			} else {
-				buf += _utils.Utils.html`<button class="button disabled" style="font-weight:bold;color:#575757;background:#d3d3d3">${requiredRank}</button>`;
+				buf += _lib.Utils.html`<button class="button disabled" style="font-weight:bold;color:#575757;background:#d3d3d3">${requiredRank}</button>`;
 			}
 			buf += `</td>`;
 		}

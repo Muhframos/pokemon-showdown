@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _utils = require('../../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true});var _lib = require('../../.lib-dist');
 
 const BACKGROUND_COLOR = "#0000FF";
 const HEIGHT = 40;
@@ -158,7 +158,7 @@ const MAX_QUESTION_COUNT = 5;
 	getGrid() {
 		let buffer = `<div class="infobox"><html><body><table align="center" border="2" style="table-layout: fixed; width: 100%"><tr>`;
 		for (let i = 0; i < this.categoryCount; i++) {
-			buffer += `<td style="word-wrap: break-word" bgcolor="${BACKGROUND_COLOR}"; height="${HEIGHT}px"; width="30px" align="center"><font color="white">${_utils.Utils.escapeHTML(this.categories[i])}</font></td>`;
+			buffer += `<td style="word-wrap: break-word" bgcolor="${BACKGROUND_COLOR}"; height="${HEIGHT}px"; width="30px" align="center"><font color="white">${_lib.Utils.escapeHTML(this.categories[i])}</font></td>`;
 		}
 		buffer += `</tr>`;
 		for (let i = 0; i < this.questionCount; i++) {
@@ -174,7 +174,7 @@ const MAX_QUESTION_COUNT = 5;
 		}
 		for (const userID in this.playerTable) {
 			const player = this.playerTable[userID];
-			buffer += `<center>${this.curPlayer && this.curPlayer.name === player.name ? "<b>" : ""}<font size=4>${_utils.Utils.escapeHTML(player.name)}(${(player.points || 0)})${this.curPlayer && this.curPlayer.name === player.name ? "</b>" : ""}</center><br />`;
+			buffer += `<center>${this.curPlayer && this.curPlayer.name === player.name ? "<b>" : ""}<font size=4>${_lib.Utils.escapeHTML(player.name)}(${(player.points || 0)})${this.curPlayer && this.curPlayer.name === player.name ? "</b>" : ""}</center><br />`;
 		}
 		buffer += `</body></html></div>`;
 		return buffer;
@@ -268,7 +268,7 @@ const MAX_QUESTION_COUNT = 5;
 	}
 
 	revealAnswer() {
-		this.room.addRaw(`<div class="broadcast-blue">The answer was: ${_utils.Utils.escapeHTML(this.question.answer)}</div>`);
+		this.room.addRaw(`<div class="broadcast-blue">The answer was: ${_lib.Utils.escapeHTML(this.question.answer)}</div>`);
 		this.question.answered = true;
 	}
 
@@ -369,7 +369,7 @@ const MAX_QUESTION_COUNT = 5;
 					highest.push(player.name);
 				}
 			}
-			this.room.add(`|raw|<div class=broadcast-green>Congratulations to ${highest.map(n => _utils.Utils.escapeHTML(n)).join(", ")} for winning the game of Jeopardy with ${maxpoints} points!`);
+			this.room.add(`|raw|<div class=broadcast-green>Congratulations to ${highest.map(n => _lib.Utils.escapeHTML(n)).join(", ")} for winning the game of Jeopardy with ${maxpoints} points!`);
 			this.destroy();
 			return;
 		} else {
@@ -377,7 +377,7 @@ const MAX_QUESTION_COUNT = 5;
 			this.curPlayer = this.playerTable[index];
 			const answer = this.curPlayer.finalAnswer;
 			if (answer) {
-				this.room.add(`${this.curPlayer.name} has answered ${_utils.Utils.escapeHTML(answer)}!`);
+				this.room.add(`${this.curPlayer.name} has answered ${_lib.Utils.escapeHTML(answer)}!`);
 				this.state = "checking";
 			} else {
 				const wager = this.curPlayer.wager;
@@ -396,13 +396,13 @@ const MAX_QUESTION_COUNT = 5;
 		if (!player) return "You are not in the game of Jeopardy.";
 		if (this.finals) {
 			if (player.finalAnswer) return "You have already answered the final jeopardy";
-			player.answer = _utils.Utils.escapeHTML(target);
-			player.send(`You have selected your answer as ${_utils.Utils.escapeHTML(target)}`);
+			player.answer = _lib.Utils.escapeHTML(target);
+			player.send(`You have selected your answer as ${_lib.Utils.escapeHTML(target)}`);
 		} else {
 			if (this.timeout) clearTimeout(this.timeout);
 			if (!this.curPlayer || this.curPlayer.id !== user.id) return "It is not your turn to answer.";
 			this.state = "checking";
-			this.room.add(`${user.name} has answered ${_utils.Utils.escapeHTML(target)}!`);
+			this.room.add(`${user.name} has answered ${_lib.Utils.escapeHTML(target)}!`);
 		}
 	}
 
@@ -497,7 +497,7 @@ const MAX_QUESTION_COUNT = 5;
 	getQuestion(categoryNumber, questionNumber) {
 		const question = this.questions[questionNumber][categoryNumber];
 		if (question.question) {
-			return `<strong>Question: </strong>${_utils.Utils.escapeHTML(question.question)}<br><strong>Answer: </strong>${_utils.Utils.escapeHTML(question.answer)}`;
+			return `<strong>Question: </strong>${_lib.Utils.escapeHTML(question.question)}<br><strong>Answer: </strong>${_lib.Utils.escapeHTML(question.answer)}`;
 		} else {
 			return "That question has not yet been imported.";
 		}
@@ -766,10 +766,13 @@ class JeopardyGamePlayer extends Rooms.RoomGamePlayer {
 			const game = this.requireGame(Jeopardy);
 			if (user.id !== game.host.id) return this.errorReply("This command can only be used by the host.");
 			const targetUser = Users.get(target);
-			if (!targetUser) return this.errorReply(`User "${target}" not found.`);
+			if (!targetUser) return this.errorReply("User '" + target + "' not found.");
 			if (game.host.id === targetUser.id) return this.errorReply("You can't add yourself to the game.");
-			game.addPlayer(targetUser);
-			game.update();
+			if (game.addPlayer(targetUser)) {
+				game.update();
+			} else {
+				this.errorReply("Unable to add '" + target + "' to the game.");
+			}
 		},
 
 		incorrect: 'correct',

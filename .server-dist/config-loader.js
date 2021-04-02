@@ -7,7 +7,7 @@
 
 var _configexample = require('../config/config-example'); var defaults = _configexample;
 
-var _processmanager = require('../.lib-dist/process-manager');
+var _lib = require('../.lib-dist');
 
 
 
@@ -146,8 +146,8 @@ const CONFIG_PATH = require.resolve('../config/config');
 	if (exports.Config.ripgrepmodlog === undefined) {
 		exports.Config.ripgrepmodlog = (async () => {
 			try {
-				await _processmanager.exec.call(void 0, ['rg', '--version'], {cwd: `${__dirname}/../`});
-				await _processmanager.exec.call(void 0, ['tac', '--version'], {cwd: `${__dirname}/../`});
+				await _lib.ProcessManager.exec(['rg', '--version'], {cwd: `${__dirname}/../`});
+				await _lib.ProcessManager.exec(['tac', '--version'], {cwd: `${__dirname}/../`});
 				return true;
 			} catch (error) {
 				return false;

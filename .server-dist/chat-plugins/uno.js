@@ -6,7 +6,7 @@
  *
  * @license MIT license
  */
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 
@@ -119,7 +119,7 @@ function createDeck() {
 
 		this.state = 'signups';
 		this.currentPlayerid = '';
-		this.deck = _utils.Utils.shuffle(createDeck());
+		this.deck = _lib.Utils.shuffle(createDeck());
 		this.discards = [];
 		this.topCard = null;
 		this.awaitUno = null;
@@ -208,6 +208,8 @@ function createDeck() {
 	onRename(user, oldUserid, isJoining, isForceRenamed) {
 		if (!(oldUserid in this.playerTable) || user.id === oldUserid) return false;
 		if (!user.named && !isForceRenamed) {
+			user.games.delete(this.roomid);
+			user.updateSearch();
 			return; // dont set users to their guest accounts.
 		}
 		this.playerTable[user.id] = this.playerTable[oldUserid];
@@ -241,18 +243,19 @@ function createDeck() {
 					throw new Error(`No top card in the discard pile.`);
 				}
 				this.topCard.changedColor = this.discards[1].changedColor || this.discards[1].color;
-				this.sendToRoom(`|raw|${_utils.Utils.escapeHTML(name)} has not picked a color, the color will stay as <span style="color: ${textColors[this.topCard.changedColor]}">${this.topCard.changedColor}</span>.`);
+				this.sendToRoom(`|raw|${_lib.Utils.escapeHTML(name)} has not picked a color, the color will stay as <span style="color: ${textColors[this.topCard.changedColor]}">${this.topCard.changedColor}</span>.`);
 			}
-
-			if (this.timer) clearTimeout(this.timer);
-			this.nextTurn();
 		}
 		if (this.awaitUno === userid) this.awaitUno = null;
+		if (!this.topCard) {
+			throw new Chat.ErrorMessage(`Unable to disqualify ${name}.`);
+		}
 
 		// put that player's cards into the discard pile to prevent cards from being permanently lost
 		this.discards.push(...this.playerTable[userid].hand);
 
 		this.removePlayer(this.playerTable[userid]);
+		this.nextTurn();
 		return name;
 	}
 
@@ -277,13 +280,13 @@ function createDeck() {
 	getPlayers(showCards) {
 		let playerList = Object.keys(this.playerTable);
 		if (!showCards) {
-			return playerList.sort().map(id => _utils.Utils.escapeHTML(this.playerTable[id].name)).join(', ');
+			return playerList.sort().map(id => _lib.Utils.escapeHTML(this.playerTable[id].name)).join(', ');
 		}
 		if (this.direction === -1) playerList = playerList.reverse();
 		let buf = `<ol style="padding-left:0;">`;
 		for (const playerid of playerList) {
 			buf += `<li${this.currentPlayerid === playerid ? ` style="font-weight:bold;"` : ''}>`;
-			buf += `${_utils.Utils.escapeHTML(this.playerTable[playerid].name)} (${this.playerTable[playerid].hand.length})`;
+			buf += `${_lib.Utils.escapeHTML(this.playerTable[playerid].name)} (${this.playerTable[playerid].hand.length})`;
 			buf += `</li>`;
 		}
 		buf += `</ol>`;
@@ -398,7 +401,7 @@ function createDeck() {
 
 		player.sendDisplay(); // update display without the card in it for purposes such as choosing colors
 
-		this.sendToRoom(`|raw|${_utils.Utils.escapeHTML(player.name)} has played a <span style="font-weight:bold;color: ${textColors[card.color]}">${card.name}</span>.`);
+		this.sendToRoom(`|raw|${_lib.Utils.escapeHTML(player.name)} has played a <span style="font-weight:bold;color: ${textColors[card.color]}">${card.name}</span>.`);
 
 		// handle hand size
 		if (!player.hand.length) {
@@ -503,7 +506,7 @@ function createDeck() {
 		for (let i = 0; i < count; i++) {
 			if (!this.deck.length) {
 				// shuffle the cards back into the deck, or if there are no discards, add another deck into the game.
-				this.deck = this.discards.length ? _utils.Utils.shuffle(this.discards) : _utils.Utils.shuffle(createDeck());
+				this.deck = this.discards.length ? _lib.Utils.shuffle(this.discards) : _lib.Utils.shuffle(createDeck());
 				this.discards = []; // clear discard pile
 			}
 			drawnCards.push(this.deck[this.deck.length - 1]);
@@ -540,7 +543,7 @@ function createDeck() {
 
 	onWin(player) {
 		this.sendToRoom(
-			_utils.Utils.html`|raw|<div class="broadcast-blue">Congratulations to ${player.name} for winning the game of UNO!</div>`,
+			_lib.Utils.html`|raw|<div class="broadcast-blue">Congratulations to ${player.name} for winning the game of UNO!</div>`,
 			true
 		);
 		this.destroy();
@@ -602,7 +605,7 @@ class UNOPlayer extends Rooms.RoomGamePlayer {
 
 	sendDisplay() {
 		const hand = this.buildHand().join('');
-		const players = `<p><strong>Players (${this.game.playerCount}):</strong></p>${this.game.getPlayers(true)}`;
+		const players = `<p><strong>Players (${this.game.playerCount}):</strong></p> ${this.game.getPlayers(true)}`;
 		const draw = '<button class="button" style="width: 45%; background: rgba(0, 0, 255, 0.05)" name=send value="/uno draw">Draw a card!</button>';
 		const pass = '<button class="button" style=" width: 45%; background: rgba(255, 0, 0, 0.05)" name=send value="/uno pass">Pass!</button>';
 		const uno = `<button class="button" style=" width: 90%; background: rgba(0, 255, 0, 0.05); height: 60px; margin-top: 2px;" name=send value="/uno uno ${this.game.unoId || '0'}">UNO!</button>`;
@@ -845,6 +848,14 @@ class UNOPlayer extends Rooms.RoomGamePlayer {
 			game.onSendHand(user);
 		},
 
+		'c': 'cards',
+		cards(target, room, user) {
+			const game = this.requireGame(UNO);
+			if (!this.runBroadcast()) return false;
+			const players = `<strong>Players (${game.playerCount}):</strong></p>${game.getPlayers(true)}`;
+			this.sendReplyBox(`<tr><td colspan="2" style="vertical-align: top; padding: 0px 5px 5px 5px"><div style="overflow-y: scroll">${players}</div></td></tr></table>`);
+		},
+
 		players: 'getusers',
 		users: 'getusers',
 		getplayers: 'getusers',
@@ -912,6 +923,7 @@ class UNOPlayer extends Rooms.RoomGamePlayer {
 		`/uno start - starts the current game of UNO. Requires: % @ # &`,
 		`/uno disqualify [player] - disqualifies the player from the game. Requires: % @ # &`,
 		`/uno hand - displays your own hand.`,
+		`/uno cards - displays the number of cards each player`,
 		`/uno getusers - displays the players still in the game.`,
 		`/uno [spectate|unspectate] - spectate / unspectate the current private UNO game.`,
 		`/uno suppress [on|off] - Toggles suppression of game messages.`,

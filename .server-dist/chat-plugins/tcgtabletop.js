@@ -6,17 +6,15 @@
 */
 
 
-var _net = require('../../.lib-dist/net');
-var _utils = require('../../.lib-dist/utils');
-
+var _lib = require('../../.lib-dist');
 const SEARCH_PATH = '/api/v1/Search/List/';
 const DETAILS_PATH = '/api/v1/Articles/Details/';
 
 async function getFandom(site, pathName, search) {
-	const body = await _net.Net.call(void 0, `https://${site}.fandom.com/${pathName}`).get({query: search});
+	const body = await _lib.Net.call(void 0, `https://${site}.fandom.com/${pathName}`).get({query: search});
 	const json = JSON.parse(body);
 	if (!json) throw new Error(`Malformed data`);
-	if (json.exception) throw new Error(_utils.Utils.getString(json.exception.message) || `Not found`);
+	if (json.exception) throw new Error(_lib.Utils.getString(json.exception.message) || `Not found`);
 	return json;
 }
 
@@ -53,16 +51,16 @@ async function getCardDetails(site, id) {
 
 		return searchFandom(subdomain, query).then((data) => {
 			if (!this.runBroadcast()) return;
-			const entryUrl = _utils.Utils.getString(data.url);
-			const entryTitle = _utils.Utils.getString(data.title);
-			const id = _utils.Utils.getString(data.id);
-			let htmlReply = _utils.Utils.html`<strong>Best result for ${query}:</strong><br /><a href="${entryUrl}">${entryTitle}</a>`;
+			const entryUrl = _lib.Utils.getString(data.url);
+			const entryTitle = _lib.Utils.getString(data.title);
+			const id = _lib.Utils.getString(data.id);
+			let htmlReply = _lib.Utils.html`<strong>Best result for ${query}:</strong><br /><a href="${entryUrl}">${entryTitle}</a>`;
 			if (id) {
 				getCardDetails(subdomain, id).then((card) => {
 					if (!room) return; // do nothing if the room doesn't exist anymore
-					const thumb = _utils.Utils.getString(card.thumbnail);
+					const thumb = _lib.Utils.getString(card.thumbnail);
 					if (thumb) {
-						htmlReply = `<table><tr><td style="padding-right:5px;"><img src="${_utils.Utils.escapeHTML(thumb)}" width=80 height=115></td><td>${htmlReply}</td></tr></table>`;
+						htmlReply = `<table><tr><td style="padding-right:5px;"><img src="${_lib.Utils.escapeHTML(thumb)}" width=80 height=115></td><td>${htmlReply}</td></tr></table>`;
 					}
 					if (!this.broadcasting) return this.sendReply(`|raw|<div class="infobox">${htmlReply}</div>`);
 					room.addRaw(`<div class="infobox">${htmlReply}</div>`).update();

@@ -41,16 +41,19 @@
 		this.name = (typeof user === 'string' ? user : user.name);
 		if (typeof user === 'string') user = null;
 		this.id = user ? user.id : '';
+		if (user && !this.game.isSubGame) {
+			user.games.add(this.game.roomid);
+			user.updateSearch();
+		}
 	}
 	unlinkUser() {
 		if (!this.id) return;
 		const user = Users.getExact(this.id);
-		delete this.game.playerTable[this.id];
+		if (user && !this.game.isSubGame) {
+			user.games.delete(this.game.roomid);
+			user.updateSearch();
+		}
 		this.id = '';
-		if (!this.game.isSubGame) _optionalChain([user, 'optionalAccess', _ => _.updateGames, 'call', _2 => _2()]);
-	}
-	getUser() {
-		return Users.getExact(this.id);
 	}
 	destroy() {
 		this.unlinkUser();
@@ -139,19 +142,16 @@
 
 	addPlayer(user = null, ...rest) {
 		if (typeof user !== 'string' && user) {
-			if (user.id in this.playerTable) throw new Chat.ErrorMessage(`You (${user.name}) are already a player in this game.`);
+			if (user.id in this.playerTable) return null;
 		}
-		if (this.playerCap > 0 && this.playerCount >= this.playerCap) {
-			throw new Chat.ErrorMessage(`This game is already at its player cap of ${this.playerCap}.`);
-		}
+		if (this.playerCap > 0 && this.playerCount >= this.playerCap) return null;
 		const player = this.makePlayer(user, ...rest);
-		if (!player) throw new Error(`Unable to create player`);
+		if (!player) return null;
 		if (typeof user === 'string') user = null;
 		this.players.push(player);
 		if (user) {
 			this.playerTable[user.id] = player;
 			this.playerCount++;
-			if (!this.isSubGame) user.updateGames();
 		}
 		return player;
 	}
@@ -186,12 +186,10 @@
 		if (!this.allowRenames) return false;
 		const playerIndex = this.players.indexOf(player);
 		if (playerIndex < 0) return false;
-		const user = player.getUser();
 		if (player.id) delete this.playerTable[player.id];
 		this.players.splice(playerIndex, 1);
 		player.destroy();
 		this.playerCount--;
-		if (!this.isSubGame) _optionalChain([user, 'optionalAccess', _3 => _3.updateGames, 'call', _4 => _4()]);
 		return true;
 	}
 
@@ -207,6 +205,11 @@
 	}
 
 	renameRoom(roomid) {
+		for (const player of this.players) {
+			const user = Users.get(player.id);
+			_optionalChain([user, 'optionalAccess', _ => _.games, 'access', _2 => _2.delete, 'call', _3 => _3(this.roomid)]);
+			_optionalChain([user, 'optionalAccess', _4 => _4.games, 'access', _5 => _5.add, 'call', _6 => _6(roomid)]);
+		}
 		this.roomid = roomid;
 	}
 
@@ -280,7 +283,10 @@
 	 */
 	onRename(user, oldUserid, isJoining, isForceRenamed) {
 		if (!this.allowRenames || (!user.named && !isForceRenamed)) {
-			if (!this.isSubGame) user.updateGames();
+			if (!(user.id in this.playerTable) && !this.isSubGame) {
+				user.games.delete(this.roomid);
+				user.updateSearch();
+			}
 			return;
 		}
 		if (!(oldUserid in this.playerTable)) return;

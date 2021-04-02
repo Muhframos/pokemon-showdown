@@ -1,5 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _lib = require('../../.lib-dist');
 var _info = require('../chat-commands/info');
 
 
@@ -26,7 +25,7 @@ Punishments.roomPunishmentTypes.set(`TICKETBAN`, 'banned from creating help tick
  const tickets = {}; exports.tickets = tickets;
 
 try {
-	const ticketData = JSON.parse(_fs.FS.call(void 0, TICKET_FILE).readSync());
+	const ticketData = JSON.parse(_lib.FS.call(void 0, TICKET_FILE).readSync());
 	for (const t in ticketData) {
 		const ticket = ticketData[t];
 		if (ticket.banned) {
@@ -54,7 +53,7 @@ try {
 }
 
  function writeTickets() {
-	_fs.FS.call(void 0, TICKET_FILE).writeUpdate(
+	_lib.FS.call(void 0, TICKET_FILE).writeUpdate(
 		() => JSON.stringify(exports.tickets), {throttle: 5000}
 	);
 } exports.writeTickets = writeTickets;
@@ -64,7 +63,7 @@ function writeStats(line) {
 	const date = new Date();
 	const month = Chat.toTimestamp(date).split(' ')[0].split('-', 2).join('-');
 	try {
-		_fs.FS.call(void 0, `logs/tickets/${month}.tsv`).appendSync(line + '\n');
+		_lib.FS.call(void 0, `logs/tickets/${month}.tsv`).appendSync(line + '\n');
 	} catch (e) {
 		if (e.code !== 'ENOENT') throw e;
 	}
@@ -112,7 +111,7 @@ function writeStats(line) {
 		if (!this.ticket.open) return false;
 		if (!user.isStaff || user.id === this.ticket.userid) {
 			if (this.emptyRoom) this.emptyRoom = false;
-			if (!user.inGame(this.room)) this.addPlayer(user);
+			this.addPlayer(user);
 			if (this.ticket.offline) {
 				delete this.ticket.offline;
 				writeTickets();
@@ -202,7 +201,7 @@ function writeStats(line) {
 	}
 
 	forfeit(user) {
-		if (!user.inGame(this.room)) return;
+		if (!(user.id in this.playerTable)) return;
 		this.removePlayer(user);
 		if (!this.ticket.open) return;
 		this.room.modlog({action: 'TICKETABANDON', isGlobal: false, loggedBy: user.id});
@@ -224,7 +223,7 @@ function writeStats(line) {
 	getButton() {
 		const color = this.ticket.claimed ? `` : this.ticket.offline ? `notifying subtle` : `notifying`;
 		const creator = (
-			this.ticket.claimed ? _utils.Utils.html`${this.ticket.creator}` : _utils.Utils.html`<strong>${this.ticket.creator}</strong>`
+			this.ticket.claimed ? _lib.Utils.html`${this.ticket.creator}` : _lib.Utils.html`<strong>${this.ticket.creator}</strong>`
 		);
 		return (
 			`<a class="button ${color}" href="/help-${this.ticket.userid}"` +
@@ -245,7 +244,7 @@ function writeStats(line) {
 			const user = entry.shift();
 			let message = entry.join('|');
 			message = message.startsWith('/log ') ? message.slice(5) : `${user}: ${message}`;
-			hoverText.push(_utils.Utils.html`${message}`);
+			hoverText.push(_lib.Utils.html`${message}`);
 			if (hoverText.length >= 3) break;
 		}
 		if (!hoverText.length) return `title="The ticket creator has not spoken yet."`;
@@ -262,6 +261,8 @@ function writeStats(line) {
 		this.room.pokeExpireTimer();
 		for (const ticketGameUser of Object.values(this.playerTable)) {
 			this.removePlayer(ticketGameUser);
+			const user = Users.get(ticketGameUser.id);
+			if (user) user.updateSearch();
 		}
 		if (!this.involvedStaff.size) {
 			if (_optionalChain([staff, 'optionalAccess', _5 => _5.isStaff]) && staff.id !== this.ticket.userid) {
@@ -351,6 +352,16 @@ function writeStats(line) {
 		// @ts-ignore
 		this.playerTable = null;
 	}
+	onChatMessage(message, user) {
+		const roomids = message.match(/battle-(?:[a-z0-9]+)-(?:[0-9]+)(?:-[a-z0-9]+pw)?/g);
+		if (roomids) {
+			for (const roomid of roomids) {
+				const curRoom = Rooms.get(roomid);
+				if (!curRoom || !('uploadReplay' in curRoom) || _optionalChain([curRoom, 'optionalAccess', _6 => _6.battle, 'optionalAccess', _7 => _7.replaySaved])) continue;
+				void curRoom.uploadReplay(user, user.connections[0], 'forpunishment');
+			}
+		}
+	}
 	static ban(user, reason = '') {
 		const userid = toID(user);
 		const userObj = Users.get(user);
@@ -371,8 +382,8 @@ function writeStats(line) {
 			ips.unshift((user ).latestIp);
 			user = (user ).id;
 		}
-		const punishment = _optionalChain([Punishments, 'access', _6 => _6.roomUserids, 'access', _7 => _7.get, 'call', _8 => _8('staff'), 'optionalAccess', _9 => _9.get, 'call', _10 => _10(user)]);
-		if (_optionalChain([punishment, 'optionalAccess', _11 => _11[0]]) === 'TICKETBAN') {
+		const punishment = _optionalChain([Punishments, 'access', _8 => _8.roomUserids, 'access', _9 => _9.get, 'call', _10 => _10('staff'), 'optionalAccess', _11 => _11.get, 'call', _12 => _12(user)]);
+		if (_optionalChain([punishment, 'optionalAccess', _13 => _13[0]]) === 'TICKETBAN') {
 			return punishment;
 		}
 		// skip if the user is autoconfirmed and on a shared ip
@@ -380,7 +391,7 @@ function writeStats(line) {
 		if (Punishments.sharedIps.has(ips[0])) return false;
 
 		for (const ip of ips) {
-			const curPunishment = _optionalChain([Punishments, 'access', _12 => _12.roomIps, 'access', _13 => _13.get, 'call', _14 => _14('staff'), 'optionalAccess', _15 => _15.get, 'call', _16 => _16(ip)]);
+			const curPunishment = _optionalChain([Punishments, 'access', _14 => _14.roomIps, 'access', _15 => _15.get, 'call', _16 => _16('staff'), 'optionalAccess', _17 => _17.get, 'call', _18 => _18(ip)]);
 			if (curPunishment && curPunishment[0] === 'TICKETBAN') {
 				return curPunishment;
 			}
@@ -512,7 +523,7 @@ function notifyUnclaimedTicket(hasAssistRequest) {
 		const notifying = hiddenTicketUnclaimedCount > 0 ? ` notifying` : ``;
 		if (hiddenTicketUnclaimedCount > 0) hasUnclaimed = true;
 		buf = buf.slice(0, fourthTicketIndex) +
-			`<a class="button${notifying}" href="/view-help-tickets">and ${hiddenTicketCount} more Help ticket${Chat.plural(hiddenTicketCount)} (${hiddenTicketUnclaimedCount} unclaimed)</a>`;
+			`<button class="button${notifying}" name="send" value="/ht list">and ${hiddenTicketCount} more Help ticket${Chat.plural(hiddenTicketCount)} (${hiddenTicketUnclaimedCount} unclaimed)</button>`;
 	}
 	buf = `|${hasUnclaimed ? 'uhtml' : 'uhtmlchange'}|latest-tickets|<div class="infobox" style="padding: 6px 4px">${buf}${count === 0 ? `There were open Help tickets, but they've all been closed now.` : ``}</div>`;
 	room.send(buf);
@@ -529,6 +540,11 @@ function notifyUnclaimedTicket(hasAssistRequest) {
 	}
 	for (const user of Object.values(room.users)) {
 		if (user.can('lock') && !user.settings.ignoreTickets) user.sendTo(room, buf);
+		for (const connection of user.connections) {
+			if (_optionalChain([connection, 'access', _19 => _19.openPages, 'optionalAccess', _20 => _20.has, 'call', _21 => _21('help-tickets')])) {
+				void Chat.resolvePage('view-help-tickets', user, connection);
+			}
+		}
 	}
 	pokeUnclaimedTicketTimer(hasUnclaimed, hasAssistRequest);
 } exports.notifyStaff = notifyStaff;
@@ -546,7 +562,7 @@ function checkIp(ip) {
 for (const room of Rooms.rooms.values()) {
 	if (!room.settings.isHelp || !room.game) continue;
 	const game = room.getGame(HelpTicket);
-	if (game.ticket) game.ticket = exports.tickets[game.ticket.userid];
+	if (game.ticket && exports.tickets[game.ticket.userid]) game.ticket = exports.tickets[game.ticket.userid];
 }
 
 const delayWarningPreamble = `Hi! All global staff members are busy right now and we apologize for the delay. `;
@@ -624,7 +640,7 @@ const ticketPages = {
 			}
 			let ticket = exports.tickets[user.id];
 			const ipTicket = checkIp(user.latestIp);
-			if (_optionalChain([ticket, 'optionalAccess', _17 => _17.open]) || ipTicket) {
+			if (_optionalChain([ticket, 'optionalAccess', _22 => _22.open]) || ipTicket) {
 				if (!ticket && ipTicket) ticket = ipTicket;
 				const helpRoom = Rooms.get(`help-${ticket.userid}`);
 				if (!helpRoom) {
@@ -788,7 +804,7 @@ const ticketPages = {
 					}
 					const type = this.tr(ticketTitles[page.slice(7)]);
 					buf += `<p><b>${this.tr`Are you sure you want to submit a ticket for ${type}?`}</b></p>`;
-					const submitMeta = _utils.Utils.splitFirst(meta, '-', 2).join('|'); // change the delimiter as some ticket titles include -
+					const submitMeta = _lib.Utils.splitFirst(meta, '-', 2).join('|'); // change the delimiter as some ticket titles include -
 					buf += `<p><button class="button notifying" name="send" value="/helpticket submit ${ticketTitles[page.slice(7)]} ${submitMeta}">${this.tr`Yes, contact global staff`}</button> <a href="/view-help-request-${query.slice(0, i).join('-')}${meta}" target="replace"><button class="button">${this.tr`No, cancel`}</button></a></p>`;
 					break;
 				}
@@ -843,9 +859,9 @@ const ticketPages = {
 					}
 				}
 				buf += `<tr><td>${icon}</td>`;
-				buf += _utils.Utils.html`<td>${ticket.creator}</td>`;
+				buf += _lib.Utils.html`<td>${ticket.creator}</td>`;
 				buf += `<td>${ticket.type}</td>`;
-				buf += _utils.Utils.html`<td>${ticket.claimed ? ticket.claimed : `-`}</td>`;
+				buf += _lib.Utils.html`<td>${ticket.claimed ? ticket.claimed : `-`}</td>`;
 				buf += `<td>`;
 				const roomid = 'help-' + ticket.userid;
 				let logUrl = '';
@@ -873,7 +889,7 @@ const ticketPages = {
 			for (const [userid, entry] of ticketBans) {
 				let ids = [userid];
 				if (entry.userids) ids = ids.concat(entry.userids);
-				buf += `<tr><td>${ids.map(_utils.Utils.escapeHTML).join(', ')}</td>`;
+				buf += `<tr><td>${ids.map(_lib.Utils.escapeHTML).join(', ')}</td>`;
 				buf += `<td>${entry.ips.join(', ')}</td>`;
 				buf += `<td>${Chat.toDurationString(entry.expireTime - Date.now(), {precision: 1})}</td>`;
 				buf += `<td>${entry.reason || ''}</td></tr>`;
@@ -900,7 +916,7 @@ const ticketPages = {
 			}
 			const dateUrl = Chat.toTimestamp(date).split(' ')[0].split('-', 2).join('-');
 
-			const rawTicketStats = _fs.FS.call(void 0, `logs/tickets/${dateUrl}.tsv`).readIfExistsSync();
+			const rawTicketStats = _lib.FS.call(void 0, `logs/tickets/${dateUrl}.tsv`).readIfExistsSync();
 			if (!rawTicketStats) return `<div class="pad"><br />${this.tr`No ticket stats found.`}</div>`;
 
 			// Calculate next/previous month for stats and validate stats exist for the month
@@ -926,13 +942,13 @@ const ticketPages = {
 			const nextString = Chat.toTimestamp(nextDate).split(' ')[0].split('-', 2).join('-');
 
 			let buttonBar = '';
-			if (_fs.FS.call(void 0, `logs/tickets/${prevString}.tsv`).readIfExistsSync()) {
+			if (_lib.FS.call(void 0, `logs/tickets/${prevString}.tsv`).readIfExistsSync()) {
 				buttonBar += `<a class="button" href="/view-help-stats-${table}-${prevString}" target="replace" style="float: left">&lt; ${this.tr`Previous Month`}</a>`;
 			} else {
-				buttonBar += `<a class="button disabled" style="float: left">&lt; ${this.tr`Previous Month`}Month</a>`;
+				buttonBar += `<a class="button disabled" style="float: left">&lt; ${this.tr`Previous Month`}</a>`;
 			}
 			buttonBar += `<a class="button${table === 'tickets' ? ' disabled"' : `" href="/view-help-stats-tickets-${dateUrl}" target="replace"`}>${this.tr`Ticket Stats`}</a> <a class="button ${table === 'staff' ? ' disabled"' : `" href="/view-help-stats-staff-${dateUrl}" target="replace"`}>${this.tr`Staff Stats`}</a>`;
-			if (_fs.FS.call(void 0, `logs/tickets/${nextString}.tsv`).readIfExistsSync()) {
+			if (_lib.FS.call(void 0, `logs/tickets/${nextString}.tsv`).readIfExistsSync()) {
 				buttonBar += `<a class="button" href="/view-help-stats-${table}-${nextString}" target="replace" style="float: right">${this.tr`Next Month`} &gt;</a>`;
 			} else {
 				buttonBar += `<a class="button disabled" style="float: right">${this.tr`Next Month`} &gt;</a>`;
@@ -1069,7 +1085,7 @@ const ticketPages = {
 		if (!this.runBroadcast()) return;
 		const meta = this.pmTarget ? `-user-${this.pmTarget.id}` : this.room ? `-room-${this.room.roomid}` : '';
 		if (this.broadcasting) {
-			if (_optionalChain([room, 'optionalAccess', _18 => _18.battle])) return this.errorReply(this.tr`This command cannot be broadcast in battles.`);
+			if (_optionalChain([room, 'optionalAccess', _23 => _23.battle])) return this.errorReply(this.tr`This command cannot be broadcast in battles.`);
 			return this.sendReplyBox(`<button name="joinRoom" value="view-help-request--report${meta}" class="button"><strong>${this.tr`Report someone`}</strong></button>`);
 		}
 
@@ -1080,7 +1096,7 @@ const ticketPages = {
 		if (!this.runBroadcast()) return;
 		const meta = this.pmTarget ? `-user-${this.pmTarget.id}` : this.room ? `-room-${this.room.roomid}` : '';
 		if (this.broadcasting) {
-			if (_optionalChain([room, 'optionalAccess', _19 => _19.battle])) return this.errorReply(this.tr`This command cannot be broadcast in battles.`);
+			if (_optionalChain([room, 'optionalAccess', _24 => _24.battle])) return this.errorReply(this.tr`This command cannot be broadcast in battles.`);
 			return this.sendReplyBox(`<button name="joinRoom" value="view-help-request--appeal${meta}" class="button"><strong>${this.tr`Appeal a punishment`}</strong></button>`);
 		}
 
@@ -1117,7 +1133,7 @@ const ticketPages = {
 			}
 			let ticket = exports.tickets[user.id];
 			const ipTicket = checkIp(user.latestIp);
-			if (_optionalChain([ticket, 'optionalAccess', _20 => _20.open]) || ipTicket) {
+			if (_optionalChain([ticket, 'optionalAccess', _25 => _25.open]) || ipTicket) {
 				if (!ticket && ipTicket) ticket = ipTicket;
 				const helpRoom = Rooms.get(`help-${ticket.userid}`);
 				if (!helpRoom) {
@@ -1134,8 +1150,8 @@ const ticketPages = {
 				const maxTickets = Punishments.sharedIps.has(user.latestIp) ? `50` : `5`;
 				return this.popupReply(this.tr`Due to high load, you are limited to creating ${maxTickets} tickets every hour.`);
 			}
-			let [ticketType, reportTargetType, reportTarget] = _utils.Utils.splitFirst(target, '|', 2).map(s => s.trim());
-			reportTarget = _utils.Utils.escapeHTML(reportTarget);
+			let [ticketType, reportTargetType, reportTarget] = _lib.Utils.splitFirst(target, '|', 2).map(s => s.trim());
+			reportTarget = _lib.Utils.escapeHTML(reportTarget);
 			if (!Object.values(ticketTitles).includes(ticketType)) return this.parse('/helpticket');
 			const contexts = {
 				'PM Harassment': `Hi! Who was harassing you in private messages?`,
@@ -1190,15 +1206,15 @@ const ticketPages = {
 						this.tr` Or if ${reportTarget} is not the user you want to report, please tell us the name of the user who you want to report.`;
 					break;
 				case 'Inappropriate Username':
-					staffIntroButtons = _utils.Utils.html`<button class="button" name="send" value="/forcerename ${reportTarget}">Force-rename ${reportTarget}</button> `;
+					staffIntroButtons = _lib.Utils.html`<button class="button" name="send" value="/forcerename ${reportTarget}">Force-rename ${reportTarget}</button> `;
 					break;
 				}
-				staffIntroButtons += _utils.Utils.html`<button class="button" name="send" value="/modlog global, user='${reportTarget}'">Global Modlog for ${reportTarget}</button> <button class="button" name="send" value="/sharedbattles ${user.id}, ${toID(reportTarget)}">Shared battles</button> `;
+				staffIntroButtons += _lib.Utils.html`<button class="button" name="send" value="/modlog global, user='${reportTarget}'">Global Modlog for ${reportTarget}</button> <button class="button" name="send" value="/sharedbattles ${user.id}, ${toID(reportTarget)}">Shared battles</button> `;
 			}
 			if (ticket.type === 'Appeal') {
-				staffIntroButtons += _utils.Utils.html`<button class="button" name="send" value="/modlog global, user='${user.name}'">Global Modlog for ${user.name}</button>`;
+				staffIntroButtons += _lib.Utils.html`<button class="button" name="send" value="/modlog global, user='${user.name}'">Global Modlog for ${user.name}</button>`;
 			}
-			const introMsg = _utils.Utils.html`<h2 style="margin:0">${this.tr`Help Ticket`} - ${user.name}</h2>` +
+			const introMsg = _lib.Utils.html`<h2 style="margin:0">${this.tr`Help Ticket`} - ${user.name}</h2>` +
 				`<p><b>${this.tr`Issue`}</b>: ${ticket.type}<br />${this.tr`A Global Staff member will be with you shortly.`}</p>`;
 			const staffMessage = [
 				`<p>${closeButtons} <details><summary class="button">More Options</summary> ${staffIntroButtons}`,
@@ -1225,10 +1241,10 @@ const ticketPages = {
 					);
 
 					if (!commonBattles.length) {
-						reportTargetInfo += _utils.Utils.html`There are no common battles between '${reportTarget}' and '${ticket.creator}'.`;
+						reportTargetInfo += _lib.Utils.html`There are no common battles between '${reportTarget}' and '${ticket.creator}'.`;
 					} else {
-						reportTargetInfo += _utils.Utils.html`Showing ${commonBattles.length} common battle(s) between '${reportTarget}' and '${ticket.creator}': `;
-						reportTargetInfo += commonBattles.map(roomid => _utils.Utils.html`<a href=/${roomid}>${roomid.replace(/^battle-/, '')}`);
+						reportTargetInfo += _lib.Utils.html`Showing ${commonBattles.length} common battle(s) between '${reportTarget}' and '${ticket.creator}': `;
+						reportTargetInfo += commonBattles.map(roomid => _lib.Utils.html`<a href=/${roomid}>${roomid.replace(/^battle-/, '')}`);
 					}
 				}
 			}
@@ -1255,7 +1271,7 @@ const ticketPages = {
 			helpRoom.modlog({action: 'TICKETOPEN', isGlobal: false, loggedBy: user.id, note: ticket.type});
 			ticketGame.addText(`${user.name} opened a new ticket. Issue: ${ticket.type}`, user);
 			void this.parse(`/join help-${user.id}`);
-			if (!user.inGame(ticketGame.room)) {
+			if (!(user.id in ticketGame.playerTable)) {
 				// User was already in the room, manually add them to the "game" so they get a popup if they try to leave
 				ticketGame.addPlayer(user);
 			}
@@ -1289,7 +1305,7 @@ const ticketPages = {
 			if (!target) return this.parse(`/help helpticket close`);
 			let result = !(this.splitTarget(target) === 'false');
 			const ticket = exports.tickets[toID(this.inputUsername)];
-			if (!ticket || !ticket.open || (ticket.userid !== user.id && !user.can('lock'))) {
+			if (!_optionalChain([ticket, 'optionalAccess', _26 => _26.open]) || (ticket.userid !== user.id && !user.can('lock'))) {
 				return this.errorReply(this.tr`${this.inputUsername} does not have an open ticket.`);
 			}
 			const helpRoom = Rooms.get(`help-${ticket.userid}`) ;
@@ -1363,7 +1379,7 @@ const ticketPages = {
 			for (const userObj of affected) {
 				const userObjID = (typeof userObj !== 'string' ? userObj.getLastId() : toID(userObj));
 				const targetTicket = exports.tickets[userObjID];
-				if (_optionalChain([targetTicket, 'optionalAccess', _21 => _21.open])) targetTicket.open = false;
+				if (_optionalChain([targetTicket, 'optionalAccess', _27 => _27.open])) targetTicket.open = false;
 				const helpRoom = Rooms.get(`help-${userObjID}`);
 				if (helpRoom) {
 					const ticketGame = helpRoom.getGame(HelpTicket);
@@ -1382,7 +1398,7 @@ const ticketPages = {
 
 			this.checkCan('lock');
 			target = toID(target);
-			const targetID = _optionalChain([Users, 'access', _22 => _22.get, 'call', _23 => _23(target), 'optionalAccess', _24 => _24.id]) || target ;
+			const targetID = _optionalChain([Users, 'access', _28 => _28.get, 'call', _29 => _29(target), 'optionalAccess', _30 => _30.id]) || target ;
 			const banned = HelpTicket.checkBanned(targetID);
 			if (!banned) {
 				return this.errorReply(this.tr`${target} is not ticket banned.`);
@@ -1391,7 +1407,7 @@ const ticketPages = {
 			const affected = HelpTicket.unban(targetID);
 			this.addModAction(`${affected} was ticket unbanned by ${user.name}.`);
 			this.globalModlog("UNTICKETBAN", toID(target));
-			_optionalChain([Users, 'access', _25 => _25.get, 'call', _26 => _26(target), 'optionalAccess', _27 => _27.popup, 'call', _28 => _28(`${user.name} has ticket unbanned you.`)]);
+			_optionalChain([Users, 'access', _31 => _31.get, 'call', _32 => _32(target), 'optionalAccess', _33 => _33.popup, 'call', _34 => _34(`${user.name} has ticket unbanned you.`)]);
 		},
 		unbanhelp: [`/helpticket unban [user] - Ticket unbans a user. Requires: % @ &`],
 
@@ -1451,11 +1467,18 @@ const ticketPages = {
  const punishmentfilter = (user, punishment) => {
 	if (punishment[0] !== 'BAN') return;
 
-	const helpRoom = Rooms.get(`help-${toID(user)}`);
-	if (_optionalChain([helpRoom, 'optionalAccess', _29 => _29.game, 'optionalAccess', _30 => _30.gameid]) !== 'helpticket') return;
-
-	const ticket = helpRoom.game ;
-	ticket.close('ticketban');
+	const userId = toID(user);
+	if (typeof user === 'object') {
+		const ids = [userId, ...(user ).previousIDs];
+		for (const userid of ids) {
+			exports.punishmentfilter.call(void 0, userid, punishment);
+		}
+	} else {
+		const helpRoom = Rooms.get(`help-${userId}`);
+		if (_optionalChain([helpRoom, 'optionalAccess', _35 => _35.game, 'optionalAccess', _36 => _36.gameid]) !== 'helpticket') return;
+		const ticket = helpRoom.game ;
+		ticket.close('ticketban');
+	}
 }; exports.punishmentfilter = punishmentfilter;
 
  //# sourceMappingURL=sourceMaps/helptickets.js.map

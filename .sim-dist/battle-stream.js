@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true});/**
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }/**
  * Battle Stream
  * Pokemon Showdown - http://pokemonshowdown.com/
  *
@@ -9,7 +9,7 @@
  * @license MIT
  */
 
-var _streams = require('./../.lib-dist/streams'); var Streams = _streams;
+var _lib = require('../.lib-dist');
 var _battle = require('./battle');
 
 /**
@@ -38,7 +38,7 @@ function splitFirst(str, delimiter, limit = 1) {
 	return splitStr;
 }
 
- class BattleStream extends Streams.ObjectReadWriteStream {
+ class BattleStream extends _lib.Streams.ObjectReadWriteStream {
 	
 	
 	
@@ -122,10 +122,107 @@ function splitFirst(str, delimiter, limit = 1) {
 		case 'forcewin':
 		case 'forcetie':
 			this.battle.win(type === 'forcewin' ? message  : null);
+			if (message) {
+				this.battle.inputLog.push(`>forcewin ${message}`);
+			} else {
+				this.battle.inputLog.push(`>forcetie`);
+			}
+			break;
+		case 'forcelose':
+			this.battle.lose(message );
+			this.battle.inputLog.push(`>forcelose ${message}`);
+			break;
+		case 'reseed':
+			const seed = message ? message.split(',').map(Number)  : null;
+			this.battle.resetRNG(seed);
+			// could go inside resetRNG, but this makes using it in `eval` slightly less buggy
+			this.battle.inputLog.push(`>reseed ${this.battle.prng.seed.join(',')}`);
 			break;
 		case 'tiebreak':
 			this.battle.tiebreak();
 			break;
+		case 'chat-inputlogonly':
+			this.battle.inputLog.push(`>chat ${message}`);
+			break;
+		case 'chat':
+			this.battle.inputLog.push(`>chat ${message}`);
+			this.battle.add('chat', `${message}`);
+			break;
+		case 'eval':
+			const battle = this.battle;
+
+			// n.b. this will usually but not always work - if you eval code that also affects the inputLog,
+			// replaying the inputlog would double-play the change.
+			battle.inputLog.push(`>${type} ${message}`);
+
+			message = message.replace(/\f/g, '\n');
+			battle.add('', '>>> ' + message.replace(/\n/g, '\n||'));
+			try {
+				/* eslint-disable no-eval, @typescript-eslint/no-unused-vars */
+				const p1 = battle.sides[0];
+				const p2 = battle.sides[1];
+				const p3 = battle.sides[2];
+				const p4 = battle.sides[3];
+				const p1active = _optionalChain([p1, 'optionalAccess', _ => _.active, 'access', _2 => _2[0]]);
+				const p2active = _optionalChain([p2, 'optionalAccess', _3 => _3.active, 'access', _4 => _4[0]]);
+				const p3active = _optionalChain([p3, 'optionalAccess', _5 => _5.active, 'access', _6 => _6[0]]);
+				const p4active = _optionalChain([p4, 'optionalAccess', _7 => _7.active, 'access', _8 => _8[0]]);
+				const toID = battle.toID;
+				const player = (input) => {
+					input = toID(input);
+					if (/^p[1-9]$/.test(input)) return battle.sides[parseInt(input.slice(1)) - 1];
+					if (/^[1-9]$/.test(input)) return battle.sides[parseInt(input) - 1];
+					for (const side of battle.sides) {
+						if (toID(side.name) === input) return side;
+					}
+					return null;
+				};
+				const pokemon = (side, input) => {
+					if (typeof side === 'string') side = player(side);
+
+					input = toID(input);
+					if (/^[1-9]$/.test(input)) return side.pokemon[parseInt(input) - 1];
+					return side.pokemon.find(p => p.baseSpecies.id === input || p.species.id === input);
+				};
+				let result = eval(message);
+				/* eslint-enable no-eval, @typescript-eslint/no-unused-vars */
+
+				if (_optionalChain([result, 'optionalAccess', _9 => _9.then])) {
+					result.then((unwrappedResult) => {
+						unwrappedResult = _lib.Utils.visualize(unwrappedResult);
+						battle.add('', 'Promise -> ' + unwrappedResult);
+						battle.sendUpdates();
+					}, (error) => {
+						battle.add('', '<<< error: ' + error.message);
+						battle.sendUpdates();
+					});
+				} else {
+					result = _lib.Utils.visualize(result);
+					result = result.replace(/\n/g, '\n||');
+					battle.add('', '<<< ' + result);
+				}
+			} catch (e) {
+				battle.add('', '<<< error: ' + e.message);
+			}
+			break;
+		case 'requestlog':
+			this.push(`requesteddata\n${this.battle.inputLog.join('\n')}`);
+			break;
+		case 'requestteam':
+			message = message.trim();
+			const slotNum = parseInt(message.slice(1)) - 1;
+			if (isNaN(slotNum) || slotNum < 0) {
+				throw new Error(`Team requested for slot ${message}, but that slot does not exist.`);
+			}
+			const side = this.battle.sides[slotNum];
+			const team = Dex.packTeam(side.team);
+			this.push(`requesteddata\n${team}`);
+			break;
+		case 'version':
+		case 'version-origin':
+			break;
+		default:
+			throw new Error(`Unrecognized command ">${type} ${message}"`);
 		}
 	}
 
@@ -146,7 +243,7 @@ function splitFirst(str, delimiter, limit = 1) {
  */
  function getPlayerStreams(stream) {
 	const streams = {
-		omniscient: new Streams.ObjectReadWriteStream({
+		omniscient: new _lib.Streams.ObjectReadWriteStream({
 			write(data) {
 				void stream.write(data);
 			},
@@ -154,25 +251,25 @@ function splitFirst(str, delimiter, limit = 1) {
 				return stream.writeEnd();
 			},
 		}),
-		spectator: new Streams.ObjectReadStream({
+		spectator: new _lib.Streams.ObjectReadStream({
 			read() {},
 		}),
-		p1: new Streams.ObjectReadWriteStream({
+		p1: new _lib.Streams.ObjectReadWriteStream({
 			write(data) {
 				void stream.write(data.replace(/(^|\n)/g, `$1>p1 `));
 			},
 		}),
-		p2: new Streams.ObjectReadWriteStream({
+		p2: new _lib.Streams.ObjectReadWriteStream({
 			write(data) {
 				void stream.write(data.replace(/(^|\n)/g, `$1>p2 `));
 			},
 		}),
-		p3: new Streams.ObjectReadWriteStream({
+		p3: new _lib.Streams.ObjectReadWriteStream({
 			write(data) {
 				void stream.write(data.replace(/(^|\n)/g, `$1>p3 `));
 			},
 		}),
-		p4: new Streams.ObjectReadWriteStream({
+		p4: new _lib.Streams.ObjectReadWriteStream({
 			write(data) {
 				void stream.write(data.replace(/(^|\n)/g, `$1>p4 `));
 			},
@@ -253,7 +350,7 @@ function splitFirst(str, delimiter, limit = 1) {
 	}
 } exports.BattlePlayer = BattlePlayer;
 
- class BattleTextStream extends Streams.ReadWriteStream {
+ class BattleTextStream extends _lib.Streams.ReadWriteStream {
 	
 	
 

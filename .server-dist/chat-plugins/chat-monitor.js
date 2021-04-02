@@ -1,5 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _fs = require('../../.lib-dist/fs');
-var _utils = require('../../.lib-dist/utils');
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _optionalChain(ops) { let lastAccessLHS = undefined; let value = ops[0]; let i = 1; while (i < ops.length) { const op = ops[i]; const fn = ops[i + 1]; i += 2; if ((op === 'optionalAccess' || op === 'optionalCall') && value == null) { return undefined; } if (op === 'access' || op === 'optionalAccess') { lastAccessLHS = value; value = fn(value); } else if (op === 'call' || op === 'optionalCall') { value = fn((...args) => value.call(lastAccessLHS, ...args)); lastAccessLHS = undefined; } } return value; }var _lib = require('../../.lib-dist');
 
 
 const MONITOR_FILE = 'config/chat-plugins/chat-monitor.tsv';
@@ -70,7 +69,7 @@ function renderEntry(location, word, punishment) {
 }
 
 function saveFilters(force = false) {
-	_fs.FS.call(void 0, MONITOR_FILE).writeUpdate(() => {
+	_lib.FS.call(void 0, MONITOR_FILE).writeUpdate(() => {
 		let buf = 'Location\tWord\tPunishment\tReason\tTimes\r\n';
 		for (const key in Chat.monitors) {
 			buf += filterWords[key].map(
@@ -287,14 +286,21 @@ Chat.registerMonitor('shorteners', {
  * Location: EVERYWHERE, PUBLIC, NAMES, BATTLES
  * Punishment: AUTOLOCK, WARN, FILTERTO, SHORTENER, MUTE, EVASION
  */
-void _fs.FS.call(void 0, MONITOR_FILE).readIfExists().then(data => {
+
+ function loadFilters() {
+	let data;
+	try {
+		data = _lib.FS.call(void 0, MONITOR_FILE).readSync();
+	} catch (e) {
+		if (e.code !== 'ENOENT') throw e;
+	}
+	if (!data) return;
 	const lines = data.split('\n');
 	loop: for (const line of lines) {
 		if (!line || line === '\r') continue;
 		const [location, word, punishment, reason, times, ...rest] = line.split('\t').map(param => param.trim());
 		if (location === 'Location') continue;
 		if (!(location && word && punishment)) continue;
-
 		for (const key in Chat.monitors) {
 			if (Chat.monitors[key].location === location && Chat.monitors[key].punishment === punishment) {
 				const replacement = rest[0];
@@ -314,13 +320,16 @@ void _fs.FS.call(void 0, MONITOR_FILE).readIfExists().then(data => {
 				if (publicReason) filterWord.publicReason = publicReason;
 				if (replacement) filterWord.replacement = replacement;
 				filterWords[key].push(filterWord);
-
 				continue loop;
 			}
 		}
-		throw new Error(`Unrecognized [location, punishment] pair for filter word entry: ${[location, word, punishment, reason, times]}`);
+		// this is not thrown because we DO NOT WANT SECRET FILTERS TO BE LEAKED, but we want this to be known
+		// (this sends the filter line info only in the email, but still reports the crash to Dev)
+		Monitor.crashlog(new Error("Couldn't find [location, punishment] pair for a filter word"), "The main process", {
+			location, word, punishment, reason, times, rest,
+		});
 	}
-});
+} exports.loadFilters = loadFilters;
 
 /* The sucrase transformation of optional chaining is too expensive to be used in a hot function like this. */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
@@ -421,7 +430,7 @@ void _fs.FS.call(void 0, MONITOR_FILE).readIfExists().then(data => {
 		const manualForceRename = Monitor.forceRenames.get(toID(user.trackRename));
 		Rooms.global.notifyRooms(
 			['staff'],
-			_utils.Utils.html`|html|[NameMonitor] Username used: <span class="username">${user.name}</span> ${user.getAccountStatusString()} (${!manualForceRename ? 'automatically ' : ''}forcerenamed from <span class="username">${user.trackRename}</span>)`
+			_lib.Utils.html`|html|[NameMonitor] Username used: <span class="username">${user.name}</span> ${user.getAccountStatusString()} (${!manualForceRename ? 'automatically ' : ''}forcerenamed from <span class="username">${user.trackRename}</span>)`
 		);
 		user.trackRename = '';
 	}
@@ -529,9 +538,9 @@ void _fs.FS.call(void 0, MONITOR_FILE).readIfExists().then(data => {
 			content += `<tr><th colspan="2"><h3>${Chat.monitors[key].label} <span style="font-size:8pt;">[${key}]</span></h3></tr></th>`;
 			if (filterWords[key].length) {
 				content += filterWords[key].map(({regex, word, reason, publicReason, replacement, hits}) => {
-					let entry = _utils.Utils.html`<abbr title="${reason}"><code>${word}</code></abbr>`;
-					if (publicReason) entry += _utils.Utils.html` <small>(public reason: ${publicReason})</small>`;
-					if (replacement) entry += _utils.Utils.html` &rArr; ${replacement}`;
+					let entry = _lib.Utils.html`<abbr title="${reason}"><code>${word}</code></abbr>`;
+					if (publicReason) entry += _lib.Utils.html` <small>(public reason: ${publicReason})</small>`;
+					if (replacement) entry += _lib.Utils.html` &rArr; ${replacement}`;
 					return `<tr><td>${entry}</td><td>${hits}</td></tr>`;
 				}).join('');
 			}
@@ -656,12 +665,13 @@ void _fs.FS.call(void 0, MONITOR_FILE).readIfExists().then(data => {
 		if (!room || !toNotify.includes(room.roomid)) {
 			this.sendReply(msg);
 		}
-		this.globalModlog(`ALLOWNAME`, null, target);
+		this.globalModlog(`ALLOWNAME`, target);
 	},
 }; exports.commands = commands;
 
 process.nextTick(() => {
 	Chat.multiLinePattern.register('/filter (add|remove) ');
+	loadFilters();
 });
 
  //# sourceMappingURL=sourceMaps/chat-monitor.js.map

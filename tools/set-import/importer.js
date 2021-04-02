@@ -5,7 +5,7 @@ var _util = require('util'); var util = _util;
 
 var _smogon = require('smogon'); var smogon = _smogon;
 
-var _streams = require('../../.lib-dist/streams'); var Streams = _streams;
+var _lib = require('../../.lib-dist');
 var _dex = require('../../.sim-dist/dex');
 var _teamvalidator = require('../../.sim-dist/team-validator');
 _dex.Dex.includeModData();
@@ -557,7 +557,7 @@ const request = retrying(throttling(fetch, 1, 50), 5, 20);
 					return reject(new Error(`HTTP ${res.statusCode}`));
 				}
 			}
-			Streams.readAll(res).then(resolve, reject);
+			_lib.Streams.readAll(res).then(resolve, reject);
 		});
 		req.on('error', reject);
 		req.end();

@@ -7,9 +7,7 @@
  * @license MIT
  */
 
-var _dashycode = require('../../.lib-dist/dashycode'); var Dashycode = _dashycode;
-
-var _utils = require('../../.lib-dist/utils');
+var _lib = require('../../.lib-dist');
 
 
 const MAX_QUERY_LENGTH = 2500;
@@ -43,7 +41,7 @@ function getMoreButton(
 	if (!newLines || lines < maxLines) {
 		return ''; // don't show a button if no more pre-set increments are valid or if the amount of results is already below the max
 	} else {
-		return _utils.Utils.html`<br /><div style="text-align:center"><button class="button" name="send" value="/${onlyPunishments ? 'punish' : 'mod'}log room=${roomid}, ${searchCmd}, ${LINES_SEPARATOR}${newLines}" title="View more results">Older results<br />&#x25bc;</button></div>`;
+		return _lib.Utils.html`<br /><div style="text-align:center"><button class="button" name="send" value="/${onlyPunishments ? 'punish' : 'mod'}log room=${roomid}, ${searchCmd}, ${LINES_SEPARATOR}${newLines}" title="View more results">Older results<br />&#x25bc;</button></div>`;
 	}
 }
 
@@ -85,7 +83,6 @@ function prettifyResults(
 	const lines = resultArray.length;
 	let curDate = '';
 	const resultString = resultArray.map(result => {
-		if (!result) return '';
 		const date = new Date(result.time || Date.now());
 		const entryRoom = result.visualRoomID || result.roomID || 'global';
 		let [dateString, timestamp] = Chat.toTimestamp(date, {human: true}).split(' ');
@@ -111,7 +108,7 @@ function prettifyResults(
 			const url = Config.modloglink(date, thisRoomID);
 			if (url) timestamp = `<a href="${url}">${timestamp}</a>`;
 		}
-		line = _utils.Utils.escapeHTML(line.slice(line.indexOf(')') + ` </small>`.length));
+		line = _lib.Utils.escapeHTML(line.slice(line.indexOf(')') + ` </small>`.length));
 		line = line.replace(
 			IPS_REGEX,
 			hideIps ? '' : `[<a href="https://whatismyipaddress.com/ip/$1" target="_blank">$1</a>]`
@@ -120,10 +117,10 @@ function prettifyResults(
 	}).join(`<br />`);
 	const [dateString, timestamp] = Chat.toTimestamp(new Date(), {human: true}).split(' ');
 	let preamble;
-	const modlogid = roomid + (searchString ? '-' + Dashycode.encode(searchString) : '');
+	const modlogid = roomid + (searchString ? '-' + _lib.Dashycode.encode(searchString) : '');
 	if (searchString) {
 		preamble = `>view-modlog-${modlogid}\n|init|html\n|title|[Modlog]${title}\n` +
-			`|pagehtml|<div class="pad"><p>The last ${scope}${Chat.count(lines, "logged actions")} ${_utils.Utils.escapeHTML(searchString)} on ${roomName}.`;
+			`|pagehtml|<div class="pad"><p>The last ${scope}${Chat.count(lines, "logged actions")} ${_lib.Utils.escapeHTML(searchString)} on ${roomName}.`;
 	} else {
 		preamble = `>view-modlog-${modlogid}\n|init|html\n|title|[Modlog]${title}\n` +
 			`|pagehtml|<div class="pad"><p>The last ${Chat.count(lines, `${scope}lines`)} of the Moderator Log of ${roomName}.`;

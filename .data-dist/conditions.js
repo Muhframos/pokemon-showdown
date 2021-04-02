@@ -172,7 +172,7 @@
 				return;
 			}
 			this.activeTarget = pokemon;
-			const damage = this.getDamage(pokemon, pokemon, 40);
+			const damage = this.actions.getDamage(pokemon, pokemon, 40);
 			if (typeof damage !== 'number') throw new Error("Confusion damage not dealt");
 			const activeMove = {id: this.toID('confused'), effectType: 'Move', type: '???'};
 			this.damage(damage, pokemon, pokemon, activeMove );
@@ -277,7 +277,7 @@
 				moveTarget = this.getRandomTarget(target, effect.id);
 			}
 			// if there are no valid targets, randomly choose one later
-			target.volatiles[effect.id].targetLoc = this.getTargetLoc(moveTarget || target, target);
+			target.volatiles[effect.id].targetLoc = target.getLocOf(moveTarget || target);
 			this.attrLastMove('[still]');
 			// Run side-effects normally associated with hitting (e.g., Protean, Libero)
 			this.runEvent('PrepareHit', target, source, effect);
@@ -376,7 +376,7 @@
 			}
 			const hitMove = new this.dex.Move(data.moveData) ;
 
-			this.trySpreadMoveHit([target], data.source, hitMove, true);
+			this.actions.trySpreadMoveHit([target], data.source, hitMove, true);
 		},
 	},
 	healreplacement: {
@@ -426,7 +426,7 @@
 		onBasePowerPriority: 14,
 		onBasePower(basePower, user, target, move) {
 			this.debug('Gem Boost');
-			return this.chainModify([0x14CD, 0x1000]);
+			return this.chainModify([5325, 4096]);
 		},
 	},
 
