@@ -1900,3 +1900,19 @@ Additional information:
   formatid = gen8adventuresfreeforall
   team = Exploud||choicescarf|punkrock|boomburst,blizzard,surf,overheat|Timid|,,,252,4,252||,0,,,,|||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,184,,,72,|||||]Regigigas||leftovers|slowstart|protect,substitute,return,earthquake|Adamant|252,252,,,,4|||||]Beedrill-Mega||beedrillite|adaptability|tailwind,uturn,drillrun,knockoff|Jolly|,252,,,4,252|||||
 
+
+Error: Rule "HP Percentage Mod" was added by "[Gen 8] Adventures Free For All" but already exists in "Standard NatDex"
+    at ModdedDex.getRuleTable (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:861:11)
+    at new TeamValidator (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:199:29)
+    at Function.get (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:2133:10)
+    at QueryProcessManager._query (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:574:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  formatid = gen8adventuresfreeforall
+  team = Exploud||choicescarf|punkrock|boomburst,blizzard,surf,overheat|Timid|,,,252,4,252||,0,,,,|||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,184,,,72,|||||]Regigigas||leftovers|slowstart|protect,substitute,return,earthquake|Adamant|252,252,,,,4|||||]Beedrill-Mega||beedrillite|adaptability|tailwind,uturn,drillrun,knockoff|Jolly|,252,,,4,252|||||
+

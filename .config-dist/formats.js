@@ -143,7 +143,7 @@ The column value will be ignored for repeat sections.
 		gameType: 'freeforall',
 		challengeShow: false,
 		rated: false,
-		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable', 'HP Percentage Mod', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'HP Percentage Mod', 'Sleep Clause Mod'],
 	},
 	{
 		name: "[Gen 8] Adventures Custom Game",
