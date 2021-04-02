@@ -1916,3 +1916,83 @@ Additional information:
   formatid = gen8adventuresfreeforall
   team = Exploud||choicescarf|punkrock|boomburst,blizzard,surf,overheat|Timid|,,,252,4,252||,0,,,,|||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,184,,,72,|||||]Regigigas||leftovers|slowstart|protect,substitute,return,earthquake|Adamant|252,252,,,,4|||||]Beedrill-Mega||beedrillite|adaptability|tailwind,uturn,drillrun,knockoff|Jolly|,252,,,4,252|||||
 
+
+TypeError: this.battle.clampIntRange is not a function
+    at new Pokemon (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\pokemon.js:298:27)
+    at new Side (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\side.js:118:22)
+    at Battle.setPlayer (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js:3006:11)
+    at RoomBattleStream._writeLine (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:110:16)
+    at RoomBattleStream._writeLines (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+    at RoomBattleStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1211:9)
+    at RoomBattleStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:660:17)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  chunk = >player p1 {"name":"alee51104","avatar":"101","team":"Rapidash|rapidashgalar|expertbelt|queenlymajesty|playrough,wildcharge,jumpkick,highhorsepower|Jolly|,252,,,4,252|F||S||]Noivern||choicespecs|aerilate|boomburst,uturn,fireblast,twister|Timid|,,,252,4,252|||||]Landorus|landorustherian|focussash|intimidate|stealthrock,earthquake,toxic,defog|Jolly|,252,,,4,252|M||||]Bisharp||choicescarf|ironfist|suckerpunch,closecombat,thunderpunch,icepunch|Jolly|,252,,,4,252|||||]Kartana||steeliumz|beastboost|smartstrike,leafblade,swordsdance,sacredsword|Jolly|,252,,,4,252|N||||]Volcanion||leftovers|waterabsorb|lifedew,clearsmog,steameruption,fireblast|Modest|252,,,252,4,|N|,0,,,,|||","rating":0}
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[5485,24635,62942,51784]}
+  log = 
+|t:|1617331213
+
+
+TypeError: this.battle.clampIntRange is not a function
+    at new Pokemon (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\pokemon.js:298:27)
+    at new Side (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\side.js:118:22)
+    at Battle.setPlayer (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js:3006:11)
+    at RoomBattleStream._writeLine (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:110:16)
+    at RoomBattleStream._writeLines (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+    at RoomBattleStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1211:9)
+    at RoomBattleStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:660:17)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  chunk = >player p3 {"name":"Redgoop115","avatar":"101","team":"Starmie||expertbelt|neuroforce|hydropump,thunderbolt,icebeam,toxic|Timid|36,,,252,4,216|N|,0,,,,|||]Pikachu||lightball|lightningrod|extremespeed,volttackle,playrough,fakeout|Jolly|,252,,,4,252|F||||]Volcarona||heavydutyboots|flamebody|psychic,fierydance,bugbuzz,quiverdance|Timid|,,,252,4,252||,0,,,,|||]Mienshao||choicescarf|reckless|highjumpkick,poisonjab,rapidspin,uturn|Jolly|,252,,,4,252|||||]Skarmory||leftovers|sturdy|stealthrock,roost,bodypress,toxic|Impish|252,,252,,4,||,0,,,,|||]Slowking||slowbronite|regenerator|scald,slackoff,calmmind,teleport|Calm|252,,,4,252,||,0,,,,|||","rating":0}
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[5485,24635,62942,51784]}
+  log = 
+|t:|1617331213
+
+
+TypeError: this.battle.clampIntRange is not a function
+    at new Pokemon (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\pokemon.js:298:27)
+    at new Side (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\side.js:118:22)
+    at Battle.setPlayer (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js:3006:11)
+    at RoomBattleStream._writeLine (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:110:16)
+    at RoomBattleStream._writeLines (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+    at RoomBattleStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1211:9)
+    at RoomBattleStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:660:17)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  chunk = >player p4 {"name":"Senpai_1987","avatar":"lady-gen4","team":"Blacephalon||choicescarf|beastboost|mindblown,shadowball,darkpulse,explosion|Hasty|,4,,252,,252|N||||]Maractus||rockyhelmet|ironbarbs|synthesis,babydolleyes,toxicspikes,knockoff|Impish|252,4,252,,,|||||]Spiritomb||leftovers|neutralizinggas|moonlight,shadowsneak,suckerpunch,willowisp|Impish|248,8,252,,,|||||]Slowking|slowkinggalar|assaultvest|regenerator|futuresight,sludgebomb,scald,flamethrower|Calm|252,,,4,252,||,0,,,,|S||]Golisopod||assaultvest|shellarmor|leechlife,uturn,drillrun,waterfall|Adamant|,252,252,,4,|||||]Banette||banettite|frisk|taunt,destinybond,poltergeist,suckerpunch|Adamant|252,252,,,4,|||||","rating":0}
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[5485,24635,62942,51784]}
+  log = 
+|t:|1617331213
+
+
+TypeError: this.battle.clampIntRange is not a function
+    at new Pokemon (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\pokemon.js:298:27)
+    at new Side (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\side.js:118:22)
+    at Battle.setPlayer (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js:3006:11)
+    at RoomBattleStream._writeLine (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:110:16)
+    at RoomBattleStream._writeLines (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js:77:10)
+    at RoomBattleStream._write (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1211:9)
+    at RoomBattleStream.write (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\streams.js:836:15)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:660:17)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  chunk = >player p2 {"name":"Muhframos","avatar":"benga","team":"Beedrill||beedrillite|swarm|tailwind,uturn,drillrun,knockoff|Jolly|,252,,,4,252|||||]Exploud||choicespecs|punkrock|boomburst,blizzard,surf,overheat|Timid|,,,252,4,252||,0,,,,|||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,108,,,148,|||||]Regigigas||normaliumz|slowstart|protect,substitute,return,earthquake|Adamant|252,252,,,,4|N||||]Pincurchin||choicespecs|electricsurge|discharge,risingvoltage,surf,scald|Quiet|252,,,252,4,||,0,,,,0|||]Cresselia||aguavberry|levitate|trickroom,teleport,expandingforce,moonblast|Calm|252,,76,,180,|F|,0,,,,|||","rating":0}
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[5485,24635,62942,51784]}
+  log = 
+|t:|1617331213
+
