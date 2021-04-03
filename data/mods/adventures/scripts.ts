@@ -594,6 +594,7 @@ this.modData('Learnsets', 'corviknight').learnset.beakblast = ['8L1'];
 
 this.modData('Learnsets', 'falinks').learnset.defendorder = ['8L1'];
 this.modData('Learnsets', 'falinks').learnset.attackorder = ['8L1'];
+this.modData('Learnsets', 'falinks').learnset.barrage = ['8L1'];
 
 this.modData('Learnsets', 'nihilego').learnset.ancientpower = ['8L1'];
 this.modData('Learnsets', 'nihilego').learnset.rockpolish = ['8L1'];
@@ -908,11 +909,32 @@ this.modData('Learnsets', 'ledian').learnset.aurasphere = ['8L1'];
 
 this.modData('Learnsets', 'druddigon').learnset.highhorsepower = ['8L1'];
 
+this.modData('Learnsets', 'cradily').learnset.powergem = ['8L1'];
+this.modData('Learnsets', 'cradily').learnset.leafstorm = ['8L1'];
+this.modData('Learnsets', 'cradily').learnset.hornleech = ['8L1'];
+this.modData('Learnsets', 'cradily').learnset.knockoff = ['8L1'];
+
+this.modData('Learnsets', 'abomasnow').learnset.hydropump = ['8L1'];
+this.modData('Learnsets', 'abomasnow').learnset.hornleech = ['8L1'];
+this.modData('Learnsets', 'abomasnow').learnset.iciclecrash = ['8L1'];
+this.modData('Learnsets', 'abomasnow').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'abomasnow').learnset.hydropump = ['8L1'];
+
+this.modData('Learnsets', 'mimikyu').learnset.meanlook = ['8L1'];
+this.modData('Learnsets', 'mimikyu').learnset.glare = ['8L1'];
+
 this.modData('Learnsets', 'froslass').learnset.nuzzle = ['8L1'];
 
 this.modData('Learnsets', 'sharpedo').learnset.obstruct = ['8L1'];
 
 this.modData('Learnsets', 'lycanrocmidnight').learnset.accelerock = ['8L1'];
+
+this.modData('Learnsets', 'ninjask').learnset.leafblade = ['8L1'];
+
+this.modData('Learnsets', 'clawitzer').learnset.calmmind = ['8L1'];
+this.modData('Learnsets', 'clawitzer').learnset.nastyplot = ['8L1'];
+this.modData('Learnsets', 'clawitzer').learnset.aquarevolver = ['8L1'];
+this.modData('Learnsets', 'clawitzer').learnset.lifedew = ['8L1'];
 
 this.modData('Learnsets', 'ferrothorn').learnset.vinetrap = ['8L1'];
 this.modData('Learnsets', 'tangrowth').learnset.vinetrap = ['8L1'];

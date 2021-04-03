@@ -147,4 +147,26 @@ export const Items: {[k: string]: ModdedItemData} = {
 		num: 268,
 		gen: 4,
 	},
+	adrenalineorb: {
+		name: "Adrenaline Orb",
+		spritenum: 660,
+		fling: {
+			basePower: 30,
+		},
+		onAfterBoost(boost, target, source, effect) {
+			if (effect.id === 'intimidate') {
+				target.useItem();
+			}
+		},
+		onAfterBoost(boost, target, source, effect) {
+			if (effect.id === 'stickyweb') {
+				target.useItem();
+			}
+		},
+		boosts: {
+			spe: 1,
+		},
+		num: 846,
+		gen: 7,
+	},
 };

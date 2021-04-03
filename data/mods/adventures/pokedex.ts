@@ -726,7 +726,6 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	torkoal: {
 		inherit: true,
-		types: ["Fire", "Rock"],
 		baseStats: {hp: 90, atk: 85, def: 140, spa: 105, spd: 80, spe: 20},
 	},
 	drednaw: {
@@ -754,7 +753,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	flygon: {
 		inherit: true,
 		types: ["Bug", "Dragon"],
-		baseStats: {hp: 80, atk: 100, def: 80, spa: 100, spd: 80, spe: 100},
+		baseStats: {hp: 80, atk: 110, def: 80, spa: 110, spd: 80, spe: 100},
 		abilities: {0: "Levitate", H: "Sand Force"},
 	},
 	trapinch: {
@@ -1438,5 +1437,26 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	necrozma: {
 		inherit: true,
 		baseStats: {hp: 97, atk: 137, def: 101, spa: 137, spd: 89, spe: 79},
+	},
+	clawitzer: {
+		inherit: true,
+		baseStats: {hp: 61, atk: 73, def: 108, spa: 135, spd: 109, spe: 59},
+	},
+	meloetta: {
+		inherit: true,
+		abilities: {0: "Serene Grace", H: "Sheer Force"},
+	},
+	falinks: {
+		inherit: true,
+		baseStats: {hp: 85, atk: 110, def: 110, spa: 70, spd: 70, spe: 75},
+	},
+	abomasnow: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 100, def: 85, spa: 100, spd: 95, spe: 65},
+		abilities: {0: "Snow Warning", 1: "Permafrost", H: "Soundproof"},
+	},
+	abomasnowmega: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 140, def: 115, spa: 140, spd: 120, spe: 30},
 	},
 };
