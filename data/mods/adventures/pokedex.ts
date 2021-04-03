@@ -1459,4 +1459,9 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 90, atk: 140, def: 115, spa: 140, spd: 120, spe: 30},
 	},
+	carnivine: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 130, def: 80, spa: 70, spd: 80, spe: 76},
+		abilities: {0: "Levitate", 1: "Stench", H: "Strong Jaw"},
+	},
 };
