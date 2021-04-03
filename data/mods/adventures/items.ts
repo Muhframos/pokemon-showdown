@@ -194,4 +194,13 @@ export const Items: {[k: string]: ModdedItemData} = {
 		num: 846,
 		gen: 7,
 	},
+	unindentifiedforeignrock: {
+		name: "Unidentified Foreign Rock",
+		spritenum: 193,
+		fling: {
+			basePower: 60,
+		},
+		num: 284,
+		gen: 4,
+	},
 };
