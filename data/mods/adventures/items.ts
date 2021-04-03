@@ -163,30 +163,10 @@ export const Items: {[k: string]: ModdedItemData} = {
 				target.useItem();
 			}
 		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'meanlook') {
+		if (source.volatiles['noretreat']) return false;
+			if (source.volatiles['trapped']) {
 				target.useItem();
-			}
-		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'shadowtag') {
-				target.useItem();
-			}
-		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'arenatrap') {
-				target.useItem();
-			}
-		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'block') {
-				target.useItem();
-			}
-		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'toxicthread') {
-				target.useItem();
-			}
+		}
 		},
 		boosts: {
 			spe: 1,

@@ -1221,16 +1221,16 @@ export const Moves: {[moveid: string]: MoveData} = {
 				move.willChangeForme = true;
 			}
 		},
-		onHit(target, pokemon, move) {
-			if (pokemon.volatiles['choicelock'] && !pokemon.hasAbility('serenegrace')) {
-				this.debug('removing choicelock: ' + pokemon.volatiles['choicelock']);
-			}
-			pokemon.removeVolatile('choicelock');
-		},
 		onAfterMoveSecondarySelf(pokemon, target, move) {
 			if (move.willChangeForme) {
 				const meloettaForme = pokemon.species.id === 'meloettapirouette' ? '' : '-Pirouette';
 				pokemon.formeChange('Meloetta' + meloettaForme, this.effect, false, '[msg]');
+			}
+		},
+		onHit(target, pokemon, move) {
+			if (pokemon.volatiles['choicelock'] && pokemon.hasAbility('serenegrace')) {
+				this.debug('removing choicelock: ' + pokemon.volatiles['choicelock']);
+				pokemon.removeVolatile('choicelock');
 			}
 		},
 		target: "allAdjacentFoes",
