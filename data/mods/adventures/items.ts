@@ -163,6 +163,31 @@ export const Items: {[k: string]: ModdedItemData} = {
 				target.useItem();
 			}
 		},
+		onAfterBoost(boost, target, source, effect) {
+			if (effect.id === 'meanlook') {
+				target.useItem();
+			}
+		},
+		onAfterBoost(boost, target, source, effect) {
+			if (effect.id === 'shadowtag') {
+				target.useItem();
+			}
+		},
+		onAfterBoost(boost, target, source, effect) {
+			if (effect.id === 'arenatrap') {
+				target.useItem();
+			}
+		},
+		onAfterBoost(boost, target, source, effect) {
+			if (effect.id === 'block') {
+				target.useItem();
+			}
+		},
+		onAfterBoost(boost, target, source, effect) {
+			if (effect.id === 'toxicthread') {
+				target.useItem();
+			}
+		},
 		boosts: {
 			spe: 1,
 		},
