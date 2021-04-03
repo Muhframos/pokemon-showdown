@@ -1,2 +1,15 @@
 .data-dist/*
 node_modules/*
+.config-dist/formats.js
+.config-dist/sourceMaps/formats.js.map
+.data-dist/mods/adventures/items.js
+.data-dist/mods/adventures/moves.js
+.data-dist/mods/adventures/pokedex.js
+.data-dist/mods/adventures/scripts.js
+.data-dist/mods/adventures/sourceMaps/items.js.map
+.data-dist/mods/adventures/sourceMaps/moves.js.map
+.data-dist/mods/adventures/sourceMaps/pokedex.js.map
+.data-dist/mods/adventures/sourceMaps/scripts.js.map
+.data-dist/rulesets.js
+.data-dist/sourceMaps/rulesets.js.map
+logs/errors.txt

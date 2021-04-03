@@ -44,7 +44,7 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'adventures',
-		ruleset: ['Standard NatDex', 'OHKO Clause',  'Cancel Mod', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],],
+		ruleset: ['Standard NatDex', 'OHKO Clause',  'Cancel Mod', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
 			'Blissey', 'Chansey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Ferrothorn',

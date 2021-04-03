@@ -194,7 +194,7 @@ export const Items: {[k: string]: ModdedItemData} = {
 		num: 846,
 		gen: 7,
 	},
-	unindentifiedforeignrock: {
+	unidentifiedforeignrock: {
 		name: "Unidentified Foreign Rock",
 		spritenum: 193,
 		fling: {
