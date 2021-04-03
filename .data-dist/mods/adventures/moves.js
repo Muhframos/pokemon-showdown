@@ -1173,8 +1173,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	},
 	megapunch: {
 		num: 5,
-		accuracy: 120,
-		basePower: 80,
+		accuracy: 85,
+		basePower: 110,
 		category: "Physical",
 		name: "Mega Punch",
 		pp: 20,
@@ -1184,6 +1184,81 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		target: "normal",
 		type: "Normal",
 		contestType: "Tough",
+	},
+	megakick: {
+		num: 25,
+		accuracy: 75,
+		basePower: 130,
+		category: "Physical",
+		name: "Mega Kick",
+		pp: 5,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1},
+		secondary: null,
+		target: "normal",
+		type: "Normal",
+		contestType: "Cool",
+	},
+	relicsong: {
+		num: 547,
+		accuracy: 100,
+		basePower: 95,
+		category: "Special",
+		isNonstandard: "Past",
+		name: "Relic Song",
+		pp: 10,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
+		secondary: {
+			chance: 10,
+			status: 'slp',
+		},
+		onModifyMove(move, pokemon) {
+			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
+			},
+		onHit(target, pokemon, move) {
+			if (pokemon.baseSpecies.baseSpecies === 'Meloetta' && !pokemon.transformed) {
+				move.willChangeForme = true;
+			}
+		},
+		onHit(target, pokemon, move) {
+			if (pokemon.volatiles['choicelock'] && !pokemon.hasAbility('serenegrace')) {
+				this.debug('removing choicelock: ' + pokemon.volatiles['choicelock']);
+			}
+			pokemon.removeVolatile('choicelock');
+		},
+		onAfterMoveSecondarySelf(pokemon, target, move) {
+			if (move.willChangeForme) {
+				const meloettaForme = pokemon.species.id === 'meloettapirouette' ? '' : '-Pirouette';
+				pokemon.formeChange('Meloetta' + meloettaForme, this.effect, false, '[msg]');
+			}
+		},
+		target: "allAdjacentFoes",
+		type: "Normal",
+		contestType: "Beautiful",
+	},
+	aquarevolver: {
+		desc: "100% chance to increase the user's Special Attack by 1 stage. Affected by Mega Launcher",
+		shortDesc: "100% chance to increase the user's SpA by 1 stage.",
+		num: 488,
+		accuracy: 100,
+		basePower: 80,
+		category: "Special",
+		name: "Aqua Revolver",
+		pp: 16,
+		priority: 0,
+		flags: {protect: 1, mirror: 1, pulse: 1},
+		secondary: {
+			chance: 100,
+			self: {
+				boosts: {
+					spa	: 1,
+				},
+			},
+		},
+		target: "normal",
+		type: "Water",
+		contestType: "Cool",
 	},
 }; exports.Moves = Moves
 
