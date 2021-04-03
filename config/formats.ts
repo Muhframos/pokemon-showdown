@@ -32,7 +32,7 @@ export const Formats: FormatList = [
 			'Marshadow', 'Metagross-Mega', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Necrozma-Ultra', 'Palkia', 'Pheromosa',
 			'Rayquaza', 'Reshiram', 'Salamence-Mega', 'Shaymin-Sky', 'Solgaleo', 'Spectrier', 'Tornadus-Therian', 'Urshifu-Base', 'Xerneas', 'Yveltal',
 			'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base', 'Zygarde-Complete',
-			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax'
+			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax',
 		],
 	},
 	{
@@ -54,7 +54,7 @@ export const Formats: FormatList = [
 			'nduubl', // National Dex UUBL
 			'Aerodactyl-Mega', 'Azumarill', 'Blacephalon', 'Diancie-Mega', 'Gallade-Mega', 'Gardevoir-Mega', 'Gengar', 'Gyarados', 'Hawlucha',
 			'Heracross-Mega', 'Hydreigon', 'Kyurem', 'Latias', 'Latias-Mega', 'Latios', 'Manaphy', 'Pinsir-Mega', 'Slowbro-Mega', 'Thundurus',
-			'Venusaur-Mega', 'Victini', 'Xurkitree', 'Drizzle', 'Drought', 'Eternatus-Eternamax'
+			'Venusaur-Mega', 'Victini', 'Xurkitree', 'Drizzle', 'Drought', 'Eternatus-Eternamax',
 			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
 			'Slowbronite',
 		],
@@ -79,7 +79,7 @@ export const Formats: FormatList = [
 			'Marshadow', 'Metagross-Mega', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Necrozma-Ultra', 'Palkia', 'Pheromosa',
 			'Rayquaza', 'Reshiram', 'Salamence-Mega', 'Shaymin-Sky', 'Solgaleo', 'Spectrier', 'Tornadus-Therian', 'Urshifu-Base', 'Xerneas', 'Yveltal',
 			'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base', 'Zygarde-Complete',
-			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax'
+			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax',
 		],
 	},
 	{
@@ -92,7 +92,7 @@ export const Formats: FormatList = [
 			'Blissey', 'Chansey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Ferrothorn',
 			'Garchomp', 'Gliscor', 'Greninja', 'Heatran', 'Kartana', 'Kommo-o', 'Landorus-Therian', 'Lopunny-Mega', 'Magearna', 'Magnezone',
 			'Mawile-Mega', 'Medicham-Mega', 'Pelipper', 'Rillaboom', 'Scizor-Mega', 'Serperior', 'Slowbro-Base', 'Swampert-Mega', 'Tangrowth',
-			'Tapu Fini', 'Tapu Koko', 'Tapu Lele', 'Toxapex', 'Tyranitar', 'Volcarona', 'Zapdos-Base', 'Eternatus-Eternamax'
+			'Tapu Fini', 'Tapu Koko', 'Tapu Lele', 'Toxapex', 'Tyranitar', 'Volcarona', 'Zapdos-Base', 'Eternatus-Eternamax',
 			'nduubl', // National Dex UUBL
 			'Aerodactyl-Mega', 'Azumarill', 'Blacephalon', 'Diancie-Mega', 'Gallade-Mega', 'Gardevoir-Mega', 'Gengar', 'Gyarados', 'Hawlucha',
 			'Heracross-Mega', 'Hydreigon', 'Kyurem', 'Latias', 'Latias-Mega', 'Latios', 'Manaphy', 'Pinsir-Mega', 'Slowbro-Mega', 'Thundurus',
@@ -134,7 +134,7 @@ export const Formats: FormatList = [
 			'Calyrex-Ice', 'Calyrex-Shadow', 'Cinderace', 'Dialga', 'Dragonite', 'Eternatus', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-Black',
 			'Kyurem-White', 'Lugia', 'Lunala', 'Magearna', 'Marshadow', 'Melmetal', 'Mew', 'Mewtwo', 'Mimikyu', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
 			'Rayquaza', 'Reshiram', 'Sableye', 'Solgaleo', 'Victini', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom',
-			'Moody', 'Focus Sash', 'Perish Song', 'Eternatus-Eternamax'
+			'Moody', 'Focus Sash', 'Perish Song', 'Eternatus-Eternamax',
 		],
 	},
 	{

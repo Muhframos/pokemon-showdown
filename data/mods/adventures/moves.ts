@@ -1260,4 +1260,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Water",
 		contestType: "Cool",
 	},
+	snaptrap: {
+		inherit: true,
+		basePower: 60,
+		flags: {contact: 1, protect: 1, mirror: 1, bite: 1},
+	},
 }
