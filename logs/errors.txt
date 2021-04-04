@@ -2475,3 +2475,20 @@ Additional information:
 |rule|Sleep Clause Mod: Limit one foe put to sleep
 |teampreview
 
+
+Error: Unrecognized rule "National Dex"
+    at ModdedDex.validateRule (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:948:11)
+    at ModdedDex.getRuleTable (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:822:26)
+    at new TeamValidator (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:199:29)
+    at Function.get (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:2133:10)
+    at QueryProcessManager._query (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:574:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+    at emit (internal/child_process.js:903:12)
+    at processTicksAndRejections (internal/process/task_queues.js:81:21)
+
+Additional information:
+  formatid = gen8adventuresuu
+  team = Magearna-Original|||soulheart|||||,0,,,,|||
+

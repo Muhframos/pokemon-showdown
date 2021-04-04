@@ -931,6 +931,14 @@ this.modData('Learnsets', 'lycanrocmidnight').learnset.accelerock = ['8L1'];
 
 this.modData('Learnsets', 'ninjask').learnset.leafblade = ['8L1'];
 
+this.modData('Learnsets', 'carnivine').learnset.icefang = ['8L1'];
+this.modData('Learnsets', 'carnivine').learnset.psychicfangs = ['8L1'];
+this.modData('Learnsets', 'carnivine').learnset.firefang = ['8L1'];
+this.modData('Learnsets', 'carnivine').learnset.thunderfang = ['8L1'];
+this.modData('Learnsets', 'carnivine').learnset.poisonfang = ['8L1'];
+this.modData('Learnsets', 'carnivine').learnset.aromaticmist = ['8L1'];
+this.modData('Learnsets', 'carnivine').learnset.snaptrap = ['8L1'];
+
 this.modData('Learnsets', 'clawitzer').learnset.calmmind = ['8L1'];
 this.modData('Learnsets', 'clawitzer').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'clawitzer').learnset.aquarevolver = ['8L1'];

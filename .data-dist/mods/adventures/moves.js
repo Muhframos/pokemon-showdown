@@ -1260,6 +1260,11 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		type: "Water",
 		contestType: "Cool",
 	},
+	snaptrap: {
+		inherit: true,
+		basePower: 60,
+		flags: {contact: 1, protect: 1, mirror: 1, bite: 1},
+	},
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map
