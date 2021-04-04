@@ -161,7 +161,7 @@ export const Items: {[k: string]: ModdedItemData} = {
 				target.useItem();
 			}
 		},
-		onTrapPokemon(pokemon) {
+		onTrapPokemon(pokemon, target) {
 			target.useItem();
 		},
 		boosts: {
