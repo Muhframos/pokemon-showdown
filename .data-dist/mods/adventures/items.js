@@ -161,7 +161,7 @@
 				target.useItem();
 			}
 		},
-		onTrapPokemon(pokemon) {
+		onTrapPokemon(pokemon, target) {
 			target.useItem();
 		},
 		boosts: {
