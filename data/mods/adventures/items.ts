@@ -157,16 +157,12 @@ export const Items: {[k: string]: ModdedItemData} = {
 			if (effect.id === 'intimidate') {
 				target.useItem();
 			}
-		},
-		onAfterBoost(boost, target, source, effect) {
 			if (effect.id === 'stickyweb') {
 				target.useItem();
 			}
 		},
-		onUpdate(pokemon) {
-			if (pokemon.volatiles['trapped']) {
-				pokemon.eatItem();
-			}
+		onTrapPokemon(pokemon) {
+			target.useItem();
 		},
 		boosts: {
 			spe: 1,
