@@ -44,7 +44,7 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'adventures',
-		ruleset: ['National Dex'],
+		ruleset: ['Standard NatDex', 'OHKO Clause',  'Cancel Mod', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
 			'Blissey', 'Chansey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Ferrothorn',
@@ -145,7 +145,7 @@ export const Formats: FormatList = [
 		challengeShow: false,
 		rated: false,
 		banlist: [ 'Eternatus-Eternamax' ],
-		ruleset: ['Species Clause', 'Dynamax Clause', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
 	},
 	{
 		name: "[Gen 8] Adventures Custom Game",
