@@ -163,10 +163,10 @@ export const Items: {[k: string]: ModdedItemData} = {
 				target.useItem();
 			}
 		},
-		if (source.volatiles['noretreat']) return false;
-			if (source.volatiles['trapped']) {
-				target.useItem();
-		}
+		onUpdate(pokemon) {
+			if (pokemon.volatiles['trapped']) {
+				pokemon.eatItem();
+			}
 		},
 		boosts: {
 			spe: 1,
