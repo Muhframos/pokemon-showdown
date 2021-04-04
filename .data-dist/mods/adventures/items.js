@@ -163,29 +163,9 @@
 				target.useItem();
 			}
 		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'meanlook') {
-				target.useItem();
-			}
-		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'shadowtag') {
-				target.useItem();
-			}
-		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'arenatrap') {
-				target.useItem();
-			}
-		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'block') {
-				target.useItem();
-			}
-		},
-		onAfterBoost(boost, target, source, effect) {
-			if (effect.id === 'toxicthread') {
-				target.useItem();
+		onUpdate(pokemon) {
+			if (pokemon.volatiles['trapped']) {
+				pokemon.eatItem();
 			}
 		},
 		boosts: {
@@ -193,6 +173,15 @@
 		},
 		num: 846,
 		gen: 7,
+	},
+	unidentifiedforeignrock: {
+		name: "Unidentified Foreign Rock",
+		spritenum: 193,
+		fling: {
+			basePower: 60,
+		},
+		num: 284,
+		gen: 4,
 	},
 }; exports.Items = Items;
 
