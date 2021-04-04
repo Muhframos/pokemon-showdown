@@ -246,7 +246,7 @@ export const Formats: {[k: string]: FormatData} = {
 		effectType: 'ValidatorRule',
 		name: 'Obtainable Good',
 		desc: "Makes sure the team is possible to obtain in-game. (Except Formes)",
-		ruleset: ['Obtainable Moves', 'Obtainable Abilities', 'Obtainable Misc'],
+		ruleset: ['Obtainable Moves', 'Obtainable Abilities', 'Obtainable Formes'],
 		banlist: ['Unreleased', 'Unobtainable', 'Nonexistent'],
 		// Mostly hardcoded in team-validator.ts
 		onValidateTeam(team, format) {
