@@ -142,8 +142,18 @@ export const Formats: FormatList = [
 
 		mod: 'adventures',
 		gameType: 'freeforall',
-		challengeShow: false,
 		rated: false,
+		banlist: [ 'Eternatus-Eternamax' ],
+		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+	},
+	{
+		name: "[Gen 8] Adventures Multi Battle",
+
+		mod: 'adventures',
+		gameType: 'multi',
+		teamLength: {
+			battle: 3,
+	},
 		banlist: [ 'Eternatus-Eternamax' ],
 		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
 	},
@@ -168,7 +178,6 @@ export const Formats: FormatList = [
 
 		mod: 'adventures',
 		gameType: 'freeforall',
-		challengeShow: false,
 		rated: false,
 		ruleset: ['Team Preview', 'Cancel Mod'],
 	},
