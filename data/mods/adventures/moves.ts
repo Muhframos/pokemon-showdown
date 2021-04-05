@@ -1353,4 +1353,15 @@ export const Moves: {[moveid: string]: MoveData} = {
 		zMove: {boost: {spa: 1}},
 		contestType: "Clever",
 	},
+	poisonfang: {
+		inherit: true,
+		basePower: 65,
+		secondary: {
+			chance: 10,
+			status: 'psn',
+		}, {
+				chance: 10,
+				volatileStatus: 'flinch',
+			},
+	},
 }
