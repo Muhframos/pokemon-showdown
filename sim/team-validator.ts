@@ -644,7 +644,7 @@ export class TeamValidator {
 					if (eventProblems) problems.push(...eventProblems);
 				}
 			}
-		} else if (ruleTable.has('obtainablemisc') && learnsetSpecies.eventOnly) {
+		} else if (ruleTable.has('obtainablemisc') && learnsetSpecies.eventOnly && !== 'adventures') {
 			const eventSpecies = !learnsetSpecies.eventData &&
 			outOfBattleSpecies.baseSpecies !== outOfBattleSpecies.name ?
 				dex.getSpecies(outOfBattleSpecies.baseSpecies) : outOfBattleSpecies;
