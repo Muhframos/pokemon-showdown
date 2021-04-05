@@ -1356,12 +1356,13 @@ export const Moves: {[moveid: string]: MoveData} = {
 	poisonfang: {
 		inherit: true,
 		basePower: 65,
-		secondary: {
-			chance: 10,
-			status: 'psn',
-		}, {
+		secondaries: [
+			{
+				chance: 10,
+				status: 'psn',
+			}, {
 				chance: 10,
 				volatileStatus: 'flinch',
 			},
-	},
+		],
 }
