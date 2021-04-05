@@ -645,6 +645,23 @@
 		inherit: true,
 		abilities: {0: "Queenly Majesty"},
 	},
+	deoxys: {
+		inherit: true,
+		abilities: {0: "Contrary"},
+		baseStats: {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100},
+	},
+	deoxysattack: {
+		inherit: true,
+		abilities: {0: "Magic Guard"},
+	},
+	deoxysdefense: {
+		inherit: true,
+		abilities: {0: "Regenerator"},
+	},
+	deoxysspeed: {
+		inherit: true,
+		abilities: {0: "Speed Boost"},
+	},
 	espeon: {
 		inherit: true,
 		baseStats: {hp: 65, atk: 60, def: 65, spa: 130, spd: 95, spe: 110},
@@ -746,6 +763,10 @@
 		inherit: true,
 		abilities: {0: "Sturdy", 1: "Huge Power", H: "Contrary"},
 	},
+	dialga: {
+		inherit: true,
+		abilities: {0: "Pressure", 1: "No Guard", H: "Clear Body"},
+	},
 	mimikyu: {
 		inherit: true,
 		baseStats: {hp: 55, atk: 100, def: 80, spa: 50, spd: 105, spe: 96},
@@ -755,6 +776,31 @@
 		types: ["Bug", "Dragon"],
 		baseStats: {hp: 80, atk: 110, def: 80, spa: 110, spd: 80, spe: 100},
 		abilities: {0: "Levitate", H: "Sand Force"},
+	},
+	lugia: {
+		inherit: true,
+		types: ["Water", "Flying"],
+		baseStats: {hp: 106, atk: 50, def: 130, spa: 130, spd: 154, spe: 110},
+	},
+	hooh: {
+		inherit: true,
+		baseStats: {hp: 106, atk: 130, def: 50, spa: 130, spd: 154, spe: 110},
+	},
+	kyogreprimal: {
+		inherit: true,
+		types: ["Water", "Electric"],
+	},
+	solgaleo: {
+		inherit: true,
+		types: ["Fire", "Steel"],
+	},
+	Mewtwo: {
+		inherit: true,
+		abilities: {0: "Pressure", 1: "Unnerve", H: "Psychic Surge"},
+	},
+	xerneas: {
+		inherit: true,
+		types: ["Fairy", "Ground"],
 	},
 	trapinch: {
 		inherit: true,
