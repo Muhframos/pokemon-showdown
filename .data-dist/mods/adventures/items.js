@@ -147,6 +147,38 @@
 		num: 268,
 		gen: 4,
 	},
+	adrenalineorb: {
+		name: "Adrenaline Orb",
+		spritenum: 660,
+		fling: {
+			basePower: 30,
+		},
+		onAfterBoost(boost, target, source, effect) {
+			if (effect.id === 'intimidate') {
+				target.useItem();
+			}
+			if (effect.id === 'stickyweb') {
+				target.useItem();
+			}
+		},
+		onTrapPokemon(pokemon) {
+			pokemon.useItem();
+		},
+		boosts: {
+			spe: 1,
+		},
+		num: 846,
+		gen: 7,
+	},
+	unidentifiedforeignrock: {
+		name: "Unidentified Foreign Rock",
+		spritenum: 193,
+		fling: {
+			basePower: 60,
+		},
+		num: 284,
+		gen: 4,
+	},
 }; exports.Items = Items;
 
  //# sourceMappingURL=sourceMaps/items.js.map
