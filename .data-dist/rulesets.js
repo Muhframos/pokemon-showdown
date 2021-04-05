@@ -159,7 +159,7 @@
 		name: 'Standard NatDex',
 		desc: "The standard ruleset for all National Dex tiers",
 		ruleset: [
-			 'Obtainable Good', '+Unobtainable' ,'+Past', 'Team Preview', 'Nickname Clause', 'Endless Battle Clause', '-CAP'
+			 '+Unobtainable' ,'+Past', 'Team Preview', 'Nickname Clause', 'Endless Battle Clause', '-CAP'
 		],
 		onValidateSet(set) {
 			// These Pokemon are still unobtainable
@@ -245,9 +245,9 @@
 	obtainablegood: {
 		effectType: 'ValidatorRule',
 		name: 'Obtainable Good',
-		desc: "Makes sure the team is possible to obtain in-game. (Except Formes)",
-		ruleset: ['Obtainable Moves', 'Obtainable Abilities', 'Obtainable Formes'],
-		banlist: ['Unreleased', 'Unobtainable', 'Nonexistent'],
+		desc: "Makes sure the team is possible to obtain in-game.",
+		ruleset: ['Obtainable Moves', 'Obtainable Abilities', 'Obtainable Formes', 'Obtainable Misc'],
+		banlist: ['Nonexistent'],
 		// Mostly hardcoded in team-validator.ts
 		onValidateTeam(team, format) {
 			let kyuremCount = 0;

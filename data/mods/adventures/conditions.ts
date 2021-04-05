@@ -95,4 +95,36 @@ export const Conditions: {[k: string]: ConditionData} = {
 			return false;
 		},
 	},
+	primordialsea: {
+		name: 'PrimordialSea',
+		effectType: 'Weather',
+		duration: 0,
+		onTryMovePriority: 1,
+		onTryMove(attacker, defender, move) {
+			if (move.type === 'Ground' && move.category !== 'Status') {
+				this.debug('Primordial Sea fire suppress');
+				this.add('-fail', attacker, move, '[from] Primordial Sea');
+				this.attrLastMove('[still]');
+				return null;
+			}
+		},
+		onWeatherModifyDamage(damage, attacker, defender, move) {
+			if (defender.hasItem('utilityumbrella')) return;
+			if (move.type === 'Water') {
+				this.debug('Rain water boost');
+				return this.chainModify(1.5);
+			}
+		},
+		onStart(battle, source, effect) {
+			this.add('-weather', 'PrimordialSea', '[from] ability: ' + effect, '[of] ' + source);
+		},
+		onResidualOrder: 1,
+		onResidual() {
+			this.add('-weather', 'PrimordialSea', '[upkeep]');
+			this.eachEvent('Weather');
+		},
+		onEnd() {
+			this.add('-weather', 'none');
+		},
+	},
 };
