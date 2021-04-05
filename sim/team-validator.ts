@@ -635,7 +635,7 @@ export class TeamValidator {
 					problems.push(`${name} can't get its egg move combination (${setSources.limitedEggMoves!.join(', ')}) from any possible father.`);
 					problems.push(`(Is this incorrect? If so, post the chainbreeding instructions in Bug Reports)`);
 				} else {
-					if (setSources.sources.length > 1) {
+					if (setSources.sources.length > 1 ) {
 						problems.push(`${name} has an event-exclusive move that it doesn't qualify for (only one of several ways to get the move will be listed):`);
 					}
 					const eventProblems = this.validateSource(
@@ -644,7 +644,7 @@ export class TeamValidator {
 					if (eventProblems) problems.push(...eventProblems);
 				}
 			}
-		} else if (ruleTable.has('obtainablemisc') && learnsetSpecies.eventOnly) {
+		} else if (ruleTable.has('obtainablemisc') && learnsetSpecies.eventOnly && format.mod !== 'adventures') {
 			const eventSpecies = !learnsetSpecies.eventData &&
 			outOfBattleSpecies.baseSpecies !== outOfBattleSpecies.name ?
 				dex.getSpecies(outOfBattleSpecies.baseSpecies) : outOfBattleSpecies;
