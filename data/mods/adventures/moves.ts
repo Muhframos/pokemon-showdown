@@ -1365,4 +1365,5 @@ export const Moves: {[moveid: string]: MoveData} = {
 				volatileStatus: 'flinch',
 			},
 		],
+	},
 }
