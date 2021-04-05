@@ -1353,6 +1353,19 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		zMove: {boost: {spa: 1}},
 		contestType: "Clever",
 	},
+	poisonfang: {
+		inherit: true,
+		basePower: 65,
+		secondaries: [
+			{
+				chance: 10,
+				status: 'psn',
+			}, {
+				chance: 10,
+				volatileStatus: 'flinch',
+			},
+		],
+	},
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map
