@@ -888,4 +888,16 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 5,
 		num: 184,
 	},
+	fullmetalbody: {
+		onSourceModifyDamage(damage, source, target, move) {
+			if (target.hp >= target.maxhp) {
+				this.debug('Shadow Shield weaken');
+				return this.chainModify(0.5);
+			}
+		},
+		isUnbreakable: true,
+		name: "Full Metal Body",
+		rating: 2,
+		num: 230,
+	},
 };
