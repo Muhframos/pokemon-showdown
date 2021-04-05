@@ -585,7 +585,7 @@ Ratings and how they work:
 		onModifyDamage(damage, source, target, move) {
 			if (target.getMoveHitData(move).crit) {
 				this.debug('Sniper boost');
-				return this.chainModify(1.25);
+				return this.chainModify(1.33);
 			}
 		},
 		name: "Sniper",
