@@ -174,7 +174,7 @@ export const Formats: FormatList = [
 		ruleset: ['Team Preview', 'Cancel Mod'],
 	},
 	{
-		name: "[Gen 8] Adventures Free For All Custom Game",
+		name: "[Gen 8] Adventures FFA Custom Game",
 
 		mod: 'adventures',
 		gameType: 'freeforall',
