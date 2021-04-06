@@ -652,7 +652,7 @@
 	},
 	deoxysattack: {
 		inherit: true,
-		abilities: {0: "Magic Guard"},
+		abilities: {0: "Sheer Force"},
 	},
 	deoxysdefense: {
 		inherit: true,

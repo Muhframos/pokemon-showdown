@@ -925,6 +925,10 @@ this.modData('Learnsets', 'mimikyu').learnset.glare = ['8L1'];
 
 this.modData('Learnsets', 'froslass').learnset.nuzzle = ['8L1'];
 
+this.modData('Learnsets', 'mewtwomegax').learnset.closecombat = ['8L1'];
+
+this.modData('Learnsets', 'solgaleo').learnset.swordsdance = ['8L1'];
+
 this.modData('Learnsets', 'xerneas').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'xerneas').learnset.earthquake = ['8L1'];
 

@@ -1356,6 +1356,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 	poisonfang: {
 		inherit: true,
 		basePower: 65,
+		accuracy: 95,
 		secondaries: [
 			{
 				chance: 10,

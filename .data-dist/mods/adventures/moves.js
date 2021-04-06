@@ -1366,6 +1366,20 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 			},
 		],
 	},
+	zippyzap: {
+		num: 729,
+		accuracy: 100,
+		basePower: 80,
+		category: "Physical",
+		isNonstandard: "LGPE",
+		name: "Zippy Zap",
+		pp: 10,
+		priority: 2,
+		flags: {contact: 1, protect: 1},
+		target: "normal",
+		type: "Electric",
+		contestType: "Cool",
+	},
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map

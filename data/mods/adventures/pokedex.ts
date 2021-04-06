@@ -648,7 +648,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	deoxys: {
 		inherit: true,
 		abilities: {0: "Contrary"},
-		baseStats: {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100},
+		baseStats: {hp: 50, atk: 110, def: 110, spa: 110, spd: 110, spe: 110},
 	},
 	deoxysattack: {
 		inherit: true,
@@ -657,6 +657,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	deoxysdefense: {
 		inherit: true,
 		abilities: {0: "Regenerator"},
+		baseStats: {hp: 50, atk: 50, def: 180, spa: 50, spd: 180, spe: 90},
 	},
 	deoxysspeed: {
 		inherit: true,
@@ -797,6 +798,14 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	Mewtwo: {
 		inherit: true,
 		abilities: {0: "Pressure", 1: "Unnerve", H: "Psychic Surge"},
+	},
+	Mewtwomegax: {
+		inherit: true,
+		abilities: {0: "Guts"},
+	},
+	Mewtwomegay: {
+		inherit: true,
+		abilities: {0: "Adaptability"},
 	},
 	xerneas: {
 		inherit: true,
