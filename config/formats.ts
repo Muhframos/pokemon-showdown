@@ -142,6 +142,7 @@ export const Formats: FormatList = [
 
 		mod: 'adventures',
 		gameType: 'freeforall',
+		challengeShow: false,
 		rated: false,
 		banlist: [ 'Eternatus-Eternamax' ],
 		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
@@ -161,7 +162,7 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Adventures Custom Game",
 
 		mod: 'adventures',
-		debug: true,
+		challengeShow: false,
 		rated: false,
 		maxLevel: 9999,
 		battle: {trunc: Math.trunc},
