@@ -795,15 +795,15 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		types: ["Fire", "Steel"],
 	},
-	Mewtwo: {
+	mewtwo: {
 		inherit: true,
 		abilities: {0: "Pressure", 1: "Unnerve", H: "Psychic Surge"},
 	},
-	Mewtwomegax: {
+	mewtwomegax: {
 		inherit: true,
 		abilities: {0: "Guts"},
 	},
-	Mewtwomegay: {
+	mewtwomegay: {
 		inherit: true,
 		abilities: {0: "Adaptability"},
 	},
