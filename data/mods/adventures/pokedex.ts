@@ -1042,7 +1042,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	archeops: {
 		inherit: true,
-		abilities: {0: "Reckless", 1: "Defiant"},
+		abilities: {0: "Defeatist", 1: "Defiant", H: "Reckless"},
 	},
 	rotom: {
 		inherit: true,
