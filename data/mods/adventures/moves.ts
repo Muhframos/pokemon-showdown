@@ -1282,11 +1282,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 			chance: 10,
 			status: 'slp',
 		},
-		onHit(target, source, move) {
-			if (source.volatiles['choicelock'] && !source.hasAbility('sheerforce')) {
-				this.debug('removing choicelock: ' + source.volatiles['choicelock']);
-				source.removeVolatile('choicelock');
-			};
 		onModifyMove(move, pokemon) {
 			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
 			},
@@ -1295,12 +1290,17 @@ export const Moves: {[moveid: string]: MoveData} = {
 				move.willChangeForme = true;
 			}
 		},
+		onHit(target, source, move) {
+			if (source.volatiles['choicelock'] && !source.hasAbility('sheerforce')) {
+				this.debug('removing choicelock: ' + source.volatiles['choicelock']);
+				source.removeVolatile('choicelock');
+			}
+		},
 		onAfterMoveSecondarySelf(pokemon, target, move) {
 			if (move.willChangeForme) {
 				const meloettaForme = pokemon.species.id === 'meloettapirouette' ? '' : '-Pirouette';
 				pokemon.formeChange('Meloetta' + meloettaForme, this.effect, false, '[msg]');
 				},
-			},
 		},
 		target: "allAdjacentFoes",
 		type: "Normal",
