@@ -1286,7 +1286,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 			if (source.volatiles['choicelock'] && !source.hasAbility('sheerforce')) {
 				this.debug('removing choicelock: ' + source.volatiles['choicelock']);
 				source.removeVolatile('choicelock');
-			}
+			};
 		onModifyMove(move, pokemon) {
 			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
 			},
