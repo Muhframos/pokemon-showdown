@@ -978,24 +978,6 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 //havent figured it out yet--
 
 //REMOVE MOVES END-
-
-	//Clientside Stuff, dont worry about it.
-	export const Scripts: ModdedBattleScriptsData = {
-    teambuilderConfig: {
-        // for micrometas to only show custom tiers
-        excludeStandardTiers: true,
-        // only to specify the order of custom tiers
-		adventures: { 
-			customTiers: ['Adventures OU', 'Adventures UU', 'Adventures Ubers', 'Adventures DOU', 'Adventures DUU' , 'Adventures 1v1', 'Adventures Free For All', 'Adventures Multi Battle', 'Adventures Custom Game', 'Adventures FFA Custom Game'],
-			ignoreEVLimits: true,
-					},
-        // allow 252 EVs in every stat
-		torchic: { 
-			customTiers:['Axis League AG', 'Axis League Elite 4 (Ubers)', 'Axis League Gyms (OU)'],
-			ignoreEVLimits: true,
-				 },
-			},
-		},
 		
 		
 		// Give Frustration, Return and Toxic to all gen 8 - Credit goes to Heat Enteis
@@ -1030,3 +1012,21 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 		return null;
 	    }
 };
+
+	//Clientside Stuff, dont worry about it.
+	export const Scripts: ModdedBattleScriptsData = {
+    teambuilderConfig: {
+        // for micrometas to only show custom tiers
+        excludeStandardTiers: true,
+        // only to specify the order of custom tiers
+		adventures: { 
+			customTiers: ['Adventures OU', 'Adventures UU', 'Adventures Ubers', 'Adventures DOU', 'Adventures DUU' , 'Adventures 1v1', 'Adventures Free For All', 'Adventures Multi Battle', 'Adventures Custom Game', 'Adventures FFA Custom Game'],
+			ignoreEVLimits: true,
+					},
+        // allow 252 EVs in every stat
+		torchic: { 
+			customTiers:['Axis League AG', 'Axis League Elite 4 (Ubers)', 'Axis League Gyms (OU)'],
+			ignoreEVLimits: true,
+				 },
+			},
+		},
