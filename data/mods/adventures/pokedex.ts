@@ -818,7 +818,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	golisopod: {
 		inherit: true,
-		abilities: {0: "Shell Armor"},
+		abilities: {0: "Emergency Exit", H: "Shell Armor"},
 	},
 	grimmsnarl: {
 		inherit: true,
