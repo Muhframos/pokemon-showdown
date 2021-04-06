@@ -994,7 +994,6 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
         ignoreEVLimits: false,
 			},
 		},
-	},
 		// Give Frustration, Return and Toxic to all gen 8 - Credit goes to Heat Enteis
 		const gen8mons = require('./../../pokedex').Pokedex;
 		const gen8monsKeys = Object.keys(gen8mons);
