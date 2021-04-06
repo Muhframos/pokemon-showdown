@@ -986,13 +986,13 @@ export const Scripts: ModdedBattleScriptsData = {
         excludeStandardTiers: true,
         // only to specify the order of custom tiers
 		adventures: { 
-		['Adventures OU', 'Adventures UU', 'Adventures Ubers', 'Adventures DOU', 'Adventures DUU' , 
-		'Adventures 1v1', 'Adventures Free For All', 'Adventures Multi Battle', 'Adventures Custom Game', 'Adventures FFA Custom Game'],
+		['Adventures OU', 'Adventures UU', 'Adventures Ubers', 'Adventures DOU', 'Adventures DUU' , 'Adventures 1v1', 'Adventures Free For All', 'Adventures Multi Battle', 'Adventures Custom Game', 'Adventures FFA Custom Game'],
 		ignoreEVLimits: false,
 		},
         // allow 252 EVs in every stat
 		torchic: { ['Axis League AG', 'Axis League Elite 4 (Ubers)', 'Axis League Gyms (OU)'],
         ignoreEVLimits: false,
+				},
 			},
 		},
 		// Give Frustration, Return and Toxic to all gen 8 - Credit goes to Heat Enteis
@@ -1006,7 +1006,6 @@ export const Scripts: ModdedBattleScriptsData = {
 				this.modData('Learnsets', mon).learnset.return = ['8L1'];
 				this.modData('Learnsets', mon).learnset.frustration = ['8L1'];
 				this.modData('Learnsets', mon).learnset.toxic = ['8L1'];
-				}
 			}
 		}
 	},
