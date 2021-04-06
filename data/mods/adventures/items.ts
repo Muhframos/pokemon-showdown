@@ -161,7 +161,13 @@ export const Items: {[k: string]: ModdedItemData} = {
 				target.useItem();
 			}
 		},
+		onTrapPokemonPriority: -10,
 		onTrapPokemon(pokemon) {
+			if (!pokemon.trapped) return;
+			pokemon.useItem();
+		},
+		onUpdate(pokemon) {
+			if (!pokemon.trapped) return;
 			pokemon.useItem();
 		},
 		boosts: {
