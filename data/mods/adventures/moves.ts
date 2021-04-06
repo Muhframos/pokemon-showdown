@@ -1294,12 +1294,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 			if (move.willChangeForme) {
 				const meloettaForme = pokemon.species.id === 'meloettapirouette' ? '' : '-Pirouette';
 				pokemon.formeChange('Meloetta' + meloettaForme, this.effect, false, '[msg]');
-				},
-		},
-		onHit(target, source, move) {
-			if (source.volatiles['choicelock'] && !source.hasAbility('sheerforce')) {
-				this.debug('removing choicelock: ' + source.volatiles['choicelock']);
-				source.removeVolatile('choicelock');
 			}
 		},
 		target: "allAdjacentFoes",
