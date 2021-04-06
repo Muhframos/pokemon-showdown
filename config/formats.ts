@@ -160,7 +160,6 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Gen 8] Adventures Custom Game",
-
 		mod: 'adventures',
 		challengeShow: false,
 		rated: false,

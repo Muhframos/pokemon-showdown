@@ -979,6 +979,19 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 
 //REMOVE MOVES END-
 
+//Clientside Stuff, dont worry about it.
+	export const Scripts: {[k: string]: ModdedBattleScriptsData} = {
+    teambuilderConfig: {
+        // for micrometas to only show custom tiers
+        excludeStandardTiers: true,
+        // only to specify the order of custom tiers
+		adventures: ['Adventures OU', 'Adventures UU', 'Adventures Ubers', 'Adventures DOU', 'Adventures DUU' , 
+		'Adventures 1v1', 'Adventures Free For All', 'Adventures Multi Battle', 'Adventures Custom Game', 'Adventures FFA Custom Game',],
+        // allow 252 EVs in every stat
+		torchic: ['Axis League AG', 'Axis League Elite 4 (Ubers)', 'Axis League Gyms (OU)'],
+        ignoreEVLimits: false,
+    },
+
 
 		// Give Frustration, Return and Toxic to all gen 8 - Credit goes to Heat Enteis
 		const gen8mons = require('./../../pokedex').Pokedex;
@@ -993,26 +1006,6 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 				this.modData('Learnsets', mon).learnset.toxic = ['8L1'];
 			}
 		}
-
-		// free all shinies - Credit goes to Heat Enteis
-		const mons = require('./../../pokedex').Pokedex;
-		const monsKeys = Object.keys(mons);
-		for (const mon of monsKeys) {
-			const currMon = mons[mon];
-			const learnset = this.modData('Learnsets', currMon);
-			// baseSpecies mons inherit movepool, and presumably event data from another movepool so adding to them will cause an error.
-			// baseSpecies is otherwise undefined which is falsy, so we can check that way.
-			if (!currMon.baseSpecies && learnset) {
-				for (const eventData of learnset.eventData) {
-					// explicitly test for true as 1 means something different in this context
-					if (eventData.shiny === true) {
-						// set to 1 which means it can be either shiny or not shiny
-						eventData.shiny = 1;
-					}
-				}
-			}
-		}
-
 	},
 	// - Credit goes to Heat Enteis
 	ccanMegaEvo(pokemon) {
