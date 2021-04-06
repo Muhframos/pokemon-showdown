@@ -1014,7 +1014,7 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 };
 
 	//Clientside Stuff, dont worry about it.
-	export const Scripts: ModdedBattleScriptsData = {
+	export const Scripts: {[k: string]: ModdedBattleScriptsData} = {
     teambuilderConfig: {
         // only to specify the order of custom tiers
 		adventures: { 
