@@ -1015,12 +1015,11 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 	//Clientside Stuff, dont worry about it.
     teambuilderConfig: {
         // for micrometas to only show custom tiers
-        excludeStandardTiers: true,
         // only to specify the order of custom tiers
         customTiers: ['Adventures OU', 'Adventures UU', 'Adventures Ubers', 'Adventures 1v1', 'Adventures Free For All', 'Adventures Multi Battle', 'Adventures Custom Game', 'Adventures FFA Custom Game'],
         customDoublesTiers: ['Adventures DOU', 'Adventures DUU',],
         // allow 252 EVs in every stat
-        ignoreEVLimits: true,
+        ignoreEVLimits: false,
         // use sprites from a certain past gen where available
     },
 };
