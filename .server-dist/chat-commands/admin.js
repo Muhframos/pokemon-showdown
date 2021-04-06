@@ -432,6 +432,7 @@ async function rebuild(context) {
 			'processmanager', 'roomsp', 'usersp',
 		];
 
+		target = toID(target);
 		try {
 			_lib.Utils.clearRequireCache({exclude: ['/.lib-dist/process-manager']});
 			if (target === 'all') {

@@ -1600,7 +1600,9 @@ const REQUIRE_REASONS = true;
 			return this.errorReply(`${this.inputUsername} has already changed their name to ${targetUser.name}. To namelock anyway, use /forcenamelock.`);
 		}
 		this.checkCan('forcerename', userid);
-		if (_optionalChain([targetUser, 'optionalAccess', _65 => _65.namelocked])) return this.errorReply(`User '${targetUser.name}' is already namelocked.`);
+		if (_optionalChain([targetUser, 'optionalAccess', _65 => _65.namelocked]) && !week) {
+			return this.errorReply(`User '${targetUser.name}' is already namelocked.`);
+		}
 		const {privateReason, publicReason} = this.parseSpoiler(target);
 		const reasonText = publicReason ? ` (${publicReason})` : `.`;
 		this.privateGlobalModAction(`${_optionalChain([targetUser, 'optionalAccess', _66 => _66.name]) || userid} was ${week ? 'week' : ''}namelocked by ${user.name}${reasonText}`);

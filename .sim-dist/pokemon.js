@@ -619,8 +619,8 @@ var _dex = require('./dex');
 		return this.side.allies().filter(ally => this.isAdjacent(ally));
 	}
 
-	foes() {
-		return this.side.foes();
+	foes(all) {
+		return this.side.foes(all);
 	}
 
 	adjacentFoes() {
@@ -694,7 +694,7 @@ var _dex = require('./dex');
 				targets.push(...this.alliesAndSelf());
 			}
 			if (!move.target.startsWith('ally')) {
-				targets.push(...this.foes());
+				targets.push(...this.foes(true));
 			}
 			if (targets.length && !targets.includes(target)) {
 				this.battle.retargetLastMove(targets[targets.length - 1]);
@@ -714,13 +714,13 @@ var _dex = require('./dex');
 			break;
 		default:
 			const selectedTarget = target;
-			if (!target || (target.fainted && !target.isAlly(this))) {
+			if (!target || (target.fainted && !target.isAlly(this)) && this.battle.gameType !== 'freeforall') {
 				// If a targeted foe faints, the move is retargeted
 				const possibleTarget = this.battle.getRandomTarget(this, move);
 				if (!possibleTarget) return {targets: [], pressureTargets: []};
 				target = possibleTarget;
 			}
-			if (target.side.active.length > 1 && !move.tracksTarget) {
+			if (this.battle.activePerHalf > 1 && !move.tracksTarget) {
 				const isCharging = move.flags['charge'] && !this.volatiles['twoturnmove'] &&
 					!(move.id.startsWith('solarb') && this.battle.field.isWeather(['sunnyday', 'desolateland'])) &&
 					!(this.hasItem('powerherb') && move.id !== 'skydrop');

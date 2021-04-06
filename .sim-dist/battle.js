@@ -410,8 +410,9 @@ var _lib = require('../.lib-dist');
 		let handlers = this.findBattleEventHandlers(callbackName, 'duration');
 		handlers = handlers.concat(this.findFieldEventHandlers(this.field, callbackName, 'duration'));
 		for (const side of this.sides) {
-			if (side.n >= 2 && side.allySide) break;
-			handlers = handlers.concat(this.findSideEventHandlers(side, callbackName, 'duration'));
+			if (side.n < 2 || !side.allySide) {
+				handlers = handlers.concat(this.findSideEventHandlers(side, callbackName, 'duration'));
+			}
 			for (const active of side.active) {
 				if (!active) continue;
 				handlers = handlers.concat(this.findPokemonEventHandlers(active, callbackName, 'duration'));
@@ -1165,14 +1166,17 @@ var _lib = require('../.lib-dist');
 				if (!side.pokemonLeft) continue;
 				const activeData = side.active.map(pokemon => _optionalChain([pokemon, 'optionalAccess', _4 => _4.getMoveRequestData, 'call', _5 => _5()]));
 				requests[i] = {active: activeData, side: side.getRequestData()};
+				if (side.allySide) {
+					requests[i].ally = side.allySide.getRequestData(true);
+				}
 			}
 			break;
 		}
 
-		const allRequestsMade = requests.every(Boolean);
+		const multipleRequestsExist = requests.filter(Boolean).length >= 2;
 		for (let i = 0; i < this.sides.length; i++) {
 			if (requests[i]) {
-				if (!this.supportCancel || !allRequestsMade) requests[i].noCancel = true;
+				if (!this.supportCancel || !multipleRequestsExist) requests[i].noCancel = true;
 			} else {
 				requests[i] = {wait: true, side: this.sides[i].getRequestData()};
 			}
@@ -1254,7 +1258,7 @@ var _lib = require('../.lib-dist');
 		this.ended = true;
 		this.requestState = '';
 		for (const s of this.sides) {
-			s.activeRequest = null;
+			if (s) s.activeRequest = null;
 		}
 		return true;
 	}
@@ -1270,7 +1274,7 @@ var _lib = require('../.lib-dist');
 
 		side.pokemonLeft = 0;
 		side.active[0].faint();
-		this.faintMessages();
+		this.faintMessages(false, true);
 		if (!this.ended && side.requestState) {
 			side.emitRequest({wait: true, side: side.getRequestData()});
 			if (this.allChoicesDone()) this.commitDecisions();
@@ -2128,10 +2132,13 @@ var _lib = require('../.lib-dist');
 		}
 	}
 
-	faintMessages(lastFirst = false) {
+	faintMessages(lastFirst = false, forceCheck = false) {
 		if (this.ended) return;
 		const length = this.faintQueue.length;
-		if (!length) return false;
+		if (!length) {
+			if (forceCheck && this.checkWin()) return true;
+			return false;
+		}
 		if (lastFirst) {
 			this.faintQueue.unshift(this.faintQueue[this.faintQueue.length - 1]);
 			this.faintQueue.pop();
@@ -2172,6 +2179,15 @@ var _lib = require('../.lib-dist');
 			}
 		}
 
+		if (this.checkWin(faintData)) return true;
+
+		if (faintData && length) {
+			this.runEvent('AfterFaint', faintData.target, faintData.source, faintData.effect, length);
+		}
+		return false;
+	}
+
+	checkWin(faintData) {
 		let team1PokemonLeft = this.sides[0].pokemonLeft;
 		let team2PokemonLeft = this.sides[1].pokemonLeft;
 		const team3PokemonLeft = this.gameType === 'freeforall' && this.sides[2].pokemonLeft;
@@ -2190,11 +2206,6 @@ var _lib = require('../.lib-dist');
 				return true;
 			}
 		}
-
-		if (faintData) {
-			this.runEvent('AfterFaint', faintData.target, faintData.source, faintData.effect, length);
-		}
-		return false;
 	}
 
 	getActionSpeed(action) {

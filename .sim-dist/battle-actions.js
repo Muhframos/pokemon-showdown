@@ -454,7 +454,7 @@ const CHOOSABLE_TARGETS = new Set(['normal', 'any', 'adjacentAlly', 'adjacentAll
 
 		let damage = false;
 		if (move.target === 'all' || move.target === 'foeSide' || move.target === 'allySide' || move.target === 'allyTeam') {
-			damage = this.tryMoveHit(target, pokemon, move);
+			damage = this.tryMoveHit(targets, pokemon, move);
 			if (damage === this.battle.NOT_FAIL) pokemon.moveThisTurnResult = null;
 			if (damage || damage === 0 || damage === undefined) moveResult = true;
 		} else {
@@ -749,8 +749,11 @@ const CHOOSABLE_TARGETS = new Set(['normal', 'any', 'adjacentAlly', 'adjacentAll
 		return undefined;
 	}
 	/** NOTE: used only for moves that target sides/fields rather than pokemon */
-	tryMoveHit(target, pokemon, move) {
-		this.battle.setActiveMove(move, pokemon, target);
+	tryMoveHit(targetOrTargets, pokemon, move) {
+		const target = Array.isArray(targetOrTargets) ? targetOrTargets[0] : targetOrTargets;
+		const targets = Array.isArray(targetOrTargets) ? targetOrTargets : [target];
+
+		this.battle.setActiveMove(move, pokemon, targets[0]);
 
 		let hitResult = this.battle.singleEvent('Try', move, null, pokemon, target, move) &&
 			this.battle.singleEvent('PrepareHit', move, {}, target, pokemon, move) &&
@@ -763,8 +766,14 @@ const CHOOSABLE_TARGETS = new Set(['normal', 'any', 'adjacentAlly', 'adjacentAll
 			return false;
 		}
 
+		const isFFAHazard = move.target === 'foeSide' && this.battle.gameType === 'freeforall';
 		if (move.target === 'all') {
 			hitResult = this.battle.runEvent('TryHitField', target, pokemon, move);
+		} else if (isFFAHazard) {
+			const hitResults = this.battle.runEvent('TryHitSide', targets, pokemon, move);
+			// if some side blocked the move, prevent the move from executing against any other sides
+			if (hitResults.some(result => !result)) return false;
+			hitResult = true;
 		} else {
 			hitResult = this.battle.runEvent('TryHitSide', target, pokemon, move);
 		}
@@ -775,7 +784,7 @@ const CHOOSABLE_TARGETS = new Set(['normal', 'any', 'adjacentAlly', 'adjacentAll
 			}
 			return false;
 		}
-		return this.moveHit(target, pokemon, move);
+		return this.moveHit(isFFAHazard ? targets : target, pokemon, move);
 	}
 	hitStepMoveHitLoop(targets, pokemon, move) { // Temporary name
 		const damage = [];
@@ -954,8 +963,8 @@ const CHOOSABLE_TARGETS = new Set(['normal', 'any', 'adjacentAlly', 'adjacentAll
 		if (!moveData.flags) moveData.flags = {};
 		if (move.target === 'all' && !isSelf) {
 			hitResult = this.battle.singleEvent('TryHitField', moveData, {}, target || null, pokemon, move);
-		} else if ((move.target === 'foeSide' || move.target === 'allySide') && !isSelf) {
-			hitResult = this.battle.singleEvent('TryHitSide', moveData, {}, (target ? target.side : null), pokemon, move);
+		} else if ((move.target === 'foeSide' || move.target === 'allySide' || move.target === 'allyTeam') && !isSelf) {
+			hitResult = this.battle.singleEvent('TryHitSide', moveData, {}, target || null, pokemon, move);
 		} else if (target) {
 			hitResult = this.battle.singleEvent('TryHit', moveData, {}, target, pokemon, move);
 		}
@@ -969,7 +978,7 @@ const CHOOSABLE_TARGETS = new Set(['normal', 'any', 'adjacentAlly', 'adjacentAll
 
 		// 0. check for substitute
 		if (!isSecondary && !isSelf) {
-			if (move.target !== 'all' && move.target !== 'allySide' && move.target !== 'foeSide') {
+			if (move.target !== 'all' && move.target !== 'allyTeam' && move.target !== 'allySide' && move.target !== 'foeSide') {
 				damage = this.tryPrimaryHitEvent(damage, targets, pokemon, move, moveData, isSecondary);
 			}
 		}
@@ -1271,10 +1280,11 @@ const CHOOSABLE_TARGETS = new Set(['normal', 'any', 'adjacentAlly', 'adjacentAll
 		return damage;
 	}
 	moveHit(
-		target, pokemon, moveOrMoveName,
+		targets, pokemon, moveOrMoveName,
 		moveData, isSecondary, isSelf
 	) {
-		const retVal = this.spreadMoveHit([target], pokemon, moveOrMoveName, moveData, isSecondary, isSelf)[0][0];
+		if (!Array.isArray(targets)) targets = [targets];
+		const retVal = this.spreadMoveHit(targets, pokemon, moveOrMoveName, moveData, isSecondary, isSelf)[0][0];
 		return retVal === true ? undefined : retVal;
 	}
 

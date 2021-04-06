@@ -5400,6 +5400,8 @@ var _randomteams = require('./random-teams');
 	},
 
 	// :^)
+	// Remnant of an AFD past. Thank u for the memes.
+	/*
 	supermetronome: {
 		accuracy: true,
 		basePower: 0,
@@ -5430,7 +5432,7 @@ var _randomteams = require('./random-teams');
 				if (move.isMax === true && move.basePower === 10) continue;
 				moves.push(move.name);
 			}
-			let randomMove;
+			let randomMove: string;
 			if (moves.length) {
 				randomMove = this.sample(moves);
 			} else {
@@ -5443,6 +5445,7 @@ var _randomteams = require('./random-teams');
 		target: "self",
 		type: "???",
 	},
+	*/
 }; exports.Moves = Moves;
 
  //# sourceMappingURL=sourceMaps/moves.js.map
