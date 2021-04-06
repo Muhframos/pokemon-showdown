@@ -800,7 +800,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		category: "Physical",
 		name: "Mob Boss",
 		desc: "Usually goes first. Hits the target one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/10), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
-		shortDesct: "Beat Up with +1 priority. Hits all adjacent foes.",
+		shortDesct: "Beat Up with +1 priority.",
 		pp: 10,
 		priority: 1,
 		flags: {protect: 1, mirror: 1, mystery: 1},
