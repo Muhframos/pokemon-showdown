@@ -980,6 +980,7 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 //REMOVE MOVES END-
 
 //Clientside Stuff, dont worry about it.
+export const Scripts: ModdedBattleScriptsData = {
     teambuilderConfig: {
         // for micrometas to only show custom tiers
         excludeStandardTiers: true,
@@ -1005,6 +1006,7 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 				this.modData('Learnsets', mon).learnset.return = ['8L1'];
 				this.modData('Learnsets', mon).learnset.frustration = ['8L1'];
 				this.modData('Learnsets', mon).learnset.toxic = ['8L1'];
+				}
 			}
 		}
 	},
