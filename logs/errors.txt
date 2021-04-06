@@ -2672,3 +2672,20 @@ Additional information:
   formatid = gen8adventuresfreeforall
   team = Magnezone||choicespecs|levitate|voltswitch,explosion,discharge,flashcannon|Quiet|252,,4,252,,|||||]Grimmsnarl||leftovers|prankster|substitute,toxic,protect,moonlight|Calm|252,,4,,252,|M|,0,,,,|||]Reuniclus||fightiniumz|magicguard|calmmind,recover,psyshock,focusblast|Bold|252,,180,4,72,||,0,,,,|||]Clawitzer||aguavberry|megalauncher|aurasphere,surf,aquarevolver,lifedew|Modest|252,,4,252,,|||||]Dunsparce||choiceband|serenegrace|rockslide,earthquake,bodyslam,poisonjab|Jolly|,252,,,,252|||||]Abomasnow-Mega||abomasite|snowwarning|blizzard,earthpower,gigadrain,auroraveil|Modest|248,,,252,8,||,0,,,,|||
 
+
+Error: User Player 3 not found on battle-gen8adventuresfreeforall-2424 battle creation
+    at C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1101:11
+    at Array.map (<anonymous>)
+    at RoomBattle.start (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:1098:30)
+    at new RoomBattle (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js:604:8)
+    at Object.createBattle (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\rooms.js:1924:18)
+    at Function.match (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\ladders.js:602:9)
+    at Function.acceptChallenge (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\ladders.js:295:20)
+    at processTicksAndRejections (internal/process/task_queues.js:93:5)
+
+Additional information:
+  user = Bennoloth
+  room = lobby
+  pmTarget = undefined
+  message = /accept muhframos
+
