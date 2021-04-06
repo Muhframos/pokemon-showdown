@@ -1010,11 +1010,9 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 			return item.megaStone;
 		}
 		return null;
-	    }
-};
+	    },
 
 	//Clientside Stuff, dont worry about it.
-	export const Scripts: {[k: string]: ModdedBattleScriptsData} = {
     teambuilderConfig: {
         // only to specify the order of custom tiers
 		adventures: { 
