@@ -925,6 +925,10 @@ this.modData('Learnsets', 'mimikyu').learnset.glare = ['8L1'];
 
 this.modData('Learnsets', 'froslass').learnset.nuzzle = ['8L1'];
 
+this.modData('Learnsets', 'mewtwomegax').learnset.closecombat = ['8L1'];
+
+this.modData('Learnsets', 'solgaleo').learnset.swordsdance = ['8L1'];
+
 this.modData('Learnsets', 'xerneas').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'xerneas').learnset.earthquake = ['8L1'];
 
@@ -946,6 +950,8 @@ this.modData('Learnsets', 'carnivine').learnset.thunderfang = ['8L1'];
 this.modData('Learnsets', 'carnivine').learnset.poisonfang = ['8L1'];
 this.modData('Learnsets', 'carnivine').learnset.aromaticmist = ['8L1'];
 this.modData('Learnsets', 'carnivine').learnset.snaptrap = ['8L1'];
+
+this.modData('Learnsets', 'eeveestarter').learnset.storedpower = ['8L1'];
 
 this.modData('Learnsets', 'clawitzer').learnset.calmmind = ['8L1'];
 this.modData('Learnsets', 'clawitzer').learnset.nastyplot = ['8L1'];

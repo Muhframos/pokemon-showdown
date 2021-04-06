@@ -2655,3 +2655,20 @@ Additional information:
 |switch|p1a: Bisharp|Bisharp, M|354/354
 |switch|p2a: Wobbuffet|Wobbuffet, M|521/521
 
+
+TypeError: Cannot read property 'learnset' of undefined
+    at ModdedDex.init (C:\Users\Ben\Desktop\pokemon-showdown\.data-dist\mods\adventures\scripts.js:928:41)
+    at ModdedDex.loadData (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:1474:34)
+    at ModdedDex.includeData (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:1391:8)
+    at ModdedDex.forFormat (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js:194:33)
+    at new TeamValidator (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:197:18)
+    at Function.get (C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\team-validator.js:2133:10)
+    at QueryProcessManager._query (C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\team-validator-async.js:50:43)
+    at process.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:574:30)
+    at process.emit (events.js:315:20)
+    at process.EventEmitter.emit (domain.js:467:12)
+
+Additional information:
+  formatid = gen8adventuresfreeforall
+  team = Magnezone||choicespecs|levitate|voltswitch,explosion,discharge,flashcannon|Quiet|252,,4,252,,|||||]Grimmsnarl||leftovers|prankster|substitute,toxic,protect,moonlight|Calm|252,,4,,252,|M|,0,,,,|||]Reuniclus||fightiniumz|magicguard|calmmind,recover,psyshock,focusblast|Bold|252,,180,4,72,||,0,,,,|||]Clawitzer||aguavberry|megalauncher|aurasphere,surf,aquarevolver,lifedew|Modest|252,,4,252,,|||||]Dunsparce||choiceband|serenegrace|rockslide,earthquake,bodyslam,poisonjab|Jolly|,252,,,,252|||||]Abomasnow-Mega||abomasite|snowwarning|blizzard,earthpower,gigadrain,auroraveil|Modest|248,,,252,8,||,0,,,,|||
+

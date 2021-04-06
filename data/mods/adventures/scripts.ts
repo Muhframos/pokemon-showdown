@@ -931,6 +931,7 @@ this.modData('Learnsets', 'solgaleo').learnset.swordsdance = ['8L1'];
 
 this.modData('Learnsets', 'xerneas').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'xerneas').learnset.earthquake = ['8L1'];
+this.modData('Learnsets', 'xerneas').learnset.powergem = ['8L1'];
 
 this.modData('Learnsets', 'yveltal').learnset.sludgewave = ['8L1'];
 

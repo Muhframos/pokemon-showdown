@@ -1356,6 +1356,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	poisonfang: {
 		inherit: true,
 		basePower: 65,
+		accuracy: 95,
 		secondaries: [
 			{
 				chance: 10,

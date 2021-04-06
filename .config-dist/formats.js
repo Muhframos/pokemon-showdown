@@ -110,6 +110,12 @@ The column value will be ignored for repeat sections.
 		],
 	},
 	{
+		name: "[Gen 8] Adventures Ubers",
+		mod: 'adventures',
+		ruleset: ['Standard', 'Dynamax Clause'],
+		banlist: ['AG', 'Baton Pass'],
+	},
+	{
 		name: "[Gen 8] Adventures AG",
 		mod: 'adventures',
 		banlist: [ 'Eternatus-Eternamax' ],
@@ -118,12 +124,6 @@ The column value will be ignored for repeat sections.
 	{
 		name: "[Gen 8] Adventures 1v1",
 		desc: `Bring three Pok&eacute;mon to Team Preview and choose one to battle.`,
-		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3656364/">1v1 Metagame Discussion</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3664157/">1v1 Sample Teams</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3657779/">1v1 Viability Rankings</a>`,
-		],
-
 		mod: 'adventures',
 		teamLength: {
 			validate: [1, 3],
@@ -142,8 +142,18 @@ The column value will be ignored for repeat sections.
 
 		mod: 'adventures',
 		gameType: 'freeforall',
-		challengeShow: false,
 		rated: false,
+		banlist: [ 'Eternatus-Eternamax' ],
+		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+	},
+	{
+		name: "[Gen 8] Adventures Multi Battle",
+
+		mod: 'adventures',
+		gameType: 'multi',
+		teamLength: {
+			battle: 3,
+	},
 		banlist: [ 'Eternatus-Eternamax' ],
 		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
 	},
@@ -164,11 +174,10 @@ The column value will be ignored for repeat sections.
 		ruleset: ['Team Preview', 'Cancel Mod'],
 	},
 	{
-		name: "[Gen 8] Adventures Free For All Custom Game",
+		name: "[Gen 8] Adventures FFA Custom Game",
 
 		mod: 'adventures',
 		gameType: 'freeforall',
-		challengeShow: false,
 		rated: false,
 		ruleset: ['Team Preview', 'Cancel Mod'],
 	},
