@@ -93,6 +93,7 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 	 * the proper message when it changes.
 	 */
 	
+	
 	constructor(user, game, num) {
 		super(user, game, num);
 		if (typeof user === 'string') user = null;
@@ -110,6 +111,7 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 		this.dcSecondsLeft = 1;
 
 		this.connected = true;
+		this.invite = '';
 
 		if (user) {
 			user.games.add(this.game.roomid);
@@ -191,7 +193,7 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 		this.lastDisabledByUser = null;
 
 		const hasLongTurns = Dex.getFormat(battle.format, true).gameType !== 'singles';
-		const isChallenge = (!battle.rated && !battle.room.tour);
+		const isChallenge = (battle.challengeType === 'challenge');
 		const timerEntry = Dex.getRuleTable(Dex.getFormat(battle.format, true)).timer;
 		const timerSettings = _optionalChain([timerEntry, 'optionalAccess', _ => _[0]]);
 
@@ -475,6 +477,7 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 
 
 
+
  class RoomBattle extends RoomGames.RoomGame {
 	
 	
@@ -535,7 +538,7 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 		this.rated = options.rated === true ? 1 : options.rated || 0;
 		this.ladder = typeof format.rated === 'string' ? toID(format.rated) : options.format;
 		// true when onCreateBattleRoom has been called
-		this.missingBattleStartMessage = !!options.inputLog;
+		this.missingBattleStartMessage = !!options.inputLog || options.delayedStart || false;
 		this.started = false;
 		this.ended = false;
 		this.active = false;
@@ -664,11 +667,6 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 		void this.stream.write(`>${player.slot} undo`);
 	}
 	joinGame(user, slot) {
-		if (!user.can('joinbattle', null, this.room)) {
-			user.popup(`You must be a set as a player to join a battle you didn't start. Ask a player to use /addplayer on you to join this battle.`);
-			return false;
-		}
-
 		if (user.id in this.playerTable) {
 			user.popup(`You have already joined this battle.`);
 			return false;
@@ -696,6 +694,13 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 
 		if (!slot) slot = validSlots[0];
 
+		if (this[slot].invite === user.id) {
+			this.room.auth.set(user.id, Users.PLAYER_SYMBOL);
+		} else if (!user.can('joinbattle', null, this.room)) {
+			user.popup(`You must be a set as a player to join a battle you didn't start. Ask a player to use /addplayer on you to join this battle.`);
+			return false;
+		}
+
 		this.updatePlayer(this[slot], user);
 		if (validSlots.length - 1 < 1 && this.missingBattleStartMessage) {
 			const users = this.players.map(player => {
@@ -705,6 +710,10 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 			});
 			Rooms.global.onCreateBattleRoom(users, this.room, {rated: this.rated});
 			this.missingBattleStartMessage = false;
+			this.started = true;
+			this.room.add(`|uhtmlchange|invites|`);
+		} else if (!this.started) {
+			for (const player of this.players) this.sendInviteForm(player.getUser());
 		}
 		if (user.inRooms.has(this.roomid)) this.onConnect(user);
 		this.room.update();
@@ -932,6 +941,9 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 			if (request.choice) data += `\n|sentchoice|${request.choice}`;
 			(connection || user).sendTo(this.roomid, data);
 		}
+		if (!this.started) {
+			this.sendInviteForm(connection || user);
+		}
 		if (!player.active) this.onJoin(user);
 	}
 	onUpdateConnection(user, connection = null) {
@@ -1073,6 +1085,7 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 	updatePlayer(player, user) {
 		super.updatePlayer(player, user);
 
+		player.invite = '';
 		const slot = player.slot;
 		if (user) {
 			const options = {
@@ -1094,7 +1107,6 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 
 	start() {
 		// on start
-		this.started = true;
 		const users = this.players.map(player => {
 			const user = player.getUser();
 			if (!user && !this.missingBattleStartMessage) {
@@ -1105,6 +1117,7 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 		if (!this.missingBattleStartMessage) {
 			// @ts-ignore The above error should throw if null is found, or this should be skipped
 			Rooms.global.onCreateBattleRoom(users, this.room, {rated: this.rated});
+			this.started = true;
 		}
 
 		if (this.gameType === 'multi') {
@@ -1124,6 +1137,30 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 				`For information on how to participate check out the <a href="${suspectTest.url}">suspect thread</a>.</strong></div>`
 			).update();
 		}
+		if (this.missingBattleStartMessage === 'multi') {
+			this.room.add(`|uhtml|invites|<div class="broadcast broadcast-blue"><strong>This is a 4-player challenge battle</strong><br />The players will need to add more players before the battle can start.</div>`);
+		}
+	}
+
+	sendInviteForm(connection) {
+		if (!connection) return;
+		const playerForms = this.players.map(player => (
+			player.id ? (
+				`<form><label>Player ${player.num}: <strong>${player.name}</strong></label></form>`
+			) : player.invite ? (
+				`<form data-submitsend="/msgroom ${this.roomid},/uninvitebattle ${player.invite}"><label>Player ${player.num}: <strong>${player.invite}</strong> (invited) <button>Uninvite</button></label></form>`
+			) : (
+				`<form data-submitsend="/msgroom ${this.roomid},/invitebattle {username}, p${player.num}"><label>Player ${player.num}: <input name="username" class="textbox" placeholder="Username" /></label> <button class="button">Add Player</button></form>`
+			)
+		));
+		if (this.gameType === 'multi') {
+			[playerForms[1], playerForms[2]] = [playerForms[2], playerForms[1]];
+			playerForms.splice(2, 0, '&mdash; vs &mdash;');
+		}
+		connection.sendTo(
+			this.room,
+			`|uhtmlchange|invites|<div class="broadcast broadcast-blue"><strong>This battle needs more players to start</strong><br /><br />${playerForms.join(``)}</div>`
+		);
 	}
 
 	clearPlayers() {
@@ -1138,13 +1175,9 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 		}
 		this.playerTable = {};
 		this.players = [];
-		// @ts-ignore
 		this.p1 = null;
-		// @ts-ignore
 		this.p2 = null;
-		// @ts-ignore
 		this.p3 = null;
-		// @ts-ignore
 		this.p4 = null;
 
 		this.ended = true;
@@ -1154,8 +1187,7 @@ const TIMER_COOLDOWN = 20 * SECONDS;
 			this.active = false;
 		}
 
-		// @ts-ignore
-		this.room = null;
+		(this ).room = null;
 		if (this.dataResolvers) {
 			for (const [, reject] of this.dataResolvers) {
 				// reject the promise, make whatever function called it return undefined

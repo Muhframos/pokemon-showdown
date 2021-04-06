@@ -174,7 +174,7 @@
 
 			// Limit one mega evolution
 			const wasMega = pokemon.canMegaEvo;
-			for (const ally of pokemon.alliesAndSelf()) {
+			for (const ally of pokemon.side.pokemon) {
 				if (wasMega) {
 					ally.canMegaEvo = null;
 				} else {

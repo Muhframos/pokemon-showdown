@@ -17,14 +17,6 @@
 
 
 
-const afdSSBSets = {
-	'Fox': {
-		species: 'Delphox', ability: 'No Ability', item: '', gender: '',
-		moves: [],
-		signatureMove: 'Super Metronome',
-	},
-};
-
  const ssbSets = {
 	/*
 	// Example:
@@ -878,10 +870,7 @@ const afdSSBSets = {
  class RandomStaffBrosTeams extends _randomteams.default {
 	randomStaffBrosTeam(options = {}) {
 		const team = [];
-		let debug = []; // Set this to a list of SSB sets to override the normal pool for debugging.
-		if (this.format.id.includes('wiiu')) {
-			debug = Array(6).fill('Fox');
-		}
+		const debug = []; // Set this to a list of SSB sets to override the normal pool for debugging.
 		const pool = debug.length ? debug : Object.keys(exports.ssbSets);
 		const typePool = {};
 		let depth = 0;
@@ -889,8 +878,7 @@ const afdSSBSets = {
 			if (depth >= 200) throw new Error(`Infinite loop in Super Staff Bros team generation.`);
 			depth++;
 			const name = this.sampleNoReplace(pool);
-			const ssbSet = this.format.id.includes('wiiu') ? this.dex.deepClone(afdSSBSets[name]) :
-				this.dex.deepClone(exports.ssbSets[name]);
+			const ssbSet = this.dex.deepClone(exports.ssbSets[name]);
 			if (ssbSet.skip) continue;
 
 			// Enforce typing limits
@@ -948,20 +936,6 @@ const afdSSBSets = {
 
 			// Any set specific tweaks occur here.
 			if (set.name === 'Marshmallon' && !set.moves.includes('Head Charge')) set.moves[this.random(3)] = 'Head Charge';
-
-			if (this.format.id.includes('wiiu')) {
-				const egg = this.random(100);
-				if (egg === 69) {
-					set.name = 'Falco';
-					set.species = 'Swellow';
-				} else if (egg === 96) {
-					set.name = 'Captain Falcon';
-					set.species = 'Talonflame';
-				}
-				if (this.randomChance(1, 100)) {
-					set.item = 'Mail';
-				}
-			}
 
 			team.push(set);
 

@@ -313,7 +313,28 @@ Ratings and how they work:
 		num: 224,
 	},
 	berserk: {
+		onDamage(damage, target, source, effect) {
+			if (
+				effect.effectType === "Move" &&
+				!effect.multihit &&
+				(!effect.negateSecondary && !(effect.hasSheerForce && source.hasAbility('sheerforce')))
+			) {
+				target.abilityData.checkedBerserk = false;
+			} else {
+				target.abilityData.checkedBerserk = true;
+			}
+		},
+		onTryEatItem(item, pokemon) {
+			const healingItems = [
+				'aguavberry', 'enigmaberry', 'figyberry', 'iapapaberry', 'magoberry', 'sitrusberry', 'wikiberry', 'oranberry', 'berryjuice',
+			];
+			if (healingItems.includes(item.id)) {
+				return pokemon.abilityData.checkedBerserk;
+			}
+			return true;
+		},
 		onAfterMoveSecondary(target, source, move) {
+			target.abilityData.checkedBerserk = true;
 			if (!source || source === target || !target.hp || !move.totalDamage) return;
 			const lastAttackedBy = target.getLastAttackedBy();
 			if (!lastAttackedBy) return;
@@ -754,10 +775,11 @@ Ratings and how they work:
 			return false;
 		},
 		onEffectiveness(typeMod, target, type, move) {
-			if (!target) return;
+			if (!target || move.category === 'Status') return;
 			if (!['mimikyu', 'mimikyutotem'].includes(target.species.id) || target.transformed) {
 				return;
 			}
+
 			const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
 			if (hitSub) return;
 
@@ -1510,7 +1532,10 @@ Ratings and how they work:
 		onEffectiveness(typeMod, target, type, move) {
 			if (!target) return;
 			if (move.category !== 'Physical' || target.species.id !== 'eiscue' || target.transformed) return;
-			if (target.volatiles['substitute'] && !(move.flags['authentic'] || move.infiltrates)) return;
+
+			const hitSub = target.volatiles['substitute'] && !move.flags['authentic'] && !(move.infiltrates && this.gen >= 6);
+			if (hitSub) return;
+
 			if (!target.runImmunity(move.type)) return;
 			return 0;
 		},
@@ -3089,7 +3114,7 @@ Ratings and how they work:
 			}
 		},
 		onAllyTryHitSide(target, source, move) {
-			if (target === this.effectData.target || !target.isAlly(source)) return;
+			if (source === this.effectData.target || !target.isAlly(source)) return;
 			if (move.type === 'Grass') {
 				this.boost({atk: 1}, this.effectData.target);
 			}
