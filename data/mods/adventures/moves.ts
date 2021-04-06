@@ -1216,6 +1216,11 @@ export const Moves: {[moveid: string]: MoveData} = {
 		onModifyMove(move, pokemon) {
 			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
 			},
+		onHit(target, source, move) {
+			if (source.volatiles['choicelock'] && !source.hasAbility('sheerforce')) {
+				this.debug('removing choicelock: ' + source.volatiles['choicelock']);
+				source.removeVolatile('choicelock');
+			}
 		onHit(target, pokemon, move) {
 			if (pokemon.baseSpecies.baseSpecies === 'Meloetta' && !pokemon.transformed) {
 				move.willChangeForme = true;
@@ -1225,13 +1230,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 			if (move.willChangeForme) {
 				const meloettaForme = pokemon.species.id === 'meloettapirouette' ? '' : '-Pirouette';
 				pokemon.formeChange('Meloetta' + meloettaForme, this.effect, false, '[msg]');
-			}
-		},
-		onHit(target, source, move) {
-			if (source.volatiles['choicelock'] && !source.hasAbility('sheerforce')) {
-				this.debug('removing choicelock: ' + source.volatiles['choicelock']);
-				source.removeVolatile('choicelock');
-			}
+				},
+			},
 		},
 		target: "allAdjacentFoes",
 		type: "Normal",
@@ -1354,6 +1354,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Clever",
 	},
 	poisonfang: {
+		desc: "10% chance to Poison the target. 10% chance to flinch.",
+		shortDesc: "10% chance to Poison, 10% chance to flinch",
 		inherit: true,
 		basePower: 65,
 		accuracy: 95,
@@ -1368,6 +1370,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		],
 	},
 	zippyzap: {
+		desc: "Goes first.",
+		shortDesc: "Goes first",
 		num: 729,
 		accuracy: 100,
 		basePower: 80,

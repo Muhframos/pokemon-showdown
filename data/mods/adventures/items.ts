@@ -1,18 +1,4 @@
 export const Items: {[k: string]: ModdedItemData} = {
-		palossandite: {
-		name: "Palossandite",
-		spritenum: 626,
-		megaStone: "Palossand-Mega",
-		megaEvolves: "Palossand",
-		itemUser: ["Palossand"],
-		onTakeItem(item, source) {
-			if (item.megaEvolves === source.baseSpecies.baseSpecies) return false;
-			return true;
-		},
-		num: -101,
-		gen: 7,
-		isNonstandard: "Past",
-	},
 	zoomlens: {
 		name: "Zoom Lens",
 		spritenum: 574,
@@ -118,7 +104,7 @@ export const Items: {[k: string]: ModdedItemData} = {
 	quickherb: {
 		name: "Quick Herb",
 		desc: "Removes the recharging time from a move once.",
-		shortDesc: "Removes recharge time.",
+		shortDesc: "Removes recharge time from a move.",
 		spritenum: 358,
 		fling: {
 			basePower: 10,
@@ -178,6 +164,8 @@ export const Items: {[k: string]: ModdedItemData} = {
 	},
 	unidentifiedforeignrock: {
 		name: "Unidentified Foreign Rock",
+		desc: "Extends the holder's Gravity Duration from 5 to 8 turns.",
+		shortDesc: "Holder's use of Gravity lasts 8 turns instead of 5.",
 		spritenum: 193,
 		fling: {
 			basePower: 60,
