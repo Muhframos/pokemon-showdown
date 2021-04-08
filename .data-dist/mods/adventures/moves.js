@@ -74,17 +74,23 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		accuracy: 100,
 	},
 	honeclaws: {
-	  inherit: true,
-	  boosts: {
-	  atk: 1,
-      accuracy: 2,	 
+		desc: "Raises the user's attack by 1 and accuracy by 2.",
+		shortDesc: "Raises the user's attack by 1 and accuracy by 2.",
+		inherit: true,
+		boosts: {
+		atk: 1,
+		accuracy: 2,	 
 	  },
 	},
 	lifedew: {
+		desc: "Restores 1/2 max HP of user and allies.",
+		shortDesc: "Restores 1/2 max HP of user and allies.",
 		inherit: true,
 		heal: [1, 2],	 
 	},
 	dragonrage: {
+		desc: "Deals damage equal to the user's level.",
+		shortDesc: "Deals damage equal to the user's level.",
 		num: 82,
 		accuracy: 100,
 		basePower: 0,
@@ -105,6 +111,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePower: 25,
 	},
 	furyswipes: {
+		desc: "Hits 2-5 times. High critical hit ratio.",
+		shortDesc: "Hits 2-5 times. Hig critical hit ratio.",
 		inherit: true,
 		basePower: 20,
 		critRatio: 3,
@@ -114,11 +122,15 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		accuracy: 100,
 	},
 	drillrun: {
+		desc: "High critical hit ratio.",
+		shortDesc: "High critical hit ratio.",
 		inherit: true,
 		accuracy: 100,
 		critRatio: 3,
 	},
 	razorshell: {
+		desc: "100% chance to increase the target's Defense by 1 stage.",
+		shortDesc: "100% chance to lower the target's Def by 1 .",
 		inherit: true,
 		accuracy: 100,
 		secondary: {
@@ -129,6 +141,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		},
 	},
 	highhorsepower: {
+		desc: "20% chance to increase the user's Speed by 1 stage.",
+		shortDesc: "20% chance to increase the user's Spe by 1 .",
 		inherit: true,
 		basePower: 90,
 		accuracy: 90,
@@ -142,16 +156,22 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		}
 	},
 	explosion: {
+		desc: "Hits adjacent Pokemon. User faints. Always results in a critical hit.",
+		shortDesc: "Hits adjacent Pokemon. User faints. Always results in a critical hit.",
 		inherit: true,
 		category: "Special",
 		critRatio: 5,
 	},
 	selfdestruct: {
+		desc: "Hits adjacent Pokemon. User faints. Always results in a critical hit.",
+		shortDesc: "Hits adjacent Pokemon. User faints. Always results in a critical hit.",
 		inherit: true,
 		basePower: 250,
 		critRatio: 5,
 	},
 	mistyexplosion: {
+		desc: "User faints. Power doubles on Misty terrain. Always results in a critical hit.",
+		shortDesc: "User faints. User on Misty terrain: 2.0x power. Always results in a critical hit.",
 		inherit: true,
 		basePower: 125,
 		critRatio: 5,
@@ -184,6 +204,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Cool",
 	},
 	tyrantchomp: {
+		desc: "10% chance to flinch.",
+		shortDesc: "10% chance to flinch.",
 		num: -1,
 		accuracy: 100,
 		basePower: 90,
@@ -201,6 +223,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Cool",
 	},
 	toxicthread: {
+		desc: "Badly poisons the target and prevents it from switching out.",
+		shortDesc: "Badly poisons the target and prevents it from switching out.",
 		num: 672,
 		accuracy: 100,
 		basePower: 0,
@@ -222,6 +246,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Tough",
 	},
 	dizzypunch: {
+		desc: "Hits twice. Each hit has a 20% chance to confuse the target and a 20% chance to flinch.",
+		shortDesc: "Hits twice. Each hit has a 20% chance to confuse and a 20% chance to flinch.",
 		inherit: true,
 		accuracy: 85,
 		basePower: 45,
@@ -252,6 +278,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePower: 120,
 	},
 	aurorabeam : {
+		desc: "100% chance to lower the target's Attack by 1 stage.",
+		shortDesc: "100% chance to lower target's Atk by 1.",
 		inherit: true,
 		basePower: 75,
 		secondary: {
@@ -266,6 +294,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePower: 150,
 	},
 	present: {
+		desc: "80, 160, 240 power, or heals target 1/4 max HP.",
+		shortDesc: "80, 160, 240 power, or heals target 1/4 max HP.",
 		inherit: true,
 		type: "Flying",
 		onModifyMove(move, pokemon, target) {
@@ -295,6 +325,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePower: 60,
 	},
 	shadowbone: {
+		desc: "100% chance to lower the target's Defense by 1 stage.",
+		shortDesc: "100% chance to lower target's Def by 1.",
 		inherit: true,
 		secondary: {
 			chance: 100,
@@ -312,6 +344,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePower: 75
 	},
 	revelationdance: {
+		desc: "Type varies based on the user's primary type. Physical if Atk > SpA.",
+		shortDesc: "Type varies based on the user's primary type. Physical if Atk > SpA.",
 		inherit: true,
 		basePower: 120,
 		category: "Special",
@@ -320,6 +354,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		},
 	},
 	focusenergy: {
+		desc: "Increases the user's critical hit ratio by 4.",
+		shortDesc: "Increases the user's crit ratio by 4.",
 		inherit: true,
 		volatileStatus: 'focusenergy',
 		condition: {
@@ -422,6 +458,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		critRatio: 3,
 	},
 	decorate: {
+		desc: "Restores 1/4 of an ally or self's max HP and gives it +1 SpD, +1 SpA.",
+		shortDesc: "Restore's 1/4 HP of ally or self and gives it +1 SpD, +1 SpA.",
 		inherit: true,
 		heal: [1, 4],
 		boosts: {
@@ -448,6 +486,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		accuracy: 100,
 	},
 	shelltrap: {
+		desc: "Usually goes first. Fails if target is not attacking.",
+		shortDesc: "Usually goes first. Fails if target is not attacking.",
 		num: 704,
 		accuracy: 100,
 		basePower: 50,
@@ -469,6 +509,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Clever",
 	},
 	icehammer: {
+		desc: "100% chance to lower the target's Speed by 1 stage.",
+		shortDesc: "100% chance to lower target's Spe by 1.",
 		inherit: true,
 		self: null,
 		secondary: {
@@ -479,6 +521,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		}
 	},
 	hammerarm: {
+		desc: "100% chance to lower the target's Speed by 1 stage.",
+		shortDesc: "100% chance to lower target's Spe by 1.",
 		inherit: true,
 		self: null,
 		secondary: {
@@ -489,6 +533,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		}
 	},
 	dragonhammer: {
+		desc: "High critical hit ratio.",
+		shortDesc: "High critical hit ratio.",
 		inherit: true,
 		accuracy: 90,
 		basePower: 100,
@@ -500,6 +546,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		flags: {contact: 1, protect: 1, mirror: 1, bullet: 1, punch: 1},
 	},
 	defog: {
+		desc: "-1 Evasion; clears terrain, hazards and weather for both sides.",
+		shortDesc: "-1 Evasion; clears terrain, hazards and weather for both sides.",
 		num: 432,
 		accuracy: true,
 		basePower: 0,
@@ -541,6 +589,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Cool",
 	},
 	barrage: {
+		desc: "Hits three times.",
+		shortDesc: "Hits three times.",
 		num: 140,
 		accuracy: 100,
 		basePower: 30,
@@ -579,6 +629,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Clever",
 	},
 	vcreate: {
+		desc: "Lowers the user's Defense, Sp. Def, Speed by 1. Physical if user's Atk > SpA",
+		shortDesc: "Lowers the user's Def, SpD, Spe by 1. Physical if user's Atk > SpA",
 		num: 557,
 		accuracy: 95,
 		basePower: 180,
@@ -608,6 +660,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePower: 45
 	},
 	chargebeam: {
+		desc: "100% chance to increase the user's Special Attack by 1 stage.",
+		shortDesc: "100% chance to increase the user's SpA by 1.",
 		num: 451,
 		accuracy: 90,
 		basePower: 60,
@@ -719,6 +773,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		},
 	},
 	strength: {
+		desc: "Forces the target to switch to a random ally.",
+		shortDesc: "If a foe is switching out, hits it at 2x power.",
 		inherit: true,
 		pp: 10,
 		priority: -6,
@@ -743,8 +799,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		},
 		category: "Physical",
 		name: "Mob Boss",
-		desc: "Usually goes first. Hits all foes one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/10), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
-		shortDesct: "Beat Up with +1 priority. Hits all adjacent foes.",
+		desc: "Usually goes first. Hits the target one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/10), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
+		shortDesct: "Beat Up with +1 priority.",
 		pp: 10,
 		priority: 1,
 		flags: {protect: 1, mirror: 1, mystery: 1},
@@ -753,7 +809,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 			move.multihit = move.allies.length;
 		},
 		secondary: null,
-		target: "allAdjacentFoes",
+		target: "normal",
 		type: "Dark",
 		contestType: "Clever",
 	},
@@ -766,6 +822,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		shortDesc: "100% chance to lower target's Def by 2.",
 		category: "Physical",
 		pp: 1,
+		noPPBoosts: true,
 		priority: 0,
 		flags: {protect: 1, mirror: 1},
 		secondary: {
@@ -780,6 +837,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		zMove: {boost: {atk: 2}},
 	},
 	twineedle: {
+		desc: "Hits twice. Each hit has 20% chance to badly poison.",
+		shortDesc: "Hits twice. Each hit has 20% chance to badly poison.",
 		num: 41,
 		accuracy: 100,
 		basePower: 40,
@@ -818,6 +877,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Beautiful",
 	},
 	aromaticmist: {
+		desc: "-1 Evasion; clears terrain and hazards on both sides, then summons Misty Terrain.",
+		shortDesc: "-1 Evasion; clears terrain and hazards on both sides, then summons Misty Terrain.",
 		num: 597,
 		accuracy: true,
 		basePower: 0,
@@ -900,6 +961,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Beautiful",
 	},
 	twister: {
+		desc: "10% chance to flinch.",
+		shortDesc: "10% chance to flinch.",
 		num: 239,
 		accuracy: 80,
 		basePower: 110,
@@ -924,7 +987,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		num: 265,
 		accuracy: true,
 		desc: "Heals the user of Paralysis and restores 25% of its max HP.",
-		shortDesc: "Heals PAR and restores 25% max HP.",
+		shortDesc: "Heals Paralysis and restores 25% max HP of allies.",
 		basePowerCallback(pokemon, target, move) {
 			if (target.status === 'par') return move.basePower * 2;
 			return move.basePower;
@@ -945,6 +1008,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Tough",
 	},
 	curse: {
+		desc: "If the user is a Ghost-type, removes 1/4 of the user's HP to Curse target. Else -1 Spe, +1 Atk, +1 Def.",
+		shortDesc: "Curses if Ghost, else -1 Spe, +1 Atk, +1 Def.",
 		num: 174,
 		accuracy: true,
 		basePower: 0,
@@ -1054,6 +1119,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Cool",
 	},
 	drillpeck: {
+		desc: "High critical hit ratio.",
+		shortDesc: "High critical hit ratio.",
 		num: 65,
 		accuracy: 100,
 		basePower: 90,
@@ -1105,6 +1172,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Clever",
 	},
 	vinetrap: {
+		desc: "If a foe is switching out, hits it at 2x power",
+		shortDesc: "If a foe is switching out, hits it at 2x power.",
 		num: -19,
 		accuracy: 100,
 		basePower: 40,
@@ -1245,7 +1314,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePower: 80,
 		category: "Special",
 		name: "Aqua Revolver",
-		pp: 16,
+		pp: 10,
 		priority: 0,
 		flags: {protect: 1, mirror: 1, pulse: 1},
 		secondary: {
@@ -1354,6 +1423,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Clever",
 	},
 	poisonfang: {
+		desc: "10% chance to Poison the target. 10% chance to flinch.",
+		shortDesc: "10% chance to Poison, 10% chance to flinch",
 		inherit: true,
 		basePower: 65,
 		accuracy: 95,
@@ -1368,6 +1439,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		],
 	},
 	zippyzap: {
+		desc: "Goes first.",
+		shortDesc: "Goes first",
 		num: 729,
 		accuracy: 100,
 		basePower: 80,

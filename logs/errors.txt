@@ -2689,3 +2689,92 @@ Additional information:
   pmTarget = undefined
   message = /accept muhframos
 
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+TypeError: Cannot read property 'then' of null
+    at RawProcessManager.releaseCrashed (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:438:25)
+    at Worker.<anonymous> (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at Worker.emit (events.js:315:20)
+    at Worker.EventEmitter.emit (domain.js:467:12)
+    at ChildProcess.<anonymous> (internal/cluster/master.js:220:12)
+    at Object.onceWrapper (events.js:421:28)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\pacoc\Documents\GitHub\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)

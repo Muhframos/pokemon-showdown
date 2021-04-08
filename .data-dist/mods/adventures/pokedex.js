@@ -795,15 +795,15 @@
 		inherit: true,
 		types: ["Fire", "Steel"],
 	},
-	Mewtwo: {
+	mewtwo: {
 		inherit: true,
 		abilities: {0: "Pressure", 1: "Unnerve", H: "Psychic Surge"},
 	},
-	Mewtwomegax: {
+	mewtwomegax: {
 		inherit: true,
 		abilities: {0: "Guts"},
 	},
-	Mewtwomegay: {
+	mewtwomegay: {
 		inherit: true,
 		abilities: {0: "Adaptability"},
 	},
@@ -818,7 +818,7 @@
 	},
 	golisopod: {
 		inherit: true,
-		abilities: {0: "Shell Armor"},
+		abilities: {0: "Emergency Exit", H: "Shell Armor"},
 	},
 	grimmsnarl: {
 		inherit: true,
@@ -998,7 +998,7 @@
 	},
 	slaking: {
 		inherit: true,
-		abilities: {0: "Slumber"},
+		abilities: {0: "Slumber", H: "Truant"},
 	},
 	zarude: {
 		inherit: true,
@@ -1042,7 +1042,7 @@
 	},
 	archeops: {
 		inherit: true,
-		abilities: {0: "Reckless", 1: "Defiant"},
+		abilities: {0: "Defeatist", 1: "Defiant", H: "Reckless"},
 	},
 	rotom: {
 		inherit: true,
