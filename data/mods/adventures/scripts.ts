@@ -1018,6 +1018,7 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
         // only to specify the order of custom tiers
         customTiers: ['Adventures OU', 'Adventures UU', 'Adventures Ubers', 'Adventures 1v1', 'Adventures Free For All', 'Adventures Multi Battle', 'Adventures Custom Game', 'Adventures FFA Custom Game'],
         customDoublesTiers: ['Adventures DOU', 'Adventures DUU',],
+		spriteGen: 8,
         // allow 252 EVs in every stat
         ignoreEVLimits: false,
         // use sprites from a certain past gen where available
