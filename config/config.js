@@ -9,7 +9,7 @@ exports.port = 8000;
  * The server address - the address at which Pokemon Showdown should be hosting
  *   This should be kept set to 0.0.0.0 unless you know what you're doing.
  */
-exports.bindaddress = '179.127.85.102';
+exports.bindaddress = '0.0.0.0';
 
 /**
  * workers - the number of networking child processes to spawn

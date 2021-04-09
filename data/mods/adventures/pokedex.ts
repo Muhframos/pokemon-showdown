@@ -818,7 +818,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	golisopod: {
 		inherit: true,
-		abilities: {0: "Shell Armor"},
+		abilities: {0: "Emergency Exit", H: "Shell Armor"},
 	},
 	grimmsnarl: {
 		inherit: true,
@@ -998,7 +998,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	slaking: {
 		inherit: true,
-		abilities: {0: "Slumber"},
+		abilities: {0: "Slumber", H: "Truant"},
 	},
 	zarude: {
 		inherit: true,
@@ -1042,7 +1042,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	archeops: {
 		inherit: true,
-		abilities: {0: "Reckless", 1: "Defiant"},
+		abilities: {0: "Defeatist", 1: "Defiant", H: "Reckless"},
 	},
 	rotom: {
 		inherit: true,
