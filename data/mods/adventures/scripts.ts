@@ -43,6 +43,8 @@ this.modData('Learnsets', 'centiskorch').learnset.firstimpression = ['8L1'];
 this.modData('Learnsets', 'centiskorch').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'centiskorch').learnset.rapidspin = ['8L1'];
 
+this.modData('Learnsets', 'zamazenta').learnset.bodypress = ['8L1'];
+
 this.modData('Learnsets', 'golduck').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.storedpower = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.taunt = ['8L1'];
