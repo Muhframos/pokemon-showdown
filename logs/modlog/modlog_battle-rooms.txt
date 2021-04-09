@@ -1,2 +1,4 @@
 [2021-03-27T15:40:47.766Z] (battle-gen8adventuresou-2249) FORCETIE: by muhframos
 [2021-04-06T03:21:57.952Z] (battle-gen8adventuresfreeforall-2435) FORCETIE: by muhframos
+[2021-04-06T04:38:50.670Z] (battle-gen8adventuresfreeforall-2447) FORCEWIN: [muhframos] by muhframos
+[2021-04-06T04:39:36.320Z] (battle-gen8adventuresfreeforall-2447) FORCEWIN: [nxmagrg] by muhframos

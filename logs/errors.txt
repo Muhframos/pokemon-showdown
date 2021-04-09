@@ -2689,3 +2689,162 @@ Additional information:
   pmTarget = undefined
   message = /accept muhframos
 
+
+Error: Cannot find module '../.sim-dist/dex'
+Require stack:
+- C:\Users\Ben\Desktop\pokemon-showdown\.data-dist\mods\adventures\random-teams.js
+- C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js
+- C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js
+- C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js
+- C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:880:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:725:27)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.data-dist\mods\adventures\random-teams.js:3:12)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+
+Additional information:
+  chunk = >player p4 {"name":"alee51104","avatar":102}
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[64108,21757,26647,61998]}
+>player p1 {"name":"Muhframos","avatar":"benga","team":"Magnezone||choicespecs|levitate|voltswitch,explosion,discharge,flashcannon|Quiet|252,,4,252,,|N||||]Grimmsnarl||leftovers|prankster|substitute,toxic,protect,moonlight|Calm|252,,4,,252,|M|,0,,,,|||]Reuniclus||fightiniumz|magicguard|calmmind,recover,psyshock,focusblast|Bold|252,,180,4,72,||,0,,,,|||]Clawitzer||aguavberry|megalauncher|aurasphere,surf,aquarevolver,lifedew|Modest|252,,4,252,,|||||]Dunsparce||choiceband|serenegrace|rockslide,earthquake,bodyslam,poisonjab|Jolly|,252,,,,252|||||]Abomasnow||abomasite|snowwarning|blizzard,earthpower,gigadrain,auroraveil|Modest|248,,,252,8,||,0,,,,|||","rating":0}
+>player p2 {"name":"NXMAG RG","avatar":"101","team":"Skarmory||focussash|weakarmor|swordsdance,bravebird,ironhead,rockslide|Impish|,,252,,,252|||||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,252,,,,|||||]Regigigas||leftovers|slowstart|protect,substitute,bodyslam,earthquake|Adamant|252,252,,,,4|N||||]Pincurchin||airballoon|electricsurge|discharge,surf,suckerpunch,risingvoltage|Quiet|252,4,,252,,|||||]Heatran||choicespecs|flashfire|eruption,heatwave,earthpower,flashcannon|Timid|4,,,252,,252||,0,,,,|||]Exploud||choicespecs|punkrock|boomburst,blizzard,surf,explosion|Timid|,,,252,4,252|||||","rating":0}
+>chat ☆Muhframos|isnt that nice
+  log = 
+|t:|1617682711
+|gametype|freeforall
+|player|p1|Muhframos|benga|
+|player|p2|NXMAG RG|101|
+
+
+Error: Cannot find module '../.sim-dist/dex'
+Require stack:
+- C:\Users\Ben\Desktop\pokemon-showdown\.data-dist\mods\adventures\random-teams.js
+- C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\dex.js
+- C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle.js
+- C:\Users\Ben\Desktop\pokemon-showdown\.sim-dist\battle-stream.js
+- C:\Users\Ben\Desktop\pokemon-showdown\.server-dist\room-battle.js
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:880:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:725:27)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.data-dist\mods\adventures\random-teams.js:3:12)
+    at Module._compile (internal/modules/cjs/loader.js:1063:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1092:10)
+    at Module.load (internal/modules/cjs/loader.js:928:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:769:14)
+    at Module.require (internal/modules/cjs/loader.js:952:19)
+
+Additional information:
+  chunk = >player p3 {"name":"Bennoloth","avatar":"pokemaniac"}
+  inputLog = 
+>start {"formatid":"gen8adventuresfreeforall","seed":[64108,21757,26647,61998]}
+>player p1 {"name":"Muhframos","avatar":"benga","team":"Magnezone||choicespecs|levitate|voltswitch,explosion,discharge,flashcannon|Quiet|252,,4,252,,|N||||]Grimmsnarl||leftovers|prankster|substitute,toxic,protect,moonlight|Calm|252,,4,,252,|M|,0,,,,|||]Reuniclus||fightiniumz|magicguard|calmmind,recover,psyshock,focusblast|Bold|252,,180,4,72,||,0,,,,|||]Clawitzer||aguavberry|megalauncher|aurasphere,surf,aquarevolver,lifedew|Modest|252,,4,252,,|||||]Dunsparce||choiceband|serenegrace|rockslide,earthquake,bodyslam,poisonjab|Jolly|,252,,,,252|||||]Abomasnow||abomasite|snowwarning|blizzard,earthpower,gigadrain,auroraveil|Modest|248,,,252,8,||,0,,,,|||","rating":0}
+>player p2 {"name":"NXMAG RG","avatar":"101","team":"Skarmory||focussash|weakarmor|swordsdance,bravebird,ironhead,rockslide|Impish|,,252,,,252|||||]Trevenant||assaultvest|regenerator|hornleech,poltergeist,earthquake,rockslide|Adamant|252,252,,,,|||||]Regigigas||leftovers|slowstart|protect,substitute,bodyslam,earthquake|Adamant|252,252,,,,4|N||||]Pincurchin||airballoon|electricsurge|discharge,surf,suckerpunch,risingvoltage|Quiet|252,4,,252,,|||||]Heatran||choicespecs|flashfire|eruption,heatwave,earthpower,flashcannon|Timid|4,,,252,,252||,0,,,,|||]Exploud||choicespecs|punkrock|boomburst,blizzard,surf,explosion|Timid|,,,252,4,252|||||","rating":0}
+>chat ☆Muhframos|isnt that nice
+>chat ☆NXMAG RG|lol
+>chat ☆NXMAG RG|ofc
+>chat ☆Muhframos|wow
+>chat ☆Muhframos|thats not nice
+>chat ☆NXMAG RG|gn to alee ig 
+>chat ☆Muhframos|noooooooo
+  log = 
+|t:|1617682711
+|gametype|freeforall
+|player|p1|Muhframos|benga|
+|player|p2|NXMAG RG|101|
+
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error: Process sockets.js 19748 crashed and had to be restarted
+    at RawProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:454:4)
+    at Worker.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at Worker.emit (events.js:315:20)
+    at Worker.EventEmitter.emit (domain.js:467:12)
+    at ChildProcess.<anonymous> (internal/cluster/master.js:220:12)
+    at Object.onceWrapper (events.js:421:28)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
+
+Error [ERR_IPC_DISCONNECTED]: IPC channel is already disconnected
+    at ChildProcess.target.disconnect (internal/child_process.js:858:26)
+    at QueryProcessWrapper.destroy (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:185:16)
+    at QueryProcessWrapper.release (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:171:9)
+    at QueryProcessManager.releaseCrashed (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:438:16)
+    at ChildProcess.<anonymous> (C:\Users\Ben\Desktop\pokemon-showdown\.lib-dist\process-manager.js:495:47)
+    at ChildProcess.emit (events.js:315:20)
+    at ChildProcess.EventEmitter.emit (domain.js:467:12)
+    at finish (internal/child_process.js:888:14)
+    at processTicksAndRejections (internal/process/task_queues.js:75:11)
