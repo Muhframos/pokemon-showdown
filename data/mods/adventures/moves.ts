@@ -877,8 +877,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Beautiful",
 	},
 	aromaticmist: {
-		desc: "-1 Evasion; clears hazards on both sides, then summons Misty Terrain.",
-		shortDesc: "-1 Evasion; clears hazards on both sides, then summons Misty Terrain.",
+		desc: "-1 Evasion; clears hazards and screens on both sides, then summons Misty Terrain.",
+		shortDesc: "-1 Evasion; clears hazards and screens on both sides, then summons Misty Terrain.",
 		num: 597,
 		accuracy: true,
 		basePower: 0,
@@ -1449,6 +1449,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Cool",
 	},
 	junglehealing: {
+		desc: "Heals status and 33% max HP.",
+		shortDesc: "Heals status and 33% max HP.",
 		num: 816,
 		accuracy: true,
 		basePower: 0,
