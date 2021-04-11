@@ -1452,7 +1452,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	pincurchin: {
 		inherit: true,
-		baseStats: {hp: 48, atk: 101, def: 105, spa: 91, spd: 105, spe: 15},
+		baseStats: {hp: 48, atk: 111, def: 115, spa: 101, spd: 125, spe: 15},
 		abilities: {0: "Lightning Rod", 1: "Iron Barbs", H: "Electric Surge"},
 	},
 	zapdos: {
