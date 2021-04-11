@@ -244,6 +244,11 @@ this.modData('Learnsets', 'banette').learnset.poltergeist = ['8L1'];
 
 this.modData('Learnsets', 'aggron').learnset.shiftgear = ['8L1'];
 
+this.modData('Learnsets', 'kingler').learnset.thunderpunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.firepunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.icepunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.poisonjab = ['8L1'];
+
 this.modData('Learnsets', 'audino').learnset.milkdrink = ['8L1'];
 this.modData('Learnsets', 'audino').learnset.charm = ['8L1'];
 this.modData('Learnsets', 'audino').learnset.lovelykiss = ['8L1'];
