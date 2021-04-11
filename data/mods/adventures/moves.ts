@@ -1449,8 +1449,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Cool",
 	},
 	junglehealing: {
-		desc: "Heals status and 33% max HP.",
-		shortDesc: "Heals status and 33% max HP.",
+		desc: "Heals status and 1/3 max HP of self and allies.",
+		shortDesc: "Heals status and 1/3 max HP of self and allies.",
 		num: 816,
 		accuracy: true,
 		basePower: 0,
