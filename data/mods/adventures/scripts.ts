@@ -39,6 +39,8 @@ this.modData('Learnsets', 'guzzlord').learnset.firefang = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.thunderfang = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.poisonfang = ['8L1'];
 
+this.modData('Learnsets', 'shuckle').learnset.bodypress = ['8L1'];
+
 this.modData('Learnsets', 'centiskorch').learnset.firstimpression = ['8L1'];
 this.modData('Learnsets', 'centiskorch').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'centiskorch').learnset.rapidspin = ['8L1'];
@@ -230,6 +232,9 @@ this.modData('Learnsets', 'hitmonchan').learnset.suckerpunch = ['8L1'];
 
 this.modData('Learnsets', 'articunogalar').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.dazzlinggleam = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.toxic = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.return = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.frustration = ['8L1'];
 
 this.modData('Learnsets', 'articuno').learnset.aurorabeam = ['8L1'];
 
@@ -238,6 +243,11 @@ this.modData('Learnsets', 'aegislash').learnset.poltergeist = ['8L1'];
 this.modData('Learnsets', 'banette').learnset.poltergeist = ['8L1'];
 
 this.modData('Learnsets', 'aggron').learnset.shiftgear = ['8L1'];
+
+this.modData('Learnsets', 'kingler').learnset.thunderpunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.firepunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.icepunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.poisonjab = ['8L1'];
 
 this.modData('Learnsets', 'audino').learnset.milkdrink = ['8L1'];
 this.modData('Learnsets', 'audino').learnset.charm = ['8L1'];
@@ -945,6 +955,9 @@ this.modData('Learnsets', 'giratina').learnset.poltergeist = ['8L1'];
 this.modData('Learnsets', 'lycanrocmidnight').learnset.accelerock = ['8L1'];
 
 this.modData('Learnsets', 'ninjask').learnset.leafblade = ['8L1'];
+
+this.modData('Learnsets', 'pincurchin').learnset.spikyshield = ['8L1'];
+this.modData('Learnsets', 'pincurchin').learnset.spikecannon = ['8L1'];
 
 this.modData('Learnsets', 'carnivine').learnset.icefang = ['8L1'];
 this.modData('Learnsets', 'carnivine').learnset.psychicfangs = ['8L1'];

@@ -1452,7 +1452,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	pincurchin: {
 		inherit: true,
-		baseStats: {hp: 48, atk: 101, def: 105, spa: 91, spd: 105, spe: 15},
+		baseStats: {hp: 48, atk: 101, def: 115, spa: 91, spd: 135, spe: 15},
 		abilities: {0: "Lightning Rod", 1: "Iron Barbs", H: "Electric Surge"},
 	},
 	zapdos: {
@@ -1518,5 +1518,20 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 95, atk: 130, def: 80, spa: 70, spd: 80, spe: 76},
 		abilities: {0: "Levitate", 1: "Stench", H: "Strong Jaw"},
+	},
+	sylveon: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 65, def: 65, spa: 110, spd: 130, spe: 60},
+		abilities: {0: "Cute Charm", 1: "Fairy Aura", H: "Pixilate"},
+	},
+	kingler: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 130, def: 125, spa: 50, spd: 50, spe: 85},
+		abilities: {0: "Hyper Cutter", 1: "Shell Armor", H: "Sheer Force"},
+	},
+	dewgong: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 80, def: 100, spa: 80, spd: 115, spe: 80},
+		abilities: {0: "Thick Fat", 1: "Hydration", H: "Ice Body"},
 	},
 };

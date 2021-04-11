@@ -774,7 +774,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	strength: {
 		desc: "Forces the target to switch to a random ally.",
-		shortDesc: "If a foe is switching out, hits it at 2x power.",
+		shortDesc: "Forces the target to switch to a random ally.",
 		inherit: true,
 		pp: 10,
 		priority: -6,
@@ -877,8 +877,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Beautiful",
 	},
 	aromaticmist: {
-		desc: "Clears hazards and screens both sides, then summons Misty Terrain. -1 Evasion.",
-		shortDesc: "Clears hazards and screens both sides, then summons Misty Terrain. -1 Evasion.",
+		desc: "-1 Evasion; clears hazards and screens on both sides, then summons Misty Terrain.",
+		shortDesc: "-1 Evasion; clears hazards and screens on both sides, then summons Misty Terrain.",
 		num: 597,
 		accuracy: true,
 		basePower: 0,
@@ -1271,7 +1271,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 	relicsong: {
 		num: 547,
 		accuracy: 100,
-		basePower: 95,
+		basePower: 90,
 		category: "Special",
 		isNonstandard: "Past",
 		name: "Relic Song",
@@ -1279,7 +1279,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		priority: 0,
 		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
 		secondary: {
-			chance: 10,
+			chance: 50,
 			status: 'slp',
 		},
 		onModifyMove(move, pokemon) {
@@ -1294,12 +1294,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 			if (move.willChangeForme) {
 				const meloettaForme = pokemon.species.id === 'meloettapirouette' ? '' : '-Pirouette';
 				pokemon.formeChange('Meloetta' + meloettaForme, this.effect, false, '[msg]');
-			}
-		},
-		onHit(target, source, move) {
-			if (source.volatiles['choicelock'] && !source.hasAbility('sheerforce')) {
-				this.debug('removing choicelock: ' + source.volatiles['choicelock']);
-				source.removeVolatile('choicelock');
 			}
 		},
 		target: "allAdjacentFoes",
@@ -1455,8 +1449,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Cool",
 	},
 	junglehealing: {
-		desc: "Heals status and 33% max HP.",
-		shortDesc: "Heals status and 33% max HP.",
+		desc: "Heals status and 1/3 max HP of self and allies.",
+		shortDesc: "Heals status and 1/3 max HP of self and allies.",
 		num: 816,
 		accuracy: true,
 		basePower: 0,
