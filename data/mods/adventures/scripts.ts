@@ -230,6 +230,9 @@ this.modData('Learnsets', 'hitmonchan').learnset.suckerpunch = ['8L1'];
 
 this.modData('Learnsets', 'articunogalar').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.dazzlinggleam = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.toxic = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.return = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.frustration = ['8L1'];
 
 this.modData('Learnsets', 'articuno').learnset.aurorabeam = ['8L1'];
 
@@ -945,6 +948,9 @@ this.modData('Learnsets', 'giratina').learnset.poltergeist = ['8L1'];
 this.modData('Learnsets', 'lycanrocmidnight').learnset.accelerock = ['8L1'];
 
 this.modData('Learnsets', 'ninjask').learnset.leafblade = ['8L1'];
+
+this.modData('Learnsets', 'pincurchin').learnset.spikyshield = ['8L1'];
+this.modData('Learnsets', 'pincurchin').learnset.spikecannon = ['8L1'];
 
 this.modData('Learnsets', 'carnivine').learnset.icefang = ['8L1'];
 this.modData('Learnsets', 'carnivine').learnset.psychicfangs = ['8L1'];
