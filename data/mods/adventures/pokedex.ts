@@ -190,7 +190,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	xatu: {
 		inherit: true,
 		baseStats: {hp: 85, atk: 75, def: 105, spa: 95, spd: 125, spe: 45},
-		abilities: {0: "Oracle", 1: "Early Bird", H: "Magic Bounce"},	
+		abilities: {0: "Oracle", 1: "Forewarn", H: "Magic Bounce"},	
 	},
 	mew: {
 		inherit: true,
@@ -712,6 +712,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	noctowl: {
 		inherit: true,
 		baseStats: {hp: 100, atk: 50, def: 70, spa: 116, spd: 116, spe: 70},
+	},
+	hypno: {
+		inherit: true,
+		baseStats: {hp: 115, atk: 83, def: 50, spa: 83, spd: 125, spe: 67},
+		abilities: {0: "Insomnia", 1: "Forewarn", H: "No Guard"},
 	},
 	exeggutor: {
 		inherit: true,
