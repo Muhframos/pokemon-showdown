@@ -192,9 +192,9 @@ export class RoomBattleTimer {
 		this.lastDisabledTime = 0;
 		this.lastDisabledByUser = null;
 
-		const hasLongTurns = Dex.getFormat(battle.format, true).gameType !== 'singles';
+		const hasLongTurns = Dex.formats.get(battle.format, true).gameType !== 'singles';
 		const isChallenge = (battle.challengeType === 'challenge');
-		const timerEntry = Dex.getRuleTable(Dex.getFormat(battle.format, true)).timer;
+		const timerEntry = Dex.formats.getRuleTable(Dex.formats.get(battle.format, true)).timer;
 		const timerSettings = timerEntry?.[0];
 
 		// so that Object.assign doesn't overwrite anything with `undefined`
@@ -525,7 +525,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 	dataResolvers?: [((args: string[]) => void), ((error: Error) => void)][];
 	constructor(room: GameRoom, options: RoomBattleOptions) {
 		super(room);
-		const format = Dex.getFormat(options.format, true);
+		const format = Dex.formats.get(options.format, true);
 		this.gameid = 'battle' as ID;
 		this.room = room;
 		this.title = format.name;
@@ -792,8 +792,9 @@ export class RoomBattle extends RoomGames.RoomGame {
 			if (lines[2].startsWith(`|error|[Invalid choice] Can't do anything`)) {
 				// ... should not happen
 			} else if (lines[2].startsWith(`|error|[Invalid choice]`)) {
+				const undoFailed = lines[2].includes(`Can't undo`);
 				const request = this[slot].request;
-				request.isWait = false;
+				request.isWait = undoFailed ? 'cantUndo' : false;
 				request.choice = '';
 			} else if (lines[2].startsWith(`|request|`)) {
 				this.rqid++;
@@ -890,7 +891,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 		p1score: number, p1rating: AnyObject | null = null, p2rating: AnyObject | null = null,
 		p3rating: AnyObject | null = null, p4rating: AnyObject | null = null
 	) {
-		if (Dex.getFormat(this.format, true).noLog) return;
+		if (Dex.formats.get(this.format, true).noLog) return;
 		const logData = this.logData;
 		if (!logData) return;
 		this.logData = null; // deallocate to save space
@@ -921,7 +922,8 @@ export class RoomBattle extends RoomGames.RoomGame {
 
 		const logsubfolder = Chat.toTimestamp(date).split(' ')[0];
 		const logfolder = logsubfolder.split('-', 2).join('-');
-		const tier = this.room.format.toLowerCase().replace(/[^a-z0-9]+/g, '');
+		// log battles to the directory of the rated format (relevant for suspect tests)
+		const tier = toID(this.ladder);
 		const logpath = `logs/${logfolder}/${tier}/${logsubfolder}/`;
 
 		await FS(logpath).mkdirp();
@@ -1129,9 +1131,9 @@ export class RoomBattle extends RoomGames.RoomGame {
 			this.room.title = `${this.p1.name} vs. ${this.p2.name}`;
 		}
 		this.room.send(`|title|${this.room.title}`);
-		const suspectTest = Chat.plugins['suspect-tests']?.suspectTests[this.format];
+		const suspectTest = Chat.plugins['suspect-tests']?.suspectTests[this.ladder];
 		if (suspectTest) {
-			const format = Dex.getFormat(this.format);
+			const format = Dex.formats.get(this.ladder);
 			this.room.add(
 				`|html|<div class="broadcast-blue"><strong>${format.name} is currently suspecting ${suspectTest.suspect}! ` +
 				`For information on how to participate check out the <a href="${suspectTest.url}">suspect thread</a>.</strong></div>`
@@ -1206,7 +1208,7 @@ export class RoomBattle extends RoomGames.RoomGame {
 		});
 		const resultStrings = await teamDataPromise;
 		if (!resultStrings) return;
-		const result = resultStrings.map(item => Dex.fastUnpackTeam(item))[0];
+		const result = Teams.unpack(resultStrings[0]);
 		return result;
 	}
 	onChatMessage(message: string, user: User) {
