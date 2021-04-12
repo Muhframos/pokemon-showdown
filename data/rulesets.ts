@@ -134,7 +134,7 @@ export const Formats: {[k: string]: FormatData} = {
 		name: 'Standard NatDex',
 		desc: "The standard ruleset for all National Dex tiers",
 		ruleset: [
-			 '+Unobtainable', 'Obtainable Good' ,'+Past', 'Team Preview', 'Nickname Clause', 'Endless Battle Clause', '-CAP'
+			 '+Unobtainable', 'Obtainable Good' ,'+Past', 'Team Preview', 'Nickname Clause', 'Endless Battle Clause', 'Cancel Mod', '-CAP'
 		],
 	},
 	obtainable: {
