@@ -1,4 +1,4 @@
-export const Rulesets: {[k: string]: ModdedFormatData} = {
+export const Formats: {[k: string]: ModdedFormatData} = {
 	standard: {
 		inherit: true,
 		ruleset: [

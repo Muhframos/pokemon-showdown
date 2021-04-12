@@ -9,7 +9,8 @@
  * @author Guangcong Luo <guangcongluo@gmail.com>
  */
 
-import {BattleStream, getPlayerStreams, Teams} from '..';
+import {BattleStream, getPlayerStreams} from '../battle-stream';
+import {Dex} from '../dex';
 import {RandomPlayerAI} from '../tools/random-player-ai';
 
 /*********************************************************************
@@ -23,11 +24,11 @@ const spec = {
 };
 const p1spec = {
 	name: "Bot 1",
-	team: Teams.pack(Teams.generate('gen7randombattle')),
+	team: Dex.packTeam(Dex.generateTeam('gen7randombattle')),
 };
 const p2spec = {
 	name: "Bot 2",
-	team: Teams.pack(Teams.generate('gen7randombattle')),
+	team: Dex.packTeam(Dex.generateTeam('gen7randombattle')),
 };
 
 const p1 = new RandomPlayerAI(streams.p1);

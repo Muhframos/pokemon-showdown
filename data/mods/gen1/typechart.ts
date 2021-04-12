@@ -7,7 +7,7 @@
  */
 
 export const TypeChart: {[k: string]: ModdedTypeData | null} = {
-	bug: {
+	Bug: {
 		damageTaken: {
 			Bug: 0,
 			Dragon: 0,
@@ -26,7 +26,7 @@ export const TypeChart: {[k: string]: ModdedTypeData | null} = {
 			Water: 0,
 		},
 	},
-	fire: {
+	Fire: {
 		damageTaken: {
 			Bug: 2,
 			Dragon: 0,
@@ -45,7 +45,7 @@ export const TypeChart: {[k: string]: ModdedTypeData | null} = {
 			Water: 1,
 		},
 	},
-	ghost: {
+	Ghost: {
 		damageTaken: {
 			Bug: 2,
 			Dragon: 0,
@@ -64,7 +64,7 @@ export const TypeChart: {[k: string]: ModdedTypeData | null} = {
 			Water: 0,
 		},
 	},
-	ice: {
+	Ice: {
 		damageTaken: {
 			Bug: 0,
 			Dark: 0,
@@ -86,7 +86,7 @@ export const TypeChart: {[k: string]: ModdedTypeData | null} = {
 			Water: 0,
 		},
 	},
-	poison: {
+	Poison: {
 		damageTaken: {
 			psn: 3,
 			tox: 3,
@@ -107,7 +107,7 @@ export const TypeChart: {[k: string]: ModdedTypeData | null} = {
 			Water: 0,
 		},
 	},
-	psychic: {
+	Psychic: {
 		damageTaken: {
 			Bug: 1,
 			Dragon: 0,
@@ -126,12 +126,6 @@ export const TypeChart: {[k: string]: ModdedTypeData | null} = {
 			Water: 0,
 		},
 	},
-	dark: {
-		inherit: true,
-		isNonstandard: 'Future',
-	},
-	steel: {
-		inherit: true,
-		isNonstandard: 'Future',
-	},
+	Dark: null,
+	Steel: null,
 };

@@ -131,16 +131,16 @@ class Giveaway {
 			}
 			const regexp = new RegExp(`\\b${id}\\b`);
 			if (regexp.test(text)) {
-				const mon = Dex.species.get(i);
+				const mon = Dex.getSpecies(i);
 				mons.set(mon.baseSpecies, mon);
 			}
 		}
 		// the previous regex doesn't match "nidoran-m" or "nidoran male"
 		if (/\bnidoran\W{0,1}m(ale){0,1}\b/.test(text)) {
-			mons.set('Nidoran-M', Dex.species.get('nidoranm'));
+			mons.set('Nidoran-M', Dex.getSpecies('nidoranm'));
 		}
 		if (/\bnidoran\W{0,1}f(emale){0,1}\b/.test(text)) {
-			mons.set('Nidoran-F', Dex.species.get('nidoranf'));
+			mons.set('Nidoran-F', Dex.getSpecies('nidoranf'));
 		}
 		text = toID(text);
 		if (mons.size) {

@@ -49,7 +49,7 @@ export const commands: ChatCommands = {
 				return this.parse('/help suspects');
 			}
 
-			const format = Dex.formats.get(tier);
+			const format = Dex.getFormat(tier);
 			if (!format.exists) return this.errorReply(`"${tier}" is not a valid tier.`);
 
 			const suspectString = suspect.trim();

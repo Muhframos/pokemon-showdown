@@ -1,5 +1,5 @@
 export const TypeChart: {[k: string]: TypeData} = {
-	bug: {
+	Bug: {
 		damageTaken: {
 			Bug: 0,
 			Dark: 0,
@@ -23,7 +23,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {atk: 30, def: 30, spd: 30},
 		HPdvs: {atk: 13, def: 13},
 	},
-	dark: {
+	Dark: {
 		damageTaken: {
 			prankster: 3,
 			Bug: 1,
@@ -47,7 +47,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		},
 		HPivs: {},
 	},
-	dragon: {
+	Dragon: {
 		damageTaken: {
 			Bug: 0,
 			Dark: 0,
@@ -71,7 +71,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {atk: 30},
 		HPdvs: {def: 14},
 	},
-	electric: {
+	Electric: {
 		damageTaken: {
 			par: 3,
 			Bug: 0,
@@ -96,7 +96,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {spa: 30},
 		HPdvs: {atk: 14},
 	},
-	fairy: {
+	Fairy: {
 		damageTaken: {
 			Bug: 2,
 			Dark: 2,
@@ -118,7 +118,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 			Water: 0,
 		},
 	},
-	fighting: {
+	Fighting: {
 		damageTaken: {
 			Bug: 2,
 			Dark: 2,
@@ -142,7 +142,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {def: 30, spa: 30, spd: 30, spe: 30},
 		HPdvs: {atk: 12, def: 12},
 	},
-	fire: {
+	Fire: {
 		damageTaken: {
 			brn: 3,
 			Bug: 2,
@@ -167,7 +167,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {atk: 30, spa: 30, spe: 30},
 		HPdvs: {atk: 14, def: 12},
 	},
-	flying: {
+	Flying: {
 		damageTaken: {
 			Bug: 2,
 			Dark: 0,
@@ -191,7 +191,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {hp: 30, atk: 30, def: 30, spa: 30, spd: 30},
 		HPdvs: {atk: 12, def: 13},
 	},
-	ghost: {
+	Ghost: {
 		damageTaken: {
 			trapped: 3,
 			Bug: 2,
@@ -216,7 +216,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {def: 30, spd: 30},
 		HPdvs: {atk: 13, def: 14},
 	},
-	grass: {
+	Grass: {
 		damageTaken: {
 			powder: 3,
 			Bug: 1,
@@ -241,7 +241,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {atk: 30, spa: 30},
 		HPdvs: {atk: 14, def: 14},
 	},
-	ground: {
+	Ground: {
 		damageTaken: {
 			sandstorm: 3,
 			Bug: 0,
@@ -266,7 +266,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {spa: 30, spd: 30},
 		HPdvs: {atk: 12},
 	},
-	ice: {
+	Ice: {
 		damageTaken: {
 			hail: 3,
 			frz: 3,
@@ -292,7 +292,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {atk: 30, def: 30},
 		HPdvs: {def: 13},
 	},
-	normal: {
+	Normal: {
 		damageTaken: {
 			Bug: 0,
 			Dark: 0,
@@ -314,7 +314,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 			Water: 0,
 		},
 	},
-	poison: {
+	Poison: {
 		damageTaken: {
 			psn: 3,
 			tox: 3,
@@ -340,7 +340,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {def: 30, spa: 30, spd: 30},
 		HPdvs: {atk: 12, def: 14},
 	},
-	psychic: {
+	Psychic: {
 		damageTaken: {
 			Bug: 1,
 			Dark: 1,
@@ -364,7 +364,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {atk: 30, spe: 30},
 		HPdvs: {def: 12},
 	},
-	rock: {
+	Rock: {
 		damageTaken: {
 			sandstorm: 3,
 			Bug: 0,
@@ -389,7 +389,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {def: 30, spd: 30, spe: 30},
 		HPdvs: {atk: 13, def: 12},
 	},
-	steel: {
+	Steel: {
 		damageTaken: {
 			psn: 3,
 			tox: 3,
@@ -416,7 +416,7 @@ export const TypeChart: {[k: string]: TypeData} = {
 		HPivs: {spd: 30},
 		HPdvs: {atk: 13},
 	},
-	water: {
+	Water: {
 		damageTaken: {
 			Bug: 0,
 			Dark: 0,

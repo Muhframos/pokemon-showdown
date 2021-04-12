@@ -42,7 +42,7 @@ class TestTools {
 	}
 
 	getFormat(options) {
-		if (options.formatid) return Dex.formats.get(options.formatid);
+		if (options.formatid) return Dex.getFormat(options.formatid);
 
 		const gameType = Dex.toID(options.gameType || 'singles');
 		const customRules = [
@@ -66,7 +66,7 @@ class TestTools {
 		let format = formatsCache.get(formatName);
 		if (format) return format;
 
-		format = Dex.formats.get(formatName);
+		format = Dex.getFormat(formatName);
 		if (!format.exists) throw new Error(`Unidentified format: ${formatName}`);
 
 		formatsCache.set(formatName, format);

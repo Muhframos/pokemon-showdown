@@ -95,14 +95,16 @@ if (!process.argv[2] || /^[0-9]+$/.test(process.argv[2])) {
 		}
 	case 'generate-team':
 		{
-			var Teams = require('./.sim-dist/teams').Teams;
+			var Dex = require('./.sim-dist/dex').Dex;
+			global.toID = Dex.getId;
 			var seed = process.argv[4] ? process.argv[4].split(',').map(Number) : undefined;
-			console.log(Teams.pack(Teams.generate(process.argv[3], {seed})));
+			console.log(Dex.packTeam(Dex.generateTeam(process.argv[3], {seed})));
 		}
 		break;
 	case 'validate-team':
 		{
-			var Teams = require('./.sim-dist/teams').Teams;
+			var Dex = require('./.sim-dist/dex').Dex;
+			global.toID = Dex.getId;
 			var TeamValidator = require('./.sim-dist/team-validator').TeamValidator;
 			var validator = TeamValidator.get(process.argv[3]);
 			var Streams = require('./.lib-dist/streams');
@@ -110,7 +112,7 @@ if (!process.argv[2] || /^[0-9]+$/.test(process.argv[2])) {
 
 			stdin.readLine().then(function (textTeam) {
 				try {
-					var team = Teams.unpack(textTeam);
+					var team = Dex.fastUnpackTeam(textTeam);
 					var result = validator.validateTeam(team);
 					if (result) {
 						console.error(result.join('\n'));
@@ -176,13 +178,13 @@ if (!process.argv[2] || /^[0-9]+$/.test(process.argv[2])) {
 		break;
 	case 'unpack-team':
 		{
-			var Teams = require('./.sim-dist/teams').Teams;
+			var Dex = require('./.sim-dist/dex').Dex;
 			var Streams = require('./.lib-dist/streams');
 			var stdin = Streams.stdin();
 
 			stdin.readLine().then(function (packedTeam) {
 				try {
-					var unpackedTeam = Teams.unpack(packedTeam);
+					var unpackedTeam = Dex.fastUnpackTeam(packedTeam);
 					console.log(JSON.stringify(unpackedTeam));
 					process.exit(0);
 				} catch (e) {
@@ -194,13 +196,13 @@ if (!process.argv[2] || /^[0-9]+$/.test(process.argv[2])) {
 		break;
 	case 'pack-team':
 		{
-			var Teams = require('./.sim-dist/teams').Teams;
+			var Dex = require('./.sim-dist/dex').Dex;
 			var Streams = require('./.lib-dist/streams');
 			var stdin = Streams.stdin();
 
 			stdin.readLine().then(function (unpackedTeam) {
 				try {
-					var packedTeam = Teams.pack(JSON.parse(unpackedTeam));
+					var packedTeam = Dex.packTeam(JSON.parse(unpackedTeam));
 					console.log(packedTeam);
 					process.exit(0);
 				} catch (e) {

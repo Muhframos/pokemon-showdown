@@ -86,7 +86,7 @@ export class AutoResponder {
 		if (response) {
 			let buf = '';
 			buf += Utils.html`<strong>You said:</strong> ${question}<br />`;
-			buf += `<strong>Our automated reply:</strong> ${Chat.collapseLineBreaksHTML(Chat.formatText(response, true))}`;
+			buf += `<strong>Our automated reply:</strong> ${Chat.formatText(response)}`;
 			if (!hideButton) {
 				buf += Utils.html`<hr /><button class="button" name="send" value="A: ${question}">`;
 				buf += `Send to ${this.room.title} if you weren't answered correctly. </button>`;
@@ -265,10 +265,13 @@ export const chatfilter: ChatFilter = function (message, user, room) {
 		if (!reply) {
 			return message;
 		} else {
-			this.sendReply(`|uhtml|askhelp-${user}-${toID(message)}|<div class="infobox">${reply}</div>`);
+			user.sendTo(room.roomid, `|uhtml|askhelp-${user}-${toID(message)}|<div class="infobox">${reply}</div>`);
 			const trimmedMessage = `<div class="infobox">${responder.visualize(message, true)}</div>`;
 			setTimeout(() => {
-				this.sendReply(`|uhtmlchange|askhelp-${user}-${toID(message)}|${trimmedMessage}`);
+				user.sendTo(
+					room.roomid,
+					`|c| ${user.name}|/uhtmlchange askhelp-${user}-${toID(message)}, ${trimmedMessage}`
+				);
 			}, 10 * 1000);
 			return false;
 		}

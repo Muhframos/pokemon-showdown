@@ -20,9 +20,9 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	moody: {
 		inherit: true,
 		onResidual(pokemon) {
-			let stats: BoostID[] = [];
+			let stats: BoostName[] = [];
 			const boost: SparseBoostsTable = {};
-			let statPlus: BoostID;
+			let statPlus: BoostName;
 			for (statPlus in pokemon.boosts) {
 				if (pokemon.boosts[statPlus] < 6) {
 					stats.push(statPlus);
@@ -32,7 +32,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			if (randomStat) boost[randomStat] = 2;
 
 			stats = [];
-			let statMinus: BoostID;
+			let statMinus: BoostName;
 			for (statMinus in pokemon.boosts) {
 				if (pokemon.boosts[statMinus] > -6 && statMinus !== randomStat) {
 					stats.push(statMinus);

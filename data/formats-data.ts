@@ -88,7 +88,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	butterfree: {
 		randomBattleMoves: ["energyball", "hurricane", "quiverdance", "sleeppowder"],
 		randomBattleLevel: 86,
-		randomDoubleBattleMoves: ["hurricane", "pollenpuff", "protect", "ragepowder", "sleeppowder", "tailwind"],
+		randomDoubleBattleMoves: ["hurricane", "pollenpuff", "protect", "quiverdance", "ragepowder", "sleeppowder", "tailwind"],
 		randomDoubleBattleLevel: 88,
 		tier: "(PU)",
 		doublesTier: "(DUU)",
@@ -96,7 +96,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	butterfreegmax: {
 		randomBattleMoves: ["airslash", "bugbuzz", "quiverdance", "sleeppowder"],
 		randomBattleLevel: 86,
-		randomDoubleBattleMoves: ["hurricane", "pollenpuff", "protect", "quiverdance", "sleeppowder"],
+		randomDoubleBattleMoves: ["hurricane", "pollenpuff", "protect", "quiverdance", "ragepowder", "sleeppowder", "tailwind"],
 		randomDoubleBattleLevel: 88,
 		isNonstandard: "Gigantamax",
 		tier: "AG",
@@ -1255,7 +1255,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		doublesTier: "DOU",
 	},
 	porygonz: {
-		randomBattleMoves: ["darkpulse", "icebeam", "nastyplot", "thunderbolt", "triattack", "trick"],
+		randomBattleMoves: ["agility", "darkpulse", "icebeam", "thunderbolt", "triattack", "trick"],
 		randomBattleLevel: 80,
 		randomDoubleBattleMoves: ["darkpulse", "icebeam", "protect", "thunderbolt", "triattack", "trick"],
 		randomDoubleBattleLevel: 84,
@@ -1847,7 +1847,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		randomBattleLevel: 80,
 		randomDoubleBattleMoves: ["extremespeed", "protect", "sacredfire", "snarl", "stompingtantrum", "stoneedge"],
 		randomDoubleBattleLevel: 80,
-		tier: "NUBL",
+		tier: "NU",
 		doublesTier: "DOU",
 	},
 	suicune: {
@@ -4380,7 +4380,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		tier: "LC",
 	},
 	doublade: {
-		randomBattleMoves: ["closecombat", "ironhead", "shadowclaw", "shadowsneak", "swordsdance"],
+		randomBattleMoves: ["ironhead", "sacredsword", "shadowclaw", "shadowsneak", "swordsdance"],
 		randomBattleLevel: 82,
 		tier: "RU",
 		doublesTier: "NFE",
@@ -5394,7 +5394,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	},
 	magearnaoriginal: {
 		randomBattleMoves: ["agility", "calmmind", "flashcannon", "fleurcannon"],
-		randomBattleLevel: 76,
+		randomBattleLevel: 74,
 		randomDoubleBattleMoves: ["agility", "aurasphere", "dazzlinggleam", "flashcannon", "fleurcannon", "protect", "trick"],
 		randomDoubleBattleLevel: 72,
 		tier: "Uber",
@@ -6102,7 +6102,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		randomBattleLevel: 82,
 		randomDoubleBattleMoves: ["closecombat", "highhorsepower", "iciclecrash", "protect"],
 		randomDoubleBattleLevel: 84,
-		tier: "NUBL",
+		tier: "NU",
 		doublesTier: "DOU",
 	},
 	spectrier: {

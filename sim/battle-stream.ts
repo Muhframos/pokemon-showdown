@@ -10,7 +10,6 @@
  */
 
 import {Streams, Utils} from '../lib';
-import {Teams} from './teams';
 import {Battle} from './battle';
 
 /**
@@ -216,7 +215,7 @@ export class BattleStream extends Streams.ObjectReadWriteStream<string> {
 				throw new Error(`Team requested for slot ${message}, but that slot does not exist.`);
 			}
 			const side = this.battle!.sides[slotNum];
-			const team = Teams.pack(side.team);
+			const team = Dex.packTeam(side.team);
 			this.push(`requesteddata\n${team}`);
 			break;
 		case 'version':

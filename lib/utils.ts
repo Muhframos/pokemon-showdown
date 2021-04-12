@@ -51,8 +51,7 @@ export function escapeHTML(str: string) {
 		.replace(/>/g, '&gt;')
 		.replace(/"/g, '&quot;')
 		.replace(/'/g, '&apos;')
-		.replace(/\//g, '&#x2f;')
-		.replace(/\n/g, '<br />');
+		.replace(/\//g, '&#x2f;');
 }
 
 /**

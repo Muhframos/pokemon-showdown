@@ -2,14 +2,13 @@
 
 const assert = require('assert').strict;
 const TeamValidator = require('../../.sim-dist/team-validator').TeamValidator;
-const Teams = require('../../.sim-dist/teams').Teams;
 
 describe('Team Validator', function () {
 	it('should have valid formats to work with', function () {
 		Dex.includeFormats();
 		for (const format in Dex.formatsCache) {
 			try {
-				Dex.formats.getRuleTable(Dex.formats.get(format));
+				Dex.getRuleTable(Dex.getFormat(format));
 			} catch (e) {
 				e.message = `${format}: ${e.message}`;
 				throw e;
@@ -49,29 +48,29 @@ describe('Team Validator', function () {
 	});
 
 	it('should validate Gen 2 IVs', function () {
-		let team = Teams.unpack('|raikou|||hiddenpowerwater||||14,28,26,,,|||');
+		let team = Dex.fastUnpackTeam('|raikou|||hiddenpowerwater||||14,28,26,,,|||');
 		let illegal = TeamValidator.get('gen2ou').validateTeam(team);
 		assert.equal(illegal, null);
 
-		team = Teams.unpack('|raikou|||hiddenpowerfire||||14,28,26,,,|||');
+		team = Dex.fastUnpackTeam('|raikou|||hiddenpowerfire||||14,28,26,,,|||');
 		illegal = TeamValidator.get('gen2ou').validateTeam(team);
 		assert(illegal);
 
-		team = Teams.unpack('|raikou|||hiddenpowerwater||||16,28,26,,,|||');
+		team = Dex.fastUnpackTeam('|raikou|||hiddenpowerwater||||16,28,26,,,|||');
 		illegal = TeamValidator.get('gen2ou').validateTeam(team);
 		assert(illegal);
 
-		team = Teams.unpack('|raikou|||thunderbolt||||,,,28,30,|||');
+		team = Dex.fastUnpackTeam('|raikou|||thunderbolt||||,,,28,30,|||');
 		illegal = TeamValidator.get('gen2ou').validateTeam(team);
 		assert(illegal);
 	});
 
 	it('should validate Gen 2 EVs', function () {
-		let team = Teams.unpack('|gengar|||thunderbolt||,,,200,200,|||||');
+		let team = Dex.fastUnpackTeam('|gengar|||thunderbolt||,,,200,200,|||||');
 		let illegal = TeamValidator.get('gen2ou').validateTeam(team);
 		assert.equal(illegal, null);
 
-		team = Teams.unpack('|gengar|||thunderbolt||,,,248,252,|||||');
+		team = Dex.fastUnpackTeam('|gengar|||thunderbolt||,,,248,252,|||||');
 		illegal = TeamValidator.get('gen2ou').validateTeam(team);
 		assert(illegal);
 	});
@@ -87,17 +86,6 @@ describe('Team Validator', function () {
 			{species: 'latiasmega', ability: 'levitate', item: 'latiasite', moves: ['hiddenpowerfighting'], evs: {hp: 1}},
 		];
 		illegal = TeamValidator.get('gen7ubers').validateTeam(team);
-		assert.equal(illegal, null);
-	});
-
-	it(`should enforce the 3 perfect IV minimum on legendaries with Gen 6+ origin`, function () {
-		const team = [
-			{species: 'xerneas', ability: 'fairyaura', moves: ['snore'], ivs: {hp: 0, atk: 0, def: 0, spa: 0}, evs: {hp: 1}},
-		];
-		let illegal = TeamValidator.get('gen8anythinggoes').validateTeam(team);
-		assert(illegal);
-
-		illegal = TeamValidator.get('gen8purehackmons').validateTeam(team);
 		assert.equal(illegal, null);
 	});
 
@@ -335,7 +323,7 @@ describe('Team Validator', function () {
 		];
 		illegal = TeamValidator.get('gen2ou').validateTeam(team);
 		assert.equal(illegal, null);
-		illegal = TeamValidator.get('gen1tradebacksou').validateTeam(team);
+		illegal = TeamValidator.get('gen1outradeback').validateTeam(team);
 		assert.equal(illegal, null);
 		illegal = TeamValidator.get('gen1ou').validateTeam(team);
 		assert(illegal);
@@ -344,7 +332,7 @@ describe('Team Validator', function () {
 		team = [
 			{species: 'charizard', moves: ['crunch']},
 		];
-		illegal = TeamValidator.get('gen1tradebacksou').validateTeam(team);
+		illegal = TeamValidator.get('gen1outradeback').validateTeam(team);
 		assert(illegal);
 
 		// tradeback: gen 2 event move from prevo with gen 1 tutor or TM moves
@@ -679,16 +667,6 @@ describe('Team Validator', function () {
 		assert(illegal);
 	});
 
-	it(`should not allow duplicate moves on the same set, except in hackmons`, function () {
-		const team = [
-			{species: 'corsola', ability: 'hustle', moves: ['snore', 'snore'], evs: {hp: 1}},
-		];
-		let illegal = TeamValidator.get('gen8anythinggoes').validateTeam(team);
-		assert(illegal);
-
-		illegal = TeamValidator.get('gen8purehackmons').validateTeam(team);
-		assert.equal(illegal, null);
-	});
 
 	/*********************************************************
  	* Custom rules

@@ -4,6 +4,9 @@
  */
 
 export const Moves: {[k: string]: ModdedMoveData} = {
+	absorb: {
+		inherit: true,
+	},
 	acid: {
 		inherit: true,
 		secondary: {
@@ -29,6 +32,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				atk: -1,
 			},
 		},
+	},
+	barrage: {
+		inherit: true,
 	},
 	bide: {
 		inherit: true,
@@ -80,15 +86,14 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			},
 			onBeforeMove(pokemon, t, move) {
 				if (this.effectData.duration === 1) {
-					this.add('-end', pokemon, 'Bide');
 					if (!this.effectData.totalDamage) {
 						this.debug("Bide failed due to 0 damage taken");
 						this.add('-fail', pokemon);
 						return false;
 					}
+					this.add('-end', pokemon, 'Bide');
 					const target = this.getAtSlot(this.effectData.sourceSlot);
 					this.actions.moveHit(target, pokemon, move, {damage: this.effectData.totalDamage * 2} as ActiveMove);
-					pokemon.removeVolatile('bide');
 					return false;
 				}
 				this.add('-activate', pokemon, 'Bide');
@@ -143,6 +148,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		accuracy: 90,
 		target: "normal",
 	},
+	bonemerang: {
+		inherit: true,
+	},
 	bubble: {
 		inherit: true,
 		secondary: {
@@ -185,6 +193,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			}
 		},
 	},
+	cometpunch: {
+		inherit: true,
+	},
 	constrict: {
 		inherit: true,
 		secondary: {
@@ -217,11 +228,11 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			// - (Counter will thus desync if the target's last used move is not as counterable as the target's last selected move)
 			// - if Counter succeeds it will deal twice the last move damage dealt in battle (even if it's from a different pokemon because of a switch)
 
-			const lastMove = target.side.lastMove && this.dex.moves.get(target.side.lastMove.id);
+			const lastMove = target.side.lastMove && this.dex.getMove(target.side.lastMove.id);
 			const lastMoveIsCounterable = lastMove && lastMove.basePower > 0 &&
 				['Normal', 'Fighting'].includes(lastMove.type) && lastMove.id !== 'counter';
 
-			const lastSelectedMove = target.side.lastSelectedMove && this.dex.moves.get(target.side.lastSelectedMove);
+			const lastSelectedMove = target.side.lastSelectedMove && this.dex.getMove(target.side.lastSelectedMove);
 			const lastSelectedMoveIsCounterable = lastSelectedMove && lastSelectedMove.basePower > 0 &&
 				['Normal', 'Fighting'].includes(lastSelectedMove.type) && lastSelectedMove.id !== 'counter';
 
@@ -247,6 +258,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	crabhammer: {
 		inherit: true,
 		critRatio: 2,
+	},
+	defensecurl: {
+		inherit: true,
 	},
 	dig: {
 		inherit: true,
@@ -282,7 +296,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 					this.effectData.duration++;
 				}
 				const moves = pokemon.moves;
-				const move = this.dex.moves.get(this.sample(moves));
+				const move = this.dex.getMove(this.sample(moves));
 				this.add('-start', pokemon, 'Disable', move.name);
 				this.effectData.move = move.id;
 				return;
@@ -314,9 +328,21 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		inherit: true,
 		basePower: 100,
 	},
+	doublekick: {
+		inherit: true,
+	},
+	doubleslap: {
+		inherit: true,
+	},
 	dragonrage: {
 		inherit: true,
 		basePower: 1,
+	},
+	dreameater: {
+		inherit: true,
+	},
+	earthquake: {
+		inherit: true,
 	},
 	explosion: {
 		inherit: true,
@@ -353,6 +379,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			}
 		},
 	},
+	fissure: {
+		inherit: true,
+	},
 	fly: {
 		inherit: true,
 		condition: {
@@ -383,6 +412,12 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			onModifyMove() {},
 		},
 	},
+	furyattack: {
+		inherit: true,
+	},
+	furyswipes: {
+		inherit: true,
+	},
 	glare: {
 		inherit: true,
 		ignoreImmunity: true,
@@ -393,6 +428,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			spa: 1,
 			spd: 1,
 		},
+	},
+	guillotine: {
+		inherit: true,
 	},
 	gust: {
 		inherit: true,
@@ -431,6 +469,12 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				this.directDamage(1, source, target);
 			}
 		},
+	},
+	horndrill: {
+		inherit: true,
+	},
+	hyperbeam: {
+		inherit: true,
 	},
 	jumpkick: {
 		inherit: true,
@@ -514,7 +558,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			const moves = target.moves;
 			const moveid = this.sample(moves);
 			if (!moveid) return false;
-			const move = this.dex.moves.get(moveid);
+			const move = this.dex.getMove(moveid);
 			source.moveSlots[moveslot] = {
 				move: move.name,
 				id: move.id,
@@ -528,6 +572,9 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			this.add('-start', source, 'Mimic', move.name);
 		},
 	},
+	minimize: {
+		inherit: true,
+	},
 	mirrormove: {
 		inherit: true,
 		onHit(pokemon) {
@@ -538,10 +585,19 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			this.actions.useMove(foe.lastMove.id, pokemon);
 		},
 	},
+	mist: {
+		inherit: true,
+	},
 	nightshade: {
 		inherit: true,
 		ignoreImmunity: true,
 		basePower: 1,
+	},
+	petaldance: {
+		inherit: true,
+	},
+	pinmissile: {
+		inherit: true,
 	},
 	poisonsting: {
 		inherit: true,
@@ -727,11 +783,29 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			this.heal(Math.floor(target.maxhp / 2), target, target);
 		},
 	},
+	solarbeam: {
+		inherit: true,
+	},
+	sonicboom: {
+		inherit: true,
+	},
+	spikecannon: {
+		inherit: true,
+	},
+	stomp: {
+		inherit: true,
+	},
 	struggle: {
 		inherit: true,
 		pp: 10,
 		recoil: [1, 2],
 		onModifyMove() {},
+	},
+	stunspore: {
+		inherit: true,
+	},
+	submission: {
+		inherit: true,
 	},
 	substitute: {
 		num: 164,
@@ -832,6 +906,15 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		ignoreImmunity: true,
 		basePower: 1,
 	},
+	swift: {
+		inherit: true,
+	},
+	takedown: {
+		inherit: true,
+	},
+	thrash: {
+		inherit: true,
+	},
 	thunder: {
 		inherit: true,
 		secondary: {
@@ -849,10 +932,16 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			}
 		},
 	},
+	transform: {
+		inherit: true,
+	},
 	triattack: {
 		inherit: true,
 		onHit() {},
 		secondary: null,
+	},
+	twineedle: {
+		inherit: true,
 	},
 	whirlwind: {
 		inherit: true,

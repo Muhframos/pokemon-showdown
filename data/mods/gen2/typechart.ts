@@ -1,5 +1,5 @@
 export const TypeChart: {[k: string]: ModdedTypeData} = {
-	fire: {
+	Fire: {
 		inherit: true,
 		damageTaken: {
 			Bug: 2,
@@ -21,7 +21,7 @@ export const TypeChart: {[k: string]: ModdedTypeData} = {
 			Water: 1,
 		},
 	},
-	ice: {
+	Ice: {
 		inherit: true,
 		damageTaken: {
 			Bug: 0,
@@ -43,7 +43,7 @@ export const TypeChart: {[k: string]: ModdedTypeData} = {
 			Water: 0,
 		},
 	},
-	steel: {
+	Steel: {
 		inherit: true,
 		damageTaken: {
 			sandstorm: 3,

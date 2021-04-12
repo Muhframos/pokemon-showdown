@@ -130,7 +130,7 @@ export class LadderStore {
 	 */
 	async getTop(prefix?: string) {
 		const formatid = this.formatid;
-		const name = Dex.formats.get(formatid).name;
+		const name = Dex.getFormat(formatid).name;
 		const ladder = await this.getLadder();
 		let buf = `<h3>${name} Top 100</h3>`;
 		buf += `<table>`;
@@ -334,9 +334,9 @@ export class LadderStore {
 	 */
 	static visualizeAll(username: string) {
 		const ratings = [];
-		for (const format of Dex.formats.all()) {
-			if (format.searchShow) {
-				ratings.push(new LadderStore(format.id).visualize(username));
+		for (const i in Dex.formats) {
+			if (Dex.formats[i].searchShow) {
+				ratings.push(new LadderStore(i).visualize(username));
 			}
 		}
 		return Promise.all(ratings);
