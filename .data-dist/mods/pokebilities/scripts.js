@@ -5,7 +5,7 @@
 			for (const pokemon of this.battle.getAllActive()) {
 				if (pokemon && !pokemon.fainted && !pokemon.ignoringAbility() &&
 					(pokemon.getAbility().suppressWeather ||
-						_optionalChain([pokemon, 'access', _ => _.m, 'access', _2 => _2.innates, 'optionalAccess', _3 => _3.some, 'call', _4 => _4((k) => this.battle.dex.getAbility(k).suppressWeather)]))) {
+						_optionalChain([pokemon, 'access', _ => _.m, 'access', _2 => _2.innates, 'optionalAccess', _3 => _3.some, 'call', _4 => _4((k) => this.battle.dex.abilities.get(k).suppressWeather)]))) {
 					return true;
 				}
 			}

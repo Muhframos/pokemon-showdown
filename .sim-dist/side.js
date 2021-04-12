@@ -116,9 +116,7 @@ var _dex = require('./dex');
 		for (let i = 0; i < this.team.length && i < 24; i++) {
 			// console.log("NEW POKEMON: " + (this.team[i] ? this.team[i].name : '[unidentified]'));
 			this.pokemon.push(new (0, _pokemon.Pokemon)(this.team[i], this));
-		}
-		for (const [i, pokemon] of this.pokemon.entries()) {
-			pokemon.position = i;
+			this.pokemon[i].position = i;
 		}
 
 		switch (this.battle.gameType) {
@@ -230,7 +228,7 @@ var _dex = require('./dex');
 
 	/** Intended as a way to iterate through all foe side conditions - do not use for anything else. */
 	foeSidesWithConditions() {
-		if (this.battle.gameType === 'multi') return this.battle.sides.filter(side => side !== this);
+		if (this.battle.gameType === 'freeforall') return this.battle.sides.filter(side => side !== this);
 
 		return [this.foe];
 	}
@@ -274,7 +272,7 @@ var _dex = require('./dex');
 		if (!source) throw new Error(`setting sidecond without a source`);
 		if (!source.getSlot) source = (source ).active[0];
 
-		status = this.battle.dex.getEffect(status);
+		status = this.battle.dex.conditions.get(status);
 		if (this.sideConditions[status.id]) {
 			if (!status.onRestart) return false;
 			return this.battle.singleEvent('Restart', status, this.sideConditions[status.id], this, source, sourceEffect);
@@ -298,18 +296,18 @@ var _dex = require('./dex');
 	}
 
 	getSideCondition(status) {
-		status = this.battle.dex.getEffect(status) ;
+		status = this.battle.dex.conditions.get(status) ;
 		if (!this.sideConditions[status.id]) return null;
 		return status;
 	}
 
 	getSideConditionData(status) {
-		status = this.battle.dex.getEffect(status) ;
+		status = this.battle.dex.conditions.get(status) ;
 		return this.sideConditions[status.id] || null;
 	}
 
 	removeSideCondition(status) {
-		status = this.battle.dex.getEffect(status) ;
+		status = this.battle.dex.conditions.get(status) ;
 		if (!this.sideConditions[status.id]) return false;
 		this.battle.singleEvent('End', status, this.sideConditions[status.id], this);
 		delete this.sideConditions[status.id];
@@ -325,7 +323,7 @@ var _dex = require('./dex');
 		if (target instanceof _pokemon.Pokemon) target = target.position;
 		if (!source) throw new Error(`setting sidecond without a source`);
 
-		status = this.battle.dex.getEffect(status);
+		status = this.battle.dex.conditions.get(status);
 		if (this.slotConditions[target][status.id]) {
 			if (!status.onRestart) return false;
 			return this.battle.singleEvent('Restart', status, this.slotConditions[target][status.id], this, source, sourceEffect);
@@ -350,14 +348,14 @@ var _dex = require('./dex');
 
 	getSlotCondition(target, status) {
 		if (target instanceof _pokemon.Pokemon) target = target.position;
-		status = this.battle.dex.getEffect(status) ;
+		status = this.battle.dex.conditions.get(status) ;
 		if (!this.slotConditions[target][status.id]) return null;
 		return status;
 	}
 
 	removeSlotCondition(target, status) {
 		if (target instanceof _pokemon.Pokemon) target = target.position;
-		status = this.battle.dex.getEffect(status) ;
+		status = this.battle.dex.conditions.get(status) ;
 		if (!this.slotConditions[target][status.id]) return false;
 		this.battle.singleEvent('End', status, this.slotConditions[target][status.id], this.active[target]);
 		delete this.slotConditions[target][status.id];
@@ -473,7 +471,7 @@ var _dex = require('./dex');
 				break;
 			}
 		}
-		const move = this.battle.dex.getMove(moveid);
+		const move = this.battle.dex.moves.get(moveid);
 
 		// Z-move
 
@@ -485,7 +483,7 @@ var _dex = require('./dex');
 			return this.emitChoiceError(`Can't move: You can't Z-move more than once per battle`);
 		}
 
-		if (zMove) targetType = this.battle.dex.getMove(zMove).target;
+		if (zMove) targetType = this.battle.dex.moves.get(zMove).target;
 
 		// Dynamax
 		// Is dynamaxed or will dynamax this turn.
@@ -495,7 +493,7 @@ var _dex = require('./dex');
 			return this.emitChoiceError(`Can't move: ${pokemon.name} can't use ${move.name} as a Max Move`);
 		}
 
-		if (maxMove) targetType = this.battle.dex.getMove(maxMove).target;
+		if (maxMove) targetType = this.battle.dex.moves.get(maxMove).target;
 
 		// Validate targetting
 

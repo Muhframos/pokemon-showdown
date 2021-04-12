@@ -1,10 +1,10 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const Formats = {
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const Rulesets = {
 	alolapokedex: {
 		effectType: 'ValidatorRule',
 		name: 'Alola Pokedex',
 		desc: "Only allows Pok&eacute;mon native to the Alola region (SUMO)",
 		onValidateSet(set) {
-			const species = this.dex.getSpecies(set.species || set.name);
+			const species = this.dex.species.get(set.species || set.name);
 			if (this.ruleTable.has('+' + species.id)) return;
 
 			const alolaDex = [
@@ -15,6 +15,6 @@
 			}
 		},
 	},
-}; exports.Formats = Formats;
+}; exports.Rulesets = Rulesets;
 
  //# sourceMappingURL=sourceMaps/rulesets.js.map

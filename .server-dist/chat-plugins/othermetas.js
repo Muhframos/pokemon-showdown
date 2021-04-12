@@ -19,10 +19,10 @@ var _lib = require('../../.lib-dist');
 function getMegaStone(stone, mod = 'gen8') {
 	let dex = Dex;
 	if (mod && toID(mod) in Dex.dexes) dex = Dex.mod(toID(mod));
-	const item = dex.getItem(stone);
+	const item = dex.items.get(stone);
 	if (!item.exists) {
 		if (toID(stone) === 'dragonascent') {
-			const move = dex.getMove(stone);
+			const move = dex.moves.get(stone);
 			return {
 				id: move.id,
 				name: move.name,
@@ -100,19 +100,19 @@ function getMegaStone(stone, mod = 'gen8') {
 			}
 		}
 		const stone = getMegaStone(stoneName[0], mod);
-		const species = dex.getSpecies(sep[0]);
+		const species = dex.species.get(sep[0]);
 		if (!stone || (dex.gen >= 8 && ['redorb', 'blueorb'].includes(stone.id))) {
 			throw new Chat.ErrorMessage(`Error: Mega Stone not found.`);
 		}
 		if (!species.exists) throw new Chat.ErrorMessage(`Error: Pok\u00e9mon not found.`);
-		let baseSpecies = dex.getSpecies(stone.megaEvolves);
-		let megaSpecies = dex.getSpecies(stone.megaStone);
+		let baseSpecies = dex.species.get(stone.megaEvolves);
+		let megaSpecies = dex.species.get(stone.megaStone);
 		if (stone.id === 'redorb') { // Orbs do not have 'Item.megaStone' or 'Item.megaEvolves' properties.
-			megaSpecies = dex.getSpecies("Groudon-Primal");
-			baseSpecies = dex.getSpecies("Groudon");
+			megaSpecies = dex.species.get("Groudon-Primal");
+			baseSpecies = dex.species.get("Groudon");
 		} else if (stone.id === 'blueorb') {
-			megaSpecies = dex.getSpecies("Kyogre-Primal");
-			baseSpecies = dex.getSpecies("Kyogre");
+			megaSpecies = dex.species.get("Kyogre-Primal");
+			baseSpecies = dex.species.get("Kyogre");
 		}
 		const deltas = {
 			baseStats: Object.create(null),
@@ -204,14 +204,14 @@ function getMegaStone(stone, mod = 'gen8') {
 		}
 		const stones = [];
 		if (!stone) {
-			const species = dex.getSpecies(targetid.replace(/(?:mega[xy]?|primal)$/, ''));
+			const species = dex.species.get(targetid.replace(/(?:mega[xy]?|primal)$/, ''));
 			if (!species.exists) throw new Chat.ErrorMessage(`Error: Mega Stone not found.`);
 			if (!species.otherFormes) throw new Chat.ErrorMessage(`Error: Mega Evolution not found.`);
 			for (const poke of species.otherFormes) {
 				if (!/(?:-Primal|-Mega(?:-[XY])?)$/.test(poke)) continue;
-				const megaPoke = dex.getSpecies(poke);
+				const megaPoke = dex.species.get(poke);
 				const flag = megaPoke.requiredMove === 'Dragon Ascent' ? megaPoke.requiredMove : megaPoke.requiredItem;
-				if (/mega[xy]$/.test(targetid) && toID(megaPoke.name) !== toID(dex.getSpecies(targetid))) continue;
+				if (/mega[xy]$/.test(targetid) && toID(megaPoke.name) !== toID(dex.species.get(targetid))) continue;
 				if (!flag) continue;
 				stones.push(getMegaStone(flag, sep[1]));
 			}
@@ -220,17 +220,17 @@ function getMegaStone(stone, mod = 'gen8') {
 		const toDisplay = (stones.length ? stones : [stone]);
 		for (const aStone of toDisplay) {
 			if (!aStone) return;
-			let baseSpecies = dex.getSpecies(aStone.megaEvolves);
-			let megaSpecies = dex.getSpecies(aStone.megaStone);
+			let baseSpecies = dex.species.get(aStone.megaEvolves);
+			let megaSpecies = dex.species.get(aStone.megaStone);
 			if (dex.gen >= 8 && ['redorb', 'blueorb'].includes(aStone.id)) {
 				throw new Chat.ErrorMessage("The Orbs do not exist in Gen 8 and later.");
 			}
 			if (aStone.id === 'redorb') { // Orbs do not have 'Item.megaStone' or 'Item.megaEvolves' properties.
-				megaSpecies = dex.getSpecies("Groudon-Primal");
-				baseSpecies = dex.getSpecies("Groudon");
+				megaSpecies = dex.species.get("Groudon-Primal");
+				baseSpecies = dex.species.get("Groudon");
 			} else if (aStone.id === 'blueorb') {
-				megaSpecies = dex.getSpecies("Kyogre-Primal");
-				baseSpecies = dex.getSpecies("Kyogre");
+				megaSpecies = dex.species.get("Kyogre-Primal");
+				baseSpecies = dex.species.get("Kyogre");
 			}
 			const deltas = {
 				baseStats: Object.create(null),
@@ -306,10 +306,10 @@ function getMegaStone(stone, mod = 'gen8') {
 		if (args[1] && toID(args[1]) in Dex.dexes) {
 			dex = Dex.dexes[toID(args[1])];
 		} else if (_optionalChain([room, 'optionalAccess', _ => _.battle])) {
-			const format = Dex.getFormat(room.battle.format);
+			const format = Dex.formats.get(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
-		const species = _lib.Utils.deepClone(dex.getSpecies(args[0]));
+		const species = _lib.Utils.deepClone(dex.species.get(args[0]));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : args[0].trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -347,10 +347,10 @@ function getMegaStone(stone, mod = 'gen8') {
 		if (args[1] && toID(args[1]) in Dex.dexes) {
 			dex = Dex.dexes[toID(args[1])];
 		} else if (_optionalChain([room, 'optionalAccess', _2 => _2.battle])) {
-			const format = Dex.getFormat(room.battle.format);
+			const format = Dex.formats.get(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
-		const species = _lib.Utils.deepClone(dex.getSpecies(args[0]));
+		const species = _lib.Utils.deepClone(dex.species.get(args[0]));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : args[0].trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -404,10 +404,10 @@ function getMegaStone(stone, mod = 'gen8') {
 		if (args[1] && toID(args[1]) in Dex.dexes) {
 			dex = Dex.dexes[toID(args[1])];
 		} else if (_optionalChain([room, 'optionalAccess', _3 => _3.battle])) {
-			const format = Dex.getFormat(room.battle.format);
+			const format = Dex.formats.get(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
-		const species = _lib.Utils.deepClone(dex.getSpecies(args[0]));
+		const species = _lib.Utils.deepClone(dex.species.get(args[0]));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : args[0].trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -453,7 +453,7 @@ function getMegaStone(stone, mod = 'gen8') {
 		} else if (_optionalChain([room, 'optionalAccess', _4 => _4.battle])) {
 			dex = Dex.forFormat(room.battle.format);
 		}
-		const species = _lib.Utils.deepClone(dex.getSpecies(mon));
+		const species = _lib.Utils.deepClone(dex.species.get(mon));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : mon.trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -502,15 +502,15 @@ function getMegaStone(stone, mod = 'gen8') {
 		if (args[2] && toID(args[2]) in Dex.dexes) {
 			dex = Dex.dexes[toID(args[2])];
 		} else if (_optionalChain([room, 'optionalAccess', _5 => _5.battle])) {
-			const format = Dex.getFormat(room.battle.format);
+			const format = Dex.formats.get(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
 		if (!toID(nature) || !toID(pokemon)) return this.parse(`/help natureswap`);
 		this.runBroadcast();
-		const natureObj = dex.getNature(nature);
+		const natureObj = dex.natures.get(nature);
 		if (dex.gen < 3) throw new Chat.ErrorMessage(`Error: Natures don't exist prior to Generation 3.`);
 		if (!natureObj.exists) throw new Chat.ErrorMessage(`Error: Nature ${nature} not found.`);
-		const species = _lib.Utils.deepClone(dex.getSpecies(pokemon));
+		const species = _lib.Utils.deepClone(dex.species.get(pokemon));
 		if (!species.exists || species.gen > dex.gen) {
 			const monName = species.gen > dex.gen ? species.name : args[0].trim();
 			const additionalReason = species.gen > dex.gen ? ` in Generation ${dex.gen}` : ``;
@@ -536,8 +536,8 @@ function getMegaStone(stone, mod = 'gen8') {
 		if (!_optionalChain([target, 'optionalAccess', _6 => _6.includes, 'call', _7 => _7(',')])) return this.parse(`/help crossevo`);
 
 		const pokes = target.split(',');
-		const species = Dex.getSpecies(pokes[0]);
-		const crossSpecies = Dex.getSpecies(pokes[1]);
+		const species = Dex.species.get(pokes[0]);
+		const crossSpecies = Dex.species.get(pokes[1]);
 
 		if (!species.exists) throw new Chat.ErrorMessage(`Error: Pok\u00e9mon '${pokes[0]}' not found.`);
 		if (!crossSpecies.exists) throw new Chat.ErrorMessage(`Error: Pok\u00e9mon '${pokes[1]}' not found.`);
@@ -549,11 +549,11 @@ function getMegaStone(stone, mod = 'gen8') {
 		let crossStage = 1;
 		if (species.prevo) {
 			setStage++;
-			if (Dex.getSpecies(species.prevo).prevo) {
+			if (Dex.species.get(species.prevo).prevo) {
 				setStage++;
 			}
 		}
-		const prevo = Dex.getSpecies(crossSpecies.prevo);
+		const prevo = Dex.species.get(crossSpecies.prevo);
 		if (crossSpecies.prevo) {
 			crossStage++;
 			if (prevo.prevo) {
@@ -620,14 +620,14 @@ function getMegaStone(stone, mod = 'gen8') {
 		if (!this.runBroadcast()) return;
 		const targetid = toID(target);
 		if (!targetid) return this.parse('/help showevo');
-		const evo = Dex.getSpecies(target);
+		const evo = Dex.species.get(target);
 		if (!evo.exists) {
 			throw new Chat.ErrorMessage(`Error: Pok\u00e9mon ${target} not found.`);
 		}
 		if (!evo.prevo) {
 			throw new Chat.ErrorMessage(`Error: ${evo.name} is not an evolution.`);
 		}
-		const prevoSpecies = Dex.getSpecies(evo.prevo);
+		const prevoSpecies = Dex.species.get(evo.prevo);
 		const deltas = _lib.Utils.deepClone(evo);
 		deltas.tier = 'CE';
 		deltas.weightkg = evo.weightkg - prevoSpecies.weightkg;
@@ -654,7 +654,7 @@ function getMegaStone(stone, mod = 'gen8') {
 		const details = {
 			Gen: evo.gen,
 			Weight: (deltas.weighthg < 0 ? "" : "+") + deltas.weighthg / 10 + " kg",
-			Stage: (Dex.getSpecies(prevoSpecies.prevo).exists ? 3 : 2),
+			Stage: (Dex.species.get(prevoSpecies.prevo).exists ? 3 : 2),
 		};
 		this.sendReply(`|raw|${Chat.getDataPokemonHTML(deltas)}`);
 		this.sendReply(`|raw|<font size="1"><font color="#686868">Gen:</font> ${details["Gen"]}&nbsp;|&ThickSpace;<font color="#686868">Weight:</font> ${details["Weight"]}&nbsp;|&ThickSpace;<font color="#686868">Stage:</font> ${details["Stage"]}</font>`);

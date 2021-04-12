@@ -175,15 +175,17 @@ class TextFormatter {
 		const span = this.stack.pop();
 		const startIndex = span[1];
 		let tagName = '';
+		let attrs = '';
 		switch (spanType) {
 		case '_': tagName = 'i'; break;
 		case '*': tagName = 'b'; break;
 		case '~': tagName = 's'; break;
 		case '^': tagName = 'sup'; break;
 		case '\\': tagName = 'sub'; break;
+		case '|': tagName = 'span'; attrs = ' class="spoiler"'; break;
 		}
 		if (tagName) {
-			this.buffers[startIndex] = `<${tagName}>`;
+			this.buffers[startIndex] = `<${tagName}${attrs}>`;
 			this.buffers.push(`</${tagName}>`);
 			this.offset = end;
 		}
@@ -373,6 +375,7 @@ class TextFormatter {
 			case '~':
 			case '^':
 			case '\\':
+			case '|':
 				if (this.at(i + 1) === char && this.at(i + 2) !== char) {
 					if (!(this.at(i - 1) !== ' ' && this.closeSpan(char, i, i + 2))) {
 						if (this.at(i + 2) !== ' ') this.pushSpan(char, i, i + 2);

@@ -10,6 +10,7 @@
  */
 
 var _lib = require('../.lib-dist');
+var _teams = require('./teams');
 var _battle = require('./battle');
 
 /**
@@ -215,7 +216,7 @@ function splitFirst(str, delimiter, limit = 1) {
 				throw new Error(`Team requested for slot ${message}, but that slot does not exist.`);
 			}
 			const side = this.battle.sides[slotNum];
-			const team = Dex.packTeam(side.team);
+			const team = _teams.Teams.pack(side.team);
 			this.push(`requesteddata\n${team}`);
 			break;
 		case 'version':

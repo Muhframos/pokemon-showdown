@@ -39,9 +39,18 @@ this.modData('Learnsets', 'guzzlord').learnset.firefang = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.thunderfang = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.poisonfang = ['8L1'];
 
+this.modData('Learnsets', 'shuckle').learnset.bodypress = ['8L1'];
+
+this.modData('Learnsets', 'kyogre').learnset.hurricane = ['8L1'];
+
+this.modData('Learnsets', 'noctowl').learnset.nightdaze = ['8L1'];
+this.modData('Learnsets', 'noctowl').learnset.moonlight = ['8L1'];
+
 this.modData('Learnsets', 'centiskorch').learnset.firstimpression = ['8L1'];
 this.modData('Learnsets', 'centiskorch').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'centiskorch').learnset.rapidspin = ['8L1'];
+
+this.modData('Learnsets', 'zamazenta').learnset.bodypress = ['8L1'];
 
 this.modData('Learnsets', 'golduck').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.storedpower = ['8L1'];
@@ -228,6 +237,9 @@ this.modData('Learnsets', 'hitmonchan').learnset.suckerpunch = ['8L1'];
 
 this.modData('Learnsets', 'articunogalar').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.dazzlinggleam = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.toxic = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.return = ['8L1'];
+this.modData('Learnsets', 'articunogalar').learnset.frustration = ['8L1'];
 
 this.modData('Learnsets', 'articuno').learnset.aurorabeam = ['8L1'];
 
@@ -236,6 +248,11 @@ this.modData('Learnsets', 'aegislash').learnset.poltergeist = ['8L1'];
 this.modData('Learnsets', 'banette').learnset.poltergeist = ['8L1'];
 
 this.modData('Learnsets', 'aggron').learnset.shiftgear = ['8L1'];
+
+this.modData('Learnsets', 'kingler').learnset.thunderpunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.firepunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.icepunch = ['8L1'];
+this.modData('Learnsets', 'kingler').learnset.poisonjab = ['8L1'];
 
 this.modData('Learnsets', 'audino').learnset.milkdrink = ['8L1'];
 this.modData('Learnsets', 'audino').learnset.charm = ['8L1'];
@@ -944,6 +961,9 @@ this.modData('Learnsets', 'lycanrocmidnight').learnset.accelerock = ['8L1'];
 
 this.modData('Learnsets', 'ninjask').learnset.leafblade = ['8L1'];
 
+this.modData('Learnsets', 'pincurchin').learnset.spikyshield = ['8L1'];
+this.modData('Learnsets', 'pincurchin').learnset.spikecannon = ['8L1'];
+
 this.modData('Learnsets', 'carnivine').learnset.icefang = ['8L1'];
 this.modData('Learnsets', 'carnivine').learnset.psychicfangs = ['8L1'];
 this.modData('Learnsets', 'carnivine').learnset.firefang = ['8L1'];
@@ -1014,13 +1034,12 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 
 	//Clientside Stuff, dont worry about it.
     teambuilderConfig: {
-        // for micrometas to only show custom tiers
-        // only to specify the order of custom tiers
+         // only to specify the order of custom tiers
         customTiers: ['Adventures OU', 'Adventures UU', 'Adventures Ubers', 'Adventures 1v1', 'Adventures Free For All', 'Adventures Multi Battle', 'Adventures Custom Game', 'Adventures FFA Custom Game'],
         customDoublesTiers: ['Adventures DOU', 'Adventures DUU',],
-        // allow 252 EVs in every stat
-        ignoreEVLimits: false,
-        // use sprites from a certain past gen where available
+		  // use sprites from a certain past gen where available
+		spriteGen: 8,
+    
     },
 }; exports.Scripts = Scripts;
 

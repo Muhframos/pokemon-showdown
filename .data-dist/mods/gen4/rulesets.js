@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const Formats = {
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const Rulesets = {
 	standard: {
 		inherit: true,
 		ruleset: ['Obtainable', 'Sleep Clause Mod', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod'],
@@ -6,8 +6,8 @@
 	validatestats: {
 		inherit: true,
 		onValidateSet(set) {
-			const species = this.dex.getSpecies(set.species);
-			const item = this.dex.getItem(set.item);
+			const species = this.dex.species.get(set.species);
+			const item = this.dex.items.get(set.item);
 			if (item && item.id === 'griseousorb' && species.num !== 487) {
 				return ['Griseous Orb can only be held by Giratina in Generation 4.'];
 			}
@@ -25,6 +25,6 @@
 			}
 		},
 	},
-}; exports.Formats = Formats;
+}; exports.Rulesets = Rulesets;
 
  //# sourceMappingURL=sourceMaps/rulesets.js.map

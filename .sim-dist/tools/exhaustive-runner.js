@@ -81,7 +81,7 @@ var _runner = require('./runner');
 		do {
 			this.games++;
 			try {
-				const is4P = dex.getFormat(this.format).gameType === 'multi';
+				const is4P = dex.formats.get(this.format).gameType === 'multi';
 				// We run these sequentially instead of async so that the team generator
 				// and the AI can coordinate usage properly.
 				await new (0, _runner.Runner)({
@@ -113,11 +113,11 @@ var _runner = require('./runner');
 
 	 createPools(dex) {
 		return {
-			pokemon: new Pool(ExhaustiveRunner.onlyValid(dex.gen, dex.data.Pokedex, p => dex.getSpecies(p),
+			pokemon: new Pool(ExhaustiveRunner.onlyValid(dex.gen, dex.data.Pokedex, p => dex.species.get(p),
 				(_, p) => (p.name !== 'Pichu-Spiky-eared' && p.name.substr(0, 8) !== 'Pikachu-')), this.prng),
-			items: new Pool(ExhaustiveRunner.onlyValid(dex.gen, dex.data.Items, i => dex.getItem(i)), this.prng),
-			abilities: new Pool(ExhaustiveRunner.onlyValid(dex.gen, dex.data.Abilities, a => dex.getAbility(a)), this.prng),
-			moves: new Pool(ExhaustiveRunner.onlyValid(dex.gen, dex.data.Moves, m => dex.getMove(m),
+			items: new Pool(ExhaustiveRunner.onlyValid(dex.gen, dex.data.Items, i => dex.items.get(i)), this.prng),
+			abilities: new Pool(ExhaustiveRunner.onlyValid(dex.gen, dex.data.Abilities, a => dex.abilities.get(a)), this.prng),
+			moves: new Pool(ExhaustiveRunner.onlyValid(dex.gen, dex.data.Moves, m => dex.moves.get(m),
 				m => (m !== 'struggle' && (m === 'hiddenpower' || m.substr(0, 11) !== 'hiddenpower'))), this.prng),
 		};
 	}
@@ -214,7 +214,7 @@ class TeamGenerator {
 	generate() {
 		const team = [];
 		for (const pokemon of this.pools.pokemon.next(6)) {
-			const species = this.dex.getSpecies(pokemon);
+			const species = this.dex.species.get(pokemon);
 			const randomEVs = () => this.prng.next(253);
 			const randomIVs = () => this.prng.next(32);
 

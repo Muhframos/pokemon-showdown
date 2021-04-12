@@ -1,5 +1,5 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); const TypeChart = {
-	Dark: {
+	dark: {
 		inherit: true,
 		damageTaken: {
 			Bug: 1,

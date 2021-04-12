@@ -37,7 +37,7 @@ function removeNohost(hostname) {
 	return hostname;
 }
 
- const IPTools = new (_class = class {constructor() { _class.prototype.__init.call(this);_class.prototype.__init2.call(this);_class.prototype.__init3.call(this);_class.prototype.__init4.call(this);_class.prototype.__init5.call(this);_class.prototype.__init6.call(this);_class.prototype.__init7.call(this);_class.prototype.__init8.call(this);_class.prototype.__init9.call(this);_class.prototype.__init10.call(this); }
+ const IPTools = new (_class = class {constructor() { _class.prototype.__init.call(this);_class.prototype.__init2.call(this);_class.prototype.__init3.call(this);_class.prototype.__init4.call(this);_class.prototype.__init5.call(this);_class.prototype.__init6.call(this);_class.prototype.__init7.call(this);_class.prototype.__init8.call(this);_class.prototype.__init9.call(this);_class.prototype.__init10.call(this);_class.prototype.__init11.call(this); }
 	 __init() {this.dnsblCache = new Map([
 		['127.0.0.1', null],
 	])}
@@ -222,9 +222,10 @@ function removeNohost(hostname) {
 	 */
 	__init6() {this.ranges = []}
 	__init7() {this.singleIPOpenProxies = new Set()}
-	__init8() {this.proxyHosts = new Set()}
-	__init9() {this.residentialHosts = new Set()}
-	__init10() {this.mobileHosts = new Set()}
+	__init8() {this.torProxyIps = new Set()}
+	__init9() {this.proxyHosts = new Set()}
+	__init10() {this.residentialHosts = new Set()}
+	__init11() {this.mobileHosts = new Set()}
 	async loadHostsAndRanges() {
 		const data = await _lib.FS.call(void 0, HOSTS_FILE).readIfExists() + await _lib.FS.call(void 0, PROXIES_FILE).readIfExists();
 		// Strip carriage returns for Windows compatibility
@@ -560,7 +561,7 @@ function removeNohost(hostname) {
 		if (Punishments.sharedIps.has(ip)) {
 			return 'shared';
 		}
-		if (this.singleIPOpenProxies.has(ip)) {
+		if (this.singleIPOpenProxies.has(ip) || this.torProxyIps.has(ip)) {
 			// single-IP open proxies
 			return 'proxy';
 		}
@@ -604,6 +605,17 @@ function removeNohost(hostname) {
 		// rdns entry exists but is unrecognized
 		return 'res?';
 	}
+	async updateTorRanges() {
+		try {
+			const raw = await _lib.Net.call(void 0, 'https://check.torproject.org/torbulkexitlist').get();
+			const torIps = raw.split('\n');
+			for (const ip of torIps) {
+				if (this.ipRegex.test(ip)) {
+					this.torProxyIps.add(ip);
+				}
+			}
+		} catch (e) {}
+	}
 }, _class); exports.IPTools = IPTools;
 
 const telstraRange = {
@@ -613,5 +625,7 @@ const telstraRange = {
 };
 
 exports. default = exports.IPTools;
+
+void exports.IPTools.updateTorRanges();
 
  //# sourceMappingURL=sourceMaps/ip-tools.js.map

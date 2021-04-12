@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const Formats = {
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const Rulesets = {
 	obtainablemoves: {
 		inherit: true,
 		banlist: [
@@ -33,6 +33,6 @@
 			'Spore + Spider Web',
 		],
 	},
-}; exports.Formats = Formats;
+}; exports.Rulesets = Rulesets;
 
  //# sourceMappingURL=sourceMaps/rulesets.js.map

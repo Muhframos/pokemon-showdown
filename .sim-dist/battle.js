@@ -6,6 +6,7 @@
  * @license MIT
  */
 var _dex = require('./dex');
+var _teams = require('./teams');
 var _field = require('./field');
 var _pokemon = require('./pokemon');
 var _prng = require('./prng');
@@ -145,11 +146,11 @@ var _lib = require('../.lib-dist');
 		this.log = [];
 		this.add('t:', Math.floor(Date.now() / 1000));
 
-		const format = options.format || _dex.Dex.getFormat(options.formatid, true);
+		const format = options.format || _dex.Dex.formats.get(options.formatid, true);
 		this.format = format;
 		this.dex = _dex.Dex.forFormat(format);
 		this.gen = this.dex.gen;
-		this.ruleTable = this.dex.getRuleTable(format);
+		this.ruleTable = this.dex.formats.getRuleTable(format);
 
 		this.trunc = this.dex.trunc;
 		this.clampIntRange = _lib.Utils.clampIntRange;
@@ -222,10 +223,6 @@ var _lib = require('../.lib-dist');
 
 		this.send = options.send || (() => {});
 
-		// bound function for faster speedSort
-		// (so speedSort doesn't need to bind before use)
-		this.comparePriority = this.comparePriority.bind(this);
-
 		const inputOptions = {
 			formatid: options.formatid, seed: this.prng.seed,
 		};
@@ -242,7 +239,7 @@ var _lib = require('../.lib-dist');
 
 		for (const rule of this.ruleTable.keys()) {
 			if (rule.startsWith('+') || rule.startsWith('-') || rule.startsWith('!')) continue;
-			const subFormat = this.dex.getFormat(rule);
+			const subFormat = this.dex.formats.get(rule);
 			if (subFormat.exists) {
 				const hasEventHandler = Object.keys(subFormat).some(
 					val => val.startsWith('on') && !['onBegin', 'onValidateTeam', 'onChangeSet', 'onValidateSet'].includes(val)
@@ -334,12 +331,21 @@ var _lib = require('../.lib-dist');
 		}
 	}
 
+	/**
+	 * The default sort order for actions, but also event listeners.
+	 *
+	 * 1. Order, low to high (default last)
+	 * 2. Priority, high to low (default 0)
+	 * 3. Speed, high to low (default 0)
+	 * 4. SubOrder, low to high (default 0)
+	 *
+	 * Doesn't reference `this` so doesn't need to be bound.
+	 */
 	comparePriority(a, b) {
 		return -((b.order || 4294967296) - (a.order || 4294967296)) ||
 			((b.priority || 0) - (a.priority || 0)) ||
 			((b.speed || 0) - (a.speed || 0)) ||
 			-((b.subOrder || 0) - (a.subOrder || 0)) ||
-			((a.effectHolder && b.effectHolder) ? -(b.effectHolder.abilityOrder - a.effectHolder.abilityOrder) : 0) ||
 			0;
 	}
 
@@ -361,6 +367,11 @@ var _lib = require('../.lib-dist');
 	speedSort(list, comparator = this.comparePriority) {
 		if (list.length < 2) return;
 		let sorted = 0;
+		// This is a Selection Sort - not the fastest sort in general, but
+		// actually faster than QuickSort for small arrays like the ones
+		// `speedSort` is used for.
+		// More importantly, it makes it easiest to resolve speed ties
+		// properly.
 		while (sorted + 1 < list.length) {
 			let nextIndexes = [sorted];
 			// grab list of next indexes
@@ -371,16 +382,18 @@ var _lib = require('../.lib-dist');
 				if (delta === 0) nextIndexes.push(i);
 			}
 			// put list of next indexes where they belong
-			const nextCount = nextIndexes.length;
-			for (let i = 0; i < nextCount; i++) {
-				let index = nextIndexes[i];
-				while (index > sorted + i) {
-					[list[index], list[index - 1]] = [list[index - 1], list[index]];
-					index--;
+			for (let i = 0; i < nextIndexes.length; i++) {
+				const index = nextIndexes[i];
+				if (index !== sorted + i) {
+					// nextIndexes is guaranteed to be in order, so it will never have
+					// been disturbed by an earlier swap
+					[list[sorted + i], list[index]] = [list[index], list[sorted + i]];
 				}
 			}
-			if (nextCount > 1) this.prng.shuffle(list, sorted, sorted + nextCount);
-			sorted += nextCount;
+			if (nextIndexes.length > 1) {
+				this.prng.shuffle(list, sorted, sorted + nextIndexes.length);
+			}
+			sorted += nextIndexes.length;
 		}
 	}
 
@@ -874,7 +887,7 @@ var _lib = require('../.lib-dist');
 		}
 		for (const id in pokemon.volatiles) {
 			const volatileState = pokemon.volatiles[id];
-			const volatile = pokemon.getVolatile(id);
+			const volatile = this.dex.conditions.getByID(id );
 			// @ts-ignore - dynamic lookup
 			callback = volatile[callbackName];
 			if (callback !== undefined || (getKey && volatileState[getKey])) {
@@ -910,7 +923,7 @@ var _lib = require('../.lib-dist');
 		const side = pokemon.side;
 		for (const conditionid in side.slotConditions[pokemon.position]) {
 			const slotConditionData = side.slotConditions[pokemon.position][conditionid];
-			const slotCondition = side.getSlotCondition(pokemon, conditionid);
+			const slotCondition = this.dex.conditions.getByID(conditionid );
 			// @ts-ignore - dynamic lookup
 			callback = slotCondition[callbackName];
 			if (callback !== undefined || (getKey && slotConditionData[getKey])) {
@@ -956,9 +969,9 @@ var _lib = require('../.lib-dist');
 		const handlers = [];
 
 		let callback;
-		for (const i in field.pseudoWeather) {
-			const pseudoWeatherData = field.pseudoWeather[i];
-			const pseudoWeather = field.getPseudoWeather(i);
+		for (const id in field.pseudoWeather) {
+			const pseudoWeatherData = field.pseudoWeather[id];
+			const pseudoWeather = this.dex.conditions.getByID(id );
 			// @ts-ignore - dynamic lookup
 			callback = pseudoWeather[callbackName];
 			if (callback !== undefined || (getKey && pseudoWeatherData[getKey])) {
@@ -990,9 +1003,9 @@ var _lib = require('../.lib-dist');
 	findSideEventHandlers(side, callbackName, getKey) {
 		const handlers = [];
 
-		for (const i in side.sideConditions) {
-			const sideConditionData = side.sideConditions[i];
-			const sideCondition = side.getSideCondition(i);
+		for (const id in side.sideConditions) {
+			const sideConditionData = side.sideConditions[id];
+			const sideCondition = this.dex.conditions.getByID(id );
 			// @ts-ignore - dynamic lookup
 			const callback = sideCondition[callbackName];
 			if (callback !== undefined || (getKey && sideConditionData[getKey])) {
@@ -1273,10 +1286,11 @@ var _lib = require('../.lib-dist');
 		if (!side.pokemonLeft) return;
 
 		side.pokemonLeft = 0;
-		side.active[0].faint();
+		_optionalChain([side, 'access', _7 => _7.active, 'access', _8 => _8[0], 'optionalAccess', _9 => _9.faint, 'call', _10 => _10()]);
 		this.faintMessages(false, true);
 		if (!this.ended && side.requestState) {
 			side.emitRequest({wait: true, side: side.getRequestData()});
+			side.clearChoice();
 			if (this.allChoicesDone()) this.commitDecisions();
 		}
 		return true;
@@ -1424,7 +1438,7 @@ var _lib = require('../.lib-dist');
 								// unreleased hidden ability
 								continue;
 							}
-							const ability = this.dex.getAbility(abilityName);
+							const ability = this.dex.abilities.get(abilityName);
 							if (ruleTable.has('-ability:' + ability.id)) continue;
 							if (pokemon.knownType && !this.dex.getImmunity('trapped', pokemon)) continue;
 							this.singleEvent('FoeMaybeTrapPokemon', ability, {}, pokemon, source);
@@ -1590,7 +1604,7 @@ var _lib = require('../.lib-dist');
 		if (format.onBegin) format.onBegin.call(this);
 		for (const rule of this.ruleTable.keys()) {
 			if (rule.startsWith('+') || rule.startsWith('-') || rule.startsWith('!')) continue;
-			const subFormat = this.dex.getFormat(rule);
+			const subFormat = this.dex.formats.get(rule);
 			if (subFormat.exists) {
 				if (subFormat.onBegin) subFormat.onBegin.call(this);
 			}
@@ -1640,7 +1654,7 @@ var _lib = require('../.lib-dist');
 			if (!source) source = this.event.source;
 			if (!effect) effect = this.effect;
 		}
-		if (!_optionalChain([target, 'optionalAccess', _7 => _7.hp])) return 0;
+		if (!_optionalChain([target, 'optionalAccess', _11 => _11.hp])) return 0;
 		if (!target.isActive) return false;
 		if (this.gen > 5 && !target.side.foePokemonLeft()) return false;
 		boost = this.runEvent('Boost', target, source, effect, {...boost});
@@ -1648,8 +1662,9 @@ var _lib = require('../.lib-dist');
 		let boosted = isSecondary;
 		let boostName;
 		for (boostName in boost) {
-			const currentBoost = {};
-			currentBoost[boostName] = boost[boostName];
+			const currentBoost = {
+				[boostName]: boost[boostName],
+			};
 			let boostBy = target.boostBy(currentBoost);
 			let msg = '-boost';
 			if (boost[boostName] < 0) {
@@ -1658,7 +1673,7 @@ var _lib = require('../.lib-dist');
 			}
 			if (boostBy) {
 				success = true;
-				switch (_optionalChain([effect, 'optionalAccess', _8 => _8.id])) {
+				switch (_optionalChain([effect, 'optionalAccess', _12 => _12.id])) {
 				case 'bellydrum':
 					this.add('-setboost', target, 'atk', target.boosts['atk'], '[from] move: Belly Drum');
 					break;
@@ -1692,8 +1707,10 @@ var _lib = require('../.lib-dist');
 			}
 		}
 		this.runEvent('AfterBoost', target, source, effect, boost);
-		if (success && Object.values(boost).some(x => x > 0)) target.statsRaisedThisTurn = true;
-		if (success && Object.values(boost).some(x => x < 0)) target.statsLoweredThisTurn = true;
+		if (success) {
+			if (Object.values(boost).some(x => x > 0)) target.statsRaisedThisTurn = true;
+			if (Object.values(boost).some(x => x < 0)) target.statsLoweredThisTurn = true;
+		}
 		return success;
 	}
 
@@ -1703,7 +1720,7 @@ var _lib = require('../.lib-dist');
 	) {
 		if (!targetArray) return [0];
 		const retVals = [];
-		if (typeof effect === 'string' || !effect) effect = this.dex.getEffectByID((effect || '') );
+		if (typeof effect === 'string' || !effect) effect = this.dex.conditions.getByID((effect || '') );
 		for (const [i, curDamage] of damage.entries()) {
 			const target = targetArray[i];
 			let targetDamage = curDamage;
@@ -1823,17 +1840,17 @@ var _lib = require('../.lib-dist');
 			if (!source) source = this.event.source;
 			if (!effect) effect = this.effect;
 		}
-		if (!_optionalChain([target, 'optionalAccess', _9 => _9.hp])) return 0;
+		if (!_optionalChain([target, 'optionalAccess', _13 => _13.hp])) return 0;
 		if (!damage) return 0;
 		damage = this.clampIntRange(damage, 1);
 
-		if (typeof effect === 'string' || !effect) effect = this.dex.getEffectByID((effect || '') );
+		if (typeof effect === 'string' || !effect) effect = this.dex.conditions.getByID((effect || '') );
 
 		// In Gen 1 BUT NOT STADIUM, Substitute also takes confusion and HJK recoil damage
 		if (this.gen <= 1 && this.dex.currentMod !== 'gen1stadium' &&
 			['confusion', 'jumpkick', 'highjumpkick'].includes(effect.id) && target.volatiles['substitute']) {
 			const hint = "In Gen 1, if a Pokemon with a Substitute hurts itself due to confusion or Jump Kick/Hi Jump Kick recoil and the target";
-			if (_optionalChain([source, 'optionalAccess', _10 => _10.volatiles, 'access', _11 => _11['substitute']])) {
+			if (_optionalChain([source, 'optionalAccess', _14 => _14.volatiles, 'access', _15 => _15['substitute']])) {
 				source.volatiles['substitute'].hp -= damage;
 				if (source.volatiles['substitute'].hp <= 0) {
 					source.removeVolatile('substitute');
@@ -1871,17 +1888,17 @@ var _lib = require('../.lib-dist');
 			if (!source) source = this.event.source;
 			if (!effect) effect = this.effect;
 		}
-		if (effect === 'drain') effect = this.dex.getEffectByID(effect );
+		if (effect === 'drain') effect = this.dex.conditions.getByID(effect );
 		if (damage && damage <= 1) damage = 1;
 		damage = this.trunc(damage);
 		// for things like Liquid Ooze, the Heal event still happens when nothing is healed.
 		damage = this.runEvent('TryHeal', target, source, effect, damage);
 		if (!damage) return damage;
-		if (!_optionalChain([target, 'optionalAccess', _12 => _12.hp])) return false;
+		if (!_optionalChain([target, 'optionalAccess', _16 => _16.hp])) return false;
 		if (!target.isActive) return false;
 		if (target.hp >= target.maxhp) return false;
 		const finalDamage = target.heal(damage, source, effect);
-		switch (_optionalChain([effect, 'optionalAccess', _13 => _13.id])) {
+		switch (_optionalChain([effect, 'optionalAccess', _17 => _17.id])) {
 		case 'leechseed':
 		case 'rest':
 			this.add('-heal', target, target.getHealth, '[silent]');
@@ -1976,7 +1993,7 @@ var _lib = require('../.lib-dist');
 		// Natures are calculated with 16-bit truncation.
 		// This only affects Eternatus-Eternamax in Pure Hackmons.
 		const tr = this.trunc;
-		const nature = this.dex.getNature(set.nature);
+		const nature = this.dex.natures.get(set.nature);
 		let s;
 		if (nature.plus) {
 			s = nature.plus;
@@ -1992,7 +2009,7 @@ var _lib = require('../.lib-dist');
 	}
 
 	getCategory(move) {
-		return this.dex.getMove(move).category || 'Physical';
+		return this.dex.moves.get(move).category || 'Physical';
 	}
 
 	randomizer(baseDamage) {
@@ -2042,7 +2059,7 @@ var _lib = require('../.lib-dist');
 	}
 
 	getTarget(pokemon, move, targetLoc, originalTarget) {
-		move = this.dex.getMove(move);
+		move = this.dex.moves.get(move);
 
 		let tracksTarget = move.tracksTarget;
 		// Stalwart sets trackTarget in ModifyMove, but ModifyMove happens after getTarget, so
@@ -2068,7 +2085,7 @@ var _lib = require('../.lib-dist');
 		}
 		if (move.target !== 'randomNormal' && this.validTargetLoc(targetLoc, pokemon, move.target)) {
 			const target = pokemon.getAtLoc(targetLoc);
-			if (_optionalChain([target, 'optionalAccess', _14 => _14.fainted])) {
+			if (_optionalChain([target, 'optionalAccess', _18 => _18.fainted])) {
 				if (this.gameType === 'freeforall') {
 					// Target is a fainted opponent in a free-for-all battle; attack shouldn't retarget
 					return target;
@@ -2100,7 +2117,7 @@ var _lib = require('../.lib-dist');
 		// moves that can target either allies or foes will only target foes
 		// when used without an explicit target.
 
-		move = this.dex.getMove(move);
+		move = this.dex.moves.get(move);
 		if (move.target === 'adjacentAlly') {
 			const adjacentAllies = pokemon.adjacentAllies();
 			return adjacentAllies.length ? this.sample(adjacentAllies) : null;
@@ -2231,7 +2248,7 @@ var _lib = require('../.lib-dist');
 			}
 			// take priority from the base move, so abilities like Prankster only apply once
 			// (instead of compounding every time `getActionSpeed` is called)
-			let priority = this.dex.getMove(move.id).priority;
+			let priority = this.dex.moves.get(move.id).priority;
 			// Grassy Glide priority
 			priority = this.singleEvent('ModifyPriority', move, null, action.pokemon, null, null, priority);
 			priority = this.runEvent('ModifyPriority', action.pokemon, null, move, priority);
@@ -2248,7 +2265,7 @@ var _lib = require('../.lib-dist');
 	}
 
 	runAction(action) {
-		const pokemonOriginalHP = _optionalChain([action, 'access', _15 => _15.pokemon, 'optionalAccess', _16 => _16.hp]);
+		const pokemonOriginalHP = _optionalChain([action, 'access', _19 => _19.pokemon, 'optionalAccess', _20 => _20.hp]);
 		let residualPokemon = [];
 		// returns whether or not we ended in a callback
 		switch (action.choice) {
@@ -2256,27 +2273,29 @@ var _lib = require('../.lib-dist');
 			// I GIVE UP, WILL WRESTLE WITH EVENT SYSTEM LATER
 			const format = this.format;
 
-			// Remove Pokémon duplicates remaining after `team` decisions.
 			for (const side of this.sides) {
-				side.pokemon = side.pokemon.slice(0, side.pokemonLeft);
-			}
-
-			if (format.teamLength && format.teamLength.battle) {
-				// Trim the team: not all of the Pokémon brought to Preview will battle.
-				for (const side of this.sides) {
+				if (format.teamLength && format.teamLength.battle) {
+					// Trim the team: not all of the Pokémon brought to Preview will battle.
 					side.pokemon = side.pokemon.slice(0, format.teamLength.battle);
-					side.pokemonLeft = side.pokemon.length;
 				}
+				if (side.pokemonLeft) side.pokemonLeft = side.pokemon.length;
 			}
 
 			this.add('start');
 			for (const side of this.sides) {
-				for (let pos = 0; pos < side.active.length; pos++) {
-					this.actions.switchIn(side.pokemon[pos], pos);
+				for (let i = 0; i < side.active.length; i++) {
+					if (!side.pokemonLeft) {
+						// forfeited before starting
+						side.active[i] = side.pokemon[i];
+						side.active[i].fainted = true;
+						side.active[i].hp = 0;
+					} else {
+						this.actions.switchIn(side.pokemon[i], i);
+					}
 				}
 			}
 			for (const pokemon of this.getAllPokemon()) {
-				this.singleEvent('Start', this.dex.getEffectByID(pokemon.species.id), pokemon.speciesData, pokemon);
+				this.singleEvent('Start', this.dex.conditions.getByID(pokemon.species.id), pokemon.speciesData, pokemon);
 			}
 			this.midTurn = true;
 			break;
@@ -2310,19 +2329,21 @@ var _lib = require('../.lib-dist');
 		case 'event':
 			this.runEvent(action.event, action.pokemon);
 			break;
-		case 'team': {
-			action.pokemon.side.pokemon.splice(action.index, 0, action.pokemon);
+		case 'team':
+			if (action.index === 0) {
+				action.pokemon.side.pokemon = [];
+			}
+			action.pokemon.side.pokemon.push(action.pokemon);
 			action.pokemon.position = action.index;
 			// we return here because the update event would crash since there are no active pokemon yet
 			return;
-		}
 
 		case 'pass':
 			return;
 		case 'instaswitch':
 		case 'switch':
-			if (action.choice === 'switch' && action.pokemon.status && this.dex.data.Abilities.naturalcure) {
-				this.singleEvent('CheckShow', this.dex.getAbility('naturalcure'), null, action.pokemon);
+			if (action.choice === 'switch' && action.pokemon.status) {
+				this.singleEvent('CheckShow', this.dex.abilities.getByID('naturalcure' ), null, action.pokemon);
 			}
 			if (this.actions.switchIn(action.target, action.pokemon.position, action.sourceEffect) === 'pursuitfaint') {
 				// a pokemon fainted from Pursuit before it could switch
@@ -2350,12 +2371,11 @@ var _lib = require('../.lib-dist');
 				this.singleEvent('Primal', action.pokemon.getItem(), action.pokemon.itemData, action.pokemon);
 			}
 			break;
-		case 'shift': {
+		case 'shift':
 			if (!action.pokemon.isActive) return false;
 			if (action.pokemon.fainted) return false;
 			this.swapPosition(action.pokemon, 1);
 			break;
-		}
 
 		case 'beforeTurn':
 			this.eachEvent('BeforeTurn');
@@ -2405,7 +2425,7 @@ var _lib = require('../.lib-dist');
 				}
 			}
 			return false;
-		} else if (_optionalChain([this, 'access', _17 => _17.queue, 'access', _18 => _18.peek, 'call', _19 => _19(), 'optionalAccess', _20 => _20.choice]) === 'instaswitch') {
+		} else if (_optionalChain([this, 'access', _21 => _21.queue, 'access', _22 => _22.peek, 'call', _23 => _23(), 'optionalAccess', _24 => _24.choice]) === 'instaswitch') {
 			return false;
 		}
 
@@ -2460,7 +2480,7 @@ var _lib = require('../.lib-dist');
 
 		if (this.gen < 5) this.eachEvent('Update');
 
-		if (this.gen >= 8 && _optionalChain([this, 'access', _21 => _21.queue, 'access', _22 => _22.peek, 'call', _23 => _23(), 'optionalAccess', _24 => _24.choice]) === 'move') {
+		if (this.gen >= 8 && _optionalChain([this, 'access', _25 => _25.queue, 'access', _26 => _26.peek, 'call', _27 => _27(), 'optionalAccess', _28 => _28.choice]) === 'move') {
 			// In gen 8, speed is updated dynamically so update the queue's speed properties and sort it.
 			this.updateSpeed();
 			for (const queueAction of this.queue.list) {
@@ -2695,7 +2715,7 @@ var _lib = require('../.lib-dist');
 
 	getTeam(options) {
 		let team = options.team;
-		if (typeof team === 'string') team = _dex.Dex.fastUnpackTeam(team);
+		if (typeof team === 'string') team = _teams.Teams.unpack(team);
 		if (team) return team;
 
 		if (!options.seed) {
@@ -2703,7 +2723,7 @@ var _lib = require('../.lib-dist');
 		}
 
 		if (!this.teamGenerator) {
-			this.teamGenerator = this.dex.getTeamGenerator(this.format, options.seed);
+			this.teamGenerator = _teams.Teams.getGenerator(this.format, options.seed);
 		} else {
 			this.teamGenerator.setSeed(options.seed);
 		}
@@ -2737,7 +2757,7 @@ var _lib = require('../.lib-dist');
 			if (options.team) throw new Error(`Player ${slot} already has a team!`);
 		}
 		if (options.team && typeof options.team !== 'string') {
-			options.team = this.dex.packTeam(options.team);
+			options.team = _teams.Teams.pack(options.team);
 		}
 		if (!didSomething) return;
 		this.inputLog.push(`>player ${slot} ` + JSON.stringify(options));

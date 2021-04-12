@@ -8,6 +8,7 @@
 var _assert = require('assert');
 var _fs = require('fs'); var fs = _fs;
 
+var _ = require('..');
 
 var _battle = require('../battle');
 var _battlestream = require('../battle-stream'); var BattleStreams = _battlestream;
@@ -86,7 +87,7 @@ var _randomplayerai = require('./random-player-ai');
 		// @ts-ignore - DualStream implements everything relevant from BattleStream.
 		const streams = BattleStreams.getPlayerStreams(battleStream);
 		const spec = {formatid: format, seed: this.prng.seed};
-		const is4P = Dex.getFormat(format).gameType === 'multi';
+		const is4P = _.Dex.formats.get(format).gameType === 'multi';
 		const p1spec = this.getPlayerSpec("Bot 1", this.p1options);
 		const p2spec = this.getPlayerSpec("Bot 2", this.p2options);
 		let p3spec, p4spec;

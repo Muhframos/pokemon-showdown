@@ -100,8 +100,8 @@ var _dexdata = require('./dex-data');
 	
 	
 
-	constructor(data, ...moreData) {
-		super(data, ...moreData);
+	constructor(data) {
+		super(data);
 		data = this;
 
 		this.fullname = `item: ${this.name}`;
@@ -144,5 +144,71 @@ var _dexdata = require('./dex-data');
 		if (this.onMemory) this.fling = {basePower: 50};
 	}
 } exports.Item = Item;
+
+ class DexItems {
+	
+	 __init() {this.itemCache = new Map()}
+	__init2() {this.allCache = null}
+
+	constructor(dex) {;DexItems.prototype.__init.call(this);DexItems.prototype.__init2.call(this);
+		this.dex = dex;
+	}
+
+	get(name) {
+		if (name && typeof name !== 'string') return name;
+
+		name = (name || '').trim();
+		const id = _dexdata.toID.call(void 0, name);
+		return this.getByID(id);
+	}
+
+	getByID(id) {
+		let item = this.itemCache.get(id);
+		if (item) return item;
+		if (this.dex.data.Aliases.hasOwnProperty(id)) {
+			item = this.get(this.dex.data.Aliases[id]);
+			if (item.exists) {
+				this.itemCache.set(id, item);
+			}
+			return item;
+		}
+		if (id && !this.dex.data.Items[id] && this.dex.data.Items[id + 'berry']) {
+			item = this.getByID(id + 'berry' );
+			this.itemCache.set(id, item);
+			return item;
+		}
+		if (id && this.dex.data.Items.hasOwnProperty(id)) {
+			const itemData = this.dex.data.Items[id] ;
+			const itemTextData = this.dex.getDescs('Items', id, itemData);
+			item = new Item({
+				name: id,
+				...itemData,
+				...itemTextData,
+			});
+			if (item.gen > this.dex.gen) {
+				(item ).isNonstandard = 'Future';
+			}
+			// hack for allowing mega evolution in LGPE
+			if (this.dex.currentMod === 'letsgo' && !item.isNonstandard && !item.megaStone) {
+				(item ).isNonstandard = 'Past';
+			}
+		} else {
+			item = new Item({name: id, exists: false});
+		}
+
+		if (item.exists) this.itemCache.set(id, item);
+		return item;
+	}
+
+	all() {
+		if (this.allCache) return this.allCache;
+		const items = [];
+		for (const id in this.dex.data.Items) {
+			items.push(this.getByID(id ));
+		}
+		this.allCache = items;
+		return this.allCache;
+	}
+} exports.DexItems = DexItems;
 
  //# sourceMappingURL=sourceMaps/dex-items.js.map

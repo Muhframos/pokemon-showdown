@@ -13,7 +13,7 @@ var _teamvalidator = require('../.sim-dist/team-validator');
 	
 
 	constructor(format) {
-		this.format = Dex.getFormat(format);
+		this.format = Dex.formats.get(format);
 	}
 
 	validateTeam(team, options) {
@@ -39,7 +39,7 @@ var _processmanager = require('../.lib-dist/process-manager');
 
 (module, message => {
 	const {formatid, options, team} = message;
-	const parsedTeam = Dex.fastUnpackTeam(team);
+	const parsedTeam = Teams.unpack(team);
 
 	if (Config.debugvalidatorprocesses && process.send) {
 		process.send('DEBUG\n' + JSON.stringify(message));
@@ -62,7 +62,7 @@ var _processmanager = require('../.lib-dist/process-manager');
 	if (_optionalChain([problems, 'optionalAccess', _ => _.length])) {
 		return '0' + problems.join('\n');
 	}
-	const packedTeam = Dex.packTeam(parsedTeam);
+	const packedTeam = Teams.pack(parsedTeam);
 	// console.log('FROM: ' + message.substr(pipeIndex2 + 1));
 	// console.log('TO: ' + packedTeam);
 	return '1' + packedTeam;
@@ -89,6 +89,7 @@ if (!exports.PM.isParentProcess) {
 	}
 
 	global.Dex = require('../.sim-dist/dex').Dex.includeData();
+	global.Teams = require('../.sim-dist/teams').Teams;
 
 	// eslint-disable-next-line no-eval
 	require('../.lib-dist/repl').Repl.start(`team-validator-${process.pid}`, (cmd) => eval(cmd));

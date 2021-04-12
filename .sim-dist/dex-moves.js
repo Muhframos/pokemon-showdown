@@ -432,8 +432,8 @@ var _dexdata = require('./dex-data');
 
 	
 
-	constructor(data, ...moreData) {
-		super(data, ...moreData);
+	constructor(data) {
+		super(data);
 		data = this;
 
 		this.fullname = `move: ${this.name}`;
@@ -562,5 +562,66 @@ var _dexdata = require('./dex-data');
 		}
 	}
 } exports.DataMove = DataMove;
+
+ class DexMoves {
+	
+	 __init() {this.moveCache = new Map()}
+	__init2() {this.allCache = null}
+
+	constructor(dex) {;DexMoves.prototype.__init.call(this);DexMoves.prototype.__init2.call(this);
+		this.dex = dex;
+	}
+
+	get(name) {
+		if (name && typeof name !== 'string') return name;
+
+		name = (name || '').trim();
+		const id = _dexdata.toID.call(void 0, name);
+		return this.getByID(id);
+	}
+
+	getByID(id) {
+		let move = this.moveCache.get(id);
+		if (move) return move;
+		if (this.dex.data.Aliases.hasOwnProperty(id)) {
+			move = this.get(this.dex.data.Aliases[id]);
+			if (move.exists) {
+				this.moveCache.set(id, move);
+			}
+			return move;
+		}
+		if (id.startsWith('hiddenpower')) {
+			id = /([a-z]*)([0-9]*)/.exec(id)[1] ;
+		}
+		if (id && this.dex.data.Moves.hasOwnProperty(id)) {
+			const moveData = this.dex.data.Moves[id] ;
+			const moveTextData = this.dex.getDescs('Moves', id, moveData);
+			move = new DataMove({
+				name: id,
+				...moveData,
+				...moveTextData,
+			});
+			if (move.gen > this.dex.gen) {
+				(move ).isNonstandard = 'Future';
+			}
+		} else {
+			move = new DataMove({
+				name: id, exists: false,
+			});
+		}
+		if (move.exists) this.moveCache.set(id, move);
+		return move;
+	}
+
+	all() {
+		if (this.allCache) return this.allCache;
+		const moves = [];
+		for (const id in this.dex.data.Moves) {
+			moves.push(this.getByID(id ));
+		}
+		this.allCache = moves;
+		return this.allCache;
+	}
+} exports.DexMoves = DexMoves;
 
  //# sourceMappingURL=sourceMaps/dex-moves.js.map

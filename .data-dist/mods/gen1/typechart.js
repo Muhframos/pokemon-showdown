@@ -7,7 +7,7 @@
  */
 
  const TypeChart = {
-	Bug: {
+	bug: {
 		damageTaken: {
 			Bug: 0,
 			Dragon: 0,
@@ -26,7 +26,7 @@
 			Water: 0,
 		},
 	},
-	Fire: {
+	fire: {
 		damageTaken: {
 			Bug: 2,
 			Dragon: 0,
@@ -45,7 +45,7 @@
 			Water: 1,
 		},
 	},
-	Ghost: {
+	ghost: {
 		damageTaken: {
 			Bug: 2,
 			Dragon: 0,
@@ -64,7 +64,7 @@
 			Water: 0,
 		},
 	},
-	Ice: {
+	ice: {
 		damageTaken: {
 			Bug: 0,
 			Dark: 0,
@@ -86,7 +86,7 @@
 			Water: 0,
 		},
 	},
-	Poison: {
+	poison: {
 		damageTaken: {
 			psn: 3,
 			tox: 3,
@@ -107,7 +107,7 @@
 			Water: 0,
 		},
 	},
-	Psychic: {
+	psychic: {
 		damageTaken: {
 			Bug: 1,
 			Dragon: 0,
@@ -126,8 +126,14 @@
 			Water: 0,
 		},
 	},
-	Dark: null,
-	Steel: null,
+	dark: {
+		inherit: true,
+		isNonstandard: 'Future',
+	},
+	steel: {
+		inherit: true,
+		isNonstandard: 'Future',
+	},
 }; exports.TypeChart = TypeChart;
 
  //# sourceMappingURL=sourceMaps/typechart.js.map

@@ -1,8 +1,8 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true});/**
- * Simulator Battle
+ * Dex Data
  * Pokemon Showdown - http://pokemonshowdown.com/
  *
- * @license MIT license
+ * @license MIT
  */
 var _lib = require('../.lib-dist');
 
@@ -101,9 +101,9 @@ var _lib = require('../.lib-dist');
 	/** ??? */
 	
 
-	constructor(data, ...moreData) {
+	constructor(data) {
 		this.exists = true;
-		data = combine(this, data, ...moreData);
+		Object.assign(this, data);
 
 		this.name = _lib.Utils.getString(data.name).trim();
 		this.id = data.realMove ? toID(data.realMove) : toID(this.name); // Hidden Power hack
@@ -128,36 +128,12 @@ var _lib = require('../.lib-dist');
 	}
 } exports.BasicEffect = BasicEffect;
 
- class Learnset {
-	
-	/**
-	 * Keeps track of exactly how a pokemon might learn a move, in the
-	 * form moveid:sources[].
-	 */
-	
-	/** True if the only way to get this Pokemon is from events. */
-	
-	/** List of event data for each event. */
-	
-	
-	
-
-	constructor(data) {
-		this.exists = true;
-		this.effectType = 'Learnset';
-		this.learnset = data.learnset || undefined;
-		this.eventOnly = !!data.eventOnly;
-		this.eventData = data.eventData || undefined;
-		this.encounters = data.encounters || undefined;
-	}
-} exports.Learnset = Learnset;
-
  class Nature extends BasicEffect  {
 	
 	
 	
-	constructor(data, ...moreData) {
-		super(data, moreData);
+	constructor(data) {
+		super(data);
 		data = this;
 
 		this.fullname = `nature: ${this.name}`;
@@ -167,6 +143,54 @@ var _lib = require('../.lib-dist');
 		this.minus = data.minus || undefined;
 	}
 } exports.Nature = Nature;
+
+ class DexNatures {
+	
+	 __init() {this.natureCache = new Map()}
+	__init2() {this.allCache = null}
+
+	constructor(dex) {;DexNatures.prototype.__init.call(this);DexNatures.prototype.__init2.call(this);
+		this.dex = dex;
+	}
+
+	get(name) {
+		if (name && typeof name !== 'string') return name;
+
+		return this.getByID(toID(name));
+	}
+	getByID(id) {
+		let nature = this.natureCache.get(id);
+		if (nature) return nature;
+
+		if (this.dex.data.Aliases.hasOwnProperty(id)) {
+			nature = this.get(this.dex.data.Aliases[id]);
+			if (nature.exists) {
+				this.natureCache.set(id, nature);
+			}
+			return nature;
+		}
+		if (id && this.dex.data.Natures.hasOwnProperty(id)) {
+			const natureData = this.dex.data.Natures[id];
+			nature = new Nature(natureData);
+			if (nature.gen > this.dex.gen) nature.isNonstandard = 'Future';
+		} else {
+			nature = new Nature({name: id, exists: false});
+		}
+
+		if (nature.exists) this.natureCache.set(id, nature);
+		return nature;
+	}
+
+	all() {
+		if (this.allCache) return this.allCache;
+		const natures = [];
+		for (const id in this.dex.data.Natures) {
+			natures.push(this.getByID(id ));
+		}
+		this.allCache = natures;
+		return this.allCache;
+	}
+} exports.DexNatures = DexNatures;
 
 
 
@@ -193,6 +217,11 @@ var _lib = require('../.lib-dist');
 	 */
 	
 	/**
+	 * Set to 'Future' for types before they're released (like Fairy
+	 * in Gen 5 or Dark in Gen 1).
+	 */
+	
+	/**
 	 * Type chart, attackingTypeName:result, effectid:result
 	 * result is: 0 = normal, 1 = weakness, 2 = resistance, 3 = immunity
 	 */
@@ -202,15 +231,16 @@ var _lib = require('../.lib-dist');
 	/** The DVs to get this Type Hidden Power (in gen 2). */
 	
 
-	constructor(data, ...moreData) {
+	constructor(data) {
 		this.exists = true;
-		data = combine(this, data, ...moreData);
+		Object.assign(this, data);
 
-		this.id = data.id || '';
-		this.name = _lib.Utils.getString(data.name).trim();
+		this.name = data.name;
+		this.id = data.id;
 		this.effectType = _lib.Utils.getString(data.effectType)  || 'Type';
 		this.exists = !!(this.exists && this.id);
 		this.gen = data.gen || 0;
+		this.isNonstandard = data.isNonstandard || null;
 		this.damageTaken = data.damageTaken || {};
 		this.HPivs = data.HPivs || {};
 		this.HPdvs = data.HPdvs || {};
@@ -221,123 +251,92 @@ var _lib = require('../.lib-dist');
 	}
 } exports.TypeInfo = TypeInfo;
 
- function combine(obj, ...data) {
-	for (const d of data) {
-		if (d) Object.assign(obj, d);
-	}
-	return obj;
-} exports.combine = combine;
+ class DexTypes {
+	
+	 __init3() {this.typeCache = new Map()}
+	__init4() {this.allCache = null}
+	__init5() {this.namesCache = null}
 
-// export class PokemonSet {
-// 	/**
-// 	 * The Pokemon's set's nickname, which is identical to its base
-// 	 * species if not specified by the player, e.g. "Minior".
-// 	 */
-// 	name: string;
-// 	/**
-// 	 * The Pokemon's species, e.g. "Minior-Red".
-// 	 * This should always be converted to an id before use.
-// 	 */
-// 	species: string;
-// 	/**
-// 	 * The Pokemon's set's item. This can be an id, e.g. "whiteherb"
-// 	 * or a full name, e.g. "White Herb".
-// 	 * This should always be converted to an id before use.
-// 	 */
-// 	item: string;
-// 	/**
-// 	 * The Pokemon's set's ability. This can be an id, e.g. "shieldsdown"
-// 	 * or a full name, e.g. "Shields Down".
-// 	 * This should always be converted to an id before use.
-// 	 */
-// 	ability: string;
-// 	/**
-// 	 * An array of the Pokemon's set's moves. Each move can be an id,
-// 	 * e.g. "shellsmash" or a full name, e.g. "Shell Smash"
-// 	 * These should always be converted to ids before use.
-// 	 */
-// 	moves: string[];
-// 	/**
-// 	 * The Pokemon's set's nature. This can be an id, e.g. "adamant"
-// 	 * or a full name, e.g. "Adamant".
-// 	 * This should always be converted to an id before use.
-// 	 */
-// 	nature: string;
-// 	/**
-// 	 * The Pokemon's set's gender.
-// 	 */
-// 	gender: GenderName;
-// 	/**
-// 	 * The Pokemon's set's effort values, used in stat calculation.
-// 	 * These must be between 0 and 255, inclusive.
-// 	 */
-// 	evs: StatsTable;
-// 	/**
-// 	 * The Pokemon's individual values, used in stat calculation.
-// 	 * These must be between 0 and 31, inclusive.
-// 	 * These are also used as DVs, or determinant values, in Gens
-// 	 * 1 and 2, which are represented as even numbers from 0 to 30.
-// 	 * From Gen 2 and on, IVs/DVs are used to determine Hidden Power's
-// 	 * type, although in Gen 7 a Pokemon may be legally altered such
-// 	 * that its stats are calculated as if these values were 31 via
-// 	 * Bottlecaps. Currently, PS handles this by considering any
-// 	 * IV of 31 in Gen 7 to count as either even or odd for the purpose
-// 	 * of validating a Hidden Power type, though restrictions on
-// 	 * possible IVs for event-only Pokemon are still considered.
-// 	 */
-// 	ivs: StatsTable;
-// 	/**
-// 	 * The Pokemon's level. This is usually between 1 and 100, inclusive,
-// 	 * but the simulator supports levels up to 9999 for testing purposes.
-// 	 */
-// 	level: number;
-// 	/**
-// 	 * Whether the Pokemon is shiny or not. While having no direct
-// 	 * competitive effect except in a few OMs, certain Pokemon cannot
-// 	 * be legally obtained as shiny, either as a whole or with certain
-// 	 * event-only abilities or moves.
-// 	 */
-// 	shiny?: boolean;
-// 	/**
-// 	 * The Pokemon's set's happiness value. This is used only for
-// 	 * calculating the base power of the moves Return and Frustration.
-// 	 * This value must be between 0 and 255, inclusive.
-// 	 */
-// 	happiness: number;
-// 	/**
-// 	 * The Pokemon's set's Hidden Power type. This value is intended
-// 	 * to be used to manually set a set's HP type in Gen 7 where
-// 	 * its IVs do not necessarily reflect the user's intended type.
-// 	 * TODO: actually support this in the teambuilder.
-// 	 */
-// 	hpType?: string;
-// 	/**
-// 	 * The pokeball this Pokemon is in. Like shininess, this property
-// 	 * has no direct competitive effects, but has implications for
-// 	 * event legality. For example, any Rayquaza that knows V-Create
-// 	 * must be sent out from a Cherish Ball.
-// 	 * TODO: actually support this in the validator, switching animations,
-// 	 * and the teambuilder.
-// 	 */
-// 	pokeball?: string;
-//
-// 	constructor(data: Partial<PokemonSet>) {
-// 		this.name = '';
-// 		this.species = '';
-// 		this.item = '';
-// 		this.ability = 'noability';
-// 		this.moves = [];
-// 		this.nature = '';
-// 		this.gender = '';
-// 		this.evs = {hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0};
-// 		this.ivs = {hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31};
-// 		this.level = 100;
-// 		this.shiny = undefined;
-// 		this.happiness = 255; // :)
-// 		this.hpType = undefined;
-// 		this.pokeball = undefined;
-// 		Object.assign(this, data);
-// 	}
-// }
+	constructor(dex) {;DexTypes.prototype.__init3.call(this);DexTypes.prototype.__init4.call(this);DexTypes.prototype.__init5.call(this);
+		this.dex = dex;
+	}
+
+	get(name) {
+		if (name && typeof name !== 'string') return name;
+		return this.getByID(toID(name));
+	}
+
+	getByID(id) {
+		let type = this.typeCache.get(id);
+		if (type) return type;
+
+		const typeName = id.charAt(0).toUpperCase() + id.substr(1);
+		if (typeName && this.dex.data.TypeChart.hasOwnProperty(id)) {
+			type = new TypeInfo({name: typeName, id, ...this.dex.data.TypeChart[id]});
+		} else {
+			type = new TypeInfo({name: typeName, id, exists: false, effectType: 'EffectType'});
+		}
+
+		if (type.exists) this.typeCache.set(id, type);
+		return type;
+	}
+
+	names() {
+		if (this.namesCache) return this.namesCache;
+
+		this.namesCache = this.all().filter(type => !type.isNonstandard).map(type => type.name);
+
+		return this.namesCache;
+	}
+
+	isName(name) {
+		const id = name.toLowerCase();
+		const typeName = id.charAt(0).toUpperCase() + id.substr(1);
+		return name === typeName && this.dex.data.TypeChart.hasOwnProperty(id);
+	}
+
+	all() {
+		if (this.allCache) return this.allCache;
+		const types = [];
+		for (const id in this.dex.data.TypeChart) {
+			types.push(this.getByID(id ));
+		}
+		this.allCache = types;
+		return this.allCache;
+	}
+} exports.DexTypes = DexTypes;
+
+const idsCache = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+ class DexStats {
+	
+	
+	
+	constructor(dex) {
+		if (dex.gen !== 1) {
+			this.shortNames = {
+				__proto__: null, hp: "HP", atk: "Atk", def: "Def", spa: "SpA", spd: "SpD", spe: "Spe",
+			} ;
+			this.mediumNames = {
+				__proto__: null, hp: "HP", atk: "Attack", def: "Defense", spa: "Sp. Atk", spd: "Sp. Def", spe: "Speed",
+			} ;
+			this.names = {
+				__proto__: null, hp: "HP", atk: "Attack", def: "Defense", spa: "Special Attack", spd: "Special Defense", spe: "Speed",
+			} ;
+		} else {
+			this.shortNames = {
+				__proto__: null, hp: "HP", atk: "Atk", def: "Def", spa: "Spc", spd: "[SpD]", spe: "Spe",
+			} ;
+			this.mediumNames = {
+				__proto__: null, hp: "HP", atk: "Attack", def: "Defense", spa: "Special", spd: "[Sp. Def]", spe: "Speed",
+			} ;
+			this.names = {
+				__proto__: null, hp: "HP", atk: "Attack", def: "Defense", spa: "Special", spd: "[Special Defense]", spe: "Speed",
+			} ;
+		}
+	}
+	ids() {
+		return idsCache;
+	}
+} exports.DexStats = DexStats;
 
  //# sourceMappingURL=sourceMaps/dex-data.js.map

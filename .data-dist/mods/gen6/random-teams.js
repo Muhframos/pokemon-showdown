@@ -289,7 +289,7 @@ var _dex = require('../../../.sim-dist/dex');
 		case 'lavaplume':
 			return {cull: hasMove['firepunch'] || hasMove['fireblast'] && (counter.setupType || !!counter.speedsetup)};
 		case 'airslash': case 'hurricane':
-			return {cull: hasMove['bravebird']};
+			return {cull: hasMove['bravebird'] || hasMove[move.id === 'hurricane' ? 'airslash' : 'hurricane']};
 		case 'shadowball':
 			return {cull: hasMove['darkpulse'] || (hasMove['hex'] && hasMove['willowisp'])};
 		case 'shadowclaw':
@@ -728,7 +728,7 @@ var _dex = require('../../../.sim-dist/dex');
 		teamDetails = {},
 		isLead = false
 	) {
-		species = this.dex.getSpecies(species);
+		species = this.dex.species.get(species);
 		let forme = species.name;
 
 		if (typeof species.battleOnly === 'string') {
@@ -804,7 +804,7 @@ var _dex = require('../../../.sim-dist/dex');
 
 			// Iterate through the moves again, this time to cull them:
 			for (const [i, setMoveid] of moves.entries()) {
-				const move = this.dex.getMove(setMoveid);
+				const move = this.dex.moves.get(setMoveid);
 				const moveid = move.id;
 
 				let {cull, isSetup} = this.shouldCullMove(
@@ -932,7 +932,7 @@ var _dex = require('../../../.sim-dist/dex');
 
 				// Handle Hidden Power IVs
 				if (moveid === 'hiddenpower') {
-					const HPivs = this.dex.getType(move.type).HPivs;
+					const HPivs = this.dex.types.get(move.type).HPivs;
 					let iv;
 					for (iv in HPivs) {
 						ivs[iv] = HPivs[iv];
@@ -955,12 +955,12 @@ var _dex = require('../../../.sim-dist/dex');
 		}
 
 		const battleOnly = species.battleOnly && !species.requiredAbility;
-		const baseSpecies = battleOnly ? this.dex.getSpecies(species.battleOnly ) : species;
+		const baseSpecies = battleOnly ? this.dex.species.get(species.battleOnly ) : species;
 		const abilityNames = Object.values(baseSpecies.abilities);
-		abilityNames.sort((a, b) => this.dex.getAbility(b).rating - this.dex.getAbility(a).rating);
+		abilityNames.sort((a, b) => this.dex.abilities.get(b).rating - this.dex.abilities.get(a).rating);
 
 		if (abilityNames.length > 1) {
-			const abilities = abilityNames.map(name => this.dex.getAbility(name));
+			const abilities = abilityNames.map(name => this.dex.abilities.get(name));
 
 			// Sort abilities by rating with an element of randomness
 			if (abilityNames[2] && abilities[1].rating <= abilities[2].rating && this.randomChance(1, 2)) {
@@ -1106,11 +1106,11 @@ var _dex = require('../../../.sim-dist/dex');
 		let effectivePool = [];
 		const priorityPool = [];
 		for (const curSet of setList) {
-			const itemData = this.dex.getItem(curSet.item);
+			const itemData = this.dex.items.get(curSet.item);
 			if (teamData.megaCount && teamData.megaCount > 0 && itemData.megaStone) continue; // reject 2+ mega stones
 			if (itemsMax[itemData.id] && teamData.has[itemData.id] >= itemsMax[itemData.id]) continue;
 
-			const abilityData = this.dex.getAbility(curSet.ability);
+			const abilityData = this.dex.abilities.get(curSet.ability);
 			if (weatherAbilitiesRequire[abilityData.id] && teamData.weather !== weatherAbilitiesRequire[abilityData.id]) continue;
 			if (teamData.weather && weatherAbilities.includes(abilityData.id)) continue; // reject 2+ weather setters
 
@@ -1195,7 +1195,7 @@ var _dex = require('../../../.sim-dist/dex');
 		};
 
 		while (pokemonPool.length && pokemon.length < 6) {
-			const species = this.dex.getSpecies(this.sampleNoReplace(pokemonPool));
+			const species = this.dex.species.get(this.sampleNoReplace(pokemonPool));
 			if (!species.exists) continue;
 
 			const speciesFlags = this.randomFactorySets[chosenTier][species.id].flags;
@@ -1244,7 +1244,7 @@ var _dex = require('../../../.sim-dist/dex');
 
 			teamData.baseFormes[species.baseSpecies] = 1;
 
-			const itemData = this.dex.getItem(set.item);
+			const itemData = this.dex.items.get(set.item);
 			if (itemData.megaStone) teamData.megaCount++;
 			if (itemData.id in teamData.has) {
 				teamData.has[itemData.id]++;
@@ -1252,7 +1252,7 @@ var _dex = require('../../../.sim-dist/dex');
 				teamData.has[itemData.id] = 1;
 			}
 
-			const abilityData = this.dex.getAbility(set.ability);
+			const abilityData = this.dex.abilities.get(set.ability);
 			if (abilityData.id in weatherAbilitiesSet) {
 				teamData.weather = weatherAbilitiesSet[abilityData.id];
 			}
@@ -1269,7 +1269,7 @@ var _dex = require('../../../.sim-dist/dex');
 				}
 			}
 
-			for (const typeName in this.dex.data.TypeChart) {
+			for (const typeName of this.dex.types.names()) {
 				// Cover any major weakness (3+) with at least one resistance
 				if (teamData.resistances[typeName] >= 1) continue;
 				if (_optionalChain([resistanceAbilities, 'access', _4 => _4[abilityData.id], 'optionalAccess', _5 => _5.includes, 'call', _6 => _6(typeName)]) || !this.dex.getImmunity(typeName, types)) {

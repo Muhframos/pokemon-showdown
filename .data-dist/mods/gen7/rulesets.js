@@ -1,4 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const Formats = {
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); const Rulesets = {
 	standard: {
 		inherit: true,
 		ruleset: ['Obtainable', 'Team Preview', 'Sleep Clause Mod', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Moody Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod'],
@@ -43,6 +43,6 @@
 			}
 		},
 	},
-}; exports.Formats = Formats;
+}; exports.Rulesets = Rulesets;
 
  //# sourceMappingURL=sourceMaps/rulesets.js.map

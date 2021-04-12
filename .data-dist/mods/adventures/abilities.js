@@ -900,6 +900,32 @@ Ratings and how they work:
 		rating: 2,
 		num: 230,
 	},
+	insomnia: {
+		onUpdate(pokemon) {
+			if (pokemon.status === 'slp') {
+				this.add('-activate', pokemon, 'ability: Insomnia');
+				pokemon.cureStatus();
+			}
+		},
+		onSetStatus(status, target, source, effect) {
+			if (status.id !== 'slp') return;
+			if (_optionalChain([(effect ), 'optionalAccess', _4 => _4.status])) {
+				this.add('-immune', target, '[from] ability: Insomnia');
+			}
+			return false;
+		},
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Dark') {
+				{
+					this.add('-immune', target, '[from] ability: Insomnia');
+				}
+				return null;
+			}
+		},
+		name: "Insomnia",
+		rating: 2,
+		num: 15,
+	},
 }; exports.Abilities = Abilities;
 
  //# sourceMappingURL=sourceMaps/abilities.js.map

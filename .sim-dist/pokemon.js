@@ -280,7 +280,7 @@ var _dex = require('./dex');
 
 		if (typeof set === 'string') set = {name: set};
 
-		this.baseSpecies = this.battle.dex.getSpecies(set.species || set.name);
+		this.baseSpecies = this.battle.dex.species.get(set.species || set.name);
 		if (!this.baseSpecies.exists) {
 			throw new Error(`Unidentified species: ${this.baseSpecies.name}`);
 		}
@@ -310,11 +310,11 @@ var _dex = require('./dex');
 			throw new Error(`Set ${this.name} has no moves`);
 		}
 		for (const moveid of this.set.moves) {
-			let move = this.battle.dex.getMove(moveid);
+			let move = this.battle.dex.moves.get(moveid);
 			if (!move.id) continue;
 			if (move.id === 'hiddenpower' && move.type !== 'Normal') {
 				if (!set.hpType) set.hpType = move.type;
-				move = this.battle.dex.getMove('hiddenpower');
+				move = this.battle.dex.moves.get('hiddenpower');
 			}
 			this.baseMoveSlots.push({
 				move: move.name,
@@ -426,6 +426,11 @@ var _dex = require('./dex');
 
 		this.weighthg = 1;
 		this.speed = 0;
+		/**
+		 * Determines the order in which redirect abilities like Lightning Rod
+		 * activate if speed tied. Surprisingly not random like every other speed
+		 * tie, but based on who first switched in or acquired the ability!
+		 */
 		this.abilityOrder = 0;
 
 		this.canMegaEvo = this.battle.actions.canMegaEvo(this);
@@ -588,7 +593,7 @@ var _dex = require('./dex');
 	}
 
 	getMoveData(move) {
-		move = this.battle.dex.getMove(move);
+		move = this.battle.dex.moves.get(move);
 		for (const moveSlot of this.moveSlots) {
 			if (moveSlot.id === move.id) {
 				return moveSlot;
@@ -785,7 +790,7 @@ var _dex = require('./dex');
 
 	deductPP(move, amount, target) {
 		const gen = this.battle.gen;
-		move = this.battle.dex.getMove(move);
+		move = this.battle.dex.moves.get(move);
 		const ppData = this.getMoveData(move);
 		if (!ppData) return 0;
 		ppData.used = true;
@@ -808,7 +813,7 @@ var _dex = require('./dex');
 
 	gotAttacked(move, damage, source) {
 		const damageNumber = (typeof damage === 'number') ? damage : 0;
-		move = this.battle.dex.getMove(move);
+		move = this.battle.dex.moves.get(move);
 		this.attackedBy.push({
 			source,
 			damage: damageNumber,
@@ -865,7 +870,7 @@ var _dex = require('./dex');
 			}
 			// does this happen?
 			return [{
-				move: this.battle.dex.getMove(lockedMove).name,
+				move: this.battle.dex.moves.get(lockedMove).name,
 				id: lockedMove,
 			}];
 		}
@@ -877,13 +882,13 @@ var _dex = require('./dex');
 				moveName = 'Hidden Power ' + this.hpType;
 				if (this.battle.gen < 6) moveName += ' ' + this.hpPower;
 			} else if (moveSlot.id === 'return' || moveSlot.id === 'frustration') {
-				const basePowerCallback = this.battle.dex.getMove(moveSlot.id).basePowerCallback ;
+				const basePowerCallback = this.battle.dex.moves.get(moveSlot.id).basePowerCallback ;
 				moveName += ' ' + basePowerCallback(this);
 			}
 			let target = moveSlot.target;
 			if (moveSlot.id === 'curse') {
 				if (!this.hasType('Ghost')) {
-					target = this.battle.dex.getMove('curse').nonGhostTarget || moveSlot.target;
+					target = this.battle.dex.moves.get('curse').nonGhostTarget || moveSlot.target;
 				}
 			}
 			let disabled = moveSlot.disabled;
@@ -918,7 +923,7 @@ var _dex = require('./dex');
 
 	/** This should be passed the base move and not the corresponding max move so we can check how much PP is left. */
 	maxMoveDisabled(baseMove) {
-		baseMove = this.battle.dex.getMove(baseMove);
+		baseMove = this.battle.dex.moves.get(baseMove);
 		if (!_optionalChain([this, 'access', _4 => _4.getMoveData, 'call', _5 => _5(baseMove.id), 'optionalAccess', _6 => _6.pp])) return true;
 		return !!(baseMove.category === 'Status' && (this.hasItem('assaultvest') || this.volatiles['taunt']));
 	}
@@ -939,7 +944,7 @@ var _dex = require('./dex');
 		const result = {maxMoves: []};
 		let atLeastOne = false;
 		for (const moveSlot of this.moveSlots) {
-			const move = this.battle.dex.getMove(moveSlot.id);
+			const move = this.battle.dex.moves.get(moveSlot.id);
 			const maxMove = this.battle.actions.getMaxMove(move, this);
 			if (maxMove) {
 				if (this.maxMoveDisabled(move)) {
@@ -1029,7 +1034,7 @@ var _dex = require('./dex');
 					return move + _dex.toID.call(void 0, this.hpType) + (this.battle.gen < 6 ? '' : this.hpPower);
 				}
 				if (move === 'frustration' || move === 'return') {
-					const basePowerCallback = this.battle.dex.getMove(move).basePowerCallback ;
+					const basePowerCallback = this.battle.dex.moves.get(move).basePowerCallback ;
 					return move + basePowerCallback(this);
 				}
 				return move;
@@ -1096,7 +1101,7 @@ var _dex = require('./dex');
 		this.clearVolatile();
 		this.boosts = pokemon.boosts;
 		for (const i in pokemon.volatiles) {
-			if (this.battle.dex.getEffectByID(i ).noCopy) continue;
+			if (this.battle.dex.conditions.getByID(i ).noCopy) continue;
 			// shallow clones
 			this.volatiles[i] = {...pokemon.volatiles[i]};
 			if (this.volatiles[i].linkedPokemon) {
@@ -1253,7 +1258,7 @@ var _dex = require('./dex');
 		speciesId, source = this.battle.effect,
 		isPermanent, message
 	) {
-		const rawSpecies = this.battle.dex.getSpecies(speciesId);
+		const rawSpecies = this.battle.dex.species.get(speciesId);
 
 		const species = this.setSpecies(rawSpecies, source);
 		if (!species) return false;
@@ -1487,7 +1492,7 @@ var _dex = require('./dex');
 		ignoreImmunities = false
 	) {
 		if (!this.hp) return false;
-		status = this.battle.dex.getEffect(status);
+		status = this.battle.dex.conditions.get(status);
 		if (this.battle.event) {
 			if (!source) source = this.battle.event.source;
 			if (!sourceEffect) sourceEffect = this.battle.effect;
@@ -1554,7 +1559,7 @@ var _dex = require('./dex');
 	}
 
 	getStatus() {
-		return this.battle.dex.getEffectByID(this.status);
+		return this.battle.dex.conditions.getByID(this.status);
 	}
 
 	eatItem(force, source, sourceEffect) {
@@ -1652,7 +1657,7 @@ var _dex = require('./dex');
 
 	setItem(item, source, effect) {
 		if (!this.hp || !this.isActive) return false;
-		if (typeof item === 'string') item = this.battle.dex.getItem(item);
+		if (typeof item === 'string') item = this.battle.dex.items.get(item);
 
 		const effectid = this.battle.effect ? this.battle.effect.id : '';
 		if (exports.RESTORATIVE_BERRIES.has('leppaberry' )) {
@@ -1671,7 +1676,7 @@ var _dex = require('./dex');
 	}
 
 	getItem() {
-		return this.battle.dex.getItem(this.item);
+		return this.battle.dex.items.getByID(this.item);
 	}
 
 	hasItem(item) {
@@ -1687,16 +1692,16 @@ var _dex = require('./dex');
 
 	setAbility(ability, source, isFromFormeChange) {
 		if (!this.hp) return false;
-		if (typeof ability === 'string') ability = this.battle.dex.getAbility(ability);
+		if (typeof ability === 'string') ability = this.battle.dex.abilities.get(ability);
 		const oldAbility = this.ability;
 		if (!isFromFormeChange) {
 			if (ability.isPermanent || this.getAbility().isPermanent) return false;
 		}
 		if (!this.battle.runEvent('SetAbility', this, source, this.battle.effect, ability)) return false;
-		this.battle.singleEvent('End', this.battle.dex.getAbility(oldAbility), this.abilityData, this, source);
+		this.battle.singleEvent('End', this.battle.dex.abilities.get(oldAbility), this.abilityData, this, source);
 		if (this.battle.effect && this.battle.effect.effectType === 'Move') {
-			this.battle.add('-endability', this, this.battle.dex.getAbility(oldAbility), '[from] move: ' +
-				this.battle.dex.getMove(this.battle.effect.id));
+			this.battle.add('-endability', this, this.battle.dex.abilities.get(oldAbility), '[from] move: ' +
+				this.battle.dex.moves.get(this.battle.effect.id));
 		}
 		this.ability = ability.id;
 		this.abilityData = {id: ability.id, target: this};
@@ -1708,7 +1713,7 @@ var _dex = require('./dex');
 	}
 
 	getAbility() {
-		return this.battle.dex.getAbility(this.ability);
+		return this.battle.dex.abilities.getByID(this.ability);
 	}
 
 	hasAbility(ability) {
@@ -1723,7 +1728,7 @@ var _dex = require('./dex');
 	}
 
 	getNature() {
-		return this.battle.dex.getNature(this.set.nature);
+		return this.battle.dex.natures.get(this.set.nature);
 	}
 
 	addVolatile(
@@ -1731,7 +1736,7 @@ var _dex = require('./dex');
 		linkedStatus = null
 	) {
 		let result;
-		status = this.battle.dex.getEffect(status);
+		status = this.battle.dex.conditions.get(status);
 		if (!this.hp && !status.affectsFainted) return false;
 		if (linkedStatus && source && !source.hp) return false;
 		if (this.battle.event) {
@@ -1788,14 +1793,14 @@ var _dex = require('./dex');
 	}
 
 	getVolatile(status) {
-		status = this.battle.dex.getEffect(status) ;
+		status = this.battle.dex.conditions.get(status) ;
 		if (!this.volatiles[status.id]) return null;
 		return status;
 	}
 
 	removeVolatile(status) {
 		if (!this.hp) return false;
-		status = this.battle.dex.getEffect(status) ;
+		status = this.battle.dex.conditions.get(status) ;
 		if (!this.volatiles[status.id]) return false;
 		this.battle.singleEvent('End', status, this.volatiles[status.id], this);
 		const linkedPokemon = this.volatiles[status.id].linkedPokemon;
@@ -1953,8 +1958,7 @@ var _dex = require('./dex');
 	/** false = immune, true = not immune */
 	runImmunity(type, message) {
 		if (!type || type === '???') return true;
-		if (!(type in this.battle.dex.data.TypeChart)) {
-			if (type === 'Fairy' || type === 'Dark' || type === 'Steel') return true;
+		if (!this.battle.dex.types.isName(type)) {
 			throw new Error("Use runStatusImmunity for " + type);
 		}
 		if (this.fainted) return false;

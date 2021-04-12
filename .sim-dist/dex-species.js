@@ -38,6 +38,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
  class Species extends _dexdata.BasicEffect  {
 	
 	/**
@@ -212,14 +222,12 @@
 	
 	
 
-	constructor(data, ...moreData) {
-		super(data, ...moreData);
+	constructor(data) {
+		super(data);
 		data = this;
 
 		this.fullname = `pokemon: ${data.name}`;
 		this.effectType = 'Pokemon';
-		this.id = data.id ;
-		this.name = data.name;
 		this.baseSpecies = data.baseSpecies || this.name;
 		this.forme = data.forme || '';
 		this.baseForme = data.baseForme || '';
@@ -292,5 +300,207 @@
 		}
 	}
 } exports.Species = Species;
+
+ class Learnset {
+	
+	/**
+	 * Keeps track of exactly how a pokemon might learn a move, in the
+	 * form moveid:sources[].
+	 */
+	
+	/** True if the only way to get this Pokemon is from events. */
+	
+	/** List of event data for each event. */
+	
+	
+	
+
+	constructor(data) {
+		this.exists = true;
+		this.effectType = 'Learnset';
+		this.learnset = data.learnset || undefined;
+		this.eventOnly = !!data.eventOnly;
+		this.eventData = data.eventData || undefined;
+		this.encounters = data.encounters || undefined;
+	}
+} exports.Learnset = Learnset;
+
+ class DexSpecies {
+	
+	 __init() {this.speciesCache = new Map()}
+	 __init2() {this.learnsetCache = new Map()}
+	__init3() {this.allCache = null}
+
+	constructor(dex) {;DexSpecies.prototype.__init.call(this);DexSpecies.prototype.__init2.call(this);DexSpecies.prototype.__init3.call(this);
+		this.dex = dex;
+	}
+
+	get(name) {
+		if (name && typeof name !== 'string') return name;
+
+		name = (name || '').trim();
+		let id = _dexdata.toID.call(void 0, name);
+		if (id === 'nidoran' && name.endsWith('♀')) {
+			id = 'nidoranf' ;
+		} else if (id === 'nidoran' && name.endsWith('♂')) {
+			id = 'nidoranm' ;
+		}
+
+		return this.getByID(id);
+	}
+	getByID(id) {
+		let species = this.speciesCache.get(id);
+		if (species) return species;
+
+		if (this.dex.data.Aliases.hasOwnProperty(id)) {
+			if (this.dex.data.FormatsData.hasOwnProperty(id)) {
+				// special event ID, like Rockruff-Dusk
+				const baseId = _dexdata.toID.call(void 0, this.dex.data.Aliases[id]);
+				species = new Species({
+					...this.dex.data.Pokedex[baseId],
+					...this.dex.data.FormatsData[id],
+					name: id,
+				});
+				species.abilities = {0: species.abilities['S']};
+			} else {
+				species = this.get(this.dex.data.Aliases[id]);
+				if (species.cosmeticFormes) {
+					for (const forme of species.cosmeticFormes) {
+						if (_dexdata.toID.call(void 0, forme) === id) {
+							species = new Species({
+								...species,
+								name: forme,
+								forme: forme.slice(species.name.length + 1),
+								baseForme: "",
+								baseSpecies: species.name,
+								otherFormes: null,
+								cosmeticFormes: null,
+							});
+							break;
+						}
+					}
+				}
+			}
+			this.speciesCache.set(id, species);
+			return species;
+		}
+
+		if (!this.dex.data.Pokedex.hasOwnProperty(id)) {
+			let aliasTo = '';
+			const formeNames = {
+				alola: ['a', 'alola', 'alolan'],
+				galar: ['g', 'galar', 'galarian'],
+				mega: ['m', 'mega'],
+				primal: ['p', 'primal'],
+			};
+			for (const forme in formeNames) {
+				let pokeName = '';
+				for (const i of formeNames[forme]) {
+					if (id.startsWith(i)) {
+						pokeName = id.slice(i.length);
+					} else if (id.endsWith(i)) {
+						pokeName = id.slice(0, -i.length);
+					}
+				}
+				if (this.dex.data.Aliases.hasOwnProperty(pokeName)) pokeName = _dexdata.toID.call(void 0, this.dex.data.Aliases[pokeName]);
+				if (this.dex.data.Pokedex[pokeName + forme]) {
+					aliasTo = pokeName + forme;
+					break;
+				}
+			}
+			if (aliasTo) {
+				species = this.get(aliasTo);
+				if (species.exists) {
+					this.speciesCache.set(id, species);
+					return species;
+				}
+			}
+		}
+		if (id && this.dex.data.Pokedex.hasOwnProperty(id)) {
+			species = new Species({
+				...this.dex.data.Pokedex[id],
+				...this.dex.data.FormatsData[id],
+			});
+			// Inherit any statuses from the base species (Arceus, Silvally).
+			const baseSpeciesStatuses = this.dex.data.Conditions[_dexdata.toID.call(void 0, species.baseSpecies)];
+			if (baseSpeciesStatuses !== undefined) {
+				let key;
+				for (key in baseSpeciesStatuses) {
+					if (!(key in species)) (species )[key] = baseSpeciesStatuses[key];
+				}
+			}
+			if (!species.tier && !species.doublesTier && species.baseSpecies !== species.name) {
+				if (species.baseSpecies === 'Mimikyu') {
+					species.tier = this.dex.data.FormatsData[_dexdata.toID.call(void 0, species.baseSpecies)].tier || 'Illegal';
+					species.doublesTier = this.dex.data.FormatsData[_dexdata.toID.call(void 0, species.baseSpecies)].doublesTier || 'Illegal';
+				} else if (species.id.endsWith('totem')) {
+					species.tier = this.dex.data.FormatsData[species.id.slice(0, -5)].tier || 'Illegal';
+					species.doublesTier = this.dex.data.FormatsData[species.id.slice(0, -5)].doublesTier || 'Illegal';
+				} else if (species.battleOnly) {
+					species.tier = this.dex.data.FormatsData[_dexdata.toID.call(void 0, species.battleOnly)].tier || 'Illegal';
+					species.doublesTier = this.dex.data.FormatsData[_dexdata.toID.call(void 0, species.battleOnly)].doublesTier || 'Illegal';
+				} else {
+					const baseFormatsData = this.dex.data.FormatsData[_dexdata.toID.call(void 0, species.baseSpecies)];
+					if (!baseFormatsData) {
+						throw new Error(`${species.baseSpecies} has no formats-data entry`);
+					}
+					species.tier = baseFormatsData.tier || 'Illegal';
+					species.doublesTier = baseFormatsData.doublesTier || 'Illegal';
+				}
+			}
+			if (!species.tier) species.tier = 'Illegal';
+			if (!species.doublesTier) species.doublesTier = species.tier ;
+			if (species.gen > this.dex.gen) {
+				species.tier = 'Illegal';
+				species.doublesTier = 'Illegal';
+				species.isNonstandard = 'Future';
+			}
+			if (this.dex.currentMod === 'letsgo' && !species.isNonstandard) {
+				const isLetsGo = (
+					(species.num <= 151 || ['Meltan', 'Melmetal'].includes(species.name)) &&
+					(!species.forme || ['Alola', 'Mega', 'Mega-X', 'Mega-Y', 'Starter'].includes(species.forme))
+				);
+				if (!isLetsGo) species.isNonstandard = 'Past';
+			}
+			species.nfe = !!(species.evos.length && this.get(species.evos[0]).gen <= this.dex.gen);
+			species.canHatch = species.canHatch ||
+				(!['Ditto', 'Undiscovered'].includes(species.eggGroups[0]) && !species.prevo && species.name !== 'Manaphy');
+			if (this.dex.gen === 1) species.bst -= species.baseStats.spd;
+			if (this.dex.gen < 5) delete species.abilities['H'];
+		} else {
+			species = new Species({
+				id, name: id,
+				exists: false, tier: 'Illegal', doublesTier: 'Illegal', isNonstandard: 'Custom',
+			});
+		}
+		if (species.exists) this.speciesCache.set(id, species);
+		return species;
+	}
+
+	getLearnset(id) {
+		return this.getLearnsetData(id).learnset;
+	}
+
+	getLearnsetData(id) {
+		let learnsetData = this.learnsetCache.get(id);
+		if (learnsetData) return learnsetData;
+		if (!this.dex.data.Learnsets.hasOwnProperty(id)) {
+			return new Learnset({exists: false});
+		}
+		learnsetData = new Learnset(this.dex.data.Learnsets[id]);
+		this.learnsetCache.set(id, learnsetData);
+		return learnsetData;
+	}
+
+	all() {
+		if (this.allCache) return this.allCache;
+		const species = [];
+		for (const id in this.dex.data.Pokedex) {
+			species.push(this.getByID(id ));
+		}
+		this.allCache = species;
+		return this.allCache;
+	}
+} exports.DexSpecies = DexSpecies;
 
  //# sourceMappingURL=sourceMaps/dex-species.js.map

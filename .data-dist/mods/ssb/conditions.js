@@ -347,7 +347,7 @@ for (const row of usergroupData) {
 			this.add(`c|${getName('Cake')}|AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`);
 			// h innate
 			if (pokemon.illusion) return;
-			const typeList = Object.keys(this.dex.data.TypeChart);
+			const typeList = [...this.dex.types.names()];
 			this.prng.shuffle(typeList);
 			const firstType = typeList[0];
 			this.prng.shuffle(typeList);
@@ -369,7 +369,7 @@ for (const row of usergroupData) {
 		onResidual(pokemon) {
 			if (pokemon.illusion) return;
 			if (pokemon.activeTurns) {
-				const typeList = Object.keys(this.dex.data.TypeChart);
+				const typeList = [...this.dex.types.names()];
 				this.prng.shuffle(typeList);
 				const firstType = typeList[0];
 				this.prng.shuffle(typeList);
@@ -2170,7 +2170,7 @@ for (const row of usergroupData) {
 					if (key.endsWith('mod') || key.endsWith('clause')) continue;
 					side.removeSideCondition(key);
 					if (!silentRemove.includes(key)) {
-						this.add('-sideend', side, this.dex.getEffect(key).name, '[from] ability: Turbulence');
+						this.add('-sideend', side, this.dex.conditions.get(key).name, '[from] ability: Turbulence');
 					}
 				}
 			}

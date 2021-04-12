@@ -1187,7 +1187,7 @@ class PatternTester {
 				// autoclose tags
 				'p', 'li', 'dt', 'dd', 'option', 'tr', 'th', 'td', 'thead', 'tbody', 'tfoot', 'colgroup',
 				// PS custom element
-				'psicon',
+				'psicon', 'youtube',
 			];
 			const stack = [];
 			for (const tag of tags) {
@@ -1607,11 +1607,11 @@ class PatternTester {
 		return translated;
 	}
 
-	 __init18() {this.MessageContext = MessageContext};
-	 __init19() {this.CommandContext = exports.CommandContext = CommandContext};
-	 __init20() {this.PageContext = exports.PageContext = PageContext};
-	 __init21() {this.ErrorMessage = exports.ErrorMessage = ErrorMessage};
-	 __init22() {this.Interruption = exports.Interruption = Interruption};
+	 __init18() {this.MessageContext = MessageContext}
+	 __init19() {this.CommandContext = exports.CommandContext = CommandContext}
+	 __init20() {this.PageContext = exports.PageContext = PageContext}
+	 __init21() {this.ErrorMessage = exports.ErrorMessage = ErrorMessage}
+	 __init22() {this.Interruption = exports.Interruption = Interruption}
 	/**
 	 * Command parser
 	 *
@@ -1684,7 +1684,7 @@ class PatternTester {
 		user.lastPM = pmTarget.id;
 	}
 
-	__init23() {this.packageData = {}};
+	__init23() {this.packageData = {}}
 
 	loadPlugin(file) {
 		let plugin;
@@ -2155,7 +2155,7 @@ class PatternTester {
 		buf += '</span> ';
 		if (gen >= 3) {
 			buf += '<span style="float:left;min-height:26px">';
-			if (species.abilities['1'] && (gen >= 4 || Dex.getAbility(species.abilities['1']).gen === 3)) {
+			if (species.abilities['1'] && (gen >= 4 || Dex.abilities.get(species.abilities['1']).gen === 3)) {
 				buf += '<span class="col twoabilitycol">' + species.abilities['0'] + '<br />' + species.abilities['1'] + '</span>';
 			} else {
 				buf += '<span class="col abilitycol">' + species.abilities['0'] + '</span>';
@@ -2282,12 +2282,12 @@ class PatternTester {
 			}
 		}
 	}
-	 __init24() {this.formatText = _chatformatter.formatText};
-	 __init25() {this.linkRegex = _chatformatter.linkRegex};
-	 __init26() {this.stripFormatting = _chatformatter.stripFormatting};
+	 __init24() {this.formatText = _chatformatter.formatText}
+	 __init25() {this.linkRegex = _chatformatter.linkRegex}
+	 __init26() {this.stripFormatting = _chatformatter.stripFormatting}
 
-	 __init27() {this.filterWords = {}};
-	 __init28() {this.monitors = {}};
+	 __init27() {this.filterWords = {}}
+	 __init28() {this.monitors = {}}
 
 	registerMonitor(id, entry) {
 		if (!exports.Chat.filterWords[id]) exports.Chat.filterWords[id] = [];

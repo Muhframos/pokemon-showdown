@@ -1,5 +1,5 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); const TypeChart = {
-	Electric: {
+	electric: {
 		inherit: true,
 		damageTaken: {
 			Bug: 0,
@@ -21,7 +21,7 @@
 			Water: 0,
 		},
 	},
-	Ghost: {
+	ghost: {
 		inherit: true,
 		damageTaken: {
 			Bug: 2,
@@ -43,7 +43,7 @@
 			Water: 0,
 		},
 	},
-	Grass: {
+	grass: {
 		inherit: true,
 		damageTaken: {
 			Bug: 1,
@@ -65,7 +65,7 @@
 			Water: 2,
 		},
 	},
-	Steel: {
+	steel: {
 		inherit: true,
 		damageTaken: {
 			psn: 3,
@@ -90,7 +90,10 @@
 			Water: 0,
 		},
 	},
-	Fairy: null,
+	fairy: {
+		inherit: true,
+		isNonstandard: 'Future',
+	},
 }; exports.TypeChart = TypeChart;
 
  //# sourceMappingURL=sourceMaps/typechart.js.map

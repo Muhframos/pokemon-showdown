@@ -89,7 +89,7 @@
 
 	actions: {
 		canMegaEvo(pokemon) {
-			const altForme = pokemon.baseSpecies.otherFormes && this.dex.getSpecies(pokemon.baseSpecies.otherFormes[0]);
+			const altForme = pokemon.baseSpecies.otherFormes && this.dex.species.get(pokemon.baseSpecies.otherFormes[0]);
 			const item = pokemon.getItem();
 			if (
 				_optionalChain([altForme, 'optionalAccess', _ => _.isMega]) && _optionalChain([altForme, 'optionalAccess', _2 => _2.requiredMove]) &&
@@ -168,7 +168,7 @@
 			}
 
 			if (pokemon.illusion) {
-				this.battle.singleEvent('End', this.dex.getAbility('Illusion'), pokemon.abilityData, pokemon);
+				this.battle.singleEvent('End', this.dex.abilities.get('Illusion'), pokemon.abilityData, pokemon);
 			} // only part that's changed
 			pokemon.formeChange(speciesid, pokemon.getItem(), true);
 
@@ -347,7 +347,7 @@
 		lostItemForDelibird: null,
 		setItem(item, source, effect) {
 			if (!this.hp) return false;
-			if (typeof item === 'string') item = this.battle.dex.getItem(item);
+			if (typeof item === 'string') item = this.battle.dex.items.get(item);
 
 			const effectid = this.battle.effect ? this.battle.effect.id : '';
 			const RESTORATIVE_BERRIES = new Set([

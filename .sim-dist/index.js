@@ -11,8 +11,9 @@
  */
 
 var _battle = require('./battle'); _createNamedExportFrom(_battle, 'Battle', 'Battle');
-var _battlestream = require('./battle-stream'); _createNamedExportFrom(_battlestream, 'BattleStream', 'BattleStream');
+var _battlestream = require('./battle-stream'); _createNamedExportFrom(_battlestream, 'BattleStream', 'BattleStream'); _createNamedExportFrom(_battlestream, 'getPlayerStreams', 'getPlayerStreams');
 var _dex = require('./dex'); _createNamedExportFrom(_dex, 'Dex', 'Dex');
+var _teams = require('./teams'); _createNamedExportFrom(_teams, 'Teams', 'Teams');
 var _pokemon = require('./pokemon'); _createNamedExportFrom(_pokemon, 'Pokemon', 'Pokemon');
 var _prng = require('./prng'); _createNamedExportFrom(_prng, 'PRNG', 'PRNG');
 var _side = require('./side'); _createNamedExportFrom(_side, 'Side', 'Side');

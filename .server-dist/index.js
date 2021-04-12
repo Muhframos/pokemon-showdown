@@ -105,6 +105,9 @@ var _dex = require('../.sim-dist/dex');
 global.Dex = _dex.Dex;
 global.toID = _dex.Dex.toID;
 
+var _teams = require('../.sim-dist/teams');
+global.Teams = _teams.Teams;
+
 var _loginserver = require('./loginserver');
 global.LoginServer = _loginserver.LoginServer;
 

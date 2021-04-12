@@ -1,5 +1,5 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); const TypeChart = {
-	Fire: {
+	fire: {
 		inherit: true,
 		damageTaken: {
 			Bug: 2,
@@ -21,7 +21,7 @@
 			Water: 1,
 		},
 	},
-	Ice: {
+	ice: {
 		inherit: true,
 		damageTaken: {
 			Bug: 0,
@@ -43,7 +43,7 @@
 			Water: 0,
 		},
 	},
-	Steel: {
+	steel: {
 		inherit: true,
 		damageTaken: {
 			sandstorm: 3,

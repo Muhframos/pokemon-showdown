@@ -108,7 +108,7 @@ var _randomteams = require('../../random-teams');
 		return {cull: false};
 	}
 	randomSet(species, teamDetails = {}) {
-		species = this.dex.getSpecies(species);
+		species = this.dex.species.get(species);
 		let forme = species.name;
 
 		if (typeof species.battleOnly === 'string') {
@@ -145,7 +145,7 @@ var _randomteams = require('../../random-teams');
 
 			// Iterate through the moves again, this time to cull them:
 			for (const [i, setMoveid] of moves.entries()) {
-				const move = this.dex.getMove(setMoveid);
+				const move = this.dex.moves.get(setMoveid);
 
 				let {cull, isSetup} = this.shouldCullMove(move, hasMove, hasType, counter, teamDetails);
 
@@ -220,7 +220,7 @@ var _randomteams = require('../../random-teams');
 
 		const pokemonPool = [];
 		for (const id in this.dex.data.FormatsData) {
-			const species = this.dex.getSpecies(id);
+			const species = this.dex.species.get(id);
 			if (
 				species.num < 1 ||
 				(species.num > 151 && ![808, 809].includes(species.num)) ||
@@ -239,7 +239,7 @@ var _randomteams = require('../../random-teams');
 		const teamDetails = {};
 
 		while (pokemonPool.length && pokemon.length < 6) {
-			const species = this.dex.getSpecies(this.sampleNoReplace(pokemonPool));
+			const species = this.dex.species.get(this.sampleNoReplace(pokemonPool));
 			if (!species.exists) continue;
 
 			// Limit to one of each species (Species Clause)

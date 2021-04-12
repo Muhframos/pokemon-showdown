@@ -774,7 +774,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	},
 	strength: {
 		desc: "Forces the target to switch to a random ally.",
-		shortDesc: "If a foe is switching out, hits it at 2x power.",
+		shortDesc: "Forces the target to switch to a random ally.",
 		inherit: true,
 		pp: 10,
 		priority: -6,
@@ -877,8 +877,8 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		contestType: "Beautiful",
 	},
 	aromaticmist: {
-		desc: "-1 Evasion; clears terrain and hazards on both sides, then summons Misty Terrain.",
-		shortDesc: "-1 Evasion; clears terrain and hazards on both sides, then summons Misty Terrain.",
+		desc: "-1 Evasion; clears hazards and screens on both sides, then summons Misty Terrain.",
+		shortDesc: "-1 Evasion; clears hazards and screens on both sides, then summons Misty Terrain.",
 		num: 597,
 		accuracy: true,
 		basePower: 0,
@@ -1271,7 +1271,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	relicsong: {
 		num: 547,
 		accuracy: 100,
-		basePower: 95,
+		basePower: 90,
 		category: "Special",
 		isNonstandard: "Past",
 		name: "Relic Song",
@@ -1279,7 +1279,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		priority: 0,
 		flags: {protect: 1, mirror: 1, sound: 1, authentic: 1},
 		secondary: {
-			chance: 10,
+			chance: 50,
 			status: 'slp',
 		},
 		onModifyMove(move, pokemon) {
@@ -1294,12 +1294,6 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 			if (move.willChangeForme) {
 				const meloettaForme = pokemon.species.id === 'meloettapirouette' ? '' : '-Pirouette';
 				pokemon.formeChange('Meloetta' + meloettaForme, this.effect, false, '[msg]');
-			}
-		},
-		onHit(target, source, move) {
-			if (source.volatiles['choicelock'] && !source.hasAbility('sheerforce')) {
-				this.debug('removing choicelock: ' + source.volatiles['choicelock']);
-				source.removeVolatile('choicelock');
 			}
 		},
 		target: "allAdjacentFoes",
@@ -1453,6 +1447,25 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		target: "normal",
 		type: "Electric",
 		contestType: "Cool",
+	},
+	junglehealing: {
+		desc: "Heals status and 1/3 max HP of self and allies.",
+		shortDesc: "Heals status and 1/3 max HP of self and allies.",
+		num: 816,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Jungle Healing",
+		pp: 10,
+		priority: 0,
+		flags: {heal: 1, authentic: 1, mystery: 1},
+		onHit(pokemon) {
+			const success = !!this.heal(this.modify(pokemon.maxhp, 0.33));
+			return pokemon.cureStatus() || success;
+		},
+		secondary: null,
+		target: "allies",
+		type: "Grass",
 	},
 }; exports.Moves = Moves
 

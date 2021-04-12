@@ -33,43 +33,35 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 } exports.getCommonBattles = getCommonBattles;
 
  function findFormats(targetId, isOMSearch = false) {
-	let formatList = [];
-	const format = Dex.getFormat(targetId);
-	if (['Format', 'ValidatorRule', 'Rule'].includes(format.effectType)) formatList = [targetId];
-	if (!formatList.length) {
-		formatList = Object.keys(Dex.formats);
-	}
+	const exactFormat = Dex.formats.get(targetId);
+
+	const formatList = exactFormat.exists ? [exactFormat] : Dex.formats.all();
 
 	// Filter formats and group by section
-	let exactMatch = '';
 	const sections = {};
 	let totalMatches = 0;
-	for (const mode of formatList) {
-		const subformat = Dex.getFormat(mode);
-		const sectionId = toID(subformat.section);
-		let formatId = subformat.id;
-		if (!/^gen\d+/.test(targetId)) {
-			// Skip generation prefix if it wasn't provided
-			formatId = formatId.replace(/^gen\d+/, '') ;
-		}
-		if (targetId && !(subformat )[targetId + 'Show'] && sectionId !== targetId &&
-		subformat.id === mode && !formatId.startsWith(targetId)) continue;
-		if (isOMSearch) {
-			const officialFormats = [
-				'ou', 'uu', 'ru', 'nu', 'pu', 'ubers', 'lc', 'monotype', 'customgame', 'doublescustomgame', 'gbusingles', 'gbudoubles',
-			];
-			if (subformat.id.startsWith('gen') && officialFormats.includes(subformat.id.slice(4))) {
-				continue;
+	for (const format of formatList) {
+		const sectionId = toID(format.section);
+		// Skip generation prefix if it wasn't provided
+		const formatId = /^gen\d+/.test(targetId) ? format.id : format.id.slice(4);
+		if (
+			!targetId || format[targetId + 'Show' ] || sectionId === targetId ||
+			formatId.startsWith(targetId) || exactFormat.exists
+		) {
+			if (isOMSearch) {
+				const officialFormats = [
+					'ou', 'uu', 'ru', 'nu', 'pu', 'ubers', 'lc', 'monotype', 'customgame', 'doublescustomgame', 'gbusingles', 'gbudoubles',
+				];
+				if (format.id.startsWith('gen') && officialFormats.includes(format.id.slice(4))) {
+					continue;
+				}
 			}
+			totalMatches++;
+			if (!sections[sectionId]) sections[sectionId] = {name: format.section, formats: []};
+			sections[sectionId].formats.push(format.id);
 		}
-		totalMatches++;
-		if (!sections[sectionId]) sections[sectionId] = {name: subformat.section, formats: []};
-		sections[sectionId].formats.push(subformat.id);
-		if (subformat.id !== targetId) continue;
-		exactMatch = sectionId;
-		break;
 	}
-	return {totalMatches, sections, exactMatch};
+	return {totalMatches, sections};
 } exports.findFormats = findFormats;
 
  const commands = {
@@ -500,7 +492,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (user1Challs) {
 			for (const chall of user1Challs) {
 				if (chall.from === user1.id && Users.get(chall.to) === user2) {
-					challenges.push(_lib.Utils.html`${user1.name} is challenging ${user2.name} in ${Dex.getFormat(chall.formatid).name}.`);
+					challenges.push(_lib.Utils.html`${user1.name} is challenging ${user2.name} in ${Dex.formats.get(chall.formatid).name}.`);
 					break;
 				}
 			}
@@ -509,7 +501,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (user2Challs) {
 			for (const chall of user2Challs) {
 				if (chall.from === user2.id && Users.get(chall.to) === user1) {
-					challenges.push(_lib.Utils.html`${user2.name} is challenging ${user1.name} in ${Dex.getFormat(chall.formatid).name}.`);
+					challenges.push(_lib.Utils.html`${user2.name} is challenging ${user1.name} in ${Dex.formats.get(chall.formatid).name}.`);
 					break;
 				}
 			}
@@ -554,8 +546,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (!targetId) return this.parse('/help data');
 		const targetNum = parseInt(target);
 		if (!isNaN(targetNum) && `${targetNum}` === target) {
-			for (const p in Dex.data.Pokedex) {
-				const pokemon = Dex.getSpecies(p);
+			for (const pokemon of Dex.species.all()) {
 				if (pokemon.num === targetNum) {
 					target = pokemon.baseSpecies;
 					break;
@@ -567,13 +558,13 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (sep[1] && toID(sep[1]) in Dex.dexes) {
 			dex = Dex.mod(toID(sep[1]));
 		} else if (sep[1]) {
-			format = Dex.getFormat(sep[1]);
+			format = Dex.formats.get(sep[1]);
 			if (!format.exists) {
 				return this.errorReply(`Unrecognized format or mod "${format.name}"`);
 			}
 			dex = Dex.mod(format.mod);
 		} else if (_optionalChain([room, 'optionalAccess', _31 => _31.battle])) {
-			format = Dex.getFormat(room.battle.format);
+			format = Dex.formats.get(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
 		const newTargets = dex.dataSearch(target);
@@ -589,19 +580,16 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			let details = {};
 			switch (newTarget.searchType) {
 			case 'nature':
-				const nature = Dex.getNature(newTarget.name);
+				const nature = Dex.natures.get(newTarget.name);
 				buffer += `${nature.name} nature: `;
 				if (nature.plus) {
-					const statNames = {
-						atk: "Attack", def: "Defense", spa: "Special Attack", spd: "Special Defense", spe: "Speed",
-					};
-					buffer += `+10% ${statNames[nature.plus]}, -10% ${statNames[nature.minus]}.`;
+					buffer += `+10% ${Dex.stats.names[nature.plus]}, -10% ${Dex.stats.names[nature.minus]}.`;
 				} else {
 					buffer += `No effect.`;
 				}
 				return this.sendReply(buffer);
 			case 'pokemon':
-				let pokemon = dex.getSpecies(newTarget.name);
+				let pokemon = dex.species.get(newTarget.name);
 				if (_optionalChain([format, 'optionalAccess', _32 => _32.onModifySpecies])) {
 					pokemon = format.onModifySpecies.call({dex, clampIntRange: _lib.Utils.clampIntRange, toID} , pokemon) || pokemon;
 				}
@@ -637,13 +625,13 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 						Height: `${pokemon.heightm} m`,
 					};
 					details["Weight"] = `${pokemon.weighthg / 10} kg <em>(${weighthit} BP)</em>`;
-					const gmaxMove = pokemon.canGigantamax || dex.getSpecies(pokemon.changesFrom).canGigantamax;
+					const gmaxMove = pokemon.canGigantamax || dex.species.get(pokemon.changesFrom).canGigantamax;
 					if (gmaxMove) details["G-Max Move"] = gmaxMove;
 					if (pokemon.color && dex.gen >= 5) details["Dex Colour"] = pokemon.color;
 					if (pokemon.eggGroups && dex.gen >= 2) details["Egg Group(s)"] = pokemon.eggGroups.join(", ");
 					const evos = [];
 					for (const evoName of pokemon.evos) {
-						const evo = dex.getSpecies(evoName);
+						const evo = dex.species.get(evoName);
 						if (evo.gen <= dex.gen) {
 							const condition = evo.evoCondition ? ` ${evo.evoCondition}` : ``;
 							switch (evo.evoType) {
@@ -681,7 +669,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				}
 				break;
 			case 'item':
-				const item = dex.getItem(newTarget.name);
+				const item = dex.items.get(newTarget.name);
 				buffer += `|raw|${Chat.getDataItemHTML(item)}\n`;
 				if (showDetails) {
 					details = {
@@ -713,7 +701,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				}
 				break;
 			case 'move':
-				const move = dex.getMove(newTarget.name);
+				const move = dex.moves.get(newTarget.name);
 				buffer += `|raw|${Chat.getDataMoveHTML(move)}\n`;
 				if (showDetails) {
 					details = {
@@ -766,11 +754,11 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 							}
 						} else if (move.isZ && typeof move.isZ === 'string') {
 							details["&#10003; Z-Move"] = "";
-							const zCrystal = dex.getItem(move.isZ);
+							const zCrystal = dex.items.get(move.isZ);
 							details["Z-Crystal"] = zCrystal.name;
 							if (zCrystal.itemUser) {
 								details["User"] = zCrystal.itemUser.join(", ");
-								details["Required Move"] = dex.getItem(move.isZ).zMoveFrom;
+								details["Required Move"] = dex.items.get(move.isZ).zMoveFrom;
 							}
 						} else {
 							details["Z-Effect"] = "None";
@@ -817,7 +805,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 				}
 				break;
 			case 'ability':
-				const ability = dex.getAbility(newTarget.name);
+				const ability = dex.abilities.get(newTarget.name);
 				buffer += `|raw|${Chat.getDataAbilityHTML(ability)}\n`;
 				if (showDetails) {
 					details = {
@@ -885,17 +873,17 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			mod = Dex.mod(maybeMod);
 			targets.pop();
 		} else if (_optionalChain([room, 'optionalAccess', _44 => _44.battle])) {
-			format = Dex.getFormat(room.battle.format);
+			format = Dex.formats.get(room.battle.format);
 			mod = Dex.mod(format.mod);
 		}
 		if (maybeMod === 'inverse') {
 			isInverse = true;
 			targets.pop();
 		}
-		let species = mod.getSpecies(targets[0]);
-		const type1 = mod.getType(targets[0]);
-		const type2 = mod.getType(targets[1]);
-		const type3 = mod.getType(targets[2]);
+		let species = mod.species.get(targets[0]);
+		const type1 = mod.types.get(targets[0]);
+		const type2 = mod.types.get(targets[1]);
+		const type3 = mod.types.get(targets[2]);
 
 		if (species.exists) {
 			target = species.name;
@@ -921,7 +909,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const weaknesses = [];
 		const resistances = [];
 		const immunities = [];
-		for (const type in mod.data.TypeChart) {
+		for (const type of mod.types.names()) {
 			const notImmune = mod.getImmunity(type, species);
 			if (notImmune || isInverse) {
 				let typeMod = !notImmune && isInverse ? 1 : 0;
@@ -989,9 +977,9 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const targets = target.split(/[,/]/).slice(0, 2);
 		if (targets.length !== 2) return this.errorReply("Attacker and defender must be separated with a comma.");
 
-		let searchMethods = ['getType', 'getMove', 'getSpecies'];
-		const sourceMethods = ['getType', 'getMove'];
-		const targetMethods = ['getType', 'getSpecies'];
+		let searchMethods = ['types', 'moves', 'species'];
+		const sourceMethods = ['types', 'moves'];
+		const targetMethods = ['types', 'species'];
 		let source;
 		let defender;
 		let foundData;
@@ -1002,7 +990,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		for (let i = 0; i < 2; ++i) {
 			let method;
 			for (const m of searchMethods) {
-				foundData = dex[m](targets[i]);
+				foundData = dex[m].get(targets[i]);
 				if (foundData.exists) {
 					method = m;
 					break;
@@ -1065,7 +1053,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const sources = [];
 		let dex = Dex;
 		if (_optionalChain([room, 'optionalAccess', _48 => _48.battle])) {
-			const format = Dex.getFormat(room.battle.format);
+			const format = Dex.formats.get(room.battle.format);
 			dex = Dex.mod(format.mod);
 		}
 		if (targets[targets.length - 1] && toID(targets[targets.length - 1]) in Dex.dexes) {
@@ -1075,7 +1063,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		const bestCoverage = {};
 		let hasThousandArrows = false;
 
-		for (const type in dex.data.TypeChart) {
+		for (const type of dex.types.names()) {
 			// This command uses -5 to designate immunity
 			bestCoverage[type] = -5;
 		}
@@ -1096,7 +1084,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			// arg is a type?
 			const argType = arg.charAt(0).toUpperCase() + arg.slice(1);
 			let eff;
-			if (argType in dex.data.TypeChart) {
+			if (dex.types.isName(argType)) {
 				sources.push(argType);
 				for (const type in bestCoverage) {
 					if (!dex.getImmunity(argType, type)) continue;
@@ -1107,7 +1095,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			}
 
 			// arg is a move?
-			const move = dex.getMove(arg);
+			const move = dex.moves.get(arg);
 			if (!move.exists) {
 				return this.errorReply(`Type or move '${arg}' not found.`);
 			} else if (move.gen > dex.gen) {
@@ -1177,16 +1165,16 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		} else {
 			let buffer = '<div class="scrollable"><table cellpadding="1" width="100%"><tr><th></th>';
 			const icon = {};
-			for (const type in dex.data.TypeChart) {
+			for (const type of dex.types.names()) {
 				icon[type] = `<img src="https://${Config.routes.client}/sprites/types/${type}.png" width="32" height="14">`;
 				// row of icons at top
 				buffer += `<th>${icon[type]}</th>`;
 			}
 			buffer += '</tr>';
-			for (const type1 in dex.data.TypeChart) {
+			for (const type1 of dex.types.names()) {
 				// assembles the rest of the rows
 				buffer += `<tr><th>${icon[type1]}</th>`;
-				for (const type2 in dex.data.TypeChart) {
+				for (const type2 of dex.types.names()) {
 					let typing;
 					let cell = '<th ';
 					let bestEff = -5;
@@ -1426,7 +1414,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			}
 
 			if (!pokemon) {
-				const testPoke = Dex.getSpecies(arg);
+				const testPoke = Dex.species.get(arg);
 				if (testPoke.exists) {
 					pokemon = testPoke.baseStats;
 					baseSet = true;
@@ -1845,14 +1833,14 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		let targetId = toID(target);
 		if (targetId === 'ladder') targetId = 'search' ;
 		if (targetId === 'all') targetId = '';
-		const {totalMatches, sections, exactMatch} = findFormats(targetId, isOMSearch);
+		const {totalMatches, sections} = findFormats(targetId, isOMSearch);
 
 		if (!totalMatches) return this.errorReply("No matched formats found.");
 		if (!this.runBroadcast()) return;
 		if (totalMatches === 1) {
 			const rules = [];
 			let rulesetHtml = '';
-			const subformat = Dex.getFormat(Object.values(sections)[0].formats[0]);
+			const subformat = Dex.formats.get(Object.values(sections)[0].formats[0]);
 			if (['Format', 'Rule', 'ValidatorRule'].includes(subformat.effectType)) {
 				if (_optionalChain([subformat, 'access', _61 => _61.ruleset, 'optionalAccess', _62 => _62.length])) {
 					rules.push(`<b>Ruleset</b> - ${_lib.Utils.escapeHTML(subformat.ruleset.join(", "))}`);
@@ -1894,10 +1882,9 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		// Build tables
 		const buf = [`<table style="${tableStyle}" cellspacing="0" cellpadding="5">`];
 		for (const sectionId in sections) {
-			if (exactMatch && sectionId !== exactMatch) continue;
 			buf.push(_lib.Utils.html`<th style="border:1px solid gray" colspan="2">${sections[sectionId].name}</th>`);
 			for (const section of sections[sectionId].formats) {
-				const subformat = Dex.getFormat(section);
+				const subformat = Dex.formats.get(section);
 				const nameHTML = _lib.Utils.escapeHTML(subformat.name);
 				const desc = [...(subformat.desc ? [subformat.desc] : []), ...(subformat.threads || [])];
 				const descHTML = desc.length ? desc.join("<br />") : "&mdash;";
@@ -2098,15 +2085,15 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 		if (!this.runBroadcast()) return;
 
 		const targets = target.split(',');
-		let pokemon = Dex.getSpecies(targets[0]);
-		const item = Dex.getItem(targets[0]);
-		const move = Dex.getMove(targets[0]);
-		const ability = Dex.getAbility(targets[0]);
-		const format = Dex.getFormat(targets[0]);
+		let pokemon = Dex.species.get(targets[0]);
+		const item = Dex.items.get(targets[0]);
+		const move = Dex.moves.get(targets[0]);
+		const ability = Dex.abilities.get(targets[0]);
+		const format = Dex.formats.get(targets[0]);
 		let atLeastOne = false;
 		let generation = (targets[1] || 'ss').trim().toLowerCase();
 		let genNumber = 8;
-		const extraFormat = Dex.getFormat(targets[2]);
+		const extraFormat = Dex.formats.get(targets[2]);
 
 		if (['8', 'gen8', 'eight', 'ss', 'swsh'].includes(generation)) {
 			generation = 'ss';
@@ -2144,7 +2131,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 
 			if ((pokemon.battleOnly && pokemon.baseSpecies !== 'Greninja') ||
 				['Keldeo', 'Genesect'].includes(pokemon.baseSpecies)) {
-				pokemon = Dex.getSpecies(pokemon.changesFrom || pokemon.baseSpecies);
+				pokemon = Dex.species.get(pokemon.changesFrom || pokemon.baseSpecies);
 			}
 
 			let formatName = extraFormat.name;
@@ -2266,11 +2253,11 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 
 		const baseLink = 'http://veekun.com/dex/';
 
-		const pokemon = Dex.getSpecies(target);
-		const item = Dex.getItem(target);
-		const move = Dex.getMove(target);
-		const ability = Dex.getAbility(target);
-		const nature = Dex.getNature(target);
+		const pokemon = Dex.species.get(target);
+		const item = Dex.items.get(target);
+		const move = Dex.moves.get(target);
+		const ability = Dex.abilities.get(target);
+		const nature = Dex.natures.get(target);
 		let atLeastOne = false;
 
 		// Pokemon
@@ -2286,8 +2273,8 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 			// Showdown and Veekun have different names for various formes
 			if (baseSpecies === 'Meowstic' && forme === 'F') forme = 'Female';
 			if (baseSpecies === 'Zygarde' && forme === '10%') forme = '10';
-			if (baseSpecies === 'Necrozma' && !Dex.getSpecies(baseSpecies + forme).battleOnly) forme = forme.substr(0, 4);
-			if (baseSpecies === 'Pikachu' && Dex.getSpecies(baseSpecies + forme).gen === 7) forme += '-Cap';
+			if (baseSpecies === 'Necrozma' && !Dex.species.get(baseSpecies + forme).battleOnly) forme = forme.substr(0, 4);
+			if (baseSpecies === 'Pikachu' && Dex.species.get(baseSpecies + forme).gen === 7) forme += '-Cap';
 			if (forme.endsWith('Totem')) {
 				if (baseSpecies === 'Raticate') forme = 'Totem-Alola';
 				if (baseSpecies === 'Marowak') forme = 'Totem';
@@ -2708,7 +2695,7 @@ const OFFLINE_SYMBOL = ` \u25CC `;
 
  const pages = {
 	battlerules(query, user) {
-		const rules = Object.values(Dex.data.Formats).filter(rule => rule.effectType !== "Format");
+		const rules = Object.values(Dex.data.Rulesets).filter(rule => rule.effectType !== "Format");
 		const tourHelp = `https://www.smogon.com/forums/threads/pok%C3%A9mon-showdown-forum-rules-resources-read-here-first.3570628/#post-6777489`;
 		this.title = "Custom Rules";
 		let rulesHTML = `<div class="pad"><h1>Custom Rules in challenges and tournaments</h1>`;

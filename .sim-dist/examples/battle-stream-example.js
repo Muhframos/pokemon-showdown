@@ -9,26 +9,25 @@
  * @author Guangcong Luo <guangcongluo@gmail.com>
  */
 
-var _battlestream = require('../battle-stream');
-var _dex = require('../dex');
+var _ = require('..');
 var _randomplayerai = require('../tools/random-player-ai');
 
 /*********************************************************************
  * Run AI
  *********************************************************************/
 
-const streams = _battlestream.getPlayerStreams.call(void 0, new (0, _battlestream.BattleStream)());
+const streams = _.getPlayerStreams.call(void 0, new (0, _.BattleStream)());
 
 const spec = {
 	formatid: "gen7customgame",
 };
 const p1spec = {
 	name: "Bot 1",
-	team: _dex.Dex.packTeam(_dex.Dex.generateTeam('gen7randombattle')),
+	team: _.Teams.pack(_.Teams.generate('gen7randombattle')),
 };
 const p2spec = {
 	name: "Bot 2",
-	team: _dex.Dex.packTeam(_dex.Dex.generateTeam('gen7randombattle')),
+	team: _.Teams.pack(_.Teams.generate('gen7randombattle')),
 };
 
 const p1 = new (0, _randomplayerai.RandomPlayerAI)(streams.p1);

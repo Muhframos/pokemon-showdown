@@ -208,8 +208,8 @@
 		if (Config.groupsranking.includes(level )) return true;
 		return ['‽', '!', 'unlocked', 'trusted', 'autoconfirmed', 'whitelist'].includes(level);
 	}
-	static __initStatic() {this.ROOM_PERMISSIONS = exports.ROOM_PERMISSIONS};
-	static __initStatic2() {this.GLOBAL_PERMISSIONS = exports.GLOBAL_PERMISSIONS};
+	static __initStatic() {this.ROOM_PERMISSIONS = exports.ROOM_PERMISSIONS}
+	static __initStatic2() {this.GLOBAL_PERMISSIONS = exports.GLOBAL_PERMISSIONS}
 } Auth.__initStatic(); Auth.__initStatic2(); exports.Auth = Auth;
 
  class RoomAuth extends Auth {

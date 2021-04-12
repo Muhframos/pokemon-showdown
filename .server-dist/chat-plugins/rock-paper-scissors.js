@@ -4,13 +4,19 @@
  */
 var _lib = require('../../.lib-dist');
 
-const MAX_ROUNDS = 500;
+const MAX_ROUNDS = 200;
 const TIMEOUT = 10 * 1000;
 const ICONS = {
 	Rock: `<i class="fa fa-hand-rock-o"></i>`,
 	Paper: '<i class="fa fa-hand-paper-o"></i>',
 	Scissors: '<i class="fa fa-hand-scissors-o"></i>',
 };
+
+const MATCHUPS = new Map([
+	['scissors', 'paper'],
+	['rock', 'scissors'],
+	['paper', 'rock'],
+]);
 
  const challenges = _optionalChain([Chat, 'access', _ => _.oldPlugins, 'access', _2 => _2['rock-paper-scissors'], 'optionalAccess', _3 => _3.challenges]) || new Map(); exports.challenges = challenges;
 
@@ -47,19 +53,14 @@ const ICONS = {
 			this.addPlayer(user);
 		}
 	}
-	checkMatchup(attacker, defender) {
-		const attackerChoice = attacker.currentChoice;
-		const defenderChoice = defender.currentChoice;
-		if (attackerChoice === defenderChoice) return null;
-		const matchups = {
-			paperrock: true,
-			scissorspaper: true,
-			rockscissors: true,
-		};
-		if (matchups[attackerChoice + defenderChoice]) return attacker;
-		if (matchups[defenderChoice + attackerChoice]) return defender;
-		if (!attackerChoice && defenderChoice) return defender;
-		return attacker;
+	static checkMatchup(p1, p2) {
+		const p1Choice = p1.currentChoice;
+		const p2Choice = p2.currentChoice;
+		if (!p1Choice && p2Choice) return p2;
+		if (!p2Choice && p1Choice) return p1;
+		if (MATCHUPS.get(p1Choice) === p2Choice) return p1;
+		if (MATCHUPS.get(p2Choice) === p1Choice) return p2;
+		return null;
 	}
 	sendOptions() {
 		const button = (cmd, title) => `<button class="button" name="send" value="/${cmd}">${title}</button>`;
@@ -148,7 +149,7 @@ const ICONS = {
 	}
 	runMatch() {
 		const [p1, p2] = this.players;
-		const winner = this.checkMatchup(p1, p2);
+		const winner = RPSGame.checkMatchup(p1, p2);
 		if (winner === null) { // tie
 			this.add(`The players have tied! Nobody wins this round....`);
 			this.wins.push(null);
@@ -160,7 +161,7 @@ const ICONS = {
 				choice: winner.currentChoice,
 			});
 		}
-		if (this.currentRound === MAX_ROUNDS) {
+		if (this.currentRound >= MAX_ROUNDS) {
 			this.add(`The game has hit the max number of rounds, and so will be ending.`);
 			return this.end();
 		}
@@ -230,7 +231,11 @@ const ICONS = {
 		this.playerTable = {};
 	}
 	choose(user, option) {
+		option = toID(option);
 		const player = this.getPlayer(user);
+		if (!MATCHUPS.get(option)) {
+			throw new Chat.ErrorMessage(`Invalid choice: ${option}.`);
+		}
 		if (player.currentChoice) throw new Chat.ErrorMessage("You have already made your choice!");
 		player.currentChoice = option;
 		this.add(_lib.Utils.html`${user.name} has made their choice.`);
