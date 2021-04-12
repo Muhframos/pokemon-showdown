@@ -112,8 +112,8 @@ The column value will be ignored for repeat sections.
 	{
 		name: "[Gen 8] Adventures Ubers",
 		mod: 'adventures',
-		ruleset: ['Standard', 'Dynamax Clause'],
-		banlist: ['AG', 'Baton Pass'],
+		ruleset: ['Standard NatDex', 'Dynamax Clause', 'Species Clause', 'Sleep Clause',],
+		banlist: ['AG', 'Baton Pass',],
 	},
 	{
 		name: "[Gen 8] Adventures AG",
@@ -144,8 +144,8 @@ The column value will be ignored for repeat sections.
 		gameType: 'freeforall',
 		challengeShow: false,
 		rated: false,
-		banlist: [ 'Eternatus-Eternamax', 'AG',],
-		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+		banlist: ['Eternatus-Eternamax', 'AG',],
+		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
 	},
 	{
 		name: "[Gen 8] Adventures Multi Battle",
@@ -156,7 +156,7 @@ The column value will be ignored for repeat sections.
 			battle: 3,
 	},
 		banlist: [ 'Eternatus-Eternamax', 'AG',],
-		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',  'Cancel Mod',],
 	},
 	{
 		name: "[Gen 8] Adventures Custom Game",
