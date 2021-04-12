@@ -900,4 +900,30 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 2,
 		num: 230,
 	},
+	insomnia: {
+		onUpdate(pokemon) {
+			if (pokemon.status === 'slp') {
+				this.add('-activate', pokemon, 'ability: Insomnia');
+				pokemon.cureStatus();
+			}
+		},
+		onSetStatus(status, target, source, effect) {
+			if (status.id !== 'slp') return;
+			if ((effect as Move)?.status) {
+				this.add('-immune', target, '[from] ability: Insomnia');
+			}
+			return false;
+		},
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Dark') {
+				{
+					this.add('-immune', target, '[from] ability: Insomnia');
+				}
+				return null;
+			}
+		},
+		name: "Insomnia",
+		rating: 2,
+		num: 15,
+	},
 };

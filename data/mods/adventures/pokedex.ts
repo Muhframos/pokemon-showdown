@@ -709,6 +709,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 68, atk: 120, def: 90, spa: 75, spd: 75, spe: 75},
 	},
+	noctowl: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 50, def: 70, spa: 116, spd: 116, spe: 70},
+	},
 	exeggutor: {
 		inherit: true,
 		baseStats: {hp: 95, atk: 95, def: 85, spa: 125, spd: 75, spe: 55},
