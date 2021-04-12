@@ -122,7 +122,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		types: ["Water", "Psychic"],
 		baseStats: {hp: 100, atk: 122, def: 78, spa: 125, spd: 80, spe: 95},
-		abilities: {0: "Swift Swim", H: "Psychic Surge", 1: "Cloud Nine"},
+		abilities: {0: "Simple", H: "Psychic Surge", 1: "Cloud Nine"},
 	},
 	pangoro: {
 		inherit: true,
