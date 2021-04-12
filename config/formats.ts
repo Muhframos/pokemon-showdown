@@ -112,8 +112,8 @@ export const Formats: FormatList = [
 	{
 		name: "[Gen 8] Adventures Ubers",
 		mod: 'adventures',
-		ruleset: ['Standard', 'Dynamax Clause'],
-		banlist: ['AG', 'Baton Pass'],
+		ruleset: ['Standard NatDex', 'Dynamax Clause'],
+		banlist: ['AG', 'Baton Pass',],
 	},
 	{
 		name: "[Gen 8] Adventures AG",
