@@ -199,7 +199,7 @@ Chat.registerMonitor('evasion', {
 			if (room) {
 				void Punishments.autolock(
 					user, room, 'FilterEvasionMonitor', `Evading filter: ${message} (${match[0]} => ${word})`,
-					`<<${room.roomid}>> ${user.name}: SPOILER: \`\`${message}\`\` __(${match[0]} => ${word})__`
+					`<<${room.roomid}>> ${user.name}: SPOILER: \`\`${message}\`\` __(${match[0]} => ${word})__`, true
 				);
 			} else {
 				this.errorReply(`Please do not say '${word}'${publicReason ? ` ${publicReason}` : ``}.`);
@@ -474,7 +474,7 @@ export const nicknamefilter: NicknameFilter = (name, user) => {
 					// Don't autolock unless it's an evasion regex and they're evading
 					void Punishments.autolock(
 						user, 'staff', 'FilterEvasionMonitor', `Evading filter in Pokémon nickname (${name} => ${word})`,
-						`${user.name}: Pokémon nicknamed SPOILER: \`\`${name} => ${word}\`\``
+						`${user.name}: Pokémon nicknamed SPOILER: \`\`${name} => ${word}\`\``, true
 					);
 				}
 				line.hits++;
