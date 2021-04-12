@@ -41,6 +41,8 @@ this.modData('Learnsets', 'guzzlord').learnset.poisonfang = ['8L1'];
 
 this.modData('Learnsets', 'shuckle').learnset.bodypress = ['8L1'];
 
+this.modData('Learnsets', 'kyogre').learnset.hurricane = ['8L1'];
+
 this.modData('Learnsets', 'noctowl').learnset.nightdaze = ['8L1'];
 this.modData('Learnsets', 'noctowl').learnset.moonlight = ['8L1'];
 
