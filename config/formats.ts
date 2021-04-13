@@ -145,7 +145,7 @@ export const Formats: FormatList = [
 		challengeShow: false,
 		rated: false,
 		banlist: ['Eternatus-Eternamax', 'AG',],
-		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+		ruleset: [ 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
 	},
 	{
 		name: "[Gen 8] Adventures Multi Battle",
