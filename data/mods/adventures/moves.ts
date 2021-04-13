@@ -546,8 +546,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		flags: {contact: 1, protect: 1, mirror: 1, bullet: 1, punch: 1},
 	},
 	defog: {
-		desc: "-1 Evasion; clears terrain, hazards and weather for both sides.",
-		shortDesc: "-1 Evasion; clears terrain, hazards and weather for both sides.",
+		desc: "-1 Evasion; clears terrain, screens, hazards and weather for both sides.",
+		shortDesc: "-1 Evasion; clears terrain, screens, hazards and weather for both sides.",
 		num: 432,
 		accuracy: true,
 		basePower: 0,
@@ -580,6 +580,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 				}
 			}
 			this.field.clearTerrain();
+			this.field.clearWeather();
 			return success;
 		},
 		secondary: null,
