@@ -926,4 +926,20 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 2,
 		num: 15,
 	},
+	cloudnine: {
+		desc: "Clears weather conditions on switch-in and disables them while this Pokemon is active."
+		shortDesc: "Clears weather on switch-in. Also disables weather while active.",
+		onSwitchIn(pokemon) {
+			this.field.clearWeather();
+		},
+		onStart(pokemon) {
+			// Cloud Nine now activates after Neutralizing Gas or Skill Swap, etc
+			this.add('-ability', pokemon, 'Cloud Nine');
+			this.field.clearWeather();
+		},
+		suppressWeather: true,
+		name: "Cloud Nine",
+		rating: 2,
+		num: 13,
+	},
 };
