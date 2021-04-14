@@ -263,7 +263,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	eelektross: {
 		inherit: true,
-		baseStats: {hp: 75, atk: 120, def: 95, spa: 120, spd: 95, spe: 50},
+		baseStats: {hp: 85, atk: 120, def: 85, spa: 120, spd: 85, spe: 50},
 	},
 	swoobat: {
 		inherit: true,
@@ -753,7 +753,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	torkoal: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 85, def: 140, spa: 105, spd: 80, spe: 20},
+		baseStats: {hp: 90, atk: 95, def: 140, spa: 95, spd: 95, spe: 20},
 	},
 	drednaw: {
 		inherit: true,
@@ -1385,7 +1385,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	conkeldurr: {
 		inherit: true,
-		baseStats: {hp: 105, atk: 150, def: 95, spa: 55, spd: 75, spe: 65},
+		baseStats: {hp: 105, atk: 140, def: 95, spa: 55, spd: 75, spe: 65},
 	},
 	vikavolt: {
 		inherit: true,
@@ -1417,7 +1417,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	omastar: {
 		inherit: true,
-		baseStats: {hp: 70, atk: 100, def: 135, spa: 115, spd: 70, spe: 55},
+		baseStats: {hp: 70, atk: 100, def: 125, spa: 115, spd: 70, spe: 55},
 		abilities: {0: "Shell Armor", 1: "Storm Drain", H: "Weak Armor"},
 	},
 	mienshao: {
@@ -1474,7 +1474,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	machamp: {
 		inherit: true,
-		baseStats: {hp: 100, atk: 130, def: 95, spa: 50, spd: 95, spe: 75},
+		baseStats: {hp: 100, atk: 130, def: 95, spa: 50, spd: 85, spe: 75},
 	},
 	mantine: {
 		inherit: true,
@@ -1504,7 +1504,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	clawitzer: {
 		inherit: true,
-		baseStats: {hp: 61, atk: 73, def: 108, spa: 135, spd: 109, spe: 59},
+		baseStats: {hp: 61, atk: 67, def: 108, spa: 120, spd: 109, spe: 59},
 	},
 	meloetta: {
 		inherit: true,
@@ -1540,7 +1540,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	dewgong: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 80, def: 100, spa: 80, spd: 115, spe: 80},
+		baseStats: {hp: 90, atk: 80, def: 100, spa: 80, spd: 105, spe: 70},
 		abilities: {0: "Thick Fat", 1: "Hydration", H: "Ice Body"},
 	},
 };
