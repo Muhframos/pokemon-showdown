@@ -927,7 +927,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 15,
 	},
 	cloudnine: {
-		desc: "Clears weather conditions on switch-in and disables them while this Pokemon is active."
+		desc: "Clears weather conditions on switch-in and disables them while this Pokemon is active.",
 		shortDesc: "Clears weather on switch-in. Also disables weather while active.",
 		onSwitchIn(pokemon) {
 			this.field.clearWeather();
