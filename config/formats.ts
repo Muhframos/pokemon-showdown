@@ -24,7 +24,7 @@ export const Formats: FormatList = [
 	{
 		name: "[Gen 8] Adventures OU",
 		mod: 'adventures',
-		ruleset: ['Standard NatDex', 'OHKO Clause',  'Cancel Mod', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			'Alakazam-Mega', 'Arceus', 'Blastoise-Mega', 'Blaziken-Mega', 'Calyrex-Ice', 'Calyrex-Shadow', 'Darkrai', 'Darmanitan-Galar', 'Deoxys-Attack',
 			'Deoxys-Base', 'Deoxys-Speed', 'Dialga', 'Dracovish', 'Dragapult', 'Eternatus', 'Gengar-Mega', 'Giratina', 'Giratina-Origin',
@@ -44,7 +44,7 @@ export const Formats: FormatList = [
 		],
 
 		mod: 'adventures',
-		ruleset: ['Standard NatDex', 'OHKO Clause',  'Cancel Mod', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
 			'Blissey', 'Chansey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Ferrothorn',
@@ -71,7 +71,7 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Adventures DOU",
 		mod: 'adventures',
 		gameType: 'doubles',
-		ruleset: ['Standard NatDex', 'OHKO Clause', 'Cancel Mod', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			'Alakazam-Mega', 'Arceus', 'Blastoise-Mega', 'Blaziken-Mega', 'Calyrex-Ice', 'Calyrex-Shadow', 'Darkrai', 'Darmanitan-Galar', 'Deoxys-Attack',
 			'Deoxys-Base', 'Deoxys-Speed', 'Dialga', 'Dracovish', 'Dragapult', 'Eternatus', 'Gengar-Mega', 'Giratina', 'Giratina-Origin',
@@ -86,7 +86,7 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Adventures DUU",
 		mod: 'adventures',
 		gameType: 'doubles',
-		ruleset: ['Standard NatDex', 'OHKO Clause', 'Cancel Mod', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
 			'Blissey', 'Chansey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Ferrothorn',
@@ -129,7 +129,7 @@ export const Formats: FormatList = [
 			validate: [1, 3],
 			battle: 1,
 		},
-		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Cancel Mod', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			'Calyrex-Ice', 'Calyrex-Shadow', 'Cinderace', 'Dialga', 'Dragonite', 'Eternatus', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-Black',
 			'Kyurem-White', 'Lugia', 'Lunala', 'Magearna', 'Marshadow', 'Melmetal', 'Mew', 'Mewtwo', 'Mimikyu', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
@@ -145,7 +145,7 @@ export const Formats: FormatList = [
 		challengeShow: false,
 		rated: false,
 		banlist: ['Eternatus-Eternamax', 'AG',],
-		ruleset: [ 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+		ruleset: [ 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
 	},
 	{
 		name: "[Gen 8] Adventures Multi Battle",
@@ -156,7 +156,7 @@ export const Formats: FormatList = [
 			battle: 3,
 	},
 		banlist: [ 'Eternatus-Eternamax', 'AG',],
-		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',  'Cancel Mod',],
+		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
 	},
 	{
 		name: "[Gen 8] Adventures Custom Game",
@@ -204,18 +204,18 @@ export const Formats: FormatList = [
 	{
 		name: "[Gen 8] Axis League AG",
 		mod: 'torchic',
-		ruleset: ['Standard NatDex',  'Cancel Mod', 'Dynamax Clause'],
+		ruleset: ['Standard NatDex', 'Dynamax Clause'],
 	},
 	{
 		name: "[Gen 8] Axis League Elite 4 (Ubers)",
 		mod: 'torchic',
-		ruleset: ['Standard NatDex', 'Dynamax Clause', 'Cancel Mod',],
+		ruleset: ['Standard NatDex', 'Dynamax Clause',],
 		banlist: [ 'AG', 'Baton Pass'],
 	},
 	{
 		name: "[Gen 8] Axis League Gyms (OU)",
 		mod: 'torchic',
-		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause',  'Cancel Mod', 'Sleep Clause Mod'],
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			'Alakazam-Mega', 'Arceus', 'Blastoise-Mega', 'Blaziken-Mega', 'Calyrex-Ice', 'Calyrex-Shadow', 'Darkrai', 'Darmanitan-Galar', 'Deoxys-Attack',
 			'Deoxys-Base', 'Deoxys-Speed', 'Dialga', 'Dracovish', 'Dragapult', 'Eternatus', 'Genesect', 'Gengar-Mega', 'Giratina', 'Giratina-Origin',
