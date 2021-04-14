@@ -1306,7 +1306,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		shortDesc: "100% chance to increase the user's SpA by 1 stage.",
 		num: 488,
 		accuracy: 100,
-		basePower: 80,
+		basePower: 50,
 		category: "Special",
 		name: "Aqua Revolver",
 		pp: 10,
