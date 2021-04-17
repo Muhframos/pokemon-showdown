@@ -32,7 +32,7 @@ export const Formats: FormatList = [
 			'Marshadow', 'Metagross-Mega', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Necrozma-Ultra', 'Palkia', 'Pheromosa',
 			'Rayquaza', 'Reshiram', 'Salamence-Mega', 'Shaymin-Sky', 'Solgaleo', 'Spectrier', 'Tornadus-Therian', 'Urshifu-Base', 'Xerneas', 'Yveltal',
 			'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base', 'Zygarde-Complete',
-			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax', 'AG',
+			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax', 'Cinderace', 'AG',
 		],
 	},
 	{
@@ -112,7 +112,7 @@ export const Formats: FormatList = [
 	{
 		name: "[Gen 8] Adventures Ubers",
 		mod: 'adventures',
-		ruleset: ['Standard NatDex', 'Dynamax Clause', 'Species Clause', 'Sleep Clause',],
+		ruleset: ['Standard NatDex', 'Dynamax Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Sleep Clause Mod',],
 		banlist: ['AG', 'Baton Pass',],
 	},
 	{
