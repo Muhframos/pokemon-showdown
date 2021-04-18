@@ -1543,4 +1543,13 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 90, atk: 80, def: 100, spa: 80, spd: 105, spe: 70},
 		abilities: {0: "Thick Fat", 1: "Hydration", H: "Ice Body"},
 	},
+	cinccino: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 105, def: 60, spa: 105, spd: 60, spe: 115},
+	},
+	kricketune: {
+		inherit: true,
+		baseStats: {hp: 87, atk: 115, def: 71, spa: 95, spd: 81, spe: 75},
+		abilities: {0: "Swarm", 1: "Tinted Lens", H: "Technician"},
+	},
 };

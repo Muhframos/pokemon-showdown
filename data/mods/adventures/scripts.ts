@@ -235,11 +235,18 @@ this.modData('Learnsets', 'hitmonlee').learnset.tripleaxel = ['8L1'];
 this.modData('Learnsets', 'hitmonchan').learnset.shadowpunch = ['8L1'];
 this.modData('Learnsets', 'hitmonchan').learnset.suckerpunch = ['8L1'];
 
+this.modData('Learnsets', 'cinccino').learnset.playrough = ['8L1'];
+this.modData('Learnsets', 'cinccino').learnset.drainingkiss = ['8L1'];
+
 this.modData('Learnsets', 'articunogalar').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.toxic = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.return = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.frustration = ['8L1'];
+
+this.modData('Learnsets', 'zapdosgalar').learnset.recover = ['8L1'];
+
+this.modData('Learnsets', 'moltresgalar').learnset.recover = ['8L1'];
 
 this.modData('Learnsets', 'articuno').learnset.aurorabeam = ['8L1'];
 
@@ -527,6 +534,7 @@ this.modData('Learnsets', 'perrserker').learnset.leafblade = ['8L1'];
 this.modData('Learnsets', 'perrserker').learnset.bulletseed = ['8L1'];
 this.modData('Learnsets', 'perrserker').learnset.meteormash = ['8L1'];
 this.modData('Learnsets', 'perrserker').learnset.suckerpunch = ['8L1'];
+this.modData('Learnsets', 'perrserker').learnset.highhorsepower = ['8L1'];
 
 this.modData('Learnsets', 'gogoat').learnset.woodhammer = ['8L1'];
 this.modData('Learnsets', 'gogoat').learnset.quickattack = ['8L1'];
