@@ -984,5 +984,4 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 1,
 		num: 122,
 	},
-	flowervei
 };

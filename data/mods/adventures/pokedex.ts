@@ -1561,7 +1561,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	cherrim: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 72, def: 108, spa: 72, spd: 108, spe: 85},
-		abilities: {0: "Flower Gift", H: "Flower Gift"},
+		abilities: {0: "Flower Gift", H: "Flower Veil"},
 	},
 	cherrimsunshine: {
 		inherit: true,
