@@ -973,7 +973,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				return this.chainModify(1.5);
 			}
 		},
-		onAllyModifySpePriority: 4,
+		onAllyModifySpePriority: 3,
 		onAllyModifySpD(spd, pokemon) {
 			if (this.effectData.target.baseSpecies.baseSpecies !== 'Cherrim') return;
 			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
