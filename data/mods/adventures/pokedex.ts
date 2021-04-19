@@ -749,6 +749,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	torterra: {
 		inherit: true,
+		baseStats: {hp: 100, atk: 109, def: 110, spa: 60, spd: 95, spe: 56},
 		abilities: {0: "Overgrow", 1: "Thick Fat", H: "Gravity Surge"},
 	},
 	torkoal: {
@@ -1567,5 +1568,15 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		types: ["Grass", "Fairy"],
 		baseStats: {hp: 70, atk: 102, def: 78, spa: 102, spd: 78, spe: 85},
+	},
+	goodra: {
+		inherit: true,
+		types: ["Dragon", "Poison"],
+		abilities: {0: "Thick Fat", 1: "Hydration", H: "Gooey"},
+		baseStats: {hp: 110, atk: 100, def: 70, spa: 100, spd: 150, spe: 70},
+	},
+	kecleon: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 110, def: 90, spa: 90, spd: 120, spe: 40},
 	},
 };

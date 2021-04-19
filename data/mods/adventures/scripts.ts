@@ -251,6 +251,13 @@ this.modData('Learnsets', 'grapploct').learnset.gunkshot = ['8L1'];
 this.modData('Learnsets', 'grapploct').learnset.zenheadbutt = ['8L1'];
 this.modData('Learnsets', 'grapploct').learnset.toxicspikes = ['8L1'];
 
+this.modData('Learnsets', 'goodra').learnset.gunkshot = ['8L1'];
+this.modData('Learnsets', 'goodra').learnset.recover = ['8L1'];
+this.modData('Learnsets', 'goodra').learnset.coil = ['8L1'];
+this.modData('Learnsets', 'goodra').learnset.dragonrush = ['8L1'];
+
+this.modData('Learnsets', 'dragalge').learnset.earthpower = ['8L1'];
+
 this.modData('Learnsets', 'articunogalar').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.toxic = ['8L1'];
