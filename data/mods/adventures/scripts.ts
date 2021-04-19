@@ -244,6 +244,9 @@ this.modData('Learnsets', 'kricketune').learnset.boomburst = ['8L1'];
 this.modData('Learnsets', 'kricketune').learnset.sludgebomb = ['8L1'];
 this.modData('Learnsets', 'kricketune').learnset.leafblade = ['8L1'];
 
+this.modData('Learnsets', 'dewgong').learnset.flipturn = ['8L1'];
+this.modData('Learnsets', 'dewgong').learnset.lifedew = ['8L1'];
+
 this.modData('Learnsets', 'grapploct').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'grapploct').learnset.poisonjab = ['8L1'];
 this.modData('Learnsets', 'grapploct').learnset.thunderpunch = ['8L1'];
