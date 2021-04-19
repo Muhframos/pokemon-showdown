@@ -238,6 +238,19 @@ this.modData('Learnsets', 'hitmonchan').learnset.suckerpunch = ['8L1'];
 this.modData('Learnsets', 'cinccino').learnset.playrough = ['8L1'];
 this.modData('Learnsets', 'cinccino').learnset.drainingkiss = ['8L1'];
 
+this.modData('Learnsets', 'kricketune').learnset.aircutter = ['8L1'];;
+this.modData('Learnsets', 'kricketune').learnset.ancientpower = ['8L1'];
+this.modData('Learnsets', 'kricketune').learnset.boomburst = ['8L1'];
+this.modData('Learnsets', 'kricketune').learnset.sludgebomb = ['8L1'];
+this.modData('Learnsets', 'kricketune').learnset.leafblade = ['8L1'];
+
+this.modData('Learnsets', 'grapploct').learnset.flipturn = ['8L1'];
+this.modData('Learnsets', 'grapploct').learnset.poisonjab = ['8L1'];
+this.modData('Learnsets', 'grapploct').learnset.thunderpunch = ['8L1'];
+this.modData('Learnsets', 'grapploct').learnset.gunkshot = ['8L1'];
+this.modData('Learnsets', 'grapploct').learnset.zenheadbutt = ['8L1'];
+this.modData('Learnsets', 'grapploct').learnset.toxicspikes = ['8L1'];
+
 this.modData('Learnsets', 'articunogalar').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'articunogalar').learnset.toxic = ['8L1'];

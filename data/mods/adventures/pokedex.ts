@@ -1155,7 +1155,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	poliwrath: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 130, def: 100, spa: 35, spd: 80, spe: 70},
+		baseStats: {hp: 90, atk: 135, def: 100, spa: 35, spd: 80, spe: 70},
 		abilities: {0: "Swift Swim", 1: "Water Absorb", H: "No Guard"},
 	},
 	accelgor: {
@@ -1551,5 +1551,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 87, atk: 115, def: 71, spa: 95, spd: 81, spe: 75},
 		abilities: {0: "Swarm", 1: "Tinted Lens", H: "Technician"},
+	},
+	grapploct: {
+		inherit: true,
+		types: ["Fighting", "Water"],
+		baseStats: {hp: 90, atk: 128, def: 110, spa: 50, spd: 90, spe: 42},
+		abilities: {0: "Limber", 1: "Poison Touch", H: "Technician"},
 	},
 };
