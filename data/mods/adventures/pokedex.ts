@@ -1565,6 +1565,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	cherrimsunshine: {
 		inherit: true,
+		types: ["Grass", "Fairy"],
 		baseStats: {hp: 70, atk: 102, def: 78, spa: 102, spd: 78, spe: 85},
 	},
 };
