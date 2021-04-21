@@ -405,7 +405,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	fearow: {
 		inherit: true,
-		baseStats: {hp: 75, atk: 135, def: 65, spa: 101, spd: 61, spe: 100},
+		baseStats: {hp: 75, atk: 135, def: 65, spa: 101, spd: 61, spe: 101},
 	},
 	vileplume: {
 		inherit: true,
