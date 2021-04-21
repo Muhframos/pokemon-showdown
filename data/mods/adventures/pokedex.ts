@@ -1622,10 +1622,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	ninetales: {
 		inherit: true,
 		types: ["Fire", "Fairy"],
-		baseStats: {hp: 99, atk: 56, def: 75, spa: 101, spd: 100, spe: 100},
+		baseStats: {hp: 89, atk: 56, def: 75, spa: 111, spd: 100, spe: 100},
 	},
 	ninetalesalola: {
 		inherit: true,
-		baseStats: {hp: 99, atk: 56, def: 75, spa: 101, spd: 100, spe: 100},
+		baseStats: {hp: 99, atk: 47, def: 85, spa: 91, spd: 100, spe: 109},
 	},
 };
