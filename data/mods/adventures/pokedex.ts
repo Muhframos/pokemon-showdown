@@ -1333,7 +1333,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	noivern: {
 		inherit: true,
-		baseStats: {hp: 95, atk: 50, def: 85, spa: 97, spd: 85, spe: 123},
+		baseStats: {hp: 95, atk: 50, def: 85, spa: 87, spd: 85, spe: 123},
 		abilities: {0: "Frisk", 1: "Infiltrator", H: "Aerilate"},
 	},
 	absol: {
@@ -1616,7 +1616,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	mismagius: {
 		inherit: true,
-		types: ["Ghost", "Fairy"],
+		types: ["Ghost"],
 		baseStats: {hp: 60, atk: 60, def: 60, spa: 115, spd: 130, spe: 105},
 	},
 	ninetales: {
@@ -1627,5 +1627,25 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	ninetalesalola: {
 		inherit: true,
 		baseStats: {hp: 99, atk: 47, def: 85, spa: 91, spd: 100, spe: 109},
+	},
+	stunfisk : {
+		inherit: true,
+		baseStats: {hp: 119, atk: 66, def: 94, spa: 91, spd: 119, spe: 32},
+		abilities: {0: "Static", 1: "Limber", H: "Volt Absorb"},
+	},
+	stunfiskg: {
+		inherit: true,
+		baseStats: {hp: 119, atk: 91, def: 119, spa: 66, spd: 94, spe: 32},
+		abilities: {0: "Mimicry", H: "Static"},
+	},
+	whiscash: {
+		inherit: true,
+		baseStats: {hp: 120, atk: 78, def: 73, spa: 106, spd: 71, spe: 60},
+		abilities: {0: "Oblivious", 1: "Gluttony", H: "Hydration"},
+	},
+	tsareena: {
+		inherit: true,
+		baseStats: {hp: 72, atk: 120, def: 98, spa: 50, spd: 98, spe: 72},
+		abilities: {0: "Leaf Guard", 1: "Queenly Majesty", H: "Sweet Veil"},
 	},
 };

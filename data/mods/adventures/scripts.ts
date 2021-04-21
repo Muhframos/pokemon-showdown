@@ -536,7 +536,32 @@ this.modData('Learnsets', 'ninetales').learnset.psychic = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.moonblast = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.aromaticmist = ['8L1'];
-this.modData('Learnsets', 'ninetales').learnset.hypervoice = ['8L1'];
+this.modData('Learnsets', 'ninetales').learnset.hypervoice = ['8L1'];}
+
+this.modData('Learnsets', 'whiscash').learnset.flipturn = ['8L1'];
+this.modData('Learnsets', 'whiscash').learnset.rockpolish = ['8L1'];
+this.modData('Learnsets', 'whiscash').learnset.wildcharge = ['8L1'];
+this.modData('Learnsets', 'whiscash').learnset.icefang = ['8L1'];
+this.modData('Learnsets', 'whiscash').learnset.discharge = ['8L1'];
+
+this.modData('Learnsets', 'stunfisk').learnset.nuzzle = ['8L1'];
+this.modData('Learnsets', 'stunfisk').learnset.flash = ['8L1'];
+this.modData('Learnsets', 'stunfisk').learnset.voltswitch = ['8L1'];
+this.modData('Learnsets', 'stunfisk').learnset.gigadrain = ['8L1'];
+this.modData('Learnsets', 'stunfisk').learnset.zapcannon = ['8L1'];
+
+this.modData('Learnsets', 'stunfiskgalar').learnset.voltswitch = ['8L1'];
+this.modData('Learnsets', 'stunfiskgalar').learnset.electricterrain = ['8L1'];
+this.modData('Learnsets', 'stunfiskgalar').learnset.nuzzle = ['8L1'];
+this.modData('Learnsets', 'stunfiskgalar').learnset.thunderfang = ['8L1'];
+this.modData('Learnsets', 'stunfiskgalar').learnset.wildcharge = ['8L1'];
+this.modData('Learnsets', 'stunfiskgalar').learnset.flash = ['8L1'];
+this.modData('Learnsets', 'stunfiskgalar').learnset.toxic = ['8L1'];
+this.modData('Learnsets', 'stunfiskgalar').learnset.return = ['8L1'];
+this.modData('Learnsets', 'stunfiskgalar').learnset.frustration = ['8L1'];
+
+
+this.modData('Learnsets', 'archeops').learnset.skillswap = ['8L1'];
 
 this.modData('Learnsets', 'ninetalesalola').learnset.psychic = ['8L1'];
 this.modData('Learnsets', 'ninetalesalola').learnset.aurasphere = ['8L1'];
