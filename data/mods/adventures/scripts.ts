@@ -511,6 +511,19 @@ this.modData('Learnsets', 'glalie').learnset.aircutter = ['8L1'];
 
 this.modData('Learnsets', 'glastrier').learnset.speedswap = ['8L1'];
 
+this.modData('Learnsets', 'probopass').learnset.risingvoltage = ['8L1'];
+this.modData('Learnsets', 'probopass').learnset.defog = ['8L1'];
+this.modData('Learnsets', 'probopass').learnset.bodypress = ['8L1'];
+this.modData('Learnsets', 'probopass').learnset.smellingsalts = ['8L1'];
+this.modData('Learnsets', 'probopass').learnset.trickroom = ['8L1'];
+
+this.modData('Learnsets', 'reuniclus').learnset.aurasphere = ['8L1'];
+this.modData('Learnsets', 'reuniclus').learnset.dazzlinggleam = ['8L1'];
+
+this.modData('Learnsets', 'drampa').learnset.earthpower = ['8L1'];
+this.modData('Learnsets', 'drampa').learnset.gigadrain = ['8L1'];
+this.modData('Learnsets', 'drampa').learnset.aurasphere = ['8L1'];
+
 this.modData('Learnsets', 'golisopod').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'golisopod').learnset.uturn = ['8L1'];
 this.modData('Learnsets', 'golisopod').learnset.fellstinger = ['8L1'];

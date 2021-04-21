@@ -405,7 +405,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	fearow: {
 		inherit: true,
-		baseStats: {hp: 75, atk: 125, def: 65, spa: 101, spd: 61, spe: 100},
+		baseStats: {hp: 75, atk: 135, def: 65, spa: 101, spd: 61, spe: 100},
 	},
 	vileplume: {
 		inherit: true,
@@ -1024,8 +1024,8 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	frosmoth: {
 		inherit: true,
-		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Body"},
-		baseStats: {hp: 85, atk: 60, def: 65, spa: 135, spd: 105, spe: 100},
+		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Scales"},
+		baseStats: {hp: 85, atk: 60, def: 105, spa: 135, spd: 65, spe: 100},
 	},
 	volcarona: {
 		inherit: true,
@@ -1467,7 +1467,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	zapdos: {
 		inherit: true,
+		baseStats: {hp: 90, atk: 80, def: 90, spa: 125, spd: 90, spe: 105},
 		abilities: {0: "Pressure", 1: "Lightning Rod", H: "Static"},
+	},
+	zapdosgalar: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 125, def: 90, spa: 80, spd: 90, spe: 105},
 	},
 	moltres: {
 		inherit: true,
@@ -1578,5 +1583,21 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	kecleon: {
 		inherit: true,
 		baseStats: {hp: 90, atk: 110, def: 90, spa: 90, spd: 120, spe: 40},
+	},
+	probopass: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 55, def: 145, spa: 75, spd: 150, spe: 30},
+	},
+	beartic: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 140, def: 100, spa: 60, spd: 90, spe: 60},
+	},
+	reuniclus: {
+		inherit: true,
+		baseStats: {hp: 120, atk: 65, def: 85, spa: 125, spd: 95, spe: 30},
+	},
+	drampa: {
+		inherit: true,
+		baseStats: {hp: 88, atk: 60, def: 95, spa: 145, spd: 111, spe: 36},
 	},
 };
