@@ -1470,4 +1470,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		rating: 1,
 		num: 122,
 	},
+	muddywater: {
+		inherit: true,
+		accuracy: 90,
+	},
 }

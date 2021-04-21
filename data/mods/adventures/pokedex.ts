@@ -573,7 +573,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	maractus: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 80, def: 125, spa: 80, spd: 125, spe: 55},
-		abilities: {0: "Iron Barbs", 1: "Dancer", H: "Storm Drain"},
+		abilities: {0: "Iron Barbs", 1: "Dancer", H: "Water Absorb"},
 	},
 	raikou: {
 		inherit: true,
@@ -1390,8 +1390,8 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	vikavolt: {
 		inherit: true,
-		baseStats: {hp: 77, atk: 60, def: 110, spa: 145, spd: 105, spe: 43},
-		abilities: {0: "Levitate", 1: "Lightning Rod", H:"Motor Drive"},
+		baseStats: {hp: 77, atk: 60, def: 110, spa: 115, spd: 105, spe: 43},
+		abilities: {0: "Levitate", 1: "Lightning Rod", H:"Battery"},
 	},
 	beedrill: {
 		inherit: true,
@@ -1599,5 +1599,29 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	drampa: {
 		inherit: true,
 		baseStats: {hp: 88, atk: 60, def: 95, spa: 145, spd: 111, spe: 36},
+	},
+	corsola: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 95, def: 115, spa: 95, spd: 115, spe: 35},
+		abilities: {0: "Hustle", 1: "Natural Cure", H: "Regenerator"},
+	},
+	corsolagalar: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 55, def: 100, spa: 65, spd: 100, spe: 30},
+	},
+	cursola: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 82, def: 50, spa: 165, spd: 140, spe: 30},
+		abilities: {0: "Cursed Body", 1: "Weak Armor", H: "Perish Body"},
+	},
+	mismagius: {
+		inherit: true,
+		types: ["Ghost", "Fairy"],
+		baseStats: {hp: 60, atk: 60, def: 60, spa: 115, spd: 130, spe: 105},
+	},
+	ninetales: {
+		inherit: true,
+		types: ["Fire", "Fairy"],
+		baseStats: {hp: 99, atk: 56, def: 75, spa: 101, spd: 100, spe: 100},
 	},
 };

@@ -524,6 +524,30 @@ this.modData('Learnsets', 'drampa').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'drampa').learnset.gigadrain = ['8L1'];
 this.modData('Learnsets', 'drampa').learnset.aurasphere = ['8L1'];
 
+this.modData('Learnsets', 'corsola').learnset.iciclecrash = ['8L1'];
+
+this.modData('Learnsets', 'cursola').learnset.focusblast = ['8L1'];
+this.modData('Learnsets', 'cursola').learnset.eeriespell = ['8L1'];
+this.modData('Learnsets', 'cursola').learnset.explosion = ['8L1'];
+this.modData('Learnsets', 'cursola').learnset.memento = ['8L1'];
+this.modData('Learnsets', 'cursola').learnset.recover = ['8L1'];
+
+this.modData('Learnsets', 'ninetales').learnset.psychic = ['8L1'];
+this.modData('Learnsets', 'ninetales').learnset.moonblast = ['8L1'];
+this.modData('Learnsets', 'ninetales').learnset.dazzlinggleam = ['8L1'];
+this.modData('Learnsets', 'ninetales').learnset.aromaticmist = ['8L1'];
+this.modData('Learnsets', 'ninetales').learnset.hypervoice = ['8L1'];
+
+this.modData('Learnsets', 'ninetalesalola').learnset.psychic = ['8L1'];
+this.modData('Learnsets', 'ninetalesalola').learnset.aurasphere = ['8L1'];
+this.modData('Learnsets', 'ninetalesalola').learnset.earthpower = ['8L1'];
+this.modData('Learnsets', 'ninetalesalola').learnset.hypervoice = ['8L1'];
+
+this.modData('Learnsets', 'mismagius').learnset.moonblast = ['8L1'];
+this.modData('Learnsets', 'mismagius').learnset.moonlight = ['8L1'];
+this.modData('Learnsets', 'mismagius').learnset.futuresight = ['8L1'];
+this.modData('Learnsets', 'mismagius').learnset.eeriespell = ['8L1'];
+
 this.modData('Learnsets', 'golisopod').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'golisopod').learnset.uturn = ['8L1'];
 this.modData('Learnsets', 'golisopod').learnset.fellstinger = ['8L1'];

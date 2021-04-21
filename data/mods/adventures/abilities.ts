@@ -552,7 +552,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	lightningrod: {
 		name: "Lightning Rod",
 		desc: "This Pokemon is immune to Electric-type moves and raises its SpA and Atk by 1 stage when hit by an Electric-type move.",
-		shortdesc: "Raises SpA and Atk by 1 when hit by an Electric move. Immune to Electric.",
+		shortdesc: "Raises SpA and Atk by 1 when hit by an Electric move. Immunity to Electric.",
 		onTryHit(target, source, move) {
 			if (target !== source && move.type === 'Electric') {
 				if (!this.boost({spa: 1})) {
@@ -943,6 +943,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 13,
 	},
 	flowergift: {
+		desc: "If user is Cherrim, turns into Sunshine form while Sunny Day is active and multiplies all allies' Attack, Special Attack and Speed by 1.5x.",
+		shortDesc: "If user is Cherrim and Sunny Day is active, it and allies' Atk, SpA and Spe are 1.5x.",
 		onStart(pokemon) {
 			delete this.effectData.forme;
 		},
@@ -983,5 +985,51 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Flower Gift",
 		rating: 1,
 		num: 122,
+	},
+	curiousmedicine: {
+		desc: "On switch-in, this Pokemon clears the stat boosts of all Pokemon on the battlefield.",
+		shortDesc: "Clears stat boosts of all Pokemon on switch-in.",
+		onStart(pokemon) {
+			for (const ally of pokemon.adjacentAllies()) {
+				ally.clearBoosts();
+				this.add('-clearboost', ally, '[from] ability: Curious Medicine', '[of] ' + pokemon);
+			}
+			for (const target of pokemon.adjacentFoes()) {
+				target.clearBoosts();
+				this.add('-clearboost', target, '[from] ability: Curious Medicine', '[of] ' + pokemon);
+			}
+		},
+		name: "Curious Medicine",
+		rating: 0,
+		num: 261,
+	},
+	stormdrain: {
+		desc: "This Pokemon is immune to Water-type moves and raises its SpA and Atk by 1 stage when hit by an Water-type move.",
+		shortdesc: "Raises SpA and Atk by 1 when hit by an Water move. Immunity to Water.",
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Water') {
+				if (!this.boost({spa: 1})) {
+					this.add('-immune', target, '[from] ability: Storm Drain');
+				}
+				if (!this.boost({atk: 1})) {
+					this.add('-immune', target, '[from] ability: Storm Drain');
+				}
+				return null;
+			}
+		},
+		onAnyRedirectTarget(target, source, source2, move) {
+			if (move.type !== 'Water' || ['firepledge', 'grasspledge', 'waterpledge'].includes(move.id)) return;
+			const redirectTarget = ['randomNormal', 'adjacentFoe'].includes(move.target) ? 'normal' : move.target;
+			if (this.validTarget(this.effectData.target, source, redirectTarget)) {
+				if (move.smartTarget) move.smartTarget = false;
+				if (this.effectData.target !== target) {
+					this.add('-activate', this.effectData.target, 'ability: Storm Drain');
+				}
+				return this.effectData.target;
+			}
+		},
+		name: "Storm Drain",
+		rating: 3,
+		num: 114,
 	},
 };
