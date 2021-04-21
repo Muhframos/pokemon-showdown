@@ -1611,7 +1611,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	cursola: {
 		inherit: true,
-		baseStats: {hp: 60, atk: 82, def: 50, spa: 165, spd: 140, spe: 30},
+		baseStats: {hp: 60, atk: 72, def: 65, spa: 165, spd: 140, spe: 30},
 		abilities: {0: "Cursed Body", 1: "Weak Armor", H: "Perish Body"},
 	},
 	mismagius: {
@@ -1622,6 +1622,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	ninetales: {
 		inherit: true,
 		types: ["Fire", "Fairy"],
+		baseStats: {hp: 99, atk: 56, def: 75, spa: 101, spd: 100, spe: 100},
+	},
+	ninetalesalola: {
+		inherit: true,
 		baseStats: {hp: 99, atk: 56, def: 75, spa: 101, spd: 100, spe: 100},
 	},
 };

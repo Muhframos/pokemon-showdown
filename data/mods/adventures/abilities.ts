@@ -943,7 +943,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 13,
 	},
 	flowergift: {
-		desc: "If user is Cherrim, turns into Sunshine form while Sunny Day is active and multiplies all allies' Attack, Special Attack and Speed by 1.5x.",
+		desc: "If user is Cherrim, while Sunny Day is active all allies have their Attack, Special Attack and Speed multiplied by 1.5x.",
 		shortDesc: "If user is Cherrim and Sunny Day is active, it and allies' Atk, SpA and Spe are 1.5x.",
 		onStart(pokemon) {
 			delete this.effectData.forme;
