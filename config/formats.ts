@@ -145,7 +145,7 @@ export const Formats: FormatList = [
 		challengeShow: false,
 		rated: false,
 		banlist: ['Eternatus-Eternamax', 'AG',],
-		ruleset: [ 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+		ruleset: [ 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause', 'Cancel Mod',],
 	},
 	{
 		name: "[Gen 8] Adventures Multi Battle",
@@ -156,7 +156,7 @@ export const Formats: FormatList = [
 			battle: 3,
 	},
 		banlist: [ 'Eternatus-Eternamax', 'AG',],
-		ruleset: ['Standard NatDex', 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause',],
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod',],
 	},
 	{
 		name: "[Gen 8] Adventures Custom Game",

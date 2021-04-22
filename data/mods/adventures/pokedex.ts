@@ -590,6 +590,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	infernape: {
 		inherit: true,
+		baseStats: {hp: 76, atk: 104, def: 71, spa: 104, spd: 71, spe: 108},
 		abilities: {0: "Blaze", 1: "Illusion", H: "Iron Fist"},
 	},
 	charizard: {
