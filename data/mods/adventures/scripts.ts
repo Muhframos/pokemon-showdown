@@ -1153,4 +1153,5 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 		spriteGen: 8,
     
     },
+	//restartufuck
 };
