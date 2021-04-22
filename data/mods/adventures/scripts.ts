@@ -544,6 +544,23 @@ this.modData('Learnsets', 'whiscash').learnset.wildcharge = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.icefang = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.discharge = ['8L1'];
 
+this.modData('Learnsets', 'leavanny').learnset.sleeppowder = ['8L1'];
+this.modData('Learnsets', 'leavanny').learnset.uturn = ['8L1'];
+this.modData('Learnsets', 'leavanny').learnset.leechlife = ['8L1'];
+this.modData('Learnsets', 'leavanny').learnset.crosspoison = ['8L1'];
+this.modData('Learnsets', 'leavanny').learnset.firstimpression = ['8L1'];
+
+this.modData('Learnsets', 'lurantis').learnset.hornleech = ['8L1'];
+this.modData('Learnsets', 'lurantis').learnset.dualwingbeat = ['8L1'];
+this.modData('Learnsets', 'lurantis').learnset.stoneedge = ['8L1'];
+this.modData('Learnsets', 'lurantis').learnset.focusblast = ['8L1'];
+this.modData('Learnsets', 'lurantis').learnset.sludgebomb = ['8L1'];
+
+this.modData('Learnsets', 'tsareena').learnset.woodhammer = ['8L1'];
+this.modData('Learnsets', 'tsareena').learnset.poisonjab = ['8L1'];
+this.modData('Learnsets', 'tsareena').learnset.highhorsepower = ['8L1'];
+this.modData('Learnsets', 'tsareena').learnset.doublekick = ['8L1'];
+
 this.modData('Learnsets', 'stunfisk').learnset.nuzzle = ['8L1'];
 this.modData('Learnsets', 'stunfisk').learnset.flash = ['8L1'];
 this.modData('Learnsets', 'stunfisk').learnset.voltswitch = ['8L1'];

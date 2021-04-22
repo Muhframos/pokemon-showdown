@@ -1598,7 +1598,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	drampa: {
 		inherit: true,
-		baseStats: {hp: 88, atk: 60, def: 95, spa: 145, spd: 111, spe: 36},
+		baseStats: {hp: 88, atk: 70, def: 95, spa: 135, spd: 111, spe: 36},
 	},
 	corsola: {
 		inherit: true,
@@ -1645,7 +1645,21 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	tsareena: {
 		inherit: true,
-		baseStats: {hp: 72, atk: 120, def: 98, spa: 50, spd: 98, spe: 72},
-		abilities: {0: "Leaf Guard", 1: "Queenly Majesty", H: "Sweet Veil"},
+		baseStats: {hp: 82, atk: 130, def: 98, spa: 50, spd: 98, spe: 72},
+		abilities: {0: "Natural Cure", 1: "Queenly Majesty", H: "Sweet Veil"},
+	},
+	leavanny: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 103, def: 80, spa: 70, spd: 80, spe: 102},
+		abilities: {0: "Swarm", 1: "Chlorophyll", H: "Sap Sipper"},
+	},
+	gastrodon: {
+		inherit: true,
+		baseStats: {hp: 111, atk: 83, def: 88, spa: 92, spd: 92, spe: 39},
+	},
+	lurantis: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 115, def: 90, spa: 80, spd: 90, spe: 55},
+		abilities: {0: "Leaf Guard", 1: "Quick Feet", H: "Contrary"},
 	},
 };
