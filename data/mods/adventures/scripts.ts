@@ -538,7 +538,7 @@ this.modData('Learnsets', 'ninetales').learnset.psychic = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.moonblast = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.aromaticmist = ['8L1'];
-this.modData('Learnsets', 'ninetales').learnset.hypervoice = ['8L1'];}
+this.modData('Learnsets', 'ninetales').learnset.hypervoice = ['8L1'];
 
 this.modData('Learnsets', 'whiscash').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.rockpolish = ['8L1'];
