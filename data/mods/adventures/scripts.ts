@@ -312,10 +312,12 @@ this.modData('Learnsets', 'malamar').learnset.guardsplit = ['8L1'];
 this.modData('Learnsets', 'weezing').learnset.gunkshot = ['8L1'];
 this.modData('Learnsets', 'weezing').learnset.gastroacid = ['8L1'];
 this.modData('Learnsets', 'weezing').learnset.acidarmor = ['8L1'];
+this.modData('Learnsets', 'weezing').learnset.recover = ['8L1'];
 
 this.modData('Learnsets', 'weezinggalar').learnset.gunkshot = ['8L1'];
 this.modData('Learnsets', 'weezinggalar').learnset.gastroacid = ['8L1'];
 this.modData('Learnsets', 'weezinggalar').learnset.acidarmor = ['8L1'];
+this.modData('Learnsets', 'weezinggalar').learnset.recover = ['8L1'];
 
 this.modData('Learnsets', 'oricorio').learnset.dualchop = ['8L1'];
 this.modData('Learnsets', 'oricorio').learnset.dragondance = ['8L1'];

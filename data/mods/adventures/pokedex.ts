@@ -97,12 +97,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	weezing: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 90, def: 120, spa: 115, spd: 70, spe: 60},
+		baseStats: {hp: 65, atk: 80, def: 120, spa: 115, spd: 70, spe: 60},
 		abilities: {0: "Aftermath", H: "Levitate", 1: "Neutralizing Gas"},
 	},
 	weezinggalar: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 90, def: 120, spa: 115, spd: 70, spe: 60},
+		baseStats: {hp: 65, atk: 80, def: 120, spa: 115, spd: 70, spe: 60},
 	},
 	qwilfish: {
 		inherit: true,
@@ -590,7 +590,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	infernape: {
 		inherit: true,
-		baseStats: {hp: 76, atk: 104, def: 71, spa: 104, spd: 71, spe: 108},
+		baseStats: {hp: 76, atk: 114, def: 61, spa: 114, spd: 61, spe: 108},
 		abilities: {0: "Blaze", 1: "Illusion", H: "Iron Fist"},
 	},
 	charizard: {
