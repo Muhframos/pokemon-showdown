@@ -1041,4 +1041,22 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 0,
 		num: 217,
 	},
+	sapsipper: {
+		desc: "This Pokemon is immune to Grass-type moves and raises its SpA and Atk by 1 stage when hit by an Grass-type move.",
+		shortdesc: "Raises SpA and Atk by 1 when hit by an Grass move. Immunity to Grass.",
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Grass') {
+				if (!this.boost({spa: 1})) {
+					this.add('-immune', target, '[from] ability: Sap Sipper');
+				}
+				if (!this.boost({atk: 1})) {
+					this.add('-immune', target, '[from] ability: Sap Sipper');
+				}
+				return null;
+			}
+		},
+		name: "Sap Sipper",
+		rating: 3,
+		num: 157,
+	},
 };
