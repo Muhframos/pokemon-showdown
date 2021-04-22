@@ -1033,19 +1033,9 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 114,
 	},
 	battery: {
-		onAllyBasePowerPriority: 22,
-		onAllyBasePower(basePower, attacker, defender, move) {
-			if (attacker !== this.effectData.target && move.category === 'Special') {
-				this.debug('Battery boost');
-				return this.chainModify([5325, 4096]);
-			}
-		onBasePowerPriority: 22,
-		onBasePower(basePower, pokemon, target, move) {
-			if (move.category === 'Special') {
-				this.debug('Battery boost');
-				return this.chainModify([5325, 4096]);
-				}
-			}
+		onAllyModifySpAPriority: 10,
+		onAllyModifyAtk(atk, pokemon) {
+				return this.chainModify(1.5);
 		},
 		name: "Battery",
 		rating: 0,
