@@ -1659,7 +1659,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	lurantis: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 115, def: 90, spa: 80, spd: 90, spe: 55},
+		baseStats: {hp: 90, atk: 115, def: 90, spa: 90, spd: 90, spe: 55},
 		abilities: {0: "Leaf Guard", 1: "Quick Feet", H: "Contrary"},
 	},
 };
