@@ -151,6 +151,7 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Adventures Multi Battle",
 
 		mod: 'adventures',
+		challengeShow: false,
 		gameType: 'multi',
 		teamLength: {
 			battle: 3,
