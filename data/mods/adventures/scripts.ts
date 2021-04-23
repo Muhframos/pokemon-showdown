@@ -535,7 +535,8 @@ this.modData('Learnsets', 'cursola').learnset.memento = ['8L1'];
 this.modData('Learnsets', 'cursola').learnset.recover = ['8L1'];
 
 this.modData('Learnsets', 'ninetales').learnset.psychic = ['8L1'];
-this.modData('Learnsets', 'ninetales').learnset.moonblast = ['8L1'];
+this.modData('Learnsets', 'ninetales').learnset.drainingkiss = ['8L1'];
+this.modData('Learnsets', 'ninetales').learnset.playrough = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.dazzlinggleam = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.aromaticmist = ['8L1'];
 this.modData('Learnsets', 'ninetales').learnset.hypervoice = ['8L1'];
@@ -1153,5 +1154,4 @@ this.modData('Learnsets', 'cradily').learnset.vinetrap = ['8L1'];
 		spriteGen: 8,
     
     },
-	//restartufuck
 };
