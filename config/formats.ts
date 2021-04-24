@@ -32,7 +32,7 @@ export const Formats: FormatList = [
 			'Marshadow', 'Metagross-Mega', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Necrozma-Ultra', 'Palkia', 'Pheromosa',
 			'Rayquaza', 'Reshiram', 'Salamence-Mega', 'Shaymin-Sky', 'Solgaleo', 'Tornadus-Therian', 'Urshifu-Base', 'Xerneas', 'Yveltal',
 			'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base', 'Zygarde-Complete',
-			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax', 'AG',
+			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax', 'Uber', 'AG',
 		],
 	},
 	{
@@ -47,23 +47,23 @@ export const Formats: FormatList = [
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
-			'Blissey', 'Chansey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill',
-			'Garchomp', 'Gliscor', 'Greninja', 'Heatran', 'Kartana', 'Kommo-o', 'Landorus-Therian', 'Lopunny-Mega', 'Magearna', 'Magnezone',
-			'Mawile-Mega', 'Medicham-Mega', 'Rillaboom', 'Scizor-Mega', 'Serperior', 'Swampert-Mega',
-			'Tapu Fini', 'Tapu Koko', 'Tapu Lele', 'Toxapex', 'Tyranitar', 'Volcarona', 'Zapdos-Base', 'AG',
+			'Absol', 'Absol-Mega', 'Aggron-Mega', 'Articuno', 'Blastoise', 'Blissey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Dodrio',
+			'Garchomp', 'Gardevoir-Mega', 'Gliscor', 'Greninja', 'Heatran',  'Honchkrow', 'Kartana', 'Kommo-o', 'Landorus-Therian', 'Lopunny-Mega', 'Magnezone',
+			'Mawile-Mega', 'Medicham-Mega', 'Ninetales', 'Rillaboom', 'Scizor-Mega', 'Serperior',  'Sirfetchd', 'Swampert-Mega',
+			'Tapu Fini', 'Tapu Koko', 'Tapu Lele', 'Toxapex', 'Tyranitar', 'Volcarona', 'Xatu', 'Zapdos-Base', 'Uber', 'AG',
 			'nduubl', // National Dex UUBL
-			'Aerodactyl-Mega', 'Azumarill', 'Blacephalon', 'Diancie-Mega', 'Gallade-Mega', 'Gardevoir-Mega', 'Gengar', 'Gyarados', 'Hawlucha', 'Drizzle', 'Drought',
-			'Heracross-Mega', 'Hydreigon', 'Kyurem', 'Latias', 'Latias-Mega', 'Latios', 'Manaphy', 'Pinsir-Mega', 'Slowbro-Mega', 'Thundurus',
+			'Aerodactyl-Mega', 'Azumarill', 'Diancie-Mega', 'Gallade-Mega', 'Gengar', 'Golduck', 'Gyarados', 'Hawlucha', 'Jynx', 'Drizzle', 'Drought',
+			'Latias-Mega', 'Machamp', 'Magcargo', 'Mamoswine', 'Pinsir-Mega', 'Slowbro-Mega', 'Thundurus',
 			'Venusaur-Mega', 'Victini', 'Xurkitree','Eternatus-Eternamax',
 			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
 			'Slowbronite',
 		],
 		// Used to distinguish UU from below UU in the client
 		restricted: [
-			'Aggron', 'Audino-Mega', 'Avalugg', 'Banette-Mega', 'Barbaracle', 'Barraskewda', 'Basculin', 'Beedrill-Mega', 'Buzzwole', 'Calyrex', 'Celesteela', 'Carracosta', 'Cherrim', 'Conkeldurr', 'Corsola-Galar', 'Crabominable', 'Cradily', 'Crustle', 'Diancie', 'Dodrio', 'Dragalge', 'Dragonite', 'Drampa', 'Drapion', 'Drednaw', 'Ferrothorn', 'Froslass', 'Gallade-Mega', 'Gardevoir', 'Gastrodon', 'Gigalith', 'Golduck', 'Golurk', 'Goodra', 'Heliolisk', 'Hippowdon', 'Hitmontop', 'Honchkrow', 'Houndoom', 'Houndoom-Mega', 'Infernape', 'Ledian', 'Magcargo',
-			'Mandibuzz', 'Manectric-Mega', 'Mew', 'Mienshao', 'Mimikyu', 'Moltres-Base', 'Moltres-Galar', 'Necrozma', 'Nidoqueen', 'Ninetales', 'Ninetales-Alola', 'Obstagoon', 'Oricorio', 'Pangoro', 'Pikachu', 'Politoed', 'Poliwrath', 'Porygon2', 'Raichu-Alola', 'Rampardos', 'Regidrago', 'Regieleki', 'Reuniclus',
-			 'Sableye-Mega', 'Sceptile-Mega', 'Scizor', 'Sharpedo-Mega', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Slowbro', 'Spiritomb', 'Staraptor', 'Swalot', 'Swampert', 'Swellow', 'Tapu Bulu', 'Thievul', 'Torkoal', 'Torterra', 'Trevenant', 'Typhlosion', 'Tyrantrum', 'Umbreon', 'Ursaring',
-			'Urshifu-Rapid-Strike', 'Vikavolt', 'Vileplume', 'Weavile', 'Weezing', 'Weezing-Galar', 'Whiscash', 'Zapdos-Galar',
+			'Aggron', 'Altaria-Mega', 'Audino-Mega', 'Avalugg', 'Banette-Mega', 'Barraskewda', 'Basculin', 'Basculin Blue-Striped', 'Beedrill-Mega', 'Buzzwole', 'Calyrex', 'Camerupt-Mega', 'Celesteela', 'Cherrim', 'Conkeldurr', 'Corsola-Galar', 'Crabominable', 'Cradily', 'Crustle', 'Diancie', 'Dodrio', 'Dragalge', 'Dragonite', 'Drampa', 'Drapion', 'Drednaw', 'Druddigon', 'Eiscue', 'Fearow', 'Ferrothorn', 'Froslass', 'Gardevoir', 'Gastrodon', 'Gengar', 'Gigalith', 'Golduck', 'Golurk', 'Goodra', 'Heliolisk', 'Heracross-Mega', 'Hippowdon', 'Hitmontop', 'Hoopa-Unbound', 'Hydreigon', 'Infernape', 'Kyurem', 'Latias', 'Latios', 'Ledian', 'Magcargo',
+			'Mandibuzz', 'Manectric-Mega', 'Mew', 'Mienshao', 'Mimikyu', 'Moltres-Base', 'Moltres-Galar', 'Necrozma', 'Nidoqueen', 'Ninetales-Alola', 'Obstagoon', 'Oricorio', 'Pangoro', 'Pelipper', 'Pidgeot-Mega', 'Pikachu', 'Politoed', 'Poliwrath', 'Porygon2', 'Raichu-Alola', 'Rampardos', 'Regidrago', 'Regieleki', 'Reuniclus', 'Rotom-Wash',
+			 'Sableye-Mega', 'Salamence', 'Sceptile-Mega', 'Scizor', 'Sharpedo-Mega', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Slowbro', 'Spiritomb', 'Staraptor', 'Suicune', 'Swalot', 'Swampert', 'Swellow', 'Tangrowth', 'Thievul', 'Torterra', 'Trevenant', 'Typhlosion', 'Tyrantrum', 'Umbreon', 'Ursaring',
+			'Urshifu-Rapid-Strike', 'Vikavolt', 'Vileplume', 'Weavile', 'Weezing', 'Weezing-Galar', 'Zapdos-Galar',
 		],
 	},
 	{
@@ -78,7 +78,7 @@ export const Formats: FormatList = [
 			'Marshadow', 'Metagross-Mega', 'Mewtwo', 'Naganadel', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Necrozma-Ultra', 'Palkia', 'Pheromosa',
 			'Rayquaza', 'Reshiram', 'Salamence-Mega', 'Shaymin-Sky', 'Solgaleo', 'Tornadus-Therian', 'Urshifu-Base', 'Xerneas', 'Yveltal',
 			'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom', 'Zygarde-Base', 'Zygarde-Complete',
-			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax', 'AG',
+			 'Moody', 'Power Construct', 'Baton Pass', 'Eternatus-Eternamax', 'Uber', 'AG',
 		],
 	},
 	{
@@ -88,23 +88,23 @@ export const Formats: FormatList = [
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
-			'Blissey', 'Chansey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Ferrothorn',
-			'Garchomp', 'Gliscor', 'Greninja', 'Heatran', 'Kartana', 'Kommo-o', 'Landorus-Therian', 'Lopunny-Mega', 'Magearna', 'Magnezone',
-			'Mawile-Mega', 'Medicham-Mega', 'Pelipper', 'Rillaboom', 'Scizor-Mega', 'Serperior', 'Slowbro-Base', 'Swampert-Mega', 'Tangrowth',
-			'Tapu Fini', 'Tapu Koko', 'Tapu Lele', 'Toxapex', 'Tyranitar', 'Volcarona', 'Zapdos-Base', 'Eternatus-Eternamax',
+			'Absol', 'Absol-Mega', 'Aggron-Mega', 'Articuno', 'Blastoise', 'Blissey', 'Charizard-Mega-X', 'Charizard-Mega-Y', 'Cinderace', 'Clefable', 'Corviknight', 'Excadrill', 'Dodrio',
+			'Garchomp', 'Gardevoir-Mega', 'Gliscor', 'Greninja', 'Heatran',  'Honchkrow', 'Kartana', 'Kommo-o', 'Landorus-Therian', 'Lopunny-Mega', 'Magearna', 'Magnezone',
+			'Mawile-Mega', 'Medicham-Mega', 'Ninetales', 'Rillaboom', 'Scizor-Mega', 'Serperior',  'Sirfetchd', 'Slowbro-Base', 'Swampert-Mega',
+			'Tapu Fini', 'Tapu Koko', 'Tapu Lele', 'Toxapex', 'Volcarona', 'Xatu', 'Zapdos-Base', 'Eternatus-Eternamax', 'AG', 'Uber',
 			'nduubl', // National Dex UUBL
-			'Aerodactyl-Mega', 'Azumarill', 'Blacephalon', 'Diancie-Mega', 'Gallade-Mega', 'Gardevoir-Mega', 'Gengar', 'Gyarados', 'Hawlucha',
-			'Heracross-Mega', 'Hydreigon', 'Kyurem', 'Latias', 'Latias-Mega', 'Latios', 'Manaphy', 'Pinsir-Mega', 'Slowbro-Mega', 'Thundurus',
+			'Aerodactyl-Mega', 'Azumarill', 'Diancie-Mega', 'Gallade-Mega', 'Gengar', 'Golduck', 'Gyarados', 'Hawlucha',
+			'Jynx', 'Latias-Mega', 'Machamp', 'Magcargo', 'Mamoswine', 'Pinsir-Mega', 'Slowbro-Mega', 'Thundurus',
 			'Venusaur-Mega', 'Victini', 'Xurkitree', 'Drizzle', 'Drought',
 			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
 			'Slowbronite',
 		],
 		// Used to distinguish UU from below UU in the client
 		restricted: [
-			'Aggron', 'Audino-Mega', 'Avalugg', 'Banette-Mega', 'Barbaracle', 'Barraskewda', 'Basculin', 'Beedrill-Mega', 'Buzzwole', 'Calyrex', 'Celesteela', 'Carracosta', 'Cherrim', 'Conkeldurr', 'Corsola-Galar', 'Crabominable', 'Cradily', 'Crustle', 'Diancie', 'Dodrio', 'Dragalge', 'Dragonite', 'Drampa', 'Drapion', 'Drednaw', 'Ferrothorn', 'Froslass', 'Gallade-Mega', 'Gardevoir', 'Gastrodon', 'Gigalith', 'Golduck', 'Golurk', 'Goodra', 'Heliolisk', 'Hippowdon', 'Hitmontop', 'Honchkrow', 'Houndoom', 'Houndoom-Mega', 'Infernape', 'Ledian', 'Magcargo',
-			'Mandibuzz', 'Manectric-Mega', 'Mew', 'Mienshao', 'Mimikyu', 'Moltres-Base', 'Moltres-Galar', 'Necrozma', 'Nidoqueen', 'Ninetales', 'Ninetales-Alola', 'Obstagoon', 'Oricorio', 'Pangoro', 'Pikachu', 'Politoed', 'Poliwrath', 'Porygon2', 'Raichu-Alola', 'Rampardos', 'Regidrago', 'Regieleki', 'Reuniclus',
-			 'Sableye-Mega', 'Sceptile-Mega', 'Scizor', 'Sharpedo-Mega', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Slowbro', 'Spiritomb', 'Staraptor', 'Swalot', 'Swampert', 'Swellow', 'Tapu Bulu', 'Thievul', 'Torkoal', 'Torterra', 'Trevenant', 'Typhlosion', 'Tyrantrum', 'Umbreon', 'Ursaring',
-			'Urshifu-Rapid-Strike', 'Vikavolt', 'Vileplume', 'Weavile', 'Weezing', 'Weezing-Galar', 'Whiscash', 'Zapdos-Galar',
+			'Aggron', 'Altaria-Mega', 'Audino-Mega', 'Avalugg', 'Banette-Mega', 'Barraskewda', 'Basculin', 'Basculin Blue-Striped', 'Beedrill-Mega', 'Buzzwole', 'Calyrex', 'Camerupt-Mega', 'Celesteela', 'Cherrim', 'Conkeldurr', 'Corsola-Galar', 'Crabominable', 'Cradily', 'Crustle', 'Diancie', 'Dodrio', 'Dragalge', 'Dragonite', 'Drampa', 'Drapion', 'Drednaw', 'Druddigon', 'Eiscue', 'Fearow', 'Ferrothorn', 'Froslass', 'Gardevoir', 'Gastrodon', 'Gengar', 'Gigalith', 'Golduck', 'Golurk', 'Goodra', 'Heliolisk', 'Heracross-Mega', 'Hippowdon', 'Hitmontop', 'Hoopa-Unbound', 'Hydreigon', 'Infernape', 'Kyurem', 'Latias', 'Latios', 'Ledian',
+			'Mandibuzz', 'Manectric-Mega', 'Mew', 'Mienshao', 'Mimikyu', 'Moltres-Base', 'Moltres-Galar', 'Necrozma', 'Nidoqueen', 'Ninetales-Alola', 'Obstagoon', 'Oricorio', 'Pangoro', 'Pelipper',  'Pidgeot-Mega', 'Pikachu', 'Politoed', 'Poliwrath', 'Porygon2', 'Raichu-Alola', 'Rampardos', 'Regidrago', 'Regieleki', 'Reuniclus', 'Rotom-Wash',
+			 'Sableye-Mega', 'Salamence', 'Sceptile-Mega', 'Scizor', 'Sharpedo-Mega', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Slowbro', 'Spiritomb', 'Staraptor', 'Suicune', 'Swalot', 'Swampert', 'Swellow', 'Tangrowth', 'Thievul', 'Torterra', 'Trevenant', 'Typhlosion', 'Tyrantrum', 'Umbreon', 'Ursaring',
+			'Urshifu-Rapid-Strike', 'Vikavolt', 'Vileplume', 'Weavile', 'Weezing', 'Weezing-Galar', 'Zapdos-Galar',
 		],
 	},
 	{
