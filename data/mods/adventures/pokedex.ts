@@ -86,10 +86,6 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 70, atk: 152, def: 65, spa: 80, spd: 55, spe: 98},
 	},
-	basculinbluestriped: {
-		inherit: true,
-		baseStats: {hp: 70, atk: 152, def: 65, spa: 80, spd: 55, spe: 98},
-	},
 	barraskewda: {
 		inherit: true,
 		baseStats: {hp: 61, atk: 123, def: 60, spa: 90, spd: 50, spe: 136},
