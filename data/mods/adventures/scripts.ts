@@ -506,6 +506,8 @@ this.modData('Learnsets', 'haxorus').learnset.dragonhammer = ['8L1'];
 this.modData('Learnsets', 'gengar').learnset.mistyexplosion = ['8L1'];
 this.modData('Learnsets', 'gengar').learnset.mistyterrain = ['8L1'];
 
+this.modData('Learnsets', 'rhyperior').learnset.shoreup = ['8L1'];
+
 this.modData('Learnsets', 'glalie').learnset.playrough = ['8L1'];
 this.modData('Learnsets', 'glalie').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'glalie').learnset.pursuit = ['8L1'];

@@ -1125,6 +1125,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 95, atk: 135, def: 130, spa: 80, spd: 90, spe: 70},
 		abilities: {0: "Clear Body", 1: "Iron Fist", H: "Light Metal"},
 	},
+	metagrossmega: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 145, def: 150, spa: 105, spd: 110, spe: 110},
+	},
 	wailord: {
 		inherit: true,
 		baseStats: {hp: 170, atk: 80, def: 55, spa: 100, spd: 55, spe: 75},
