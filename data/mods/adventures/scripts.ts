@@ -509,6 +509,7 @@ this.modData('Learnsets', 'gengar').learnset.mistyterrain = ['8L1'];
 this.modData('Learnsets', 'glalie').learnset.playrough = ['8L1'];
 this.modData('Learnsets', 'glalie').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'glalie').learnset.pursuit = ['8L1'];
+this.modData('Learnsets', 'glalie').learnset.glare = ['8L1'];
 this.modData('Learnsets', 'glalie').learnset.aircutter = ['8L1'];
 
 this.modData('Learnsets', 'glastrier').learnset.speedswap = ['8L1'];
@@ -521,6 +522,7 @@ this.modData('Learnsets', 'probopass').learnset.trickroom = ['8L1'];
 
 this.modData('Learnsets', 'reuniclus').learnset.aurasphere = ['8L1'];
 this.modData('Learnsets', 'reuniclus').learnset.dazzlinggleam = ['8L1'];
+this.modData('Learnsets', 'reuniclus').learnset.teleport = ['8L1'];
 
 this.modData('Learnsets', 'drampa').learnset.earthpower = ['8L1'];
 this.modData('Learnsets', 'drampa').learnset.gigadrain = ['8L1'];
@@ -628,7 +630,7 @@ this.modData('Learnsets', 'murkrow').learnset.eeriespell = ['8L1'];
 this.modData('Learnsets', 'murkrow').learnset.workup = ['8L1'];
 this.modData('Learnsets', 'murkrow').learnset.knockoff = ['8L1'];
 
-this.modData('Learnsets', 'honchkrow').learnset.eeriespell = ['8L1'];
+this.modData('Learnsets', 'honchkrow').learnset.swordsdance = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.workup = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'honchkrow').learnset.barrage = ['8L1'];

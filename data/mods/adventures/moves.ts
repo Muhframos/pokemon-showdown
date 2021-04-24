@@ -1285,7 +1285,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		basePower: 60,
 		flags: {contact: 1, protect: 1, mirror: 1, bite: 1},
 	},
-		gravity: {
+	gravity: {
 		num: 356,
 		accuracy: true,
 		basePower: 0,

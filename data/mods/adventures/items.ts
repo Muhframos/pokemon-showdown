@@ -173,4 +173,20 @@ export const Items: {[k: string]: ModdedItemData} = {
 		num: 284,
 		gen: 4,
 	},
+	kingsrock: {
+    inherit: true,
+    onModifyMove(move) {
+        if (move.id === "mobboss") return;
+        if (move.category !== "Status") {
+            if (!move.secondaries) move.secondaries = [];
+            for (const secondary of move.secondaries) {
+                if (secondary.volatileStatus === 'flinch') return;
+            }
+            move.secondaries.push({
+                chance: 10,
+                volatileStatus: 'flinch',
+            });
+        }
+    },
+}
 };
