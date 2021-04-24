@@ -172,6 +172,12 @@ this.modData('Learnsets', 'palossand').learnset.willowisp = ['8L1'];
 this.modData('Learnsets', 'palossand').learnset.scald = ['8L1'];
 this.modData('Learnsets', 'palossand').learnset.phantomforce = ['8L1'];
 
+this.modData('Learnsets', 'cherrim').learnset.wish = ['8L1'];
+this.modData('Learnsets', 'cherrim').learnset.playrough = ['8L1'];
+this.modData('Learnsets', 'cherrim').learnset.poisonjab = ['8L1'];
+this.modData('Learnsets', 'cherrim').learnset.thunderwave = ['8L1'];
+this.modData('Learnsets', 'cherrim').learnset.leafstorm = ['8L1'];
+
 this.modData('Learnsets', 'bastiodon').learnset.gyroball = ['8L1'];
 this.modData('Learnsets', 'bastiodon').learnset.dragontail = ['8L1'];
 this.modData('Learnsets', 'bastiodon').learnset.spikes = ['8L1'];
