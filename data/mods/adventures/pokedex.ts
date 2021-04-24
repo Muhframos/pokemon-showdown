@@ -347,7 +347,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	gengarmega: {
 		inherit: true,
 		baseStats: {hp: 60, atk: 65, def: 80, spa: 170, spd: 115, spe: 130},
-		abilities: {0: "Cursed Body", 1: "Merciless", H: "Levitate"},
+		abilities: {0: "Shadow Tag"},
 	},
 	hoopa: {
 		inherit: true,
