@@ -62,7 +62,7 @@ export const Formats: FormatList = [
 		restricted: [
 			'Aggron', 'Altaria-Mega', 'Audino-Mega', 'Avalugg', 'Banette-Mega', 'Barraskewda', 'Basculin', 'Basculin Blue-Striped', 'Beedrill-Mega', 'Buzzwole', 'Calyrex', 'Camerupt-Mega', 'Celesteela', 'Cherrim', 'Conkeldurr', 'Corsola-Galar', 'Crabominable', 'Cradily', 'Crustle', 'Diancie', 'Dodrio', 'Dragalge', 'Dragonite', 'Drampa', 'Drapion', 'Drednaw', 'Druddigon', 'Eiscue', 'Fearow', 'Ferrothorn', 'Froslass', 'Gardevoir', 'Gastrodon', 'Gengar', 'Gigalith', 'Golduck', 'Golurk', 'Goodra', 'Heliolisk', 'Heracross-Mega', 'Hippowdon', 'Hitmontop', 'Hoopa-Unbound', 'Hydreigon', 'Infernape', 'Kyurem', 'Latias', 'Latios', 'Ledian', 'Magcargo',
 			'Mandibuzz', 'Manectric-Mega', 'Mew', 'Mienshao', 'Mimikyu', 'Moltres-Base', 'Moltres-Galar', 'Necrozma', 'Nidoqueen', 'Ninetales-Alola', 'Obstagoon', 'Oricorio', 'Pangoro', 'Pelipper', 'Pidgeot-Mega', 'Pikachu', 'Politoed', 'Poliwrath', 'Porygon2', 'Raichu-Alola', 'Rampardos', 'Regidrago', 'Regieleki', 'Reuniclus', 'Rotom-Wash',
-			 'Sableye-Mega', 'Salamence', 'Sceptile-Mega', 'Scizor', 'Sharpedo-Mega', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Slowbro', 'Spiritomb', 'Staraptor', 'Suicune', 'Swalot', 'Swampert', 'Swellow', 'Tangrowth', 'Thievul', 'Torterra', 'Trevenant', 'Typhlosion', 'Tyrantrum', 'Umbreon', 'Ursaring',
+			 'Sableye-Mega', 'Salamence', 'Sceptile-Mega', 'Scizor', 'Sharpedo-Mega', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Slowbro', 'Spiritomb', 'Staraptor', 'Suicune', 'Swalot', 'Swampert', 'Swellow', 'Tangrowth', 'Thievul', 'Thundurus-Therian', 'Torterra', 'Trevenant', 'Typhlosion', 'Tyrantrum', 'Umbreon', 'Ursaring',
 			'Urshifu-Rapid-Strike', 'Vikavolt', 'Vileplume', 'Weavile', 'Weezing', 'Weezing-Galar', 'Zapdos-Galar',
 		],
 	},
@@ -103,7 +103,7 @@ export const Formats: FormatList = [
 		restricted: [
 			'Aggron', 'Altaria-Mega', 'Audino-Mega', 'Avalugg', 'Banette-Mega', 'Barraskewda', 'Basculin', 'Basculin Blue-Striped', 'Beedrill-Mega', 'Buzzwole', 'Calyrex', 'Camerupt-Mega', 'Celesteela', 'Cherrim', 'Conkeldurr', 'Corsola-Galar', 'Crabominable', 'Cradily', 'Crustle', 'Diancie', 'Dodrio', 'Dragalge', 'Dragonite', 'Drampa', 'Drapion', 'Drednaw', 'Druddigon', 'Eiscue', 'Fearow', 'Ferrothorn', 'Froslass', 'Gardevoir', 'Gastrodon', 'Gengar', 'Gigalith', 'Golduck', 'Golurk', 'Goodra', 'Heliolisk', 'Heracross-Mega', 'Hippowdon', 'Hitmontop', 'Hoopa-Unbound', 'Hydreigon', 'Infernape', 'Kyurem', 'Latias', 'Latios', 'Ledian',
 			'Mandibuzz', 'Manectric-Mega', 'Mew', 'Mienshao', 'Mimikyu', 'Moltres-Base', 'Moltres-Galar', 'Necrozma', 'Nidoqueen', 'Ninetales-Alola', 'Obstagoon', 'Oricorio', 'Pangoro', 'Pelipper',  'Pidgeot-Mega', 'Pikachu', 'Politoed', 'Poliwrath', 'Porygon2', 'Raichu-Alola', 'Rampardos', 'Regidrago', 'Regieleki', 'Reuniclus', 'Rotom-Wash',
-			 'Sableye-Mega', 'Salamence', 'Sceptile-Mega', 'Scizor', 'Sharpedo-Mega', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Slowbro', 'Spiritomb', 'Staraptor', 'Suicune', 'Swalot', 'Swampert', 'Swellow', 'Tangrowth', 'Thievul', 'Torterra', 'Trevenant', 'Typhlosion', 'Tyrantrum', 'Umbreon', 'Ursaring',
+			 'Sableye-Mega', 'Salamence', 'Sceptile-Mega', 'Scizor', 'Sharpedo-Mega', 'Skarmory', 'Slowking', 'Slowking-Galar', 'Slowbro', 'Spiritomb', 'Staraptor', 'Suicune', 'Swalot', 'Swampert', 'Swellow', 'Tangrowth', 'Thievul', 'Thundurus-Therian', 'Torterra', 'Trevenant', 'Typhlosion', 'Tyrantrum', 'Umbreon', 'Ursaring',
 			'Urshifu-Rapid-Strike', 'Vikavolt', 'Vileplume', 'Weavile', 'Weezing', 'Weezing-Galar', 'Zapdos-Galar',
 		],
 	},
