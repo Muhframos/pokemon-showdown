@@ -4237,7 +4237,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	},
 	greninjaash: {
 		isNonstandard: "Past",
-		tier: "OU",
+		tier: "Illegal",
 	},
 	bunnelby: {
 		tier: "LC",
@@ -4370,6 +4370,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		randomBattleLevel: 82,
 		randomDoubleBattleMoves: ["closecombat", "ironhead", "kingsshield", "shadowclaw", "shadowsneak", "swordsdance"],
 		randomDoubleBattleLevel: 84,
+		tier: "Illegal",
 	},
 	spritzee: {
 		tier: "LC",
@@ -5886,7 +5887,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		randomBattleLevel: 86,
 		randomDoubleBattleMoves: ["heatcrash", "highhorsepower", "ironhead", "playrough", "powerwhip", "protect", "stoneedge"],
 		randomDoubleBattleLevel: 88,
-		tier: "RU",
+		tier: "UU",
 		doublesTier: "(DUU)",
 	},
 	copperajahgmax: {

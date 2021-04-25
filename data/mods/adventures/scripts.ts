@@ -1010,8 +1010,26 @@ this.modData('Learnsets', 'volcanion').learnset.clearsmog = ['8L1'];
 this.modData('Learnsets', 'volcanion').learnset.lavaplume = ['8L1'];
 this.modData('Learnsets', 'volcanion').learnset.lifedew = ['8L1'];
 
+this.modData('Learnsets', 'bibarel').learnset.icefang = ['8L1'];
+this.modData('Learnsets', 'bibarel').learnset.closecombat = ['8L1'];
+
 this.modData('Learnsets', 'wailord').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'wailord').learnset.lifedew = ['8L1'];
+
+this.modData('Learnsets', 'victreebel').learnset.firefang = ['8L1'];
+this.modData('Learnsets', 'victreebel').learnset.icefang = ['8L1'];
+this.modData('Learnsets', 'victreebel').learnset.poisonfang = ['8L1'];
+this.modData('Learnsets', 'victreebel').learnset.crosspoison = ['8L1'];
+this.modData('Learnsets', 'victreebel').learnset.hornleech = ['8L1'];
+
+this.modData('Learnsets', 'forretress').learnset.headsmash = ['8L1'];
+this.modData('Learnsets', 'forretress').learnset.twineedle = ['8L1'];
+this.modData('Learnsets', 'forretress').learnset.steamroller = ['8L1'];
+
+this.modData('Learnsets', 'copperajah').learnset.steelyspikes = ['8L1'];
+this.modData('Learnsets', 'copperajah').learnset.meteormash = ['8L1'];
+this.modData('Learnsets', 'copperajah').learnset.irontail = ['8L1'];
+this.modData('Learnsets', 'copperajah').learnset.thunderwave = ['8L1'];
 
 this.modData('Learnsets', 'weavile').learnset.switcheroo = ['8L1'];
 this.modData('Learnsets', 'weavile').learnset.memento = ['8L1'];

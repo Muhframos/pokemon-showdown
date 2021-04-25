@@ -1671,4 +1671,23 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 90, atk: 115, def: 90, spa: 90, spd: 90, spe: 55},
 		abilities: {0: "Leaf Guard", 1: "Quick Feet", H: "Contrary"},
 	},
+	victreebel: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 115, def: 65, spa: 105, spd: 70, spe: 90},
+		abilities: {0: "Chlorophyll", 1: "Harvest", H: "Gluttony"},
+	},
+	copperajah: {
+		inherit: true,
+		baseStats: {hp: 152, atk: 130, def: 69, spa: 80, spd: 69, spe: 29},
+		abilities: {0: "Sheer Force", 1: "Overcoat", H: "Heavy Metal"},
+	},
+	bibarel: {
+		inherit: true,
+		baseStats: {hp: 109, atk: 95, def: 80, spa: 55, spd: 80, spe: 81},
+	},
+	forretress: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 100, def: 150, spa: 60, spd: 40, spe: 40},
+		abilities: {0: "Sturdy", 1: "Heatproof", H: "Overcoat"},
+	},
 };

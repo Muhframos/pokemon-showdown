@@ -26,7 +26,7 @@ export const Formats: FormatList = [
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
-			'Uber', 'AG', 'Baton Pass',
+			'Uber', 'AG', 'Baton Pass', 'Greninja-Ash', 'Eiscue-Noice',
 		],
 	},
 	{
@@ -41,7 +41,7 @@ export const Formats: FormatList = [
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
-			 'OU', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
+			 'OU', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass', 'Greninja-Ash', 'Eiscue-Noice',
 			'UUBL', // National Dex UUBL
 			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
 			'Slowbronite',
@@ -53,7 +53,7 @@ export const Formats: FormatList = [
 		gameType: 'doubles',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
-			'Uber', 'AG', 'Baton Pass',
+			'Uber', 'AG', 'Baton Pass', 'Greninja-Ash', 'Eiscue-Noice',
 		],
 	},
 	{
@@ -63,7 +63,7 @@ export const Formats: FormatList = [
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
-			 'OU', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
+			 'OU', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass', 'Greninja-Ash', 'Eiscue-Noice',
 			'UUBL', // National Dex UUBL
 			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
 			'Slowbronite',
@@ -74,12 +74,12 @@ export const Formats: FormatList = [
 		name: "[Gen 8] Adventures Ubers",
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'Dynamax Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Sleep Clause Mod',],
-		banlist: ['AG', 'Baton Pass',],
+		banlist: ['AG', 'Baton Pass', 'Greninja-Ash', 'Eiscue-Noice',],
 	},
 	{
 		name: "[Gen 8] Adventures AG",
 		mod: 'adventures',
-		banlist: [ 'Eternatus-Eternamax' ],
+		banlist: ['Greninja-Ash', 'Eiscue-Noice',],
 		ruleset: ['Standard NatDex'],
 	},
 	{
@@ -95,7 +95,7 @@ export const Formats: FormatList = [
 			'Calyrex-Ice', 'Calyrex-Shadow', 'Cinderace', 'Dialga', 'Dragonite', 'Eternatus', 'Giratina', 'Giratina-Origin', 'Groudon', 'Ho-Oh', 'Kyogre', 'Kyurem-Black',
 			'Kyurem-White', 'Lugia', 'Lunala', 'Magearna', 'Marshadow', 'Melmetal', 'Mew', 'Mewtwo', 'Mimikyu', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Palkia',
 			'Rayquaza', 'Reshiram', 'Sableye', 'Solgaleo', 'Victini', 'Xerneas', 'Yveltal', 'Zacian', 'Zacian-Crowned', 'Zamazenta', 'Zamazenta-Crowned', 'Zekrom',
-			'Moody', 'Focus Sash', 'Perish Song', 'Eternatus-Eternamax', 'AG', 'Uber',
+			'Moody', 'Focus Sash', 'Perish Song', 'Eternatus-Eternamax', 'AG', 'Uber', 'Greninja-Ash', 'Eiscue-Noice',
 		],
 	},
 	{
@@ -105,7 +105,7 @@ export const Formats: FormatList = [
 		gameType: 'freeforall',
 		challengeShow: false,
 		rated: false,
-		banlist: ['Eternatus-Eternamax', 'AG',],
+		banlist: ['Eternatus-Eternamax', 'AG', 'Greninja-Ash', 'Eiscue-Noice',],
 		ruleset: [ 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause', 'Cancel Mod',],
 	},
 	{
@@ -117,7 +117,7 @@ export const Formats: FormatList = [
 		teamLength: {
 			battle: 3,
 	},
-		banlist: [ 'Eternatus-Eternamax', 'AG',],
+		banlist: [ 'Eternatus-Eternamax', 'AG', 'Greninja-Ash', 'Eiscue-Noice',],
 		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause', 'Cancel Mod',],
 	},
 	{

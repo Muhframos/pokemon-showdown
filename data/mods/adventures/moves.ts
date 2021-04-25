@@ -1474,4 +1474,39 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		accuracy: 90,
 	},
+	steelyspikes: {
+		desc: "Sets up a hazard on the opposing side of the field. Damages foes that switch-in based on their weakness to the Steel type.",
+		shortDesc: "Damages foes on switch-in based on weakness to Steel-type.",
+		num: -20,
+		accuracy: true,
+		basePower: 8,
+		category: "Status",
+		name: "Steely Spikes",
+		pp: 5,
+		priority: 0,
+		flags: {reflectable: 1},
+		sideCondition: 'gmaxsteelsurge',
+		condition: {
+			onStart(side) {
+				this.add('-sidestart', side, 'move: Steely Spikes');
+			},
+			onSwitchIn(pokemon) {
+				if (pokemon.hasItem('heavydutyboots')) return;
+				if (pokemon.hasAbility('oblivious')) return;
+				// Ice Face and Disguise correctly get typed damage from Stealth Rock
+				// because Stealth Rock bypasses Substitute.
+				// They don't get typed damage from Steelsurge because Steelsurge doesn't,
+				// so we're going to test the damage of a Steel-type Stealth Rock instead.
+				const steelHazard = this.dex.getActiveMove('Stealth Rock');
+				steelHazard.type = 'Steel';
+				const typeMod = this.clampIntRange(pokemon.runEffectiveness(steelHazard), -6, 6);
+				this.damage(pokemon.maxhp * Math.pow(2, typeMod) / 8);
+			},
+		},
+		secondary: null,
+		target: "foeSide",
+		type: "Steel",
+		zMove: {boost: {def: 1}},
+		contestType: "Cool",
+	},
 }
