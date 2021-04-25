@@ -1476,7 +1476,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 	},
 	steelyspikes: {
 		desc: "Sets up a hazard on the opposing side of the field. Damages foes that switch-in based on their weakness to the Steel type.",
-		shortDesc: "Damages foes on switch-in based on weakness to Steel-type.",
+		shortDesc: "Hurts foes on switch-in. Factors Steel weakness.",
 		num: -20,
 		accuracy: true,
 		basePower: 8,
