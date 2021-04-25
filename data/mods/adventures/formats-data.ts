@@ -4748,7 +4748,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	},
 	crabrawler: {
 		isNonstandard: "Past",
-		tier: "OU",
+		tier: "LC",
 	},
 	crabominable: {
 		isNonstandard: "Past",
