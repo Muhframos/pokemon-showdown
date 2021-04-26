@@ -617,7 +617,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	gardevoir: {
 		inherit: true,
+		baseStats: {hp: 68, atk: 75, def: 65, spa: 125, spd: 115, spe: 80},
 		abilities: {0: "Synchronize", 1: "Trace", H: "Misty Surge"},
+	},
+	gardevoirmega: {
+		inherit: true,
+		baseStats: {hp: 68, atk: 95, def: 65, spa: 165, spd: 135, spe: 100},
 	},
 	gallade: {
 		inherit: true,
@@ -1474,6 +1479,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 48, atk: 101, def: 115, spa: 91, spd: 135, spe: 15},
 		abilities: {0: "Lightning Rod", 1: "Iron Barbs", H: "Electric Surge"},
 	},
+	bewear: {
+		inherit: true,
+		baseStats: {hp: 120, atk: 125, def: 80, spa: 55, spd: 70, spe: 60},
+	},
 	zapdos: {
 		inherit: true,
 		baseStats: {hp: 90, atk: 80, def: 90, spa: 125, spd: 90, spe: 105},
@@ -1531,12 +1540,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	abomasnow: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 100, def: 85, spa: 100, spd: 95, spe: 65},
+		baseStats: {hp: 90, atk: 102, def: 95, spa: 102, spd: 95, spe: 51},
 		abilities: {0: "Snow Warning", 1: "Permafrost", H: "Soundproof"},
 	},
 	abomasnowmega: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 140, def: 115, spa: 140, spd: 120, spe: 30},
+		baseStats: {hp: 90, atk: 142, def: 125, spa: 142, spd: 125, spe: 11},
 	},
 	carnivine: {
 		inherit: true,
@@ -1689,5 +1698,20 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 95, atk: 100, def: 150, spa: 60, spd: 40, spe: 40},
 		abilities: {0: "Sturdy", 1: "Heatproof", H: "Overcoat"},
+	},
+	klinklang: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 100, def: 115, spa: 70, spd: 85, spe: 90},
+		abilities: {0: "Levitate", 1: "Lightning Rod", H: "Clear Body"},
+	},
+	ampharos: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 65, def: 95, spa: 115, spd: 100, spe: 55},
+		abilities: {0: "Static", 1: "Electric Surge", H: "Plus"},
+	},
+	ampharosmega: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 85, def: 110, spa: 165, spd: 125, spe: 45},
+		abilities: {0: "Mold Breaker"},
 	},
 };

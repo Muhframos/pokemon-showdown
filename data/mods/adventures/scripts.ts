@@ -996,6 +996,11 @@ this.modData('Learnsets', 'tyrantrum').learnset.woodhammer = ['8L1'];
 this.modData('Learnsets', 'tyrantrum').learnset.tyrantchomp = ['8L1'];
 this.modData('Learnsets', 'tyrantrum').learnset.jawlock = ['8L1'];
 
+this.modData('Learnsets', 'ampharos').learnset.tailglow = ['8L1'];
+this.modData('Learnsets', 'ampharos').learnset.gigadrain = ['8L1'];
+this.modData('Learnsets', 'ampharos').learnset.dracometeor = ['8L1'];
+
+
 this.modData('Learnsets', 'victini').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'victini').learnset.psychicfangs = ['8L1'];
 
@@ -1012,6 +1017,11 @@ this.modData('Learnsets', 'volcanion').learnset.lifedew = ['8L1'];
 
 this.modData('Learnsets', 'bibarel').learnset.icefang = ['8L1'];
 this.modData('Learnsets', 'bibarel').learnset.closecombat = ['8L1'];
+
+this.modData('Learnsets', 'klinklang').learnset.focusblast = ['8L1'];
+this.modData('Learnsets', 'klinklang').learnset.stompingtantrum = ['8L1'];
+this.modData('Learnsets', 'klinklang').learnset.flash = ['8L1'];
+this.modData('Learnsets', 'klinklang').learnset.doubleedge = ['8L1'];
 
 this.modData('Learnsets', 'wailord').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'wailord').learnset.lifedew = ['8L1'];

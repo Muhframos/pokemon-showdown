@@ -1479,7 +1479,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		shortDesc: "Hurts foes on switch-in. Factors Steel weakness.",
 		num: -20,
 		accuracy: true,
-		basePower: 8,
+		basePower: 0,
 		category: "Status",
 		name: "Steely Spikes",
 		pp: 5,
@@ -1508,5 +1508,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 		type: "Steel",
 		zMove: {boost: {def: 1}},
 		contestType: "Cool",
+	},
+	aerialace: {
+		inherit: true,
+		basePower: 80,
 	},
 }
