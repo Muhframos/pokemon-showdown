@@ -5910,7 +5910,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		randomBattleLevel: 86,
 		randomDoubleBattleMoves: ["blizzard", "boltbeak", "iciclecrash", "lowkick", "protect"],
 		randomDoubleBattleLevel: 88,
-		tier: "RU",
+		tier: "UU",
 		doublesTier: "(DUU)",
 	},
 	dracovish: {
@@ -5926,7 +5926,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		randomBattleLevel: 88,
 		randomDoubleBattleMoves: ["blizzard", "fishiousrend", "iciclecrash", "protect", "superfang"],
 		randomDoubleBattleLevel: 88,
-		tier: "RU",
+		tier: "UU",
 		doublesTier: "(DUU)",
 	},
 	duraludon: {

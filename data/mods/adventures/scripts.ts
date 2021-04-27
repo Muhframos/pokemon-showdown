@@ -1062,6 +1062,17 @@ this.modData('Learnsets', 'zarude').learnset.swordsdance = ['8L1'];
 this.modData('Learnsets', 'zarude').learnset.knockoff = ['8L1'];
 this.modData('Learnsets', 'zarude').learnset.woodhammer = ['8L1'];
 
+this.modData('Learnsets', 'stoutland').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'stoutland').learnset.nuzzle = ['8L1'];
+this.modData('Learnsets', 'stoutland').learnset.doubleedge = ['8L1'];
+this.modData('Learnsets', 'stoutland').learnset.bulkup = ['8L1'];
+
+this.modData('Learnsets', 'manectric').learnset.grassknot = ['8L1'];
+
+this.modData('Learnsets', 'zarudedada').learnset.swordsdance = ['8L1'];
+this.modData('Learnsets', 'zarudedada').learnset.knockoff = ['8L1'];
+this.modData('Learnsets', 'zarudedada').learnset.woodhammer = ['8L1'];
+
 this.modData('Learnsets', 'mamoswine').learnset.closecombat = ['8L1'];
 this.modData('Learnsets', 'mamoswine').learnset.swordsdance = ['8L1'];
 this.modData('Learnsets', 'mamoswine').learnset.bulkup = ['8L1'];

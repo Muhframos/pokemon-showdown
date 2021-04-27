@@ -38,6 +38,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	blastoise: {
 		inherit: true,
+		baseStats: {hp: 79, atk: 83, def: 105, spa: 75, spd: 110, spe: 78},
 		types: ["Water", "Steel"],
 		abilities: {0: "Torrent", H: "Rain Dish", 1: "Mega Launcher"},	
 	},
@@ -1024,6 +1025,10 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		abilities: {0: "Intimidate", 1: "Synchronize", H: "Guts"},
 	},
+	zarudedada: {
+		inherit: true,
+		abilities: {0: "Defiant", 1: "Immunity", H: "Guts"},
+	},
 	nihilego: {
 		inherit: true,
 		abilities: {0: "Beast Boost", 1: "Levitate"},
@@ -1095,7 +1100,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	crabominable: {
 		inherit: true,
-		baseStats: {hp: 97, atk: 132, def: 97, spa: 62, spd: 67, spe: 73},
+		baseStats: {hp: 97, atk: 132, def: 77, spa: 62, spd: 67, spe: 73},
 		abilities: {0: "Hyper Cutter", 1: "Iron Fist", H: "Fur Coat"},
 	},
 	sirfetchd: {
@@ -1713,5 +1718,34 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 100, atk: 85, def: 110, spa: 165, spd: 125, spe: 45},
 		abilities: {0: "Mold Breaker"},
+	},
+	arctozolt: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 100, def: 90, spa: 100, spd: 90, spe: 65},
+	},
+	arctovish: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 90, def: 100, spa: 90, spd: 100, spe: 65},
+	},
+	dracozolt: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 100, def: 90, spa: 100, spd: 80, spe: 75},
+	},
+	dracovish: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 90, def: 100, spa: 80, spd: 100, spe: 75},
+	},
+	manectric: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 75, def: 60, spa: 115, spd: 80, spe: 105},
+		abilities: {0: "Static", 1: "Lightning Rod", H: "Competitive"},
+	},
+	manectricmega: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 85, def: 80, spa: 135, spd: 100, spe: 135},
+	},
+	stoutland: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 110, def: 90, spa: 45, spd: 90, spe: 90},
 	},
 };
