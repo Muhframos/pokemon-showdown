@@ -443,6 +443,7 @@ this.modData('Learnsets', 'electivire').learnset.plasmafists = ['8L1'];
 this.modData('Learnsets', 'electivire').learnset.flamecharge = ['8L1'];
 
 this.modData('Learnsets', 'empoleon').learnset.nastyplot = ['8L1'];
+this.modData('Learnsets', 'empoleon').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'empoleon').learnset.roost = ['8L1'];
 this.modData('Learnsets', 'empoleon').learnset.mirrorcoat = ['8L1'];
 
@@ -527,6 +528,7 @@ this.modData('Learnsets', 'probopass').learnset.defog = ['8L1'];
 this.modData('Learnsets', 'probopass').learnset.bodypress = ['8L1'];
 this.modData('Learnsets', 'probopass').learnset.smellingsalts = ['8L1'];
 this.modData('Learnsets', 'probopass').learnset.trickroom = ['8L1'];
+this.modData('Learnsets', 'probopass').learnset.recover = ['8L1'];
 
 this.modData('Learnsets', 'reuniclus').learnset.aurasphere = ['8L1'];
 this.modData('Learnsets', 'reuniclus').learnset.dazzlinggleam = ['8L1'];
@@ -537,6 +539,7 @@ this.modData('Learnsets', 'drampa').learnset.gigadrain = ['8L1'];
 this.modData('Learnsets', 'drampa').learnset.aurasphere = ['8L1'];
 
 this.modData('Learnsets', 'corsola').learnset.iciclecrash = ['8L1'];
+this.modData('Learnsets', 'corsola').learnset.flipturn = ['8L1'];
 
 this.modData('Learnsets', 'cursola').learnset.focusblast = ['8L1'];
 this.modData('Learnsets', 'cursola').learnset.eeriespell = ['8L1'];
@@ -757,7 +760,17 @@ this.modData('Learnsets', 'linoonegalar').learnset.return = ['8L1'];
 this.modData('Learnsets', 'linoonegalar').learnset.frustration = ['8L1'];
 this.modData('Learnsets', 'linoonegalar').learnset.toxic = ['8L1'];
 
+this.modData('Learnsets', 'heracross').learnset.uturn = ['8L1'];
+this.modData('Learnsets', 'heracross').learnset.leechlife = ['8L1'];
+this.modData('Learnsets', 'heracross').learnset.firstimpression = ['8L1'];
+
+this.modData('Learnsets', 'necrozma').learnset.teleport = ['8L1'];
+this.modData('Learnsets', 'necrozma').learnset.thunderbolt = ['8L1'];
+this.modData('Learnsets', 'necrozma').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'necrozma').learnset.voltswitch = ['8L1'];
+
 this.modData('Learnsets', 'pinsir').learnset.drillrun = ['8L1'];
+this.modData('Learnsets', 'pinsir').learnset.uturn = ['8L1'];
 this.modData('Learnsets', 'pinsir').learnset.nightslash = ['8L1'];
 this.modData('Learnsets', 'pinsir').learnset.razorshell = ['8L1'];
 this.modData('Learnsets', 'pinsir').learnset.crosschop = ['8L1'];

@@ -1749,4 +1749,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 95, atk: 110, def: 90, spa: 45, spd: 90, spe: 90},
 	},
+	heracross: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 135, def: 95, spa: 40, spd: 95, spe: 85},
+	},
+	heracrossmega: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 185, def: 115, spa: 40, spd: 125, spe: 75},
+	},
 };
