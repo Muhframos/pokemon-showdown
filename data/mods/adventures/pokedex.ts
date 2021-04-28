@@ -1551,6 +1551,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	abomasnowmega: {
 		inherit: true,
 		baseStats: {hp: 90, atk: 142, def: 125, spa: 142, spd: 125, spe: 11},
+		abilities: {0: "Permafrost"},
 	},
 	carnivine: {
 		inherit: true,
