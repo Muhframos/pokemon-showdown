@@ -770,7 +770,7 @@ this.modData('Learnsets', 'necrozma').learnset.voltswitch = ['8L1'];
 
 this.modData('Learnsets', 'pinsir').learnset.drillrun = ['8L1'];
 this.modData('Learnsets', 'pinsir').learnset.uturn = ['8L1'];
-this.modData('Learnsets', 'pinsir').learnset.nightslash = ['8L1'];
+this.modData('Learnsets', 'pinsir').learnset.roost = ['8L1'];
 this.modData('Learnsets', 'pinsir').learnset.razorshell = ['8L1'];
 this.modData('Learnsets', 'pinsir').learnset.crosschop = ['8L1'];
 this.modData('Learnsets', 'pinsir').learnset.fellstinger = ['8L1'];

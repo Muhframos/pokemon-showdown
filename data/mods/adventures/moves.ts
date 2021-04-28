@@ -109,6 +109,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 	armthrust: {
 		inherit: true,
 		basePower: 25,
+		accuracy: 100,
 	},
 	furyswipes: {
 		desc: "Hits 2-5 times. High critical hit ratio.",
@@ -1428,6 +1429,30 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		accuracy: 100,
 	},
+	pinmissile: {
+		inherit: true,
+		accuracy: 100,
+	},
+	armthrust: {
+		inherit: true,
+		accuracy: 100,
+	},
+	rockblast: {
+		inherit: true,
+		accuracy: 100,
+	},
+	iciclespear: {
+		inherit: true,
+		accuracy: 100,
+	},
+	bonerush: {
+		inherit: true,
+		accuracy: 100,
+	},
+	armthrust: {
+		inherit: true,
+		accuracy: 100,
+	},
 	muddywater: {
 		inherit: true,
 		accuracy: 90,
@@ -1471,4 +1496,5 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		basePower: 80,
 	},
+	
 }
