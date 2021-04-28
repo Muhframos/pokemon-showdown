@@ -218,6 +218,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 				chance: 10,
 				volatileStatus: 'flinch',
 			},
+			this.add('-anim', pokemon, 'Crunch');
 		target: "normal",
 		type: "Dragon",
 		contestType: "Cool",
@@ -788,6 +789,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 					def: -2,
 				},
 		},
+		this.add('-anim', pokemon, 'Drill Run');
 		target: "normal",
 		type: "Steel",
 		contestType: "Tough",
@@ -1137,7 +1139,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		basePowerCallback(pokemon, target, move) {
 			// You can't get here unless the pursuit succeeds
 			if (target.beingCalledBack || target.switchFlag) {
-				this.debug('Pursuit damage boost');
+				this.debug('Vine Trap damage boost');
 				return move.basePower * 2;
 			}
 			return move.basePower;
@@ -1276,6 +1278,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 				},
 			},
 		},
+		this.add('-anim', pokemon, 'Brine');
 		target: "normal",
 		type: "Water",
 		contestType: "Cool",
@@ -1428,48 +1431,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		accuracy: 100,
 	},
-	flowergift: {
-		onStart(pokemon) {
-			delete this.effectData.forme;
-		},
-		onUpdate(pokemon) {
-			if (!pokemon.isActive || pokemon.baseSpecies.baseSpecies !== 'Cherrim' || pokemon.transformed) return;
-			if (!pokemon.hp) return;
-			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
-				if (pokemon.species.id !== 'cherrimsunshine') {
-					pokemon.formeChange('Cherrim-Sunshine', this.effect, false, '[msg]');
-				}
-			} else {
-				if (pokemon.species.id === 'cherrimsunshine') {
-					pokemon.formeChange('Cherrim', this.effect, false, '[msg]');
-				}
-			}
-		},
-		onAllyModifyAtkPriority: 3,
-		onAllyModifyAtk(atk, pokemon) {
-			if (this.effectData.target.baseSpecies.baseSpecies !== 'Cherrim') return;
-			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
-				return this.chainModify(1.5);
-			}
-		},
-		onAllyModifySpAPriority: 3,
-		onAllyModifyAtk(atk, pokemon) {
-			if (this.effectData.target.baseSpecies.baseSpecies !== 'Cherrim') return;
-			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
-				return this.chainModify(1.5);
-			}
-		},
-		onAllyModifySpDPriority: 4,
-		onAllyModifySpD(spd, pokemon) {
-			if (this.effectData.target.baseSpecies.baseSpecies !== 'Cherrim') return;
-			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
-				return this.chainModify(1.5);
-			}
-		},
-		name: "Flower Gift",
-		rating: 1,
-		num: 122,
-	},
 	muddywater: {
 		inherit: true,
 		accuracy: 90,
@@ -1486,6 +1447,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		priority: 0,
 		flags: {reflectable: 1},
 		sideCondition: 'gmaxsteelsurge',
+				this.add('-anim', pokemon, 'Stealth Rock');
+
 		condition: {
 			onStart(side) {
 				this.add('-sidestart', side, 'move: Steely Spikes');

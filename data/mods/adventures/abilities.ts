@@ -204,7 +204,6 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 					success = true;
 				}
 			}
-
 			if (success) {
 				this.add('-anim', pokemon, 'Future Sight');
 				this.add('-start', pokemon, 'Future Sight');
