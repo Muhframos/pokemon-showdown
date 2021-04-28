@@ -218,7 +218,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 				chance: 10,
 				volatileStatus: 'flinch',
 			},
-			this.add('-anim', pokemon, 'Crunch');
 		target: "normal",
 		type: "Dragon",
 		contestType: "Cool",
@@ -789,7 +788,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 					def: -2,
 				},
 		},
-		this.add('-anim', pokemon, 'Drill Run');
 		target: "normal",
 		type: "Steel",
 		contestType: "Tough",
@@ -1278,7 +1276,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 				},
 			},
 		},
-		this.add('-anim', pokemon, 'Brine');
 		target: "normal",
 		type: "Water",
 		contestType: "Cool",
@@ -1447,8 +1444,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 		priority: 0,
 		flags: {reflectable: 1},
 		sideCondition: 'gmaxsteelsurge',
-				this.add('-anim', pokemon, 'Stealth Rock');
-
 		condition: {
 			onStart(side) {
 				this.add('-sidestart', side, 'move: Steely Spikes');
