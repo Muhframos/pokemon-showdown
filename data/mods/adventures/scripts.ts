@@ -760,7 +760,6 @@ this.modData('Learnsets', 'linoonegalar').learnset.return = ['8L1'];
 this.modData('Learnsets', 'linoonegalar').learnset.frustration = ['8L1'];
 this.modData('Learnsets', 'linoonegalar').learnset.toxic = ['8L1'];
 
-this.modData('Learnsets', 'heracross').learnset.uturn = ['8L1'];
 this.modData('Learnsets', 'heracross').learnset.leechlife = ['8L1'];
 this.modData('Learnsets', 'heracross').learnset.firstimpression = ['8L1'];
 
