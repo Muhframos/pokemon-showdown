@@ -2715,7 +2715,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	},
 	deoxysdefense: {
 		isNonstandard: "Past",
-		tier: "OU",
+		tier: "OUBL",
 	},
 	deoxysspeed: {
 		isNonstandard: "Past",
@@ -4591,7 +4591,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		randomBattleLevel: 84,
 		randomDoubleBattleMoves: ["boomburst", "dracometeor", "flamethrower", "hurricane", "protect", "tailwind"],
 		randomDoubleBattleLevel: 84,
-		tier: "OU",
+		tier: "OUBL",
 		doublesTier: "DOU",
 	},
 	xerneas: {
