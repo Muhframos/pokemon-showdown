@@ -26,7 +26,7 @@ export const Formats: FormatList = [
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
-			'Uber', 'AG', 'Baton Pass',
+			'Uber', 'AG', 'OUBL', 'Baton Pass',
 		],
 	},
 	{
@@ -41,7 +41,7 @@ export const Formats: FormatList = [
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
-			 'OU', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
+			 'OU', 'AG', 'Uber', 'OUBL', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
 			'UUBL', // National Dex UUBL
 			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
 			'Slowbronite',
