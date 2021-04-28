@@ -2715,7 +2715,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	},
 	deoxysdefense: {
 		isNonstandard: "Past",
-		tier: "OUBL",
+		tier: "Uber",
 	},
 	deoxysspeed: {
 		isNonstandard: "Past",
