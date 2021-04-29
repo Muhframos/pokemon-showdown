@@ -1664,7 +1664,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	whiscash: {
 		inherit: true,
-		baseStats: {hp: 120, atk: 78, def: 73, spa: 106, spd: 71, spe: 60},
+		baseStats: {hp: 130, atk: 98, def: 83, spa: 88, spd: 71, spe: 60},
 		abilities: {0: "Oblivious", 1: "Gluttony", H: "Hydration"},
 	},
 	tsareena: {

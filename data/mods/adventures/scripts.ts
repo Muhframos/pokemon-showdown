@@ -557,6 +557,7 @@ this.modData('Learnsets', 'ninetales').learnset.hypervoice = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.rockpolish = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.wildcharge = ['8L1'];
+this.modData('Learnsets', 'whiscash').learnset.stealthrock = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.icefang = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.discharge = ['8L1'];
 
