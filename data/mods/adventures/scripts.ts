@@ -340,6 +340,9 @@ this.modData('Learnsets', 'entei').learnset.solarblade = ['8L1'];
 this.modData('Learnsets', 'entei').learnset.wildcharge = ['8L1'];
 this.modData('Learnsets', 'entei').learnset.swordsdance = ['8L1'];
 
+this.modData('Learnsets', 'mudsdale').learnset.shoreup = ['8L1'];
+this.modData('Learnsets', 'mudsdale').learnset.stoneedge = ['8L1'];
+
 this.modData('Learnsets', 'blaziken').learnset.thunderouskick = ['8L1'];
 this.modData('Learnsets', 'blaziken').learnset.wildcharge = ['8L1'];
 

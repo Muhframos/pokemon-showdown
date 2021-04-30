@@ -1762,4 +1762,8 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 70, atk: 85, def: 85, spa: 75, spd: 75, spe: 90},
 		abilities: {0: "Bouncy Pillow", 1: "Normalize", H: "Wonder Skin"},
 	},
+	mudsdale: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 125, def: 120, spa: 55, spd: 85, spe: 45},
+	},
 };
