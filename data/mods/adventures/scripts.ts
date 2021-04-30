@@ -561,6 +561,13 @@ this.modData('Learnsets', 'whiscash').learnset.stealthrock = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.icefang = ['8L1'];
 this.modData('Learnsets', 'whiscash').learnset.discharge = ['8L1'];
 
+this.modData('Learnsets', 'delcatty').learnset.bodypress = ['8L1'];
+this.modData('Learnsets', 'delcatty').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'delcatty').learnset.nuzzle = ['8L1'];
+this.modData('Learnsets', 'delcatty').learnset.metronome = ['8L1'];
+this.modData('Learnsets', 'delcatty').learnset.fling = ['8L1'];
+this.modData('Learnsets', 'delcatty').learnset.honeclaws = ['8L1'];
+
 this.modData('Learnsets', 'leavanny').learnset.sleeppowder = ['8L1'];
 this.modData('Learnsets', 'leavanny').learnset.uturn = ['8L1'];
 this.modData('Learnsets', 'leavanny').learnset.leechlife = ['8L1'];

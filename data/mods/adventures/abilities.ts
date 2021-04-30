@@ -1058,4 +1058,36 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 3,
 		num: 157,
 	},
+	bouncypillow: {
+		desc: "This Pokemon takes 2/3 damage from attacking moves.",
+		shortdesc: "This Pokemon takes 2/3 damage from attacking moves.",
+		onSourceModifyDamage(damage, source, target, move) {
+				this.debug('Bouncy Pillow reduce');
+				return this.chainModify(0.66);
+		},
+		name: "Bouncy Pillow",
+		rating: 3,
+		num: -25,
+	},
+	normalize: {
+		desc: "This Pokemon's moves are changed to Normal type and have 1.5x power. Does not affect Hidden Power, Judgment, Multi Attack, Natural Gift, Revelation Dance, Struggle, Technoblast, Terrain Pulse and Weather Ball",
+		shortdesc: "This Pokemon's moves are changed to Normal type and have 1.5x power.",
+		onModifyTypePriority: 1,
+		onModifyType(move, pokemon) {
+			const noModifyType = [
+				'hiddenpower', 'judgment', 'multiattack', 'naturalgift', 'revelationdance', 'struggle', 'technoblast', 'terrainpulse', 'weatherball',
+			];
+			if (!(move.isZ && move.category !== 'Status') && !noModifyType.includes(move.id)) {
+				move.type = 'Normal';
+				move.normalizeBoosted = true;
+			}
+		},
+		onBasePowerPriority: 23,
+		onBasePower(basePower, pokemon, target, move) {
+			if (move.normalizeBoosted) return this.chainModify([5376, 4096]);
+		},
+		name: "Normalize",
+		rating: 0,
+		num: 96,
+	},
 };
