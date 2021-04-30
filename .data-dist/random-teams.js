@@ -905,8 +905,8 @@ const Hazards = [
 		case 'taunt':
 			return {cull: hasMove['encore'] || hasMove['nastyplot'] || hasMove['swordsdance']};
 		case 'thunderwave': case 'voltswitch':
-			const cullInDoubles = isDoubles && (hasMove['electroweb'] || hasMove['nuzzle']);
-			return {cull: counter.setupType || counter.speedsetup || hasMove['shiftgear'] || hasMove['raindance'] || cullInDoubles};
+			const cullInDoubles = hasMove['electroweb'] || hasMove['nuzzle'];
+			return {cull: counter.setupType || counter.speedsetup || hasMove['raindance'] || (isDoubles && cullInDoubles)};
 		case 'toxic':
 			return {cull: counter.setupType || ['sludgewave', 'thunderwave', 'willowisp'].some(m => hasMove[m])};
 		case 'toxicspikes':

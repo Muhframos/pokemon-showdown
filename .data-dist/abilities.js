@@ -71,7 +71,7 @@ Ratings and how they work:
 		name: "Aftermath",
 		onDamagingHitOrder: 1,
 		onDamagingHit(damage, target, source, move) {
-			if (!target.hp && this.checkMoveMakesContact(move, source, target, true)) {
+			if (move.flags['contact'] && !target.hp) {
 				this.damage(source.baseMaxhp / 4, source, target);
 			}
 		},
@@ -589,7 +589,7 @@ Ratings and how they work:
 	},
 	cutecharm: {
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target)) {
+			if (move.flags['contact']) {
 				if (this.randomChance(3, 10)) {
 					source.addVolatile('attract', this.effectData.target);
 				}
@@ -895,7 +895,7 @@ Ratings and how they work:
 	},
 	effectspore: {
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target) && !source.status && source.runStatusImmunity('powder')) {
+			if (move.flags['contact'] && !source.status && source.runStatusImmunity('powder')) {
 				const r = this.random(100);
 				if (r < 11) {
 					source.setStatus('slp', target);
@@ -962,7 +962,7 @@ Ratings and how they work:
 	},
 	flamebody: {
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target)) {
+			if (move.flags['contact']) {
 				if (this.randomChance(3, 10)) {
 					source.trySetStatus('brn', target);
 				}
@@ -1249,7 +1249,7 @@ Ratings and how they work:
 	},
 	gooey: {
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target, true)) {
+			if (move.flags['contact']) {
 				this.add('-ability', target, 'Gooey');
 				this.boost({spe: -1}, source, target, null, true);
 			}
@@ -1359,7 +1359,7 @@ Ratings and how they work:
 		onModifyAtkPriority: 5,
 		onModifyAtk(atk, pokemon) {
 			if (pokemon.status) {
-				return this.chainModify(1.5);
+				return this.chainModify(3.0);
 			}
 		},
 		name: "Guts",
@@ -1726,7 +1726,7 @@ Ratings and how they work:
 	ironbarbs: {
 		onDamagingHitOrder: 1,
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target, true)) {
+			if (move.flags['contact']) {
 				this.damage(source.baseMaxhp / 8, source, target);
 			}
 		},
@@ -1940,7 +1940,7 @@ Ratings and how they work:
 		num: 98,
 	},
 	magician: {
-		onAfterMoveSecondarySelf(source, target, move) {
+		onSourceHit(target, source, move) {
 			if (!move || !target) return;
 			if (target !== source && move.category !== 'Status') {
 				if (source.item || source.volatiles['gem'] || move.id === 'fling') return;
@@ -2204,7 +2204,7 @@ Ratings and how they work:
 			if (sourceAbility.isPermanent || sourceAbility.id === 'mummy') {
 				return;
 			}
-			if (this.checkMoveMakesContact(move, source, target, !source.isAlly(target))) {
+			if (move.flags['contact']) {
 				const oldAbility = source.setAbility('mummy', target);
 				if (oldAbility) {
 					this.add('-activate', target, 'ability: Mummy', this.dex.abilities.get(oldAbility).name, '[of] ' + source);
@@ -2538,7 +2538,7 @@ Ratings and how they work:
 	},
 	perishbody: {
 		onDamagingHit(damage, target, source, move) {
-			if (!this.checkMoveMakesContact(move, source, target)) return;
+			if (!move.flags['contact'] || source.hasItem('protectivepads')) return;
 
 			let announced = false;
 			for (const pokemon of [target, source]) {
@@ -2641,7 +2641,7 @@ Ratings and how they work:
 	},
 	poisonpoint: {
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target)) {
+			if (move.flags['contact']) {
 				if (this.randomChance(3, 10)) {
 					source.trySetStatus('psn', target);
 				}
@@ -3026,7 +3026,7 @@ Ratings and how they work:
 	roughskin: {
 		onDamagingHitOrder: 1,
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target, true)) {
+			if (move.flags['contact']) {
 				this.damage(source.baseMaxhp / 8, source, target);
 			}
 		},
@@ -3553,7 +3553,7 @@ Ratings and how they work:
 	},
 	static: {
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target)) {
+			if (move.flags['contact']) {
 				if (this.randomChance(3, 10)) {
 					source.trySetStatus('par', target);
 				}
@@ -3823,7 +3823,7 @@ Ratings and how they work:
 	},
 	tanglinghair: {
 		onDamagingHit(damage, target, source, move) {
-			if (this.checkMoveMakesContact(move, source, target, true)) {
+			if (move.flags['contact']) {
 				this.add('-ability', target, 'Tangling Hair');
 				this.boost({spe: -1}, source, target, null, true);
 			}
@@ -4147,7 +4147,7 @@ Ratings and how they work:
 				return;
 			}
 
-			if (this.checkMoveMakesContact(move, source, target)) {
+			if (move.flags['contact']) {
 				const sourceAbility = source.setAbility('wanderingspirit', target);
 				if (!sourceAbility) return;
 				if (target.isAlly(source)) {

@@ -514,13 +514,13 @@
 						delete source.volatiles['lockedmove'];
 					}
 				}
-				if (this.checkMoveMakesContact(move, source, target)) {
+				if (move.flags['contact']) {
 					this.boost({atk: -2}, source, target, this.dex.getActiveMove("King's Shield"));
 				}
 				return this.NOT_FAIL;
 			},
 			onHit(target, source, move) {
-				if (move.isZOrMaxPowered && this.checkMoveMakesContact(move, source, target)) {
+				if (move.isZOrMaxPowered && move.flags['contact']) {
 					this.boost({atk: -2}, source, target, this.dex.getActiveMove("King's Shield"));
 				}
 			},

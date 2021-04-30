@@ -88,7 +88,7 @@
 		onStart(target) {
 			this.add('-status', target, 'frz');
 		},
-		onBeforeMovePriority: 12,
+		onBeforeMovePriority: 10,
 		onBeforeMove(pokemon, target, move) {
 			this.add('cant', pokemon, 'frz');
 			pokemon.lastMove = null;
@@ -220,7 +220,6 @@
 	},
 	mustrecharge: {
 		inherit: true,
-		duration: 0,
 		onStart() {},
 	},
 	lockedmove: {

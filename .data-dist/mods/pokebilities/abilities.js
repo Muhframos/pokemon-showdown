@@ -55,7 +55,7 @@
 				if (sourceAbility.isPermanent || sourceAbility.id === 'mummy') {
 					return;
 				}
-				if (this.checkMoveMakesContact(move, source, target)) {
+				if (move.flags['contact']) {
 					const oldAbility = source.setAbility('mummy', target);
 					if (oldAbility) {
 						this.add('-activate', target, 'ability: Mummy', this.dex.abilities.get(oldAbility).name, '[of] ' + source);
@@ -65,7 +65,7 @@
 				const possibleAbilities = [source.ability, ...(source.m.innates || [])]
 					.filter(val => !this.dex.abilities.get(val).isPermanent && val !== 'mummy');
 				if (!possibleAbilities.length) return;
-				if (this.checkMoveMakesContact(move, source, target)) {
+				if (move.flags['contact']) {
 					const abil = this.sample(possibleAbilities);
 					if (abil === source.ability) {
 						const oldAbility = source.setAbility('mummy', target);
@@ -175,7 +175,7 @@
 				pokemon.setAbility(ability);
 			} else {
 				pokemon.removeVolatile("ability:powerofalchemy");
-				pokemon.addVolatile("ability:" + ability.id, pokemon);
+				pokemon.addVolatile("ability:" + ability, pokemon);
 			}
 		},
 	},
@@ -207,7 +207,7 @@
 				pokemon.setAbility(ability);
 			} else {
 				pokemon.removeVolatile("ability:receiver");
-				pokemon.addVolatile("ability:" + ability.id, pokemon);
+				pokemon.addVolatile("ability:" + ability, pokemon);
 			}
 		},
 	},
@@ -223,9 +223,14 @@
 	trace: {
 		inherit: true,
 		onUpdate(pokemon) {
-			if (!pokemon.isStarted || this.effectData.gaveUp) return;
+			if (!pokemon.isStarted) return;
 			const isAbility = pokemon.ability === 'trace';
-			const possibleTargets = pokemon.adjacentFoes();
+			const possibleTargets = [];
+			for (const target of pokemon.side.foe.active) {
+				if (target && !target.fainted) {
+					possibleTargets.push(target);
+				}
+			}
 			while (possibleTargets.length) {
 				const rand = this.random(possibleTargets.length);
 				const target = possibleTargets[rand];
@@ -247,7 +252,7 @@
 					pokemon.setAbility(ability);
 				} else {
 					pokemon.removeVolatile("ability:trace");
-					pokemon.addVolatile("ability:" + ability.id, pokemon);
+					pokemon.addVolatile("ability:" + ability, pokemon);
 				}
 				return;
 			}
@@ -265,7 +270,7 @@
 					return;
 				}
 
-				if (this.checkMoveMakesContact(move, source, target)) {
+				if (move.flags['contact']) {
 					const sourceAbility = source.setAbility('wanderingspirit', target);
 					if (!sourceAbility) return;
 					if (target.isAlly(source)) {
@@ -280,7 +285,7 @@
 				const possibleAbilities = [source.ability, ...(source.m.innates || [])]
 					.filter(val => !this.dex.abilities.get(val).isPermanent && !additionalBannedAbilities.includes(val));
 				if (!possibleAbilities.length || target.volatiles['dynamax']) return;
-				if (this.checkMoveMakesContact(move, source, target)) {
+				if (move.flags['contact']) {
 					const sourceAbility = this.sample(possibleAbilities);
 					if (sourceAbility === source.ability) {
 						if (!source.setAbility('wanderingspirit', target)) return;

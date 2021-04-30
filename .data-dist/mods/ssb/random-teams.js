@@ -871,12 +871,7 @@
 	randomStaffBrosTeam(options = {}) {
 		const team = [];
 		const debug = []; // Set this to a list of SSB sets to override the normal pool for debugging.
-		const ruleTable = this.dex.formats.getRuleTable(this.format);
-		const monotype = ruleTable.has('sametypeclause') ? this.sample([...this.dex.types.names()]) : false;
-		let pool = debug.length ? debug : Object.keys(exports.ssbSets);
-		if (monotype && !debug.length) {
-			pool = pool.filter(x => this.dex.species.get(exports.ssbSets[x].species).types.includes(monotype));
-		}
+		const pool = debug.length ? debug : Object.keys(exports.ssbSets);
 		const typePool = {};
 		let depth = 0;
 		while (pool.length && team.length < 6) {
@@ -887,7 +882,7 @@
 			if (ssbSet.skip) continue;
 
 			// Enforce typing limits
-			if (!debug.length && !monotype) { // Type limits are ignored when debugging or for monotype variations.
+			if (!debug.length) { // Type limits are ignored when debugging
 				const types = this.dex.species.get(ssbSet.species).types;
 				const weaknesses = [];
 				for (const type of this.dex.types.names()) {

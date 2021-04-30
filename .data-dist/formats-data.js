@@ -815,7 +815,7 @@
 		randomBattleLevel: 84,
 		randomDoubleBattleMoves: ["agility", "knockoff", "liquidation", "protect", "superpower", "xscissor"],
 		randomDoubleBattleLevel: 86,
-		tier: "PUBL",
+		tier: "(PU)",
 		doublesTier: "(DUU)",
 	},
 	kinglergmax: {
@@ -1271,7 +1271,7 @@
 		randomBattleLevel: 82,
 		randomDoubleBattleMoves: ["earthpower", "icebeam", "muddywater", "shellsmash"],
 		randomDoubleBattleLevel: 86,
-		tier: "PUBL",
+		tier: "(PU)",
 		doublesTier: "(DUU)",
 	},
 	kabuto: {
@@ -4462,7 +4462,7 @@
 		randomBattleLevel: 84,
 		randomDoubleBattleMoves: ["aurasphere", "darkpulse", "icebeam", "muddywater", "uturn"],
 		randomDoubleBattleLevel: 84,
-		tier: "PUBL",
+		tier: "(PU)",
 		doublesTier: "(DUU)",
 	},
 	helioptile: {
