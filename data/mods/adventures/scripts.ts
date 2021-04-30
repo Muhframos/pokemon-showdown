@@ -335,6 +335,7 @@ this.modData('Learnsets', 'oricorio').learnset.raindance = ['8L1'];
 this.modData('Learnsets', 'oricorio').learnset.bravebird = ['8L1'];
 
 this.modData('Learnsets', 'entei').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'entei').learnset.morningsun = ['8L1'];
 this.modData('Learnsets', 'entei').learnset.solarblade = ['8L1'];
 this.modData('Learnsets', 'entei').learnset.wildcharge = ['8L1'];
 this.modData('Learnsets', 'entei').learnset.swordsdance = ['8L1'];
