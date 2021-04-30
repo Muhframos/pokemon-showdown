@@ -429,8 +429,8 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	rhydon: {
 		inherit: true,
-		baseStats: {hp: 105, atk: 130, def: 120, spa: 45, spd: 45, spe: 40},
-		abilities: {0: "Lightning Rod", 1: "Huge Power", H: "Reckless"},
+		baseStats: {hp: 105, atk: 160, def: 100, spa: 35, spd: 45, spe: 40},
+		abilities: {0: "Lightning Rod", 1: "Rock Head", H: "Reckless"},
 	},
 	rhyperior: {
 		inherit: true,
