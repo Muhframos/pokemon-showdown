@@ -38,6 +38,7 @@
 	},
 	blastoise: {
 		inherit: true,
+		baseStats: {hp: 79, atk: 83, def: 105, spa: 75, spd: 110, spe: 78},
 		types: ["Water", "Steel"],
 		abilities: {0: "Torrent", H: "Rain Dish", 1: "Mega Launcher"},	
 	},
@@ -86,6 +87,10 @@
 		inherit: true,
 		baseStats: {hp: 70, atk: 152, def: 65, spa: 80, spd: 55, spe: 98},
 	},
+	basculinbluestriped: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 152, def: 65, spa: 80, spd: 55, spe: 98},
+	},
 	barraskewda: {
 		inherit: true,
 		baseStats: {hp: 61, atk: 123, def: 60, spa: 90, spd: 50, spe: 136},
@@ -97,12 +102,12 @@
 	},
 	weezing: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 90, def: 120, spa: 115, spd: 70, spe: 60},
+		baseStats: {hp: 65, atk: 80, def: 120, spa: 115, spd: 70, spe: 60},
 		abilities: {0: "Aftermath", H: "Levitate", 1: "Neutralizing Gas"},
 	},
 	weezinggalar: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 90, def: 120, spa: 115, spd: 70, spe: 60},
+		baseStats: {hp: 65, atk: 80, def: 120, spa: 115, spd: 70, spe: 60},
 	},
 	qwilfish: {
 		inherit: true,
@@ -263,7 +268,7 @@
 	},
 	eelektross: {
 		inherit: true,
-		baseStats: {hp: 75, atk: 120, def: 95, spa: 120, spd: 95, spe: 50},
+		baseStats: {hp: 85, atk: 120, def: 85, spa: 120, spd: 85, spe: 50},
 	},
 	swoobat: {
 		inherit: true,
@@ -343,7 +348,7 @@
 	gengarmega: {
 		inherit: true,
 		baseStats: {hp: 60, atk: 65, def: 80, spa: 170, spd: 115, spe: 130},
-		abilities: {0: "Cursed Body", 1: "Merciless", H: "Levitate"},
+		abilities: {0: "Shadow Tag"},
 	},
 	hoopa: {
 		inherit: true,
@@ -405,7 +410,7 @@
 	},
 	fearow: {
 		inherit: true,
-		baseStats: {hp: 75, atk: 125, def: 65, spa: 101, spd: 61, spe: 100},
+		baseStats: {hp: 75, atk: 135, def: 65, spa: 101, spd: 61, spe: 100},
 	},
 	vileplume: {
 		inherit: true,
@@ -424,8 +429,8 @@
 	},
 	rhydon: {
 		inherit: true,
-		baseStats: {hp: 105, atk: 130, def: 120, spa: 45, spd: 45, spe: 40},
-		abilities: {0: "Lightning Rod", 1: "Huge Power", H: "Reckless"},
+		baseStats: {hp: 105, atk: 160, def: 100, spa: 35, spd: 45, spe: 40},
+		abilities: {0: "Lightning Rod", 1: "Rock Head", H: "Reckless"},
 	},
 	rhyperior: {
 		inherit: true,
@@ -573,7 +578,7 @@
 	maractus: {
 		inherit: true,
 		baseStats: {hp: 70, atk: 80, def: 125, spa: 80, spd: 125, spe: 55},
-		abilities: {0: "Iron Barbs", 1: "Dancer", H: "Storm Drain"},
+		abilities: {0: "Iron Barbs", 1: "Dancer", H: "Water Absorb"},
 	},
 	raikou: {
 		inherit: true,
@@ -590,6 +595,7 @@
 	},
 	infernape: {
 		inherit: true,
+		baseStats: {hp: 76, atk: 114, def: 61, spa: 114, spd: 61, spe: 108},
 		abilities: {0: "Blaze", 1: "Illusion", H: "Iron Fist"},
 	},
 	charizard: {
@@ -612,7 +618,12 @@
 	},
 	gardevoir: {
 		inherit: true,
+		baseStats: {hp: 68, atk: 75, def: 65, spa: 125, spd: 115, spe: 80},
 		abilities: {0: "Synchronize", 1: "Trace", H: "Misty Surge"},
+	},
+	gardevoirmega: {
+		inherit: true,
+		baseStats: {hp: 68, atk: 95, def: 65, spa: 165, spd: 135, spe: 100},
 	},
 	gallade: {
 		inherit: true,
@@ -749,11 +760,12 @@
 	},
 	torterra: {
 		inherit: true,
+		baseStats: {hp: 100, atk: 109, def: 110, spa: 60, spd: 95, spe: 56},
 		abilities: {0: "Overgrow", 1: "Thick Fat", H: "Gravity Surge"},
 	},
 	torkoal: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 85, def: 140, spa: 105, spd: 80, spe: 20},
+		baseStats: {hp: 90, atk: 95, def: 140, spa: 95, spd: 95, spe: 20},
 	},
 	drednaw: {
 		inherit: true,
@@ -1013,6 +1025,10 @@
 		inherit: true,
 		abilities: {0: "Intimidate", 1: "Synchronize", H: "Guts"},
 	},
+	zarudedada: {
+		inherit: true,
+		abilities: {0: "Defiant", 1: "Immunity", H: "Guts"},
+	},
 	nihilego: {
 		inherit: true,
 		abilities: {0: "Beast Boost", 1: "Levitate"},
@@ -1023,8 +1039,8 @@
 	},
 	frosmoth: {
 		inherit: true,
-		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Body"},
-		baseStats: {hp: 85, atk: 60, def: 65, spa: 135, spd: 105, spe: 100},
+		abilities: {0: "Shield Dust", 1: "Compound Eyes", H: "Ice Scales"},
+		baseStats: {hp: 85, atk: 60, def: 105, spa: 135, spd: 65, spe: 100},
 	},
 	volcarona: {
 		inherit: true,
@@ -1084,7 +1100,7 @@
 	},
 	crabominable: {
 		inherit: true,
-		baseStats: {hp: 97, atk: 132, def: 97, spa: 62, spd: 67, spe: 73},
+		baseStats: {hp: 97, atk: 132, def: 77, spa: 62, spd: 67, spe: 73},
 		abilities: {0: "Hyper Cutter", 1: "Iron Fist", H: "Fur Coat"},
 	},
 	sirfetchd: {
@@ -1123,6 +1139,10 @@
 		baseStats: {hp: 95, atk: 135, def: 130, spa: 80, spd: 90, spe: 70},
 		abilities: {0: "Clear Body", 1: "Iron Fist", H: "Light Metal"},
 	},
+	metagrossmega: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 145, def: 150, spa: 105, spd: 110, spe: 110},
+	},
 	wailord: {
 		inherit: true,
 		baseStats: {hp: 170, atk: 80, def: 55, spa: 100, spd: 55, spe: 75},
@@ -1155,7 +1175,7 @@
 	},
 	poliwrath: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 130, def: 100, spa: 35, spd: 80, spe: 70},
+		baseStats: {hp: 90, atk: 135, def: 100, spa: 35, spd: 80, spe: 70},
 		abilities: {0: "Swift Swim", 1: "Water Absorb", H: "No Guard"},
 	},
 	accelgor: {
@@ -1332,7 +1352,7 @@
 	},
 	noivern: {
 		inherit: true,
-		baseStats: {hp: 95, atk: 50, def: 85, spa: 97, spd: 85, spe: 123},
+		baseStats: {hp: 95, atk: 50, def: 85, spa: 87, spd: 85, spe: 123},
 		abilities: {0: "Frisk", 1: "Infiltrator", H: "Aerilate"},
 	},
 	absol: {
@@ -1385,12 +1405,12 @@
 	},
 	conkeldurr: {
 		inherit: true,
-		baseStats: {hp: 105, atk: 150, def: 95, spa: 55, spd: 75, spe: 65},
+		baseStats: {hp: 105, atk: 140, def: 95, spa: 55, spd: 75, spe: 65},
 	},
 	vikavolt: {
 		inherit: true,
-		baseStats: {hp: 77, atk: 60, def: 110, spa: 145, spd: 105, spe: 43},
-		abilities: {0: "Levitate", 1: "Lightning Rod", H:"Motor Drive"},
+		baseStats: {hp: 77, atk: 60, def: 110, spa: 115, spd: 105, spe: 43},
+		abilities: {0: "Levitate", 1: "Lightning Rod", H:"Battery"},
 	},
 	beedrill: {
 		inherit: true,
@@ -1417,7 +1437,7 @@
 	},
 	omastar: {
 		inherit: true,
-		baseStats: {hp: 70, atk: 100, def: 135, spa: 115, spd: 70, spe: 55},
+		baseStats: {hp: 70, atk: 100, def: 125, spa: 115, spd: 70, spe: 55},
 		abilities: {0: "Shell Armor", 1: "Storm Drain", H: "Weak Armor"},
 	},
 	mienshao: {
@@ -1464,9 +1484,18 @@
 		baseStats: {hp: 48, atk: 101, def: 115, spa: 91, spd: 135, spe: 15},
 		abilities: {0: "Lightning Rod", 1: "Iron Barbs", H: "Electric Surge"},
 	},
+	bewear: {
+		inherit: true,
+		baseStats: {hp: 120, atk: 125, def: 80, spa: 55, spd: 70, spe: 60},
+	},
 	zapdos: {
 		inherit: true,
+		baseStats: {hp: 90, atk: 80, def: 90, spa: 125, spd: 90, spe: 105},
 		abilities: {0: "Pressure", 1: "Lightning Rod", H: "Static"},
+	},
+	zapdosgalar: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 125, def: 90, spa: 80, spd: 90, spe: 105},
 	},
 	moltres: {
 		inherit: true,
@@ -1474,7 +1503,7 @@
 	},
 	machamp: {
 		inherit: true,
-		baseStats: {hp: 100, atk: 130, def: 95, spa: 50, spd: 95, spe: 75},
+		baseStats: {hp: 100, atk: 130, def: 95, spa: 50, spd: 85, spe: 75},
 	},
 	mantine: {
 		inherit: true,
@@ -1504,7 +1533,7 @@
 	},
 	clawitzer: {
 		inherit: true,
-		baseStats: {hp: 61, atk: 73, def: 108, spa: 135, spd: 109, spe: 59},
+		baseStats: {hp: 61, atk: 67, def: 108, spa: 120, spd: 109, spe: 59},
 	},
 	meloetta: {
 		inherit: true,
@@ -1516,12 +1545,13 @@
 	},
 	abomasnow: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 100, def: 85, spa: 100, spd: 95, spe: 65},
+		baseStats: {hp: 90, atk: 102, def: 95, spa: 102, spd: 95, spe: 51},
 		abilities: {0: "Snow Warning", 1: "Permafrost", H: "Soundproof"},
 	},
 	abomasnowmega: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 140, def: 115, spa: 140, spd: 120, spe: 30},
+		baseStats: {hp: 90, atk: 142, def: 125, spa: 142, spd: 125, spe: 11},
+		abilities: {0: "Permafrost"},
 	},
 	carnivine: {
 		inherit: true,
@@ -1540,8 +1570,201 @@
 	},
 	dewgong: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 80, def: 100, spa: 80, spd: 115, spe: 80},
+		baseStats: {hp: 90, atk: 80, def: 100, spa: 80, spd: 105, spe: 70},
 		abilities: {0: "Thick Fat", 1: "Hydration", H: "Ice Body"},
+	},
+	cinccino: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 105, def: 60, spa: 105, spd: 60, spe: 115},
+	},
+	kricketune: {
+		inherit: true,
+		baseStats: {hp: 87, atk: 115, def: 71, spa: 95, spd: 81, spe: 75},
+		abilities: {0: "Swarm", 1: "Tinted Lens", H: "Technician"},
+	},
+	grapploct: {
+		inherit: true,
+		types: ["Fighting", "Water"],
+		baseStats: {hp: 90, atk: 128, def: 110, spa: 50, spd: 90, spe: 42},
+		abilities: {0: "Limber", 1: "Poison Touch", H: "Technician"},
+	},
+	cherrim: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 72, def: 108, spa: 72, spd: 108, spe: 85},
+		abilities: {0: "Flower Gift", H: "Flower Veil"},
+	},
+	cherrimsunshine: {
+		inherit: true,
+		types: ["Grass", "Fairy"],
+		baseStats: {hp: 70, atk: 102, def: 78, spa: 102, spd: 78, spe: 85},
+	},
+	goodra: {
+		inherit: true,
+		types: ["Dragon", "Poison"],
+		abilities: {0: "Thick Fat", 1: "Hydration", H: "Gooey"},
+		baseStats: {hp: 110, atk: 100, def: 70, spa: 100, spd: 150, spe: 70},
+	},
+	kecleon: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 110, def: 90, spa: 90, spd: 120, spe: 40},
+	},
+	probopass: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 55, def: 145, spa: 75, spd: 150, spe: 30},
+	},
+	beartic: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 140, def: 100, spa: 60, spd: 90, spe: 60},
+	},
+	reuniclus: {
+		inherit: true,
+		baseStats: {hp: 120, atk: 65, def: 85, spa: 125, spd: 95, spe: 30},
+	},
+	drampa: {
+		inherit: true,
+		baseStats: {hp: 88, atk: 70, def: 95, spa: 135, spd: 111, spe: 36},
+	},
+	corsola: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 95, def: 115, spa: 95, spd: 115, spe: 35},
+		abilities: {0: "Hustle", 1: "Natural Cure", H: "Regenerator"},
+	},
+	corsolagalar: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 55, def: 100, spa: 65, spd: 100, spe: 30},
+	},
+	cursola: {
+		inherit: true,
+		baseStats: {hp: 60, atk: 72, def: 65, spa: 165, spd: 140, spe: 30},
+		abilities: {0: "Cursed Body", 1: "Weak Armor", H: "Perish Body"},
+	},
+	mismagius: {
+		inherit: true,
+		types: ["Ghost"],
+		baseStats: {hp: 60, atk: 60, def: 60, spa: 115, spd: 130, spe: 105},
+	},
+	ninetales: {
+		inherit: true,
+		types: ["Fire", "Fairy"],
+		baseStats: {hp: 89, atk: 56, def: 75, spa: 111, spd: 100, spe: 100},
+	},
+	ninetalesalola: {
+		inherit: true,
+		baseStats: {hp: 99, atk: 47, def: 85, spa: 91, spd: 100, spe: 109},
+	},
+	stunfisk : {
+		inherit: true,
+		baseStats: {hp: 119, atk: 66, def: 94, spa: 91, spd: 119, spe: 32},
+		abilities: {0: "Static", 1: "Limber", H: "Volt Absorb"},
+	},
+	stunfiskgalar: {
+		inherit: true,
+		baseStats: {hp: 119, atk: 91, def: 119, spa: 66, spd: 94, spe: 32},
+		abilities: {0: "Mimicry", H: "Static"},
+	},
+	whiscash: {
+		inherit: true,
+		baseStats: {hp: 130, atk: 98, def: 83, spa: 88, spd: 71, spe: 60},
+		abilities: {0: "Oblivious", 1: "Gluttony", H: "Hydration"},
+	},
+	tsareena: {
+		inherit: true,
+		baseStats: {hp: 82, atk: 130, def: 98, spa: 50, spd: 98, spe: 72},
+		abilities: {0: "Natural Cure", 1: "Queenly Majesty", H: "Sweet Veil"},
+	},
+	leavanny: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 103, def: 80, spa: 70, spd: 80, spe: 102},
+		abilities: {0: "Swarm", 1: "Chlorophyll", H: "Sap Sipper"},
+	},
+	gastrodon: {
+		inherit: true,
+		baseStats: {hp: 111, atk: 83, def: 88, spa: 92, spd: 92, spe: 39},
+	},
+	lurantis: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 115, def: 90, spa: 90, spd: 90, spe: 55},
+		abilities: {0: "Leaf Guard", 1: "Quick Feet", H: "Contrary"},
+	},
+	victreebel: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 115, def: 65, spa: 105, spd: 70, spe: 90},
+		abilities: {0: "Chlorophyll", 1: "Harvest", H: "Gluttony"},
+	},
+	copperajah: {
+		inherit: true,
+		baseStats: {hp: 152, atk: 130, def: 69, spa: 80, spd: 69, spe: 29},
+		abilities: {0: "Sheer Force", 1: "Overcoat", H: "Heavy Metal"},
+	},
+	bibarel: {
+		inherit: true,
+		baseStats: {hp: 109, atk: 95, def: 80, spa: 55, spd: 80, spe: 81},
+	},
+	forretress: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 100, def: 150, spa: 60, spd: 40, spe: 40},
+		abilities: {0: "Sturdy", 1: "Heatproof", H: "Overcoat"},
+	},
+	klinklang: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 100, def: 115, spa: 70, spd: 85, spe: 90},
+		abilities: {0: "Levitate", 1: "Lightning Rod", H: "Clear Body"},
+	},
+	ampharos: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 65, def: 95, spa: 115, spd: 100, spe: 55},
+		abilities: {0: "Static", 1: "Electric Surge", H: "Plus"},
+	},
+	ampharosmega: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 85, def: 110, spa: 165, spd: 125, spe: 45},
+		abilities: {0: "Mold Breaker"},
+	},
+	arctozolt: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 100, def: 90, spa: 100, spd: 90, spe: 65},
+	},
+	arctovish: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 90, def: 100, spa: 90, spd: 100, spe: 65},
+	},
+	dracozolt: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 100, def: 90, spa: 100, spd: 80, spe: 75},
+	},
+	dracovish: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 90, def: 100, spa: 80, spd: 100, spe: 75},
+	},
+	manectric: {
+		inherit: true,
+		baseStats: {hp: 90, atk: 75, def: 60, spa: 115, spd: 80, spe: 105},
+		abilities: {0: "Static", 1: "Lightning Rod", H: "Competitive"},
+	},
+	manectricmega: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 85, def: 80, spa: 135, spd: 100, spe: 135},
+	},
+	stoutland: {
+		inherit: true,
+		baseStats: {hp: 95, atk: 110, def: 90, spa: 45, spd: 90, spe: 90},
+	},
+	heracross: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 135, def: 95, spa: 40, spd: 95, spe: 85},
+	},
+	heracrossmega: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 185, def: 115, spa: 40, spd: 125, spe: 75},
+	},
+	delcatty: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 85, def: 85, spa: 75, spd: 75, spe: 90},
+		abilities: {0: "Bouncy Pillow", 1: "Normalize", H: "Wonder Skin"},
+	},
+	mudsdale: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 125, def: 120, spa: 55, spd: 85, spe: 45},
 	},
 }; exports.Pokedex = Pokedex;
 

@@ -788,7 +788,7 @@ for (const row of usergroupData) {
 		},
 		onDamagingHit(damage, target, source, move) {
 			if (target.illusion) return;
-			if (move.flags['contact']) {
+			if (this.checkMoveMakesContact(move, source, target)) {
 				if (!source.m.marked) this.add('-message', `${source.name} was marked by an unknown being...`);
 				source.m.marked = true;
 			}

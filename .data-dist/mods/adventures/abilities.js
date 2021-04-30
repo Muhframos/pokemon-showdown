@@ -204,7 +204,6 @@ Ratings and how they work:
 					success = true;
 				}
 			}
-
 			if (success) {
 				this.add('-anim', pokemon, 'Future Sight');
 				this.add('-start', pokemon, 'Future Sight');
@@ -552,7 +551,7 @@ Ratings and how they work:
 	lightningrod: {
 		name: "Lightning Rod",
 		desc: "This Pokemon is immune to Electric-type moves and raises its SpA and Atk by 1 stage when hit by an Electric-type move.",
-		shortdesc: "Raises SpA and Atk by 1 when hit by an Electric move. Immune to Electric.",
+		shortdesc: "Raises SpA and Atk by 1 when hit by an Electric move. Immunity to Electric.",
 		onTryHit(target, source, move) {
 			if (target !== source && move.type === 'Electric') {
 				if (!this.boost({spa: 1})) {
@@ -925,6 +924,171 @@ Ratings and how they work:
 		name: "Insomnia",
 		rating: 2,
 		num: 15,
+	},
+	cloudnine: {
+		desc: "Clears weather conditions on switch-in and disables them while this Pokemon is active.",
+		shortDesc: "Clears weather on switch-in. Also disables weather while active.",
+		onSwitchIn(pokemon) {
+			this.field.clearWeather();
+		},
+		onStart(pokemon) {
+			// Cloud Nine now activates after Neutralizing Gas or Skill Swap, etc
+			this.add('-ability', pokemon, 'Cloud Nine');
+			this.field.clearWeather();
+		},
+		suppressWeather: true,
+		name: "Cloud Nine",
+		rating: 2,
+		num: 13,
+	},
+	flowergift: {
+		desc: "If user is Cherrim, while Sunny Day is active all allies have their Attack, Special Attack and Speed multiplied by 1.5x.",
+		shortDesc: "If user is Cherrim and Sunny Day is active, it and allies' Atk, SpA and Spe are 1.5x.",
+		onStart(pokemon) {
+			delete this.effectData.forme;
+		},
+		onUpdate(pokemon) {
+			if (!pokemon.isActive || pokemon.baseSpecies.baseSpecies !== 'Cherrim' || pokemon.transformed) return;
+			if (!pokemon.hp) return;
+			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
+				if (pokemon.species.id !== 'cherrimsunshine') {
+					pokemon.formeChange('Cherrim-Sunshine', this.effect, false, '[msg]');
+				}
+			} else {
+				if (pokemon.species.id === 'cherrimsunshine') {
+					pokemon.formeChange('Cherrim', this.effect, false, '[msg]');
+				}
+			}
+		},
+		onAllyModifyAtkPriority: 3,
+		onAllyModifyAtk(atk, pokemon) {
+			if (this.effectData.target.baseSpecies.baseSpecies !== 'Cherrim') return;
+			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
+				return this.chainModify(1.5);
+			}
+		},
+		onAllyModifySpAPriority: 3,
+		onAllyModifySpA(atk, pokemon) {
+			if (this.effectData.target.baseSpecies.baseSpecies !== 'Cherrim') return;
+			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
+				return this.chainModify(1.5);
+			}
+		},
+		onAllyModifySpePriority: 3,
+		onAllyModifySpe(spd, pokemon) {
+			if (this.effectData.target.baseSpecies.baseSpecies !== 'Cherrim') return;
+			if (['sunnyday', 'desolateland'].includes(pokemon.effectiveWeather())) {
+				return this.chainModify(1.5);
+			}
+		},
+		name: "Flower Gift",
+		rating: 1,
+		num: 122,
+	},
+	curiousmedicine: {
+		desc: "On switch-in, this Pokemon clears the stat boosts of all Pokemon on the battlefield.",
+		shortDesc: "Clears stat boosts of all Pokemon on switch-in.",
+		onStart(pokemon) {
+			for (const ally of pokemon.adjacentAllies()) {
+				ally.clearBoosts();
+				this.add('-clearboost', ally, '[from] ability: Curious Medicine', '[of] ' + pokemon);
+			}
+			for (const target of pokemon.adjacentFoes()) {
+				target.clearBoosts();
+				this.add('-clearboost', target, '[from] ability: Curious Medicine', '[of] ' + pokemon);
+			}
+		},
+		name: "Curious Medicine",
+		rating: 0,
+		num: 261,
+	},
+	stormdrain: {
+		desc: "This Pokemon is immune to Water-type moves and raises its SpA and Atk by 1 stage when hit by an Water-type move.",
+		shortdesc: "Raises SpA and Atk by 1 when hit by an Water move. Immunity to Water.",
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Water') {
+				if (!this.boost({spa: 1})) {
+					this.add('-immune', target, '[from] ability: Storm Drain');
+				}
+				if (!this.boost({atk: 1})) {
+					this.add('-immune', target, '[from] ability: Storm Drain');
+				}
+				return null;
+			}
+		},
+		onAnyRedirectTarget(target, source, source2, move) {
+			if (move.type !== 'Water' || ['firepledge', 'grasspledge', 'waterpledge'].includes(move.id)) return;
+			const redirectTarget = ['randomNormal', 'adjacentFoe'].includes(move.target) ? 'normal' : move.target;
+			if (this.validTarget(this.effectData.target, source, redirectTarget)) {
+				if (move.smartTarget) move.smartTarget = false;
+				if (this.effectData.target !== target) {
+					this.add('-activate', this.effectData.target, 'ability: Storm Drain');
+				}
+				return this.effectData.target;
+			}
+		},
+		name: "Storm Drain",
+		rating: 3,
+		num: 114,
+	},
+	battery: {
+		onAllyModifySpAPriority: 10,
+		onAllyModifyAtk(atk, pokemon) {
+				return this.chainModify(1.5);
+		},
+		name: "Battery",
+		rating: 0,
+		num: 217,
+	},
+	sapsipper: {
+		desc: "This Pokemon is immune to Grass-type moves and raises its SpA and Atk by 1 stage when hit by an Grass-type move.",
+		shortdesc: "Raises SpA and Atk by 1 when hit by an Grass move. Immunity to Grass.",
+		onTryHit(target, source, move) {
+			if (target !== source && move.type === 'Grass') {
+				if (!this.boost({spa: 1})) {
+					this.add('-immune', target, '[from] ability: Sap Sipper');
+				}
+				if (!this.boost({atk: 1})) {
+					this.add('-immune', target, '[from] ability: Sap Sipper');
+				}
+				return null;
+			}
+		},
+		name: "Sap Sipper",
+		rating: 3,
+		num: 157,
+	},
+	bouncypillow: {
+		desc: "This Pokemon takes 2/3 damage from attacking moves.",
+		shortdesc: "This Pokemon takes 2/3 damage from attacking moves.",
+		onSourceModifyDamage(damage, source, target, move) {
+				this.debug('Bouncy Pillow reduce');
+				return this.chainModify(0.66);
+		},
+		name: "Bouncy Pillow",
+		rating: 3,
+		num: -25,
+	},
+	normalize: {
+		desc: "This Pokemon's moves are changed to Normal type and have 1.5x power. Does not affect Hidden Power, Judgment, Multi Attack, Natural Gift, Revelation Dance, Struggle, Technoblast, Terrain Pulse and Weather Ball",
+		shortdesc: "This Pokemon's moves are changed to Normal type and have 1.5x power.",
+		onModifyTypePriority: 1,
+		onModifyType(move, pokemon) {
+			const noModifyType = [
+				'hiddenpower', 'judgment', 'multiattack', 'naturalgift', 'revelationdance', 'struggle', 'technoblast', 'terrainpulse', 'weatherball',
+			];
+			if (!(move.isZ && move.category !== 'Status') && !noModifyType.includes(move.id)) {
+				move.type = 'Normal';
+				move.normalizeBoosted = true;
+			}
+		},
+		onBasePowerPriority: 23,
+		onBasePower(basePower, pokemon, target, move) {
+			if (move.normalizeBoosted) return this.chainModify([5376, 4096]);
+		},
+		name: "Normalize",
+		rating: 0,
+		num: 96,
 	},
 }; exports.Abilities = Abilities;
 

@@ -109,6 +109,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 	armthrust: {
 		inherit: true,
 		basePower: 25,
+		accuracy: 100,
 	},
 	furyswipes: {
 		desc: "Hits 2-5 times. High critical hit ratio.",
@@ -545,49 +546,6 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		inherit: true,
 		flags: {contact: 1, protect: 1, mirror: 1, bullet: 1, punch: 1},
 	},
-	defog: {
-		desc: "-1 Evasion; clears terrain, hazards and weather for both sides.",
-		shortDesc: "-1 Evasion; clears terrain, hazards and weather for both sides.",
-		num: 432,
-		accuracy: true,
-		basePower: 0,
-		category: "Status",
-		name: "Defog",
-		pp: 15,
-		priority: 0,
-		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
-		onHit(target, source, move) {
-			let success = false;
-			this.field.clearTerrain();
-			if (!target.volatiles['substitute'] || move.infiltrates) success = !!this.boost({evasion: -1});
-			const removeTarget = [
-				'reflect', 'lightscreen', 'auroraveil', 'safeguard', 'mist', 'spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge',
-			];
-			const removeAll = [
-				'spikes', 'toxicspikes', 'stealthrock', 'stickyweb', 'gmaxsteelsurge',
-			];
-			for (const targetCondition of removeTarget) {
-				if (target.side.removeSideCondition(targetCondition)) {
-					if (!removeAll.includes(targetCondition)) continue;
-					this.add('-sideend', target.side, this.dex.getEffect(targetCondition).name, '[from] move: Defog', '[of] ' + source);
-					success = true;
-				}
-			}
-			for (const sideCondition of removeAll) {
-				if (source.side.removeSideCondition(sideCondition)) {
-					this.add('-sideend', source.side, this.dex.getEffect(sideCondition).name, '[from] move: Defog', '[of] ' + source);
-					success = true;
-				}
-			}
-			this.field.clearTerrain();
-			return success;
-		},
-		secondary: null,
-		target: "normal",
-		type: "Flying",
-		zMove: {boost: {accuracy: 1}},
-		contestType: "Cool",
-	},
 	barrage: {
 		desc: "Hits three times.",
 		shortDesc: "Hits three times.",
@@ -800,7 +758,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		category: "Physical",
 		name: "Mob Boss",
 		desc: "Usually goes first. Hits the target one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/10), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
-		shortDesct: "Beat Up with +1 priority.",
+		shortDesct: "Beat Up with +1 priority (Not affected by King's Rock.)",
 		pp: 10,
 		priority: 1,
 		flags: {protect: 1, mirror: 1, mystery: 1},
@@ -899,13 +857,13 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 			for (const targetCondition of removeTarget) {
 				if (target.side.removeSideCondition(targetCondition)) {
 					if (!removeAll.includes(targetCondition)) continue;
-					this.add('-sideend', target.side, this.dex.getEffect(targetCondition).name, '[from] move: Defog', '[of] ' + source);
+					this.add('-sideend', target.side, this.dex.conditions.get(targetCondition).name, '[from] move: Defog', '[of] ' + source);
 					success = true;
 				}
 			}
 			for (const sideCondition of removeAll) {
 				if (source.side.removeSideCondition(sideCondition)) {
-					this.add('-sideend', source.side, this.dex.getEffect(sideCondition).name, '[from] move: Defog', '[of] ' + source);
+					this.add('-sideend', source.side, this.dex.conditions.get(sideCondition).name, '[from] move: Defog', '[of] ' + source);
 					success = true;
 				}
 			}
@@ -1180,7 +1138,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		basePowerCallback(pokemon, target, move) {
 			// You can't get here unless the pursuit succeeds
 			if (target.beingCalledBack || target.switchFlag) {
-				this.debug('Pursuit damage boost');
+				this.debug('Vine Trap damage boost');
 				return move.basePower * 2;
 			}
 			return move.basePower;
@@ -1305,7 +1263,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		shortDesc: "100% chance to increase the user's SpA by 1 stage.",
 		num: 488,
 		accuracy: 100,
-		basePower: 80,
+		basePower: 50,
 		category: "Special",
 		name: "Aqua Revolver",
 		pp: 10,
@@ -1386,7 +1344,7 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 			},
 			onDisableMove(pokemon) {
 				for (const moveSlot of pokemon.moveSlots) {
-					if (this.dex.getMove(moveSlot.id).flags['gravity']) {
+					if (this.dex.moves.get(moveSlot.id).flags['gravity']) {
 						pokemon.disableMove(moveSlot.id);
 					}
 				}
@@ -1467,6 +1425,79 @@ sound: Has no effect on Pokemon with the Soundproof Ability.
 		target: "allies",
 		type: "Grass",
 	},
+	tailslap: {
+		inherit: true,
+		accuracy: 100,
+	},
+	pinmissile: {
+		inherit: true,
+		accuracy: 100,
+	},
+	armthrust: {
+		inherit: true,
+		basePower: 25,
+		accuracy: 100,
+	},
+	rockblast: {
+		inherit: true,
+		accuracy: 100,
+	},
+	iciclespear: {
+		inherit: true,
+		accuracy: 100,
+	},
+	bonerush: {
+		inherit: true,
+		accuracy: 100,
+	},
+	armthrust: {
+		inherit: true,
+		accuracy: 100,
+	},
+	muddywater: {
+		inherit: true,
+		accuracy: 90,
+	},
+	steelyspikes: {
+		desc: "Sets up a hazard on the opposing side of the field. Damages foes that switch-in based on their weakness to the Steel type.",
+		shortDesc: "Hurts foes on switch-in. Factors Steel weakness.",
+		num: -20,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Steely Spikes",
+		pp: 5,
+		priority: 0,
+		flags: {reflectable: 1},
+		sideCondition: 'gmaxsteelsurge',
+		condition: {
+			onStart(side) {
+				this.add('-sidestart', side, 'move: Steely Spikes');
+			},
+			onSwitchIn(pokemon) {
+				if (pokemon.hasItem('heavydutyboots')) return;
+				if (pokemon.hasAbility('oblivious')) return;
+				// Ice Face and Disguise correctly get typed damage from Stealth Rock
+				// because Stealth Rock bypasses Substitute.
+				// They don't get typed damage from Steelsurge because Steelsurge doesn't,
+				// so we're going to test the damage of a Steel-type Stealth Rock instead.
+				const steelHazard = this.dex.getActiveMove('Stealth Rock');
+				steelHazard.type = 'Steel';
+				const typeMod = this.clampIntRange(pokemon.runEffectiveness(steelHazard), -6, 6);
+				this.damage(pokemon.maxhp * Math.pow(2, typeMod) / 8);
+			},
+		},
+		secondary: null,
+		target: "foeSide",
+		type: "Steel",
+		zMove: {boost: {def: 1}},
+		contestType: "Cool",
+	},
+	aerialace: {
+		inherit: true,
+		basePower: 80,
+	},
+	
 }; exports.Moves = Moves
 
  //# sourceMappingURL=sourceMaps/moves.js.map
