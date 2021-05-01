@@ -753,11 +753,11 @@ export const Moves: {[moveid: string]: MoveData} = {
 		accuracy: 100,
 		basePower: 0,
 		basePowerCallback(pokemon, target, move) {
-			return 5 + Math.floor(move.allies!.shift()!.species.baseStats.atk / 10);
+			return 5 + Math.floor(move.allies!.shift()!.species.baseStats.atk / 15);
 		},
 		category: "Physical",
 		name: "Mob Boss",
-		desc: "Usually goes first. Hits the target one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/10), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
+		desc: "Usually goes first. Hits the target one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/15), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
 		shortDesct: "Beat Up with +1 priority (Not affected by King's Rock.)",
 		pp: 10,
 		priority: 1,
