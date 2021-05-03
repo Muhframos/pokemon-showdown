@@ -1436,7 +1436,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 	armthrust: {
 		inherit: true,
 		basePower: 25,
-		accuracy: 100,
 	},
 	rockblast: {
 		inherit: true,
