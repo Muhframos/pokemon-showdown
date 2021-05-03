@@ -1433,10 +1433,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		accuracy: 100,
 	},
-	armthrust: {
-		inherit: true,
-		basePower: 25,
-	},
 	rockblast: {
 		inherit: true,
 		accuracy: 100,
@@ -1446,10 +1442,6 @@ export const Moves: {[moveid: string]: MoveData} = {
 		accuracy: 100,
 	},
 	bonerush: {
-		inherit: true,
-		accuracy: 100,
-	},
-	armthrust: {
 		inherit: true,
 		accuracy: 100,
 	},
