@@ -79,7 +79,6 @@ export const Formats: FormatList = [
 	{
 		name: "[Gen 8] Adventures AG",
 		mod: 'adventures',
-		banlist: ['Greninja-Ash', 'Eiscue-Noice',],
 		ruleset: ['Standard NatDex'],
 	},
 	{
@@ -105,7 +104,7 @@ export const Formats: FormatList = [
 		gameType: 'freeforall',
 		challengeShow: false,
 		rated: false,
-		banlist: ['Eternatus-Eternamax', 'AG', 'Greninja-Ash', 'Eiscue-Noice',],
+		banlist: ['Eternatus-Eternamax', 'AG',],
 		ruleset: [ 'Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause', 'Cancel Mod',],
 	},
 	{
@@ -117,7 +116,7 @@ export const Formats: FormatList = [
 		teamLength: {
 			battle: 3,
 	},
-		banlist: [ 'Eternatus-Eternamax', 'AG', 'Greninja-Ash', 'Eiscue-Noice',],
+		banlist: [ 'Eternatus-Eternamax', 'AG',],
 		ruleset: ['Species Clause', 'Dynamax Clause', 'Obtainable Good', '+Unobtainable', 'HP Percentage Mod', 'Sleep Clause Mod', '+Past', 'Nickname Clause', 'Endless Battle Clause', 'Cancel Mod',],
 	},
 	{
