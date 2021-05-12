@@ -1766,4 +1766,41 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 100, atk: 125, def: 120, spa: 55, spd: 85, spe: 45},
 	},
+	primarina: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 74, def: 84, spa: 126, spd: 116, spe: 60},
+	},
+	orbeetle: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 45, def: 110, spa: 80, spd: 120, spe: 90},
+		abilities: {0: "Swarm", 1: "Gravity Surge", H: "Trace"},
+	},
+	wigglytuff: {
+		inherit: true,
+		baseStats: {hp: 165, atk: 70, def: 65, spa: 105, spd: 80, spe: 45},
+		abilities: {0: "Pastel Veil", 1: "Competitive", H: "Frisk"},
+	},
+	glastrier: {
+		inherit: true,
+		baseStats: {hp: 100, atk: 145, def: 140, spa: 45, spd: 120, spe: 30},
+	},
+	dustox: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 70, def: 110, spa: 70, spd: 130, spe: 75},
+	},
+	octillery: {
+		inherit: true,
+		baseStats: {hp: 88, atk: 75, def: 88, spa: 125, spd: 88, spe: 65},
+		abilities: {0: "Suction Cups", 1: "Adaptability", H: "Moody"},
+	},
+	shiinotic: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 45, def: 100, spa: 90, spd: 120, spe: 30},
+		abilities: {0: "Drain Power", 1: "Effect Spore", H: "Rain Dish"},
+	},
+	zebstrika: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 110, def: 83, spa: 80, spd: 63, spe: 116},
+		abilities: {0: "Galvanize", 1: "Motor Drive", H: "Sap Sipper"},
+	},
 };

@@ -1070,8 +1070,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: -25,
 	},
 	normalize: {
-		desc: "This Pokemon's moves are changed to Normal type and have 1.5x power. Does not affect Hidden Power, Judgment, Multi Attack, Natural Gift, Revelation Dance, Struggle, Technoblast, Terrain Pulse and Weather Ball",
-		shortdesc: "This Pokemon's moves are changed to Normal type and have 1.5x power.",
+		desc: "This Pokemon's moves are changed to Normal-type and have 1.5x power. Does not affect Hidden Power, Judgment, Multi Attack, Natural Gift, Revelation Dance, Struggle, Technoblast, Terrain Pulse and Weather Ball",
+		shortdesc: "This Pokemon's moves are Normal-type and have 1.5x power.",
 		onModifyTypePriority: 1,
 		onModifyType(move, pokemon) {
 			const noModifyType = [
@@ -1089,5 +1089,44 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Normalize",
 		rating: 0,
 		num: 96,
+	},
+	liquidvoice: {
+		desc: "This Pokemon's sound moves are changed to Water-type and have 1.2x power.",
+		shortdesc: "This Pokemon's sound moves are changed to Water-type and have 1.2x power.",
+		onModifyTypePriority: -1,
+		onModifyType(move, pokemon) {
+			if (move.flags['sound'] && !pokemon.volatiles['dynamax']) { // hardcode
+				move.type = 'Water';
+				move.liquidvoiceBoosted = true;
+			}
+		},
+		onBasePowerPriority: 23,
+		onBasePower(basePower, pokemon, target, move) {
+			if (move.liquidvoiceBoosted) return this.chainModify([4915, 4096]);
+	},
+	raindish: {
+		onWeather(target, source, effect) {
+			if (target.hasItem('utilityumbrella')) return;
+			if (effect.id === 'raindance' || effect.id === 'primordialsea') {
+				this.heal(target.baseMaxhp / 8);
+			}
+		},
+		name: "Rain Dish",
+		rating: 1.5,
+		num: 44,
+	},
+	drainpower: {
+		desc: "This Pokemon's draining moves, Aqua Ring, Ingrain, Leech Seed and Strength Sap and heal for 1.3x more.",
+		shortdesc: "Holder gains 1.3x HP from draining/Aqua Ring/Ingrain/Leech Seed/Strength Sap.",
+		onTryHealPriority: 1,
+		onTryHeal(damage, target, source, effect) {
+			const heals = ['drain', 'leechseed', 'ingrain', 'aquaring', 'strengthsap'];
+			if (heals.includes(effect.id)) {
+				return this.chainModify([5324, 4096]);
+			}
+		},
+		name: "Drain Power",
+		rating: 2,
+		num: -26,
 	},
 };

@@ -613,6 +613,32 @@ export const Moves: {[moveid: string]: MoveData} = {
 		zMove: {basePower: 220},
 		contestType: "Cool",
 	},
+	multiattack: {
+		desc: "Type varies based on the user's primary type. Physical if Atk > SpA.",
+		shortDesc: "Type varies based on the user's primary type. Physical if Atk > SpA.",
+		num: 718,
+		accuracy: 100,
+		basePower: 120,
+		category: "Physical",
+		name: "Multi-Attack",
+		pp: 10,
+		priority: 0,
+		flags: {contact: 1, protect: 1, mirror: 1},
+		onModifyType(move, pokemon) {
+			let type = pokemon.getTypes()[0];
+			move.type = type;
+			
+		},
+		onModifyMove(move, pokemon) {
+			if (pokemon.getStat('atk', false, true) > pokemon.getStat('spa', false, true)) move.category = 'Physical';
+			},
+		secondary: null,
+		target: "normal",
+		type: "Normal",
+		zMove: {basePower: 185},
+		maxMove: {basePower: 95},
+		contestType: "Tough",
+	},
 	doublekick: {
 		inherit: true,
 		basePower: 45
@@ -753,12 +779,12 @@ export const Moves: {[moveid: string]: MoveData} = {
 		accuracy: 100,
 		basePower: 0,
 		basePowerCallback(pokemon, target, move) {
-			return 5 + Math.floor(move.allies!.shift()!.species.baseStats.atk / 15);
+			return 5 + Math.floor(move.allies!.shift()!.species.baseStats.atk / 20);
 		},
 		category: "Physical",
 		name: "Mob Boss",
-		desc: "Usually goes first. Hits the target one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/15), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
-		shortDesct: "Beat Up with +1 priority (Not affected by King's Rock.)",
+		desc: "Usually goes first. Hits the target one time for the user and one time for each unfainted Pokemon without a non-volatile status condition in the user's party. The power of each hit is equal to 5+(X/20), where X is each participating Pokemon's base Attack; each hit is considered to come from the user.",
+		shortDesct: "Beat Up with +1 priority and halved damage (Not affected by King's Rock.)",
 		pp: 10,
 		priority: 1,
 		flags: {protect: 1, mirror: 1, mystery: 1},
@@ -1488,5 +1514,23 @@ export const Moves: {[moveid: string]: MoveData} = {
 		inherit: true,
 		basePower: 80,
 	},
-	
+	octazooka: {
+		num: 190,
+		accuracy: 95,
+		basePower: 95,
+		category: "Special",
+		name: "Octazooka",
+		pp: 10,
+		priority: 0,
+		flags: {bullet: 1, protect: 1, mirror: 1},
+		secondary: {
+			chance: 50,
+			boosts: {
+				accuracy: -1,
+			},
+		},
+		target: "normal",
+		type: "Water",
+		contestType: "Tough",
+	},
 }
