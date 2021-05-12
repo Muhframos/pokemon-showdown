@@ -1790,7 +1790,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	octillery: {
 		inherit: true,
-		baseStats: {hp: 88, atk: 75, def: 88, spa: 125, spd: 88, spe: 65},
+		baseStats: {hp: 88, atk: 75, def: 88, spa: 125, spd: 88, spe: 55},
 		abilities: {0: "Suction Cups", 1: "Adaptability", H: "Moody"},
 	},
 	shiinotic: {
