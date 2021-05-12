@@ -1103,6 +1103,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		onBasePowerPriority: 23,
 		onBasePower(basePower, pokemon, target, move) {
 			if (move.liquidvoiceBoosted) return this.chainModify([4915, 4096]);
+		}
 	},
 	raindish: {
 		onWeather(target, source, effect) {
