@@ -1117,8 +1117,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 44,
 	},
 	drainpower: {
-		desc: "This Pokemon's draining moves, Aqua Ring, Ingrain, Leech Seed and Strength Sap and heal for 1.3x more.",
-		shortdesc: "Holder gains 1.3x HP from draining/Aqua Ring/Ingrain/Leech Seed/Strength Sap.",
+		desc: "User gains 1.3x HP from draining/Aqua Ring/Ingrain/Leech Seed/Strength Sap..",
+		shortdesc: "User gains 1.3x HP from draining/Aqua Ring/Ingrain/Leech Seed/Strength Sap.",
 		onTryHealPriority: 1,
 		onTryHeal(damage, target, source, effect) {
 			const heals = ['drain', 'leechseed', 'ingrain', 'aquaring', 'strengthsap'];
