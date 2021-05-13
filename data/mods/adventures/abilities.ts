@@ -285,13 +285,12 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 						this.dex.getImmunity(moveType, pokemon) && this.dex.getEffectiveness(moveType, pokemon) > 0 ||
 						move.ohko
 					) {
-						this.add('-ability', pokemon, 'Anticipation');
+						this.add('-ability', pokemon, 'Wonder Guard');
 						return;
 							}
 						}
 					}
 				}
-			}
 		},
 		onStart(pokemon) {
 			for (const target of pokemon.side.foe.active) {
