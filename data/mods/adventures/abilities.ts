@@ -275,7 +275,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			if (target === source || move.category === 'Status' || move.type === '???' || move.id === 'struggle') return;
 			if (move.id === 'skydrop' && !source.volatiles['skydrop']) return;
 			this.debug('Wonder Guard immunity: ' + move.id);
-		};
+		},
 		onStart(pokemon) {
 			for (const target of pokemon.foes()) {
 				for (const moveSlot of target.moveSlots) {
