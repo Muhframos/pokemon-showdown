@@ -62,7 +62,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 
 //Move changes
 	vacuumwave: {
-		inherit: true
+		inherit: true,
 		basePower: 60,
 	},
 	snore: {
