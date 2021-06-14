@@ -61,6 +61,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 // Mega Launcher Implementation End
 
 //Move changes
+	vacuumwave: {
+		inherit: true,,
+		basePower: 60,
 	snore: {
 		inherit: true,
 		basePower: 120,
@@ -1532,5 +1535,26 @@ export const Moves: {[moveid: string]: MoveData} = {
 		target: "normal",
 		type: "Water",
 		contestType: "Tough",
+	},
+	cumuluscharge: {
+		desc: "Raises the user's Special Attack and Speed by 1.",
+		shortDesc: "Raises the user's Special Attack and Speed by 1.",
+		num: -69,
+		accuracy: true,
+		basePower: 0,
+		category: "Status",
+		name: "Cumulus Charge",
+		pp: 20,
+		priority: 0,
+		flags: {snatch: 1, dance: 1},
+		boosts: {
+			spa: 1,
+			spe: 1,
+		},
+		secondary: null,
+		target: "self",
+		type: "Electric",
+		zMove: {effect: 'clearnegativeboost'},
+		contestType: "Cool",
 	},
 }

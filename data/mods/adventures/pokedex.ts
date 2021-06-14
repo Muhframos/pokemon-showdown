@@ -419,7 +419,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	gloom: {
 		inherit: true,
-		baseStats: {hp: 85, atk: 70, def: 80, spa: 95, spd: 80, spe: 50},
+		baseStats: {hp: 90, atk: 70, def: 80, spa: 95, spd: 80, spe: 50},
 		abilities: {0: "Chlorophyll", 1: "Corrosion" , H: "Effect Spore"},
 	},
 	onix: {
@@ -559,7 +559,15 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	vivillon: {
 		inherit: true,
-		baseStats: {hp: 80, atk: 52, def: 70, spa: 100, spd: 70, spe: 89},
+		baseStats: {hp: 80, atk: 52, def: 70, spa: 100, spd: 70, spe: 99},
+	},
+	vivillonfancy: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 52, def: 70, spa: 100, spd: 70, spe: 99},
+	},
+	vivillonpokeball: {
+		inherit: true,
+		baseStats: {hp: 80, atk: 52, def: 70, spa: 100, spd: 70, spe: 99},
 	},
 	flapple: {
 		inherit: true,
@@ -765,7 +773,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	torkoal: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 95, def: 140, spa: 95, spd: 95, spe: 20},
+		baseStats: {hp: 90, atk: 85, def: 140, spa: 105, spd: 95, spe: 20},
 	},
 	drednaw: {
 		inherit: true,
@@ -1486,7 +1494,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	bewear: {
 		inherit: true,
-		baseStats: {hp: 120, atk: 125, def: 80, spa: 55, spd: 70, spe: 60},
+		baseStats: {hp: 120, atk: 125, def: 80, spa: 55, spd: 70, spe: 65},
 	},
 	zapdos: {
 		inherit: true,
@@ -1802,5 +1810,57 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 75, atk: 110, def: 83, spa: 80, spd: 63, spe: 116},
 		abilities: {0: "Galvanize", 1: "Motor Drive", H: "Sap Sipper"},
+	},
+	thundurus: {
+		inherit: true,
+		baseStats: {hp: 89, atk: 125, def: 70, spa: 125, spd: 80, spe: 111},
+		abilities: {0: "Prankster", 1: "Competitive", H: "Defiant"},
+	},
+	thundurustherian: {
+		inherit: true,
+		baseStats: {hp: 89, atk: 115, def: 70, spa: 145, spd: 80, spe: 101},
+		abilities: {0: "Volt Absorb", H: "Unburden"},
+	},
+	tornadus: {
+		inherit: true,
+		baseStats: {hp: 89, atk: 125, def: 70, spa: 125, spd: 80, spe: 111},
+		abilities: {0: "Prankster", 1: "Competitive", H: "Defiant"},
+	},
+	tornadustherian: {
+		inherit: true,
+		baseStats: {hp: 89, atk: 110, def: 80, spa: 110, spd: 90, spe: 121},
+	},
+	araquanid: {
+		inherit: true,
+		baseStats: {hp: 79, atk: 80, def: 92, spa: 70, spd: 132, spe: 42},
+	},
+	chatot: {
+		inherit: true,
+		baseStats: {hp: 76, atk: 65, def: 65, spa: 102, spd: 62, spe: 111},
+		abilities: {0: "Soundproof", 1: "Tangled Feet", H: "Big Pecks"},
+	},
+	polteageist: {
+		inherit: true,
+		abilities: {0: "Weak Armor", 1: "Queenly Majesty", H: "Cursed Body"},
+	},
+	polteageistantique: {
+		inherit: true,
+		abilities: {0: "Weak Armor", 1: "Queenly Majesty", H: "Cursed Body"},
+	},
+	heatmor: {
+		inherit: true,
+		types: ["Fire", "Steel"],
+		baseStats: {hp: 95, atk: 117, def: 66, spa: 115, spd: 66, spe: 70},
+		abilities: {0: "Tough Claws", 1: "Flash Fire", H: "White Smoke"},
+	},
+	ambipom: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 115, def: 86, spa: 60, spd: 86, spe: 115},
+		abilities: {0: "Technician", 1: "Pickup", H: "Skill Link"},
+	},
+	farfetchd: {
+		inherit: true,
+		baseStats: {hp: 52, atk: 100, def: 65, spa: 58, spd: 72, spe: 130},
+		abilities: {0: "Defiant", 1: "Inner Focus", H: "Sheer Force"},
 	},
 };

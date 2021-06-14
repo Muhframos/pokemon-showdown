@@ -268,14 +268,6 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 159,
 	},
 	wonderguard: {
-		name: "Wonder Guard",
-		desc: "This Pokemon can only be damaged by supereffective moves and indirect damage. Alert if opponent has super-effective moves",
-		shortDesc: "Can only be damaged by supereffective and indirect damage, alerts if opponent has super-effective move.",
-		onTryHit(target, source, move) {
-			if (target === source || move.category === 'Status' || move.type === '???' || move.id === 'struggle') return;
-			if (move.id === 'skydrop' && !source.volatiles['skydrop']) return;
-			this.debug('Wonder Guard immunity: ' + move.id);
-		},
 		onStart(pokemon) {
 			for (const target of pokemon.foes()) {
 				for (const moveSlot of target.moveSlots) {
@@ -286,33 +278,29 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 						this.dex.getImmunity(moveType, pokemon) && this.dex.getEffectiveness(moveType, pokemon) > 0 ||
 						move.ohko
 					) {
-						this.add('-ability', pokemon, 'Wonder Guard');
+						this.add('-ability', pokemon, 'Anticipation');
 						return;
 					}
 				}
 			}
 		},
-		onStart(pokemon) {
-			for (const target of pokemon.side.foe.active) {
-				if (!target || target.fainted) continue;
-				for (const moveSlot of target.moveSlots) {
-					const move = this.dex.getMove(moveSlot.move);
-					if (move.category === 'Status') continue;
-					const moveType = move.id === 'hiddenpower' ? target.hpType : move.type;
-					if (
-						this.dex.getImmunity(moveType, pokemon) && this.dex.getEffectiveness(moveType, pokemon) > 0 ||
-						move.ohko
-					) {
-						this.add('-ability', pokemon, 'Wonder Guard');
-						return;
-					}
+		onTryHit(target, source, move) {
+			if (target === source || move.category === 'Status' || move.type === '???' || move.id === 'struggle') return;
+			if (move.id === 'skydrop' && !source.volatiles['skydrop']) return;
+			this.debug('Wonder Guard immunity: ' + move.id);
+			if (target.runEffectiveness(move) <= 0) {
+				if (move.smartTarget) {
+					move.smartTarget = false;
+				} else {
+					this.add('-immune', target, '[from] ability: Wonder Guard');
 				}
+				return null;
 			}
 		},
 		name: "Wonder Guard",
 		rating: 5,
 		num: 25,
-	},
+		},
 	whitesmoke: {
 		name: "White Smoke",
 		desc: "This pokemon's stat stages cannot be dropped.",
@@ -1125,7 +1113,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 44,
 	},
 	drainpower: {
-		desc: "User gains 1.3x HP from draining/Aqua Ring/Ingrain/Leech Seed/Strength Sap..",
+		desc: "User gains 1.3x HP from draining/Aqua Ring/Ingrain/Leech Seed/Strength Sap.",
 		shortdesc: "User gains 1.3x HP from draining/Aqua Ring/Ingrain/Leech Seed/Strength Sap.",
 		onTryHealPriority: 1,
 		onTryHeal(damage, target, source, effect) {
@@ -1137,5 +1125,30 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Drain Power",
 		rating: 2,
 		num: -26,
+	},
+	tailfists: {
+		desc: "This Pokemon's Punch moves hit twice. The second hit deals 25% of the damage.",
+		shortdesc: "This Pokemon's Punch moves hit twice. The second hit deals 25% of the damage.",
+		onPrepareHit(source, target, move) {
+			if (move.category === 'Status' || move.selfdestruct || move.multihit || !move.flags['punch']) return;
+			if (['endeavor', 'fling', 'iceball', 'rollout'].includes(move.id)) return;
+			if (!move.flags['charge'] && !move.spreadHit && !move.isZ && !move.isMax) {
+				move.multihit = 2;
+				move.multihitType = 'parentalbond';
+			}
+		},
+		onBasePowerPriority: 7,
+		onBasePower(basePower, pokemon, target, move) {
+			if (move.multihitType === 'parentalbond' && move.hit > 1) return this.chainModify(0.25);
+		},
+		onSourceModifySecondaries(secondaries, target, source, move) {
+			if (move.multihitType === 'parentalbond' && move.id === 'secretpower' && move.hit < 2) {
+				// hack to prevent accidentally suppressing King's Rock/Razor Fang
+				return secondaries.filter(effect => effect.volatileStatus === 'flinch');
+			}
+		},
+		name: "Tail Fists",
+		rating: 4,
+		num: 185,
 	},
 };
