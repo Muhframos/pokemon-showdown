@@ -1538,16 +1538,16 @@ export const Moves: {[moveid: string]: MoveData} = {
 		contestType: "Tough",
 	},
 	cumuluscharge: {
+		num: -69,
 		desc: "Raises the user's Special Attack and Speed by 1.",
 		shortDesc: "Raises the user's Special Attack and Speed by 1.",
-		num: -69,
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
 		name: "Cumulus Charge",
 		pp: 20,
 		priority: 0,
-		flags: {snatch: 1, dance: 1},
+		flags: {snatch: 1},
 		boosts: {
 			spa: 1,
 			spe: 1,
