@@ -642,18 +642,12 @@ this.modData('Learnsets', 'wigglytuff').learnset.growth = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.hurricane = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.airslash = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.aircutter = ['8L1'];
+this.modData('Learnsets', 'thundurus').learnset.icepunch = ['8L1'];
+this.modData('Learnsets', 'thundurus').learnset.hydropump = ['8L1'];
 
-this.modData('Learnsets', 'thundurustherian').learnset.icepunch = ['8L1'];
-this.modData('Learnsets', 'thundurustherian').learnset.hydropump = ['8L1'];
-this.modData('Learnsets', 'thundurustherian').learnset.hurricane = ['8L1'];
-
-this.modData('Learnsets', 'tornadus').learnset.airslash = ['8L1'];
-this.modData('Learnsets', 'tornadus').learnset.aircutter = ['8L1'];
 this.modData('Learnsets', 'tornadus').learnset.bravebird = ['8L1'];
 this.modData('Learnsets', 'tornadus').learnset.cumuluscharge = ['8L1'];
-
-this.modData('Learnsets', 'tornadustherian').learnset.bravebird = ['8L1'];
-this.modData('Learnsets', 'tornadustherian').learnset.cumuluscharge = ['8L1'];
+this.modData('Learnsets', 'tornadus').learnset.icepunch = ['8L1'];
 
 this.modData('Learnsets', 'archeops').learnset.skillswap = ['8L1'];
 this.modData('Learnsets', 'archeops').learnset.doubleedge = ['8L1'];
