@@ -654,6 +654,9 @@ this.modData('Learnsets', 'archeops').learnset.doubleedge = ['8L1'];
 
 this.modData('Learnsets', 'castform').learnset.cumuluscharge = ['8L1'];
 
+this.modData('Learnsets', 'polteageist').learnset.aurasphere = ['8L1'];
+this.modData('Learnsets', 'polteageist').learnset.drainingkiss = ['8L1'];
+
 this.modData('Learnsets', 'ninetalesalola').learnset.psychic = ['8L1'];
 this.modData('Learnsets', 'ninetalesalola').learnset.aurasphere = ['8L1'];
 this.modData('Learnsets', 'ninetalesalola').learnset.earthpower = ['8L1'];
