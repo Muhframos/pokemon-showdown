@@ -642,9 +642,7 @@ this.modData('Learnsets', 'wigglytuff').learnset.growth = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.hurricane = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.airslash = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.aircutter = ['8L1'];
-this.modData('Learnsets', 'thundurus').learnset.cumuluscharge = ['8L1'];
 
-this.modData('Learnsets', 'thundurustherian').learnset.cumuluscharge = ['8L1'];
 this.modData('Learnsets', 'thundurustherian').learnset.icepunch = ['8L1'];
 this.modData('Learnsets', 'thundurustherian').learnset.hydropump = ['8L1'];
 this.modData('Learnsets', 'thundurustherian').learnset.hurricane = ['8L1'];
