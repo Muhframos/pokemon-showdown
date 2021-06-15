@@ -1221,8 +1221,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			},
 			onEnd(target) {
 				this.add('-end', target, 'Ascension');
-				this.boost({atk: 6}, pokemon);
-				this.boost({spa: 6}, pokemon);
+				this.boost({atk: 6}, target);
+				this.boost({spa: 6}, target);
 				this.add(target, ' has awakened their Godly Powers.');
 			},
 		},
