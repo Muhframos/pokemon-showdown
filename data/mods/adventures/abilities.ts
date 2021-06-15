@@ -1230,4 +1230,41 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: -1,
 		num: 112,
 	},
+	warriorswill: {
+		desc: "This Pokemon's Attack is raised by 1 when it reaches 1/2 or less of its max HP.",
+		shortdesc: "This Pokemon's Atk is raised by 1 when it reaches 1/2 or less of its max HP.",
+		onDamage(damage, target, source, effect) {
+			if (
+				effect.effectType === "Move" &&
+				!effect.multihit &&
+				(!effect.negateSecondary && !(effect.hasSheerForce && source.hasAbility('sheerforce')))
+			) {
+				target.abilityData.checkedBerserk = false;
+			} else {
+				target.abilityData.checkedBerserk = true;
+			}
+		},
+		onTryEatItem(item, pokemon) {
+			const healingItems = [
+				'aguavberry', 'enigmaberry', 'figyberry', 'iapapaberry', 'magoberry', 'sitrusberry', 'wikiberry', 'oranberry', 'berryjuice',
+			];
+			if (healingItems.includes(item.id)) {
+				return pokemon.abilityData.checkedBerserk;
+			}
+			return true;
+		},
+		onAfterMoveSecondary(target, source, move) {
+			target.abilityData.checkedBerserk = true;
+			if (!source || source === target || !target.hp || !move.totalDamage) return;
+			const lastAttackedBy = target.getLastAttackedBy();
+			if (!lastAttackedBy) return;
+			const damage = move.multihit ? move.totalDamage : lastAttackedBy.damage;
+			if (target.hp <= target.maxhp / 2 && target.hp + damage > target.maxhp / 2) {
+				this.boost({atk: 1});
+			}
+		},
+		name: "Warrior's Will",
+		rating: 2,
+		num: 201,
+	},
 };
