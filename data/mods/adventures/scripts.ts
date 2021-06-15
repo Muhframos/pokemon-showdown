@@ -76,6 +76,14 @@ this.modData('Learnsets', 'darmanitan').learnset.morningsun = ['8L1'];
 this.modData('Learnsets', 'darmanitan').learnset.closecombat = ['8L1'];
 this.modData('Learnsets', 'darmanitan').learnset.drainpunch = ['8L1'];
 
+this.modData('Learnsets', 'magikarp').learnset.liquidation = ['8L1'];
+this.modData('Learnsets', 'magikarp').learnset.flipturn = ['8L1'];
+this.modData('Learnsets', 'magikarp').learnset.lifedew = ['8L1'];
+this.modData('Learnsets', 'magikarp').learnset.surf = ['8L1'];
+this.modData('Learnsets', 'magikarp').learnset.bodyslam = ['8L1'];
+this.modData('Learnsets', 'magikarp').learnset.fly = ['8L1'];
+this.modData('Learnsets', 'magikarp').learnset.protect = ['8L1'];
+
 this.modData('Learnsets', 'venomoth').learnset.heatwave = ['8L1'];
 this.modData('Learnsets', 'venomoth').learnset.psyshock = ['8L1'];
 this.modData('Learnsets', 'venomoth').learnset.sludgewave = ['8L1'];
