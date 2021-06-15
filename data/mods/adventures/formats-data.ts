@@ -3376,7 +3376,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 	},
 	blitzle: {
 		isNonstandard: "Past",
-		tier: "RU",
+		tier: "LC",
 	},
 	zebstrika: {
 		isNonstandard: "Past",

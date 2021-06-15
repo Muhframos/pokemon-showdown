@@ -1175,7 +1175,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	magcargo: {
 		inherit: true,
-		baseStats: {hp: 70, atk: 50, def: 230, spa: 120, spd: 100, spe: 30},
+		baseStats: {hp: 70, atk: 50, def: 220, spa: 90, spd: 90, spe: 30},
 		abilities: {0: "Flame Body", 1: "Solid Rock", H: "Unaware"},
 	},
 	pyukumuku: {
@@ -1415,7 +1415,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	primeape: {
 		inherit: true,
-		baseStats: {hp: 85, atk: 80, def: 80, spa: 50, spd: 90, spe: 100},
+		baseStats: {hp: 85, atk: 105, def: 80, spa: 50, spd: 90, spe: 100},
 		abilities: {0: "Anger Point", 1: "Defiant", H: "Gorilla Tactics"},
 	},
 	conkeldurr: {
@@ -1429,7 +1429,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	beedrill: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 110, def: 40, spa: 45, spd: 80, spe: 100},
+		baseStats: {hp: 65, atk: 110, def: 40, spa: 35, spd: 80, spe: 100},
 		abilities: {0: "Swarm", 1: "Sniper", H: "Poison Touch"},
 	},
 	beedrillmega: {
