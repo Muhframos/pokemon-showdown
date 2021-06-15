@@ -82,6 +82,7 @@ this.modData('Learnsets', 'magikarp').learnset.lifedew = ['8L1'];
 this.modData('Learnsets', 'magikarp').learnset.surf = ['8L1'];
 this.modData('Learnsets', 'magikarp').learnset.bodyslam = ['8L1'];
 this.modData('Learnsets', 'magikarp').learnset.fly = ['8L1'];
+this.modData('Learnsets', 'magikarp').learnset.substitute = ['8L1'];
 this.modData('Learnsets', 'magikarp').learnset.protect = ['8L1'];
 
 this.modData('Learnsets', 'venomoth').learnset.heatwave = ['8L1'];
