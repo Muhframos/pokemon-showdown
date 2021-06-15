@@ -641,7 +641,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	gallade: {
 		inherit: true,
-		baseStats: {hp: 78, atk: 125, def: 85, spa: 55, spd: 115, spe: 90},
+		baseStats: {hp: 78, atk: 125, def: 75, spa: 55, spd: 115, spe: 90},
 		abilities: {0: "Steadfast", 1: "Defiant", H: "Justified"},
 	},
 	gallademega: {
