@@ -1882,7 +1882,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	darmanitangalar: {
 		inherit: true,
-		types: ["Fire", "Fighting"],
+		types: ["Ice", "Fighting"],
 		baseStats: {hp: 105, atk: 140, def: 75, spa: 30, spd: 75, spe: 95},
 	},
 	darmanitangalarzen: {
@@ -1922,7 +1922,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	magikarp: {
 		inherit: true,
-		baseStats: {hp: 20, atk: 20, def: 55, spa: 20, spd: 20, spe: 110},
+		baseStats: {hp: 20, atk: 40, def: 55, spa: 40, spd: 20, spe: 120},
 		abilities: {0: "Ascension", 1: "Swift Swim", H: "Rattled"},
 	},
 	mandibuzz: {
