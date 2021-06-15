@@ -82,8 +82,6 @@ this.modData('Learnsets', 'boltund').learnset.stompingtantrum = ['8L1'];
 this.modData('Learnsets', 'boltund').learnset.uturn = ['8L1'];
 this.modData('Learnsets', 'boltund').learnset.lick = ['8L1'];
 
-this.modData('Learnsets', 'drifblim').learnset.nastyplot = ['8L1'];
-
 this.modData('Learnsets', 'magikarp').learnset.liquidation = ['8L1'];
 this.modData('Learnsets', 'magikarp').learnset.flipturn = ['8L1'];
 this.modData('Learnsets', 'magikarp').learnset.lifedew = ['8L1'];
@@ -575,6 +573,7 @@ this.modData('Learnsets', 'trapinch').learnset.leechlife = ['8L1'];
 
 this.modData('Learnsets', 'drifblim').learnset.hurricane = ['8L1'];
 this.modData('Learnsets', 'drifblim').learnset.roost = ['8L1'];
+this.modData('Learnsets', 'drifblim').learnset.nastyplot = ['8L1'];
 
 this.modData('Learnsets', 'gardevoir').learnset.quiverdance = ['8L1'];
 
