@@ -71,12 +71,46 @@ this.modData('Learnsets', 'centiskorch').learnset.rapidspin = ['8L1'];
 
 this.modData('Learnsets', 'zamazenta').learnset.bodypress = ['8L1'];
 
+this.modData('Learnsets', 'darmanitan').learnset.meteormash = ['8L1'];
+this.modData('Learnsets', 'darmanitan').learnset.morningsun = ['8L1'];
+this.modData('Learnsets', 'darmanitan').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'darmanitan').learnset.drainpunch = ['8L1'];
+
+this.modData('Learnsets', 'venomoth').learnset.heatwave = ['8L1'];
+this.modData('Learnsets', 'venomoth').learnset.psyshock = ['8L1'];
+this.modData('Learnsets', 'venomoth').learnset.sludgewave = ['8L1'];
+
+this.modData('Learnsets', 'darmanitangalar').learnset.meteormash = ['8L1'];
+this.modData('Learnsets', 'darmanitangalar').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'darmanitangalar').learnset.auroraveil = ['8L1'];
+this.modData('Learnsets', 'darmanitangalar').learnset.drainpunch = ['8L1'];
+
+this.modData('Learnsets', 'luxray').learnset.boltstrike = ['8L1'];
+this.modData('Learnsets', 'luxray').learnset.knockoff = ['8L1'];
+this.modData('Learnsets', 'luxray').learnset.closecombat = ['8L1'];
+this.modData('Learnsets', 'luxray').learnset.taunt = ['8L1'];
+this.modData('Learnsets', 'luxray').learnset.bulkup = ['8L1'];
+
+this.modData('Learnsets', 'rotom').learnset.conversion = ['8L1'];
+this.modData('Learnsets', 'rotom').learnset.blizzard = ['8L1'];
+this.modData('Learnsets', 'rotom').learnset.hurricane = ['8L1'];
+this.modData('Learnsets', 'rotom').learnset.fireblast = ['8L1'];
+this.modData('Learnsets', 'rotom').learnset.hydropump = ['8L1'];
+this.modData('Learnsets', 'rotom').learnset.leafstorm = ['8L1'];
+
 this.modData('Learnsets', 'golduck').learnset.nastyplot = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.storedpower = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.taunt = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.nightslash = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.darkpulse = ['8L1'];
 this.modData('Learnsets', 'golduck').learnset.closecombat = ['8L1'];
+
+this.modData('Learnsets', 'psyduck').learnset.nastyplot = ['8L1'];
+this.modData('Learnsets', 'psyduck').learnset.storedpower = ['8L1'];
+this.modData('Learnsets', 'psyduck').learnset.taunt = ['8L1'];
+this.modData('Learnsets', 'psyduck').learnset.nightslash = ['8L1'];
+this.modData('Learnsets', 'psyduck').learnset.darkpulse = ['8L1'];
+this.modData('Learnsets', 'psyduck').learnset.closecombat = ['8L1'];
 
 this.modData('Learnsets', 'magcargo').learnset.scald = ['8L1'];
 this.modData('Learnsets', 'magcargo').learnset.scorchingsands = ['8L1'];
@@ -640,6 +674,7 @@ this.modData('Learnsets', 'wigglytuff').learnset.aromaticmist = ['8L1'];
 this.modData('Learnsets', 'wigglytuff').learnset.growth = ['8L1'];
 
 this.modData('Learnsets', 'thundurus').learnset.hurricane = ['8L1'];
+this.modData('Learnsets', 'thundurus').learnset.cumuluscharge = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.airslash = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.aircutter = ['8L1'];
 this.modData('Learnsets', 'thundurus').learnset.icepunch = ['8L1'];

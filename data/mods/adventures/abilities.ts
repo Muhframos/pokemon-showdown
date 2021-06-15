@@ -1149,6 +1149,84 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		},
 		name: "Tail Fists",
 		rating: 4,
-		num: 185,
+		num: -71,
+	},
+	headache: {
+		desc: "This Pokemon's Special Attack is raised by 1 stage at the end of each turn it is on the battlefield.",
+		shortdesc: "This Pokemon's SpA is raised by 1 stage at the end of each turn it is on the battlefield.",
+		onResidualOrder: 26,
+		onResidualSubOrder: 1,
+		onResidual(pokemon) {
+			if (pokemon.activeTurns) {
+				this.boost({spa: 1});
+			}
+		},
+		name: "Headache",
+		rating: 4.5,
+		num: -70,
+	},
+	zenmode: {
+		desc: "On switch-in, this Pokemon becomes its Zen form.",
+		shortdesc: "On switch-in, this Pokemon becomes its Zen form.",
+		onResidualOrder: 27,
+		onResidual(pokemon) {
+			if (pokemon.baseSpecies.baseSpecies !== 'Darmanitan' || pokemon.transformed) {
+				return;
+			}
+			if (!['Zen', 'Galar-Zen'].includes(pokemon.species.forme)) {
+				pokemon.addVolatile('zenmode');
+			}
+		},
+		onEnd(pokemon) {
+			if (!pokemon.volatiles['zenmode'] || !pokemon.hp) return;
+			pokemon.transformed = false;
+			delete pokemon.volatiles['zenmode'];
+			if (pokemon.species.baseSpecies === 'Darmanitan' && pokemon.species.battleOnly) {
+				pokemon.formeChange(pokemon.species.battleOnly as string, this.effect, false, '[silent]');
+			}
+		},
+		condition: {
+			onStart(pokemon) {
+				if (!pokemon.species.name.includes('Galar')) {
+					if (pokemon.species.id !== 'darmanitanzen') pokemon.formeChange('Darmanitan-Zen');
+				} else {
+					if (pokemon.species.id !== 'darmanitangalarzen') pokemon.formeChange('Darmanitan-Galar-Zen');
+				}
+			},
+			onEnd(pokemon) {
+				if (['Zen', 'Galar-Zen'].includes(pokemon.species.forme)) {
+					pokemon.formeChange(pokemon.species.battleOnly as string);
+				}
+			},
+		},
+		isPermanent: true,
+		name: "Zen Mode",
+		rating: 0,
+		num: 161,
+	},
+	ascension: {
+		desc: "After 4 turns on the battlefield, this Pokemon obtains Godly powers.",
+		shortdesc: "After 4 turns on the battlefield, this Pokemon obtains Godly powers.",
+		onStart(pokemon) {
+			pokemon.addVolatile('ascension');
+		},
+		onEnd(pokemon) {
+			delete pokemon.volatiles['ascension'];
+			this.add('-end', pokemon, 'Ascension', '[silent]');
+		},
+		condition: {
+			duration: 4,
+			onStart(target) {
+				this.add('-start', target, 'ability: Ascension');
+			},
+			onEnd(target) {
+				this.add('-end', target, 'Ascension');
+				this.boost({atk: 6}, pokemon);
+				this.boost({spa: 6}, pokemon);
+			},
+		},
+		name: "Ascension",
+		rating: -1,
+		num: 112,
 	},
 };

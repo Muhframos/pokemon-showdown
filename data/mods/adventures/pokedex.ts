@@ -129,6 +129,12 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		baseStats: {hp: 100, atk: 122, def: 78, spa: 125, spd: 80, spe: 95},
 		abilities: {0: "Simple", H: "Psychic Surge", 1: "Cloud Nine"},
 	},
+	psyduck: {
+		inherit: true,
+		types: ["Water", "Psychic"],
+		baseStats: {hp: 65, atk: 52, def: 58, spa: 90, spd: 60, spe: 80},
+		abilities: {0: "Headache", H: "Psychic Surge", 1: "Cloud Nine"},
+	},
 	pangoro: {
 		inherit: true,
 		types: ["Fighting", "Dark"],
@@ -147,7 +153,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	froslass: {
 		inherit: true,
-		baseStats: {hp: 70, atk: 110, def: 70, spa: 110, spd: 70, spe: 110},
+		baseStats: {hp: 70, atk: 100, def: 70, spa: 100, spd: 70, spe: 130},
 		abilities: {0: "Snow Cloak", H: "Snow Warning", 1: "Cursed Body"},	
 	},
 	ursaring: {
@@ -920,7 +926,8 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	toxicroak: {
 		inherit: true,
-		baseStats: {hp: 83, atk: 106, def: 65, spa: 66, spd: 130, spe: 85},
+		baseStats: {hp: 83, atk: 116, def: 65, spa: 76, spd: 95, spe: 95},
+		abilities: {0: "Intimidate", 1: "Dry Skin", H: "Merciless"},
 	},
 	magnezone: {
 		inherit: true,
@@ -1862,5 +1869,70 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 52, atk: 100, def: 65, spa: 58, spd: 72, spe: 130},
 		abilities: {0: "Defiant", 1: "Inner Focus", H: "Sheer Force"},
+	},
+	darmanitan: {
+		inherit: true,
+		types: ["Fire", "Fighting"],
+		baseStats: {hp: 105, atk: 140, def: 75, spa: 30, spd: 75, spe: 95},
+		abilities: {0: "Sheer Force", H: "Zen Mode"},
+	},
+	darmanitanzen: {
+		inherit: true,
+		baseStats: {hp: 105, atk: 30, def: 105, spa: 140, spd: 105, spe: 55},
+	},
+	darmanitangalar: {
+		inherit: true,
+		types: ["Fire", "Fighting"],
+		baseStats: {hp: 105, atk: 140, def: 75, spa: 30, spd: 75, spe: 95},
+	},
+	darmanitangalarzen: {
+		inherit: true,
+		types: ["Ice", "Psychic"],
+		baseStats: {hp: 105, atk: 140, def: 55, spa: 125, spd: 30, spe: 125},
+	},
+	tyranitar: {
+		inherit: true,
+		abilities: {0: "Sand Stream", 1: "Solid Rock", H: "Unnerve"},
+	},
+	toxtricity: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 98, def: 70, spa: 114, spd: 70, spe: 95},
+		abilities: {0: "Punk Rock", 1: "Galvanize", H: "Technician"},
+	},
+	luxray: {
+		inherit: true,
+		types: ["Electric", "Dark"],
+		baseStats: {hp: 80, atk: 120, def: 79, spa: 95, spd: 79, spe: 100},
+		abilities: {0: "Rivalry", 1: "Intimidate", H: "Guts"},
+	},
+	rotom: {
+		inherit: true,
+		baseStats: {hp: 55, atk: 50, def: 77, spa: 105, spd: 77, spe: 91},
+		abilities: {0: "Levitate", H: "Transistor"},
+	},
+	venomoth: {
+		inherit: true,
+		baseStats: {hp: 70, atk: 65, def: 60, spa: 90, spd: 75, spe: 90},
+		abilities: {0: "Shield Dust", 1: "Tinted Lens", H: "Wonder Skin"},
+	},
+	boltund: {
+		inherit: true,
+		baseStats: {hp: 69, atk: 110, def: 70, spa: 90, spd: 70, spe: 121},
+		abilities: {0: "Strong Jaw", 1: "Speed Boost", H: "Competitive"},
+	},
+	magikarp: {
+		inherit: true,
+		baseStats: {hp: 20, atk: 20, def: 55, spa: 20, spd: 20, spe: 110},
+		abilities: {0: "Ascension", 1: "Swift Swim", H: "Rattled"},
+	},
+	mandibuzz: {
+		inherit: true,
+		baseStats: {hp: 110, atk: 65, def: 105, spa: 55, spd: 95, spe: 80},
+		abilities: {0: "Big Pecks", 1: "Overcoat", H: "Dark Aura"},
+	},
+	delphox: {
+		inherit: true,
+		baseStats: {hp: 75, atk: 49, def: 72, spa: 134, spd: 100, spe: 104},
+		abilities: {0: "Blaze", 1: "Magic Bounce", H: "Magician"},
 	},
 };
