@@ -1208,10 +1208,10 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		desc: "After 4 turns on the battlefield, this Pokemon obtains Godly powers.",
 		shortdesc: "After 4 turns on the battlefield, this Pokemon obtains Godly powers.",
 		onStart(pokemon) {
-			pokemon.addVolatile('ascension');
+			pokemon.addVolatile('Ascension');
 		},
 		onEnd(pokemon) {
-			delete pokemon.volatiles['ascension'];
+			delete pokemon.volatiles['Ascension'];
 			this.add('-end', pokemon, 'Ascension', '[silent]');
 		},
 		condition: {
@@ -1223,7 +1223,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				this.add('-end', target, 'Ascension');
 				this.boost({atk: 6}, pokemon);
 				this.boost({spa: 6}, pokemon);
-				this.add(pokemon, ' has awakened their Godly Powers.');
+				this.add(target, ' has awakened their Godly Powers.');
 			},
 		},
 		name: "Ascension",
