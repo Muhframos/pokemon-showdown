@@ -1556,7 +1556,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	falinks: {
 		inherit: true,
-		baseStats: {hp: 85, atk: 110, def: 110, spa: 70, spd: 70, spe: 75},
+		baseStats: {hp: 85, atk: 110, def: 110, spa: 70, spd: 70, spe: 85},
 	},
 	abomasnow: {
 		inherit: true,

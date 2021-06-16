@@ -1277,4 +1277,17 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		rating: 3,
 		num: 177,
 	},
+	powerspot: {
+		desc: "This Pokemon and its allies have the power of their moves multiplied by 1.3.",
+		shortdesc: "This Pokemon and its allies have the power of their moves multiplied by 1.3.",
+		onAllyBasePowerPriority: 10,
+		onAllyBasePower(basePower, pokemon) {
+				this.debug('Power Spot boost');
+				return this.chainModify([5325, 4096]);
+		},
+		},
+		name: "Power Spot",
+		rating: 4,
+		num: 249,
+	},
 };

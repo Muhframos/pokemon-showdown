@@ -35,7 +35,7 @@ this.modData('Learnsets', 'incineroar').learnset.nightslash = ['8L1'];
 
 this.modData('Learnsets', 'chesnaught').learnset.bodypress = ['8L1'];
 
-this.modData('Learnsets', 'zebstrika').learnset.earthquake = ['8L1'];
+this.modData('Learnsets', 'zebstrika').learnset.highhorsepower = ['8L1'];
 this.modData('Learnsets', 'zebstrika').learnset.flareblitz = ['8L1'];
 this.modData('Learnsets', 'zebstrika').learnset.darkestlariat = ['8L1'];
 this.modData('Learnsets', 'zebstrika').learnset.thunderouskick = ['8L1'];
@@ -146,6 +146,11 @@ this.modData('Learnsets', 'beheeyem').learnset.voltswitch = ['8L1'];
 this.modData('Learnsets', 'stonjourner').learnset.blazekick = ['8L1'];
 this.modData('Learnsets', 'stonjourner').learnset.doublekick = ['8L1'];
 this.modData('Learnsets', 'stonjourner').learnset.lowkick = ['8L1'];
+this.modData('Learnsets', 'stonjourner').learnset.highjumpkick = ['8L1'];
+this.modData('Learnsets', 'stonjourner').learnset.highhorsepower = ['8L1'];
+
+
+this.modData('Learnsets', 'staraptor').learnset.flareblitz = ['8L1'];
 
 this.modData('Learnsets', 'bruxish').learnset.agility = ['8L1'];
 
@@ -707,7 +712,7 @@ this.modData('Learnsets', 'castform').learnset.cumuluscharge = ['8L1'];
 
 this.modData('Learnsets', 'polteageist').learnset.drainingkiss = ['8L1'];
 
-this.modData('Learnsets', 'gallade').learnset.behemothbash = ['8L1'];
+this.modData('Learnsets', 'gallade').learnset.behemothblade = ['8L1'];
 this.modData('Learnsets', 'gallade').learnset.noretreat = ['8L1'];
 this.modData('Learnsets', 'gallade').learnset.sacredsword = ['8L1'];
 
