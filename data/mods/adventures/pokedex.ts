@@ -1922,7 +1922,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	magikarp: {
 		inherit: true,
-		baseStats: {hp: 20, atk: 40, def: 55, spa: 40, spd: 20, spe: 120},
+		baseStats: {hp: 40, atk: 60, def: 75, spa: 60, spd: 50, spe: 120},
 		abilities: {0: "Ascension", 1: "Swift Swim", H: "Rattled"},
 	},
 	mandibuzz: {
@@ -1934,5 +1934,9 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		baseStats: {hp: 75, atk: 49, def: 72, spa: 134, spd: 100, spe: 104},
 		abilities: {0: "Blaze", 1: "Magic Bounce", H: "Magician"},
+	},
+	talonflame: {
+		inherit: true,
+		baseStats: {hp: 78, atk: 91, def: 71, spa: 74, spd: 69, spe: 126},
 	},
 };

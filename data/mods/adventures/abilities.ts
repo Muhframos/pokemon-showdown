@@ -1178,7 +1178,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			}
 		},
 		onEnd(pokemon) {
-			if (!pokemon.volatiles['zenmode'] || !pokemon.hp) return;
+			if (!pokemon.volatiles['zenmode']) return;
 			pokemon.transformed = false;
 			delete pokemon.volatiles['zenmode'];
 			if (pokemon.species.baseSpecies === 'Darmanitan' && pokemon.species.battleOnly) {
@@ -1266,5 +1266,13 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		name: "Warrior's Will",
 		rating: 2,
 		num: 201,
+	},
+	galewings: {
+		onModifyPriority(priority, pokemon, target, move) {
+			if (move?.type === 'Flying') return priority + 1;
+		},
+		name: "Gale Wings",
+		rating: 3,
+		num: 177,
 	},
 };
