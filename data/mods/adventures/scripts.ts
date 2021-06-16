@@ -316,6 +316,10 @@ this.modData('Learnsets', 'hitmonchan').learnset.suckerpunch = ['8L1'];
 
 this.modData('Learnsets', 'cinccino').learnset.playrough = ['8L1'];
 this.modData('Learnsets', 'cinccino').learnset.drainingkiss = ['8L1'];
+this.modData('Learnsets', 'cinccino').learnset.vacuumwave = ['8L1'];
+this.modData('Learnsets', 'cinccino').learnset.icebeam = ['8L1'];
+this.modData('Learnsets', 'cinccino').learnset.heatwave = ['8L1'];
+this.modData('Learnsets', 'cinccino').learnset.aircutter = ['8L1'];
 
 this.modData('Learnsets', 'kricketune').learnset.aircutter = ['8L1'];;
 this.modData('Learnsets', 'kricketune').learnset.ancientpower = ['8L1'];
