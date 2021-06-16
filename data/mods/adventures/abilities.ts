@@ -1268,6 +1268,8 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		num: 201,
 	},
 	galewings: {
+		desc: "This Pokemon's Flying moves have +1 priority.",
+		shortdesc: "This Pokemon's Flying moves have +1 priority.",
 		onModifyPriority(priority, pokemon, target, move) {
 			if (move?.type === 'Flying') return priority + 1;
 		},

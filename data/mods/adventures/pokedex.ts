@@ -1937,6 +1937,6 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	talonflame: {
 		inherit: true,
-		baseStats: {hp: 78, atk: 91, def: 71, spa: 74, spd: 69, spe: 126},
+		baseStats: {hp: 78, atk: 101, def: 71, spa: 74, spd: 69, spe: 126},
 	},
 };
