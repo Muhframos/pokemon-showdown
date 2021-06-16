@@ -1285,7 +1285,6 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				this.debug('Power Spot boost');
 				return this.chainModify([5325, 4096]);
 		},
-		},
 		name: "Power Spot",
 		rating: 4,
 		num: 249,
