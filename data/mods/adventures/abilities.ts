@@ -762,7 +762,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			move.secondaries.push({
 				chance: 30,
 				status: 'tox',
-				ability: this.dex.getAbility('poisontouch'),
+				ability: this.dex.abilities.get('poisontouch'),
 			});
 		},
 		name: "Poison Touch",
