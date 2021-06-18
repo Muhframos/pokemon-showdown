@@ -576,7 +576,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	sniper: {
 		name: "Sniper",
-		desc: "If this Pokemon strikes with a critical hit, the damage is multiplied by 1.25.",
+		desc: "If this Pokemon strikes with a critical hit, the damage is multiplied by 1.3.",
 		onModifyDamage(damage, source, target, move) {
 			if (target.getMoveHitData(move).crit) {
 				this.debug('Sniper boost');

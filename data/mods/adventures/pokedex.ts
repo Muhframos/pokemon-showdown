@@ -362,8 +362,8 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	hoopaunbound: {
 		inherit: true,
-		baseStats: {hp: 90, atk: 160, def: 60, spa: 170, spd: 130, spe: 70},
-		abilities: {0: "Magician", 1: "Skill Link", H: "Unaware"},
+		baseStats: {hp: 100, atk: 160, def: 60, spa: 170, spd: 130, spe: 80},
+		abilities: {0: "Magician", H: "Unaware"},
 	},
 	camerupt: {
 		inherit: true,
@@ -471,7 +471,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	eevee: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 85, def: 70, spa: 85, spd: 85, spe: 75},
+		baseStats: {hp: 65, atk: 85, def: 70, spa: 85, spd: 85, spe: 85},
 	},
 	pikachu: {
 		inherit: true,
@@ -479,11 +479,11 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},	
 	eeveestarter: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 85, def: 70, spa: 85, spd: 85, spe: 75},
+		baseStats: {hp: 65, atk: 85, def: 70, spa: 85, spd: 85, spe: 85},
 	},
 	pikachustarter: {
 		inherit: true,
-		baseStats: {hp: 45, atk: 90, def: 50, spa: 90, spd: 60, spe: 120},
+		baseStats: {hp: 45, atk: 70, def: 50, spa: 90, spd: 60, spe: 120},
 	},
 	raichu: {
 		inherit: true,
@@ -660,7 +660,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	crobat: {
 		inherit: true,
 		abilities: {0: "Inner Focus", 1: "Forewarn", H: "Infiltrator"},
-		baseStats: {hp: 90, atk: 105, def: 70, spa: 70, spd: 70, spe: 130},
+		baseStats: {hp: 90, atk: 115, def: 70, spa: 70, spd: 70, spe: 130},
 	},
 	diancie: {
 		inherit: true,
@@ -755,7 +755,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	stonjourner: {
 		inherit: true,
-		baseStats: {hp: 110, atk: 125, def: 185, spa: 20, spd: 20, spe: 70},
+		baseStats: {hp: 110, atk: 105, def: 185, spa: 20, spd: 20, spe: 70},
 		abilities: {0: "Power Spot", H: "Gravity Surge"},
 	},
 	beheeyem: {
@@ -1342,7 +1342,7 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	zoroark: {
 		inherit: true,
-		baseStats: {hp: 65, atk: 110, def: 65, spa: 120, spd: 65, spe: 105},
+		baseStats: {hp: 65, atk: 110, def: 65, spa: 120, spd: 65, spe: 115},
 		abilities: {0: "Illusion", H: "Imposter"},
 	},
 	duraludon: {
@@ -1938,5 +1938,9 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	talonflame: {
 		inherit: true,
 		baseStats: {hp: 78, atk: 91, def: 71, spa: 74, spd: 69, spe: 126},
+	},
+	buttefree: {
+		inherit: true,
+		baseStats: {hp: 65, atk: 55, def: 60, spa: 100, spd: 100, spe: 110},
 	},
 };

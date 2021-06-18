@@ -49,7 +49,6 @@ this.modData('Learnsets', 'dustox').learnset.sludgewave = ['8L1'];
 
 this.modData('Learnsets', 'guzzlord').learnset.trickroom = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.gunkshot = ['8L1'];
-this.modData('Learnsets', 'guzzlord').learnset.suckerpunch = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.bulletpunch = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.swordsdance = ['8L1'];
 this.modData('Learnsets', 'guzzlord').learnset.icefang = ['8L1'];
@@ -731,7 +730,6 @@ this.modData('Learnsets', 'mismagius').learnset.futuresight = ['8L1'];
 this.modData('Learnsets', 'mismagius').learnset.eeriespell = ['8L1'];
 
 this.modData('Learnsets', 'golisopod').learnset.flipturn = ['8L1'];
-this.modData('Learnsets', 'golisopod').learnset.uturn = ['8L1'];
 this.modData('Learnsets', 'golisopod').learnset.fellstinger = ['8L1'];
 this.modData('Learnsets', 'golisopod').learnset.earthquake = ['8L1'];
 this.modData('Learnsets', 'golisopod').learnset.stoneedge = ['8L1'];
@@ -1136,7 +1134,7 @@ this.modData('Learnsets', 'tyrantrum').learnset.jawlock = ['8L1'];
 this.modData('Learnsets', 'ampharos').learnset.tailglow = ['8L1'];
 this.modData('Learnsets', 'ampharos').learnset.gigadrain = ['8L1'];
 this.modData('Learnsets', 'ampharos').learnset.dracometeor = ['8L1'];
-
+this.modData('Learnsets', 'ampharos').learnset.cumuluscharge = ['8L1'];
 
 this.modData('Learnsets', 'victini').learnset.aurorabeam = ['8L1'];
 this.modData('Learnsets', 'victini').learnset.psychicfangs = ['8L1'];

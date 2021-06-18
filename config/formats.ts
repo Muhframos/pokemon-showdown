@@ -31,18 +31,36 @@ export const Formats: FormatList = [
 	},
 	{
 		name: "[Gen 8] Adventures UU",
-		threads: [
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3660920/">National Dex UU Metagame Discussion</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3672486/">National Dex UU Sample Teams</a>`,
-			`&bullet; <a href="https://www.smogon.com/forums/threads/3672482/">National Dex UU Viability Rankings</a>`,
-		],
 
 		mod: 'adventures',
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
-			 'OU', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
-			'UUBL', // National Dex UUBL
+			 'OU', 'AG', 'UUBL', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
+			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
+			'Slowbronite',
+		],
+	},
+	{
+		name: "[Gen 8] Adventures RU",
+
+		mod: 'adventures',
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
+		banlist: [
+			// National Dex OU
+			 'OU', 'UU', 'UUBL', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
+			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
+			'Slowbronite',
+		],
+	},
+	{
+		name: "[Gen 8] Adventures NU",
+
+		mod: 'adventures',
+		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
+		banlist: [
+			// National Dex OU
+			 'OU', 'UU', 'RU', 'AG', 'UUBL', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
 			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
 			'Slowbronite',
 		],
@@ -63,8 +81,8 @@ export const Formats: FormatList = [
 		ruleset: ['Standard NatDex', 'OHKO Clause', 'Evasion Moves Clause', 'Species Clause', 'Dynamax Clause', 'Sleep Clause Mod'],
 		banlist: [
 			// National Dex OU
-			 'OU', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
-			'UUBL', // National Dex UUBL
+			 'DOU', 'AG', 'Uber', 'Drought', 'Drizzle', 'Arena Trap', 'Shadow Tag', 'Baton Pass',
+			, // National Dex UUBL
 			// Slowbronite is banned so it doesn't validate on Galarian Slowbro
 			'Slowbronite',
 		],
