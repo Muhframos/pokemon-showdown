@@ -1168,7 +1168,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		basePowerCallback(pokemon, target, move) {
 			// You can't get here unless the pursuit succeeds
 			if (target.beingCalledBack || target.switchFlag) {
-				this.debug('Vine Trap damage boost');
+				this.debug('Pursuit damage boost');
 				return move.basePower * 2;
 			}
 			return move.basePower;
@@ -1181,9 +1181,9 @@ export const Moves: {[moveid: string]: MoveData} = {
 		flags: {contact: 1, protect: 1, mirror: 1},
 		beforeTurnCallback(pokemon) {
 			for (const side of this.sides) {
-				if (side === pokemon.side) continue;
-				side.addSideCondition('vinetrap', pokemon);
-				const data = side.getSideConditionData('vinetrap');
+				if (side.hasAlly(pokemon)) continue;
+				side.addSideCondition('pursuit', pokemon);
+				const data = side.getSideConditionData('pursuit');
 				if (!data.sources) {
 					data.sources = [];
 				}
@@ -1199,7 +1199,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		condition: {
 			duration: 1,
 			onBeforeSwitchOut(pokemon) {
-				this.debug('Vine start');
+				this.debug('Vine Trap start');
 				let alreadyAdded = false;
 				pokemon.removeVolatile('destinybond');
 				for (const source of this.effectData.sources) {
@@ -1213,19 +1213,19 @@ export const Moves: {[moveid: string]: MoveData} = {
 					if (source.canMegaEvo || source.canUltraBurst) {
 						for (const [actionIndex, action] of this.queue.entries()) {
 							if (action.pokemon === source && action.choice === 'megaEvo') {
-								this.runMegaEvo(source);
+								this.actions.runMegaEvo(source);
 								this.queue.list.splice(actionIndex, 1);
 								break;
 							}
 						}
 					}
-					this.runMove('vinetrap', source, this.getTargetLoc(pokemon, source));
+					this.actions.runMove('vinetrap', source, source.getLocOf(pokemon));
 				}
 			},
 		},
 		secondary: null,
 		target: "normal",
-		type: "Grass",
+		type: "Dark",
 		contestType: "Clever",
 	},
 	megapunch: {
