@@ -1182,8 +1182,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		beforeTurnCallback(pokemon) {
 			for (const side of this.sides) {
 				if (side === pokemon.side) continue;
-				side.addSideCondition('pursuit', pokemon);
-				const data = side.getSideConditionData('pursuit');
+				side.addSideCondition('vinetrap', pokemon);
+				const data = side.getSideConditionData('vinetrap');
 				if (!data.sources) {
 					data.sources = [];
 				}
@@ -1194,7 +1194,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 			if (target?.beingCalledBack || target?.switchFlag) move.accuracy = true;
 		},
 		onTryHit(target, pokemon) {
-			target.side.removeSideCondition('pursuit');
+			target.side.removeSideCondition('vinetrap');
 		},
 		condition: {
 			duration: 1,
@@ -1219,7 +1219,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 							}
 						}
 					}
-					this.runMove('pursuit', source, this.getTargetLoc(pokemon, source));
+					this.runMove('vinetrap', source, this.getTargetLoc(pokemon, source));
 				}
 			},
 		},

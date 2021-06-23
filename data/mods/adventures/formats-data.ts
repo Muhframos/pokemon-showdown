@@ -431,7 +431,7 @@ export const FormatsData: {[k: string]: SpeciesFormatsData} = {
 		randomBattleLevel: 84,
 		randomDoubleBattleMoves: ["highhorsepower", "memento", "protect", "rockslide", "substitute", "suckerpunch"],
 		randomDoubleBattleLevel: 88,
-		tier: "OU",
+		tier: "NU",
 		doublesTier: "(DUU)",
 	},
 	dugtrioalola: {
