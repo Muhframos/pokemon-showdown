@@ -1182,8 +1182,8 @@ export const Moves: {[moveid: string]: MoveData} = {
 		beforeTurnCallback(pokemon) {
 			for (const side of this.sides) {
 				if (side.hasAlly(pokemon)) continue;
-				side.addSideCondition('pursuit', pokemon);
-				const data = side.getSideConditionData('pursuit');
+				side.addSideCondition('vinetrap', pokemon);
+				const data = side.getSideConditionData('vinetrap');
 				if (!data.sources) {
 					data.sources = [];
 				}
@@ -1225,7 +1225,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 		},
 		secondary: null,
 		target: "normal",
-		type: "Dark",
+		type: "Grass",
 		contestType: "Clever",
 	},
 	megapunch: {
